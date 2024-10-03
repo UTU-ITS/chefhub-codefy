@@ -1,0 +1,51 @@
+.navbar {
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #811edb;
+    color : #fff;
+    
+}
+.btn {  
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    height: 50px; 
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    background-color: #811edb;
+    color: #fff;
+    border: 2px solid #fff;
+    border-color: #fff;
+    border-radius: 25px;
+    transition-duration: 0.2s;
+}
+.btn:hover {
+    background-color: #fff;
+    border-color: #811edb;
+    color: #811edb;
+  }
+.nav-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ 
+}
+.nav-link {
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    color: #fff !important;
+    text-decoration: none;
+    margin-right: 1rem;
+}
+.navbar-brand {
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    color: #fff !important;
+    text-decoration: none;
+}
