@@ -55,6 +55,7 @@ body{
     align-items: start;
     justify-content: center;
   }
+  
   .txt-area{
     font-family: Poppins, sans-serif;
     font-weight: 400;
@@ -65,6 +66,7 @@ body{
     border: 2px solid #811edb;
     padding: 10px;
   }
+ 
   .login-span{
     font-family: Poppins, sans-serif;
     font-weight: 400;
