@@ -10,9 +10,14 @@ export default function Menu() {
   return (
     <>
     <div className='menu-div'>
-    <ChakraProvider>
-         <Product></Product>
-    </ChakraProvider>
+      <div className='filters'>
+        <h1>Filters</h1>
+      </div>
+      <div className="catalog">
+        <ChakraProvider>
+            <Product></Product>
+        </ChakraProvider>
+    </div>
     </div>
 
 
