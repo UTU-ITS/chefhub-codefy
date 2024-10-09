@@ -2,50 +2,70 @@
     font-family: Poppins, sans-serif;
     font-weight: 400;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* Cambiado a flex-start */
     align-items: center;
-    padding: 1rem 2rem;
-    background-color: #811edb;
-    color : #fff;
-    
-}
-.btn {  
-    font-family: Poppins, sans-serif;
-    font-weight: 600;
-    height: 50px; 
-    width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
+    padding: 0.5rem 2rem;
     background-color: #811edb;
     color: #fff;
-    border: 2px solid #fff;
-    border-color: #fff;
-    border-radius: 25px;
-    transition-duration: 0.2s;
-}
-.btn:hover {
-    background-color: #fff;
-    border-color: #811edb;
-    color: #811edb;
   }
-.nav-search {
-    display: flex;
-    align-items: center;
-    justify-content: center;
- 
-}
-.nav-link {
+  
+  .nav-item {
     font-family: Poppins, sans-serif;
     font-weight: 400;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 1rem;
+    padding: 0.2rem; /* Añadido para un mejor espaciado */
+    transition-duration: 0.2s;
+  }
+ 
+  .nav-link {
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    font-size: large;
     color: #fff !important;
     text-decoration: none;
     margin-right: 1rem;
-}
-.navbar-brand {
+    transition: all 0.1s ease-in-out;
+  
+  }
+  .nav-link:hover {
+    font-weight: 600;
+    font-size: larger;
+  }
+  
+  .navbar-brand {
     font-family: Poppins, sans-serif;
     font-weight: 600;
     color: #fff !important;
     text-decoration: none;
-}
+    transition: all 0.1s ease-in-out;
+  }
+  .navbar-brand:hover {
+    font-size: larger;
+  }
+  
+  /* Opcional: eliminar margen derecho del último nav-item */
+  .nav-item:last-child {
+    margin-right: 0;
+  }
+  
+  .header-section {
+    background-color: #333;
+    color: white;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%;
+  }
+  
+  .header-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .header-content p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+  }
+  
