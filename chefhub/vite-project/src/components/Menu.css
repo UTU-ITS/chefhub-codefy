@@ -1,0 +1,22 @@
+.menu-div{
+    display: flex;
+    flex-direction: row;                 /* Espacio entre las cards */
+    padding: 25px;
+    margin-top: 8%;
+    width: 100%;
+}
+
+.catalog{
+    display: flex;                   
+    width: 90%;
+}
+
+.filters{
+    display: flex;
+    width: 10%;
+}
+
+.product-div {
+    display: flex;
+    width: 100%;
+}
