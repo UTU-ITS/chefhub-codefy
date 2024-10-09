@@ -4,14 +4,9 @@
     display: flex;
     justify-content: flex-start; /* Cambiado a flex-start */
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
     background-color: #811edb;
     color: #fff;
-  }
-  
-  .nav-item-container {
-    display: flex;
-    flex-grow: 1; /* Permitir que el contenedor de items crezca para rellenar el espacio */
   }
   
   .nav-item {
@@ -20,7 +15,7 @@
     color: #fff;
     text-decoration: none;
     margin-right: 1rem;
-    padding: 0.5rem; /* Añadido para un mejor espaciado */
+    padding: 0.2rem; /* Añadido para un mejor espaciado */
     transition-duration: 0.2s;
   }
  
@@ -49,18 +44,6 @@
   .navbar-brand:hover {
     font-size: larger;
   }
-  
-  .nav-search {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  
-  #txt-search-ph::placeholder {
-    color: #fff;
-  }
-  
   
   /* Opcional: eliminar margen derecho del último nav-item */
   .nav-item:last-child {

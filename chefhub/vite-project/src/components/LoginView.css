@@ -8,12 +8,12 @@
     justify-content: center;
 }
 
-.login-div{
+ .login-div{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
+} 
 
 .login-div-content{
     display: flex;
