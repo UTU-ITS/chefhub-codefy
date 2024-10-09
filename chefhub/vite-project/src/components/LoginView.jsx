@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import NavBar from './NavBar';
+import Product from './Product';
 
 
 
@@ -31,8 +31,8 @@ export default function LoginView() {
 
   return (
     <>
-    <NavBar> </NavBar>
-    
+
+   
     <div className="login-div">
 
         <form onSubmit={handleSubmit}>

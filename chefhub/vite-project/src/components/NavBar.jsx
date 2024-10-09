@@ -2,6 +2,7 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './NavBar.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 export default function NavBar() {
     return (
       <nav className="navbar fixed-top navbar-expand-lg">
@@ -37,6 +38,7 @@ export default function NavBar() {
           <form className="nav-search d-flex" role="search">
             <input id="txt-search-ph" className="txt-area-search" type="search" placeholder="Search" aria-label="Search" />
             <button className="btn" type="submit">Search</button>
+            <a className="btn" href ="/login">Iniciar Sesion</a>
           </form>
         </div>
       </div>
