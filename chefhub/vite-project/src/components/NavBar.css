@@ -23,9 +23,7 @@
     padding: 0.5rem; /* Añadido para un mejor espaciado */
     transition-duration: 0.2s;
   }
-  
  
-  
   .nav-link {
     font-family: Poppins, sans-serif;
     font-weight: 400;
@@ -57,51 +55,34 @@
     align-items: center;
     justify-content: center;
   }
-  
-  .txt-area-search {
-    font-family: Poppins, sans-serif;
-    font-weight: 400;
-    height: 50px;
-    width: 250px;
-    margin: 10px;
-    border-radius: 25px;
-    border: 2px solid #ffffff;
-    padding: 10px;
-    background-color: #811edb;
-    color: #fff;
-  }
+
   
   #txt-search-ph::placeholder {
     color: #fff;
   }
   
-  .btn {
-    font-family: Poppins, sans-serif;
-    font-weight: 600;
-    height: 50px;
-    width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    background-color: #811edb;
-    color: #fff;
-    border: 2px solid #fff;
-    border-color: #fff;
-    border-radius: 25px;
-    transition-duration: 0.2s;
-  }
-  
-  .btn:hover {
-    background-color: #fff;
-    border-color: #811edb;
-    color: #811edb;
-
-  }
   
   /* Opcional: eliminar margen derecho del último nav-item */
   .nav-item:last-child {
     margin-right: 0;
-
+  }
+  
+  .header-section {
+    background-color: #333;
+    color: white;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%;
+  }
+  
+  .header-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .header-content p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
   }
   
