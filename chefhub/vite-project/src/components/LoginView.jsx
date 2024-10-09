@@ -22,7 +22,7 @@ export default function LoginView() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        axios.post('http://localhost:80/api/controllers/UserController.php', inputs).then(function(response){
+        axios.post('http://localhost:80/api/user/save', inputs).then(function(response){
             console.log(response.data);
             navigate('/');
         });
