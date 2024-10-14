@@ -41,12 +41,10 @@
     align-items: center;
 }
 
-.btn-tags {
+.tag-cat{
     font-family: Poppins, sans-serif;
     font-weight: 400;
     font-size: small;
-    height: 25px; 
-    width: 75px;
     margin-left:10px ;
     margin-right: 10px;
     margin-top: 10px;
@@ -58,9 +56,10 @@
     transition-duration: 0.2s;
     width: auto;    
     display: inline-block; 
+    padding: 2%;
   }
 
-  .btn-tags:hover {
+  .tag-cat:hover {
     background-color: #fff;
     border-color: #811edb;
     color: #811edb;
