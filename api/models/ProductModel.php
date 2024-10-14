@@ -8,13 +8,13 @@ class Product {
 
 
     public function getProduct($id = null) {
-        $sql = "SELECT * FROM product";
+        $sql = "SELECT * FROM producto_categoria pc INNER JOIN producto p ON pc.id_producto = p.id_producto";
         if ($id !== null) {
-            $sql .= " WHERE id = :id";
+            $sql .= " WHERE pc.id_categoria = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();

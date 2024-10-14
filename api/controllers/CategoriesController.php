@@ -8,34 +8,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 // Incluir base de datos y modelo
 include '../models/db.php';
-include '../models/ProductModel.php';
+include '../models/CategoriesModel.php';
 
 // Conexión a la base de datos
 $db = new DbConnect();
 $conn = $db->connect();
 
-// Crear instancia del modelo Product
-$product = new Product($conn);
+$cat = new Categories($conn);
 
 // Obtener el método HTTP
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch($method) {
-
-    // Caso para obtener productos(GET)
     case "GET":
-
         $path = explode('/', $_SERVER['REQUEST_URI']);
-
-        if (isset($_GET['id_categoria'])) {
-            $id_categoria = $_GET['id_categoria'];
-            $products = $product->getProduct($id_categoria);
-            echo json_encode($products);
+        
+        if (isset($_GET['id'])) {
+            $id_producto = $_GET['id'];
+            $cats = $cat->getCat($id_producto);
+            echo json_encode($cats);
         } else {
-            $products = $product->getProduct();
-            echo json_encode($products);
+            $cats = $cat->getCat();
+            echo json_encode($cats);
         }
-
-    break;
+        break;
 }
-?>
