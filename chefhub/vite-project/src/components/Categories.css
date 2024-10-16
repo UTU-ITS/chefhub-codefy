@@ -1,0 +1,48 @@
+.btn-tag {
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  font-size: small;
+  margin-left:10px ;
+  margin-right: 10px;
+  margin-top: 10px;
+  background-color: #ebebeb;
+  color: #353434;
+  border: 2px solid #fff;
+  border-color: #fff;
+  border-radius: 25px;
+  transition-duration: 0.2s;
+  width: auto;    
+  display: inline-block; 
+  padding: 2%;
+  }
+
+  .btn-tag:hover {
+    background-color: #fff;
+    border-color: #811edb;
+    color: #811edb;
+  }
+
+  
+.selected:hover{
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  font-size: small;
+  margin-left:10px ;
+  margin-right: 10px;
+  margin-top: 10px;
+  background-color: #ebebeb;
+  color: #353434;
+  border: 2px solid #fff;
+  border-color: #fff;
+  border-radius: 25px;
+  transition-duration: 0.2s;
+  width: auto;    
+  display: inline-block; 
+  padding: 2%;
+  }
+
+.selected {
+background-color: #fff;
+border-color: #811edb;
+color: #811edb;
+}
