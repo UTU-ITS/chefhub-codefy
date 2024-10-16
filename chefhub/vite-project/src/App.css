@@ -1,6 +1,6 @@
 
 body{
-    background: linear-gradient(to bottom, #1d1d1d, #1d1d1d, #1d1d1d, #1d1d1d, #801edb) !important;
+    background: rgb(241, 241, 241) !important;
     font-family: Poppins, sans-serif;
     font-weight: 400;
 
@@ -21,6 +21,8 @@ body{
     border-color: #fff;
     border-radius: 25px;
     transition-duration: 0.2s;
+    width: auto;    
+    display: inline-block; 
   }
 
 .btn:hover {
