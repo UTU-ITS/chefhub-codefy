@@ -1,79 +1,61 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; 
-
-import {
-  Card,
-  Image,
-  Stack,
-  CardBody,
-  CardFooter,
-  Heading,
-  Text,
-  Button,
-  ChakraProvider
-} from '@chakra-ui/react'; 
+import axios from 'axios';
+import {Card,Image,Stack,CardBody,CardFooter,Text,ChakraProvider} from '@chakra-ui/react';
+import Categories from './Categories';
 import './Product.css';
 
-export default function Product() {
+export default function Product({ selectedKey, onSelectKey }) { // Recibe onSelectKey para manejar la selección de categoría
   const [products, setProducts] = useState([]);
 
-  // Función para obtener productos de la API
+  // Fetch products from API
   useEffect(() => {
-    axios.get('http://localhost:80/api/controllers/ProductController.php')
-      .then(response => {
-        // Verificar que la respuesta sea un array
+    const url = selectedKey
+      ? `http://localhost:80/api/products/${selectedKey}`
+      : 'http://localhost:80/api/products';
+
+    axios
+      .get(url)
+      .then((response) => {
         if (Array.isArray(response.data)) {
-          setProducts(response.data); // Asume que tu API devuelve un array de productos
+          setProducts(response.data);
         } else {
           console.error('La respuesta de la API no es un array:', response.data);
-          setProducts([]); // Asignar un array vacío si no es un array
+          setProducts([]);
         }
       })
-      .catch(error => {
-        console.error("Hubo un error al obtener los productos: ", error);
+      .catch((error) => {
+        console.error('Hubo un error al obtener los productos: ', error);
       });
-  }, []);
+  }, [selectedKey]);
 
   return (
-    <div className='product-div'>
-      {products.length > 0 ? (
-        products.map((product) => (
-          <Card
-            className="productCard"
-            key={product.id}
-            direction={{ base: 'column', sm: 'row' }}
-            overflow='hidden'
-            variant='outline'
-          >
-            <Image
-              objectFit='cover'
-              maxW={{ base: '100%', sm: '200px' }}
-              src={product.imagen} // URL de la imagen desde la API
-              alt={product.nombre}
-            />
-
-            <Stack>
+    <ChakraProvider>
+      <div className="product-div">
+        {products.length > 0 ? (
+          products.map((product) => (
+            <Card key={product.id_producto} maxW="sm" className="productCard">
               <CardBody>
-                <Heading className="title" size='md'>{product.nombre}</Heading>
-                <Text py='2'>
-                  {product.descripcion}
-                </Text>
-                <Text py='2' fontWeight='bold'>
-                  ${product.precio}
-                </Text>
+                <Image
+                  src={product.imagen}
+                  alt={product.nombre}
+                  borderRadius="lg"
+                />
+                <Stack mt="6" spacing="3">
+                  <p className='title'>{product.nombre}</p>
+                  <p className='description'>{product.descripcion}</p>
+                  <p className='price'>${product.precio}</p>
+                </Stack>
               </CardBody>
-
-              <CardFooter>
-                <Button className="btn" variant='solid'>
-                  Comprar {product.nombre}
-                </Button>
+              <Categories onSelectKey={onSelectKey} id={product.id_categoria} />
+              <CardFooter className='card-footer'>
+                <button className='btn'>Comprar</button>
               </CardFooter>
-            </Stack>
-          </Card>
-        ))
-      ) : (
-        <Text>Cargando productos...</Text> // Mensaje de carga mientras se obtienen los productos
-      )}
-    </div>
+            </Card>
+          ))
+        ) : (
+          <Text>No hay productos disponibles</Text>
+        )}
+      </div>
+    </ChakraProvider>
   );
 }
