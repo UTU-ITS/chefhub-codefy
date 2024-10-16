@@ -7,8 +7,8 @@ export default function Categories({ id = null, selectedKey, onSelectKey }) {
 
   useEffect(() => {
     const url = id
-      ? `http://localhost:80/api/controllers/CategoriesController.php?id=${id}`
-      : 'http://localhost:80/api/controllers/CategoriesController.php';
+      ? `http://localhost:80/api/categories/${id}`
+      : 'http://localhost:80/api/categories/';
 
     axios
       .get(url)
@@ -32,9 +32,9 @@ export default function Categories({ id = null, selectedKey, onSelectKey }) {
         categories.map((category) => (
           <button
             key={category.id_categoria}
-            // Cambiar la clase si la categoría está seleccionada
+
             className={`btn-tag ${selectedKey === category.id_categoria ? 'selected' : ''}`}
-            onClick={() => onSelectKey(category.id_categoria)} // Llama a onSelectKey con el id de la categoría
+            onClick={() => onSelectKey(category.id_categoria)} 
           >
             {category.nombre}
           </button>
