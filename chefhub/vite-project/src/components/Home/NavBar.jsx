@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './NavBar.css';
 
-const Header = () => {
+const NavBar = () => {
   return (
     <header className="header-section">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -29,7 +29,7 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default NavBar;
 
 
 
