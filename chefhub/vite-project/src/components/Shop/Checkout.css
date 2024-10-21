@@ -1,0 +1,53 @@
+.checkout {
+    position: relative;
+    background: rgb(241, 241, 241) !important;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+}
+
+.tabs {
+    background-color: #ffffff;
+    margin-top: 100px;
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.tab-list {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn-tab {
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    font-size: small;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color: #811edb;
+    color: #353434;
+    border: 2px solid #fff;
+    border-color: #fff;
+    border-radius: 8px;
+    transition-duration: 0.2s;
+    width: auto;
+    display: inline-block;
+    padding: 2%;
+}
+
+.btn-tab:hover {
+    background-color: #fff;
+    border-color: #811edb;
+    color: #811edb;
+}
+
+.btn-tab:focus {
+    background-color: #811edb;
+    border-color: #fff;
+    color: #fff;
+}
