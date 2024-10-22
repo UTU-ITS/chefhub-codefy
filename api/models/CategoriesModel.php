@@ -6,8 +6,14 @@ class Categories {
         $this->conn = $db;
     }
 
+    public function getCat(){
+        $sql = "SELECT * FROM categoria_producto";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-    public function getCat($id = null) {
+    public function getCatById($id = null) {
         // Construimos la base de la consulta
         $sql = "SELECT c.* FROM categoria_producto c 
                 INNER JOIN producto_categoria pc 

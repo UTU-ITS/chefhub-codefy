@@ -10,8 +10,8 @@ export default function Product({ selectedKey, onSelectKey }) { // Recibe onSele
   // Fetch products from API
   useEffect(() => {
     const url = selectedKey
-      ? `http://localhost:80/api/controllers/ProductController.php?id_categoria=${selectedKey}`
-      : 'http://localhost:80/api/controllers/ProductController.php';
+      ? `http://localhost:80/api/products/${selectedKey}`
+      : 'http://localhost:80/api/products';
 
     axios
       .get(url)
@@ -36,7 +36,7 @@ export default function Product({ selectedKey, onSelectKey }) { // Recibe onSele
             <Card key={product.id_producto} maxW="sm" className="productCard">
               <CardBody>
                 <Image
-                  src={product.imagen_url}
+                  src={product.imagen}
                   alt={product.nombre}
                   borderRadius="lg"
                 />
@@ -46,7 +46,7 @@ export default function Product({ selectedKey, onSelectKey }) { // Recibe onSele
                   <p className='price'>${product.precio}</p>
                 </Stack>
               </CardBody>
-              <Categories onSelectKey={onSelectKey} id={product.id_categoria} /> {/* Asegúrate de pasar id_categoria para cada producto */}
+              <Categories onSelectKey={onSelectKey} id={product.id_categoria} />
               <CardFooter className='card-footer'>
                 <button className='btn'>Comprar</button>
               </CardFooter>
