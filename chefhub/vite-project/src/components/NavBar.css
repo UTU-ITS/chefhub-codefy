@@ -8,7 +8,7 @@
     background-color: #811edb;
     color: #fff;
   }
-  
+
   .nav-item {
     font-family: Poppins, sans-serif;
     font-weight: 400;
@@ -17,6 +17,7 @@
     margin-right: 1rem;
     padding: 0.2rem; /* Añadido para un mejor espaciado */
     transition-duration: 0.2s;
+    
   }
  
   .nav-link {
@@ -31,7 +32,7 @@
   }
   .nav-link:hover {
     font-weight: 600;
-    font-size: larger;
+
   }
   
   .navbar-brand {
