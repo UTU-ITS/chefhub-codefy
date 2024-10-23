@@ -4,12 +4,6 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import './LoginView.css';
 
-
-
-
-
-
-
 export default function LoginView() {
 
     const navigate = useNavigate();
