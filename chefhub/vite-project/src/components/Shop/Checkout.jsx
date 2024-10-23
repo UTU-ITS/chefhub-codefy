@@ -18,6 +18,7 @@ export default function Checkout() {
 
    <ChakraProvider>
   <div className='checkout'>
+    <div className='cart'></div>
         <Tabs isFitted variant='enclosed' className='tabs'>
        <TabList className='tab-list' mb='1em'>
          <Tab className='btn-tab'>Envio a domicilio</Tab>
@@ -25,7 +26,16 @@ export default function Checkout() {
        </TabList>
        <TabPanels>
          <TabPanel>
-           <p>one!</p>
+          <div className='delivery'>
+          <div className='directions'>
+            <h2>Dirección de envio</h2>
+            <input type='text' placeholder='Calle' className='txt-area'/>
+            <input type='text' placeholder='Número' className='txt-area'/>
+            <input type='text' placeholder='Apto(Opcional)' className='txt-area'/>
+            <p className='details'>Detalles de envio.</p>
+            <input type="text" placeholder='Por ej. Puerta negra' className='txt-area-notes' /> </div>
+         
+        </div>
          </TabPanel>
          <TabPanel>
            <p>two!</p>

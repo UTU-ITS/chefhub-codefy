@@ -1,19 +1,32 @@
-.checkout {
-    position: relative;
-    background: rgb(241, 241, 241) !important;
-    font-family: Poppins, sans-serif;
-    font-weight: 400;
-}
-
 .tabs {
     background-color: #ffffff;
-    margin-top: 100px;
+    margin: 0 auto; 
     width: 80%;
-    height: 80%;
-    position: absolute;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center; 
+    min-height: 80vh; 
+}
+
+.checkout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+    background: rgb(241, 241, 241) !important;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    flex-direction: row; 
+}
+
+.delivery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
 }
 
 .tab-list {
@@ -30,7 +43,7 @@
     margin-right: 10px;
     margin-top: 10px;
     background-color: #811edb;
-    color: #353434;
+    color: #ffffff !important;
     border: 2px solid #fff;
     border-color: #fff;
     border-radius: 8px;
@@ -43,11 +56,51 @@
 .btn-tab:hover {
     background-color: #fff;
     border-color: #811edb;
-    color: #811edb;
+    color: #811edb !important;
 }
 
 .btn-tab:focus {
-    background-color: #811edb;
-    border-color: #fff;
-    color: #fff;
+    background-color: #fff;
+    border-color: #811edb !important;
+    border-bottom: none;
+    color: #811edb !important;
 }
+.txt-area{
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    height: 50px;
+    width: 250px;
+    margin: 10px;
+    border-radius: 25px;
+    border: 2px solid #811edb;
+    padding: 10px;
+  }
+ 
+  .notes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    margin: 10px;
+    padding: 10px;
+  }
+
+
+  .txt-area-notes{
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    height: 100px;
+    width: 800px;
+    margin: 10px;
+    border-radius: 25px;
+    border: 2px solid #811edb;
+    padding: 10px;
+  }
+  .details{
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    margin: 10px;
+    padding: 10px;
+  }
+
