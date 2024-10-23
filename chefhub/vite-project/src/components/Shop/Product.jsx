@@ -11,8 +11,8 @@ export default function Product({ selectedKey, onSelectKey }) {
 
   useEffect(() => {
     const url = selectedKey
-      ? `http://localhost:80/api/products/${selectedKey}`
-      : 'http://localhost:80/api/products';
+      ? `http://localhost:80/api/productbycategory/${selectedKey}`
+      : 'http://localhost:80/api/productbycategory';
 
     axios
       .get(url)
