@@ -1,19 +1,22 @@
-.checkout {
-    position: relative;
-    background: rgb(241, 241, 241) !important;
-    font-family: Poppins, sans-serif;
-    font-weight: 400;
-}
-
 .tabs {
     background-color: #ffffff;
-    margin-top: 100px;
+    margin: 0 auto; /* This will center the element horizontally */
     width: 80%;
-    height: 80%;
-    position: absolute;
+    height: auto; /* Adjust height based on content */
     display: flex;
     justify-content: center;
     align-items: center; 
+    min-height: 80vh; /* Ensure it takes at least 80% of the viewport height for vertical centering */
+}
+
+.checkout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure it fills the entire viewport */
+    background: rgb(241, 241, 241) !important;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
 }
 
 .tab-list {
@@ -30,7 +33,7 @@
     margin-right: 10px;
     margin-top: 10px;
     background-color: #811edb;
-    color: #353434;
+    color: #ffffff !important;
     border: 2px solid #fff;
     border-color: #fff;
     border-radius: 8px;
@@ -43,11 +46,12 @@
 .btn-tab:hover {
     background-color: #fff;
     border-color: #811edb;
-    color: #811edb;
+    color: #811edb !important;
 }
 
 .btn-tab:focus {
-    background-color: #811edb;
-    border-color: #fff;
-    color: #fff;
+    background-color: #fff;
+    border-color: #811edb !important;
+    border-bottom: none;
+    color: #811edb !important;
 }
