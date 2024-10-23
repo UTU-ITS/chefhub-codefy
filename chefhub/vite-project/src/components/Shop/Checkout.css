@@ -1,20 +1,30 @@
 .tabs {
     background-color: #ffffff;
-    margin: 0 auto; /* This will center the element horizontally */
+    margin: 0 auto; 
     width: 80%;
-    height: auto; /* Adjust height based on content */
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center; 
-    min-height: 80vh; /* Ensure it takes at least 80% of the viewport height for vertical centering */
+    min-height: 80vh; 
 }
 
 .checkout {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Ensure it fills the entire viewport */
+    min-height: 100vh; 
     background: rgb(241, 241, 241) !important;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    flex-direction: row; 
+}
+
+.delivery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
     font-family: Poppins, sans-serif;
     font-weight: 400;
 }
@@ -55,3 +65,42 @@
     border-bottom: none;
     color: #811edb !important;
 }
+.txt-area{
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    height: 50px;
+    width: 250px;
+    margin: 10px;
+    border-radius: 25px;
+    border: 2px solid #811edb;
+    padding: 10px;
+  }
+ 
+  .notes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    margin: 10px;
+    padding: 10px;
+  }
+
+
+  .txt-area-notes{
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    height: 100px;
+    width: 800px;
+    margin: 10px;
+    border-radius: 25px;
+    border: 2px solid #811edb;
+    padding: 10px;
+  }
+  .details{
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    margin: 10px;
+    padding: 10px;
+  }
+
