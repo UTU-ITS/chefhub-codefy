@@ -61,7 +61,7 @@ export default function Product({ selectedKey, onSelectKey }) {
                       <p className='price'>${product.precio}</p>
                     </Stack>
                   </CardBody>
-                  <Categories id={product.id_categoria}></Categories>
+                  <Categories id={product.id_categoria} onSelectKey={onSelectKey}></Categories>
                   <CardFooter className='card-footer'>
                     <button className='btn' onClick={handleAddToCart}>
                       Agregar al Carrito
