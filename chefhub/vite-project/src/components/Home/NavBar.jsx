@@ -22,9 +22,7 @@ const NavBar = () => {
               </li>
               <li className="nav-item"> 
                 <a className="nav-link" href="/login">
-                  <button className='nav-item'>
                     <UserIcon/>
-                  </button>
                 </a>
               </li>
             </ul>

@@ -1,10 +1,13 @@
 import React from 'react'
 import './Home.css'
+import { ChakraProvider } from '@chakra-ui/react';
 
 
 
 export default function Home() {
   return (
+    <ChakraProvider>
+
     <div className='home-div'>
       <div className="home-div-box">
         <div className="home-div-content">
@@ -15,5 +18,7 @@ export default function Home() {
         </div>
       </div>
     </div>
+
+    </ChakraProvider>
   )
 }
