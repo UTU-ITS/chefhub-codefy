@@ -7,14 +7,14 @@ import NavBar from './components/Home/NavBar'
 import Menu from './components/Shop/Menu'
 import Checkout from './components/Shop/Checkout'
 import AdminOptions from './components/Admin/AdminOptions'
+import { CartProvider } from './context/cart'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
     <NavBar></NavBar>
-
+    <CartProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}/>
@@ -24,6 +24,7 @@ function App() {
         <Route path="/admin/*" element={<AdminOptions/>}/>
       </Routes> 
     </BrowserRouter>
+    </CartProvider>
     
     </>
   )

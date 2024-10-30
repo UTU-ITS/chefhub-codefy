@@ -41,6 +41,7 @@ export default function Product({ selectedKey, onSelectKey }) {
                   name: product.nombre,
                   price: product.precio,
                   image: product.imagen,
+                  description: product.descripcion,
                   quantity: 1
                 };
                 addToCart(productData, 1);

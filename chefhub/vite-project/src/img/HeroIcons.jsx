@@ -7,7 +7,7 @@ export function CartIcon() {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke="black"
+      stroke="currentColor"
       width="24" 
       height="24" 
     >
@@ -29,7 +29,7 @@ export function CloseIcon() {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke="black"
+      stroke="currentColor"
       width="24" 
       height="24"
     >
