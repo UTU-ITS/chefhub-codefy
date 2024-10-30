@@ -1,4 +1,6 @@
 .cart {
+    position: fixed;
+    z-index: 9995;
     font-family: Poppins, sans-serif;
     font-weight: 400;
     position: fixed;
@@ -47,7 +49,7 @@ margin-left: 5px;
     border-radius: 8%;
     padding: 10px;
     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.15);
-    position: relative; /* Ensure the parent container is relatively positioned */
+    position: relative; 
     padding: 10px;
 }
 
@@ -170,4 +172,76 @@ margin-left: 5px;
 
 .quantity-button:active {
     background-color: #bbb;
+}
+.cssbuttons-io {
+    position: relative;
+    font-family: Poppins, sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    border-radius: 25px;
+    cursor: pointer;
+    border: 2px solid #811edb;
+    background: linear-gradient(to right, #811edb, #871fe7);
+    color: #811edb;
+    overflow: hidden;
+    padding: 0.6em 1em;
+}
+
+.cssbuttons-io span {
+    position: relative;
+    z-index: 10;
+    transition: color 0.4s, opacity 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.cssbuttons-io span.fade {
+    opacity: 0;
+}
+
+.cssbuttons-io svg {
+    color: #811edb;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.cssbuttons-io:hover {
+    
+    color: #ffffff;
+}
+.cssbuttons-io:hover svg {
+    
+    color: #ffffff;
+}
+
+
+/* Background animation */
+.cssbuttons-io::before,
+.cssbuttons-io::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.cssbuttons-io::before {
+    content: "";
+    background: white;
+    width: 120%;
+    left: -10%;
+    transform: skew(30deg);
+    transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
+}
+
+.cssbuttons-io:hover::before {
+    transform: translate3d(100%, 0, 0);
+}
+
+.cssbuttons-io:active {
+    transform: scale(1);
 }

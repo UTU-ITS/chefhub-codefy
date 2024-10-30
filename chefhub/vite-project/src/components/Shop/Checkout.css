@@ -1,0 +1,147 @@
+.text-area{
+    border-radius: 8%;
+}
+.tabs {
+    background-color: #ffffff;
+    margin: 0 auto;
+    width: 80%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    flex-wrap: wrap; 
+}
+@media only screen and (max-width: 768px) {
+    .txt-area, .txt-area-notes {
+       width: 100%;
+       max-width: 90%;
+    }
+}
+
+.checkout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    min-height: 100vh;
+    background: rgb(241, 241, 241);
+    font-family: Poppins, sans-serif;
+    flex-direction: column; 
+    padding: 20px;
+}
+
+.delivery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    font-family: Poppins, sans-serif;
+    min-height: 300px;
+    width: 100%;
+    flex-direction: column;
+}
+
+.tab-list {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.resume-cart {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.btn-tab {
+    font-family: Poppins, sans-serif;
+    font-size: small;
+    margin: 5px;
+    background-color: #811edb;
+    color: #ffffff;
+    border: 2px solid #fff;
+    border-radius: 8%;
+    padding: 10px;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    width: auto;
+}
+
+.btn-tab:hover, .btn-tab:focus {
+    background-color: #fff;
+    border-color: #811edb;
+    color: #811edb;
+}
+
+.payment_details {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .payment_details h2,
+  .payment_details h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .payment_details p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .payment_details label {
+    font-size: 1rem;
+  }
+  
+  .payment_details .txt-area {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .payment_details {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+  
+    .payment_details .txt-area {
+      max-width: 300px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .payment_details {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .payment_details .txt-area {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .payment_details {
+      padding: 10px;
+      gap: 10px;
+    }
+  
+    .payment_details h2,
+    .payment_details h3 {
+      font-size: 1.2rem;
+    }
+  
+    .payment_details .txt-area {
+      font-size: 0.9rem;
+    }
+  }
+  

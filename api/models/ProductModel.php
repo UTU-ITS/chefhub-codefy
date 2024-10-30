@@ -21,5 +21,12 @@ class Product {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }
+
+    public function getTableProducts() {
+        $sql = "SELECT * FROM producto";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
