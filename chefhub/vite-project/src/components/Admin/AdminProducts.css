@@ -74,7 +74,7 @@ input[type="text"]:focus {
 
 h2 {
   text-align: center;
-  color: #811edb; /* Color del título */
+  color: #333; /* Color del título */
   margin-top: 20px; /* Margen superior */
 }
 
@@ -88,4 +88,10 @@ h2 {
 .input-area input {
   margin: 5px; /* Espacio entre los campos de entrada */
   width: calc(20% - 10px); /* Ajusta el ancho de los campos */
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+  
 }

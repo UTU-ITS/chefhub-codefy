@@ -28,5 +28,16 @@ class Product {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function insertProduct($data) {
+        $sql = "INSERT INTO producto (nombre, precio, descripcion, imagen) VALUES (:nombre, :precio, :descripcion, :imagen)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':nombre', $data['nombre']);
+        $stmt->bindParam(':precio', $data['precio']);
+        $stmt->bindParam(':descripcion', $data['descripcion']);
+        $stmt->bindParam(':imagen', $data['imagen']);
+        $stmt->execute();
+        return $this->conn->lastInsertId();
+    }
 }
 ?>

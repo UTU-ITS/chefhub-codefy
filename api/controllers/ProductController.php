@@ -44,7 +44,26 @@ class ProductController {
                 // Devolver el resultado como JSON
                 echo json_encode($result);
                 break;
-    
+                case "POST":
+                if ($action == 'insertproduct') {
+                    // Obtener datos del cuerpo de la solicitud
+                    $data = json_decode(file_get_contents("php://input"), true);
+
+                    if (!empty($data['nombre']) && !empty($data['precio']) && !empty($data['descripcion']) && !empty($data['imagen'])) {
+                        // Insertar un nuevo producto
+                        $result = $this->product->insertProduct($data);
+
+                        // Verificar si el producto se insertó y devolver el ID o mensaje de error
+                        if ($result) {
+                            echo json_encode(["success" => true, "id" => $result, "message" => "Producto insertado con éxito."]);
+                        } else {
+                            echo json_encode(["success" => false, "message" => "Error al insertar el producto."]);
+                        }
+                    } else {
+                        echo json_encode(["success" => false, "message" => "Datos incompletos."]);
+                    }
+                }
+                break;
             default:
                 // Respuesta para métodos no soportados
                 echo json_encode(["message" => "Método no soportado"]);
