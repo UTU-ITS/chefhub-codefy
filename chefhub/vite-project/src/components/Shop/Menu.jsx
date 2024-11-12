@@ -4,6 +4,7 @@ import Categories from './Categories';
 import Product from './Product';
 import './Menu.css';
 import Cart from './Cart';
+
 export default function Menu() {
   // Estado para la categoría seleccionada
   const [selectedCategory, setSelectedCategory] = useState(null);

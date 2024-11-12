@@ -24,56 +24,60 @@ export default function Cart() {
     return (
         <div>
                  
-    <button onClick={handleClick} className="cssbuttons-io">
-        <span className={isFading ? 'fade' : ''}>
+    <button onClick={handleClick} className="button-cart">
+        <span>
             {isOpen ? <CloseIcon /> : <CartIcon />}
-            {isOpen ? 'Ocultar Carrito' : 'Ver Carrito'}
         </span>
     </button>
         
             <div className={`cart ${isOpen ? 'open' : ''}`}>
                 <div className='cart-title'>
                     <p>Carrito</p>
+                    <button onClick={handleClick} className='button-close'>
+                        <CloseIcon />
+                    </button>
                 </div>
 
-                {cartItems.length === 0 ? (
-                    <p>Tu carrito está vacío</p>
-                ) : (
-                    <div className='cart-items'>
-                        {cartItems.map((item) => (
-                            <div className='cart-item' key={item.id}>
-                                <img className="cart-img" src={item.image} alt={item.name} />
-                                <div className='cart-item-info'>
-                                    <p>{item.name}</p>
-                                    <div className="quantity">
-                                        <input type="number" min="1" max="9" value={item.quantity} readOnly />
-                                        <div className="quantity-controls">
-                                            <button 
-                                                className="quantity-button quantity-up"
-                                                onClick={() => increaseQuantity(item.id)}
-                                            >
-                                                +
-                                            </button>
-                                            <button 
-                                                className="quantity-button quantity-down"
-                                                onClick={() => decreaseQuantity(item.id)}
-                                            >
-                                                -
-                                            </button>
+                <div className='cart-items'>
+                    {cartItems.length === 0 ? (
+                        <p>Tu carrito está vacío</p>
+                    ) : (
+                        <div >
+                            {cartItems.map((item) => (
+                                <div className='cart-item' key={item.id}>
+                                    <img className="cart-img" src={item.image} alt={item.name} />
+                                    <div className='cart-item-info'>
+                                        <p>{item.name}</p>
+                                        <div className="quantity">
+                                            <input type="number" min="1" max="9" value={item.quantity} readOnly />
+                                            <div className="quantity-controls">
+                                                <button 
+                                                    className="quantity-button quantity-up"
+                                                    onClick={() => increaseQuantity(item.id)}
+                                                >
+                                                    +
+                                                </button>
+                                                <button 
+                                                    className="quantity-button quantity-down"
+                                                    onClick={() => decreaseQuantity(item.id)}
+                                                >
+                                                    -
+                                                </button>
+                                            </div>
                                         </div>
+                                        <p>${item.price}</p>
+                                        <button 
+                                            className='btn-delete' 
+                                            onClick={() => removeFromCart(item.id)} // Elimina el producto del carrito
+                                        >
+                                            <CloseIcon2 />
+                                        </button>  
                                     </div>
-                                    <p>${item.price}</p>
-                                    <button 
-                                        className='btn-delete' 
-                                        onClick={() => removeFromCart(item.id)} // Elimina el producto del carrito
-                                    >
-                                        <CloseIcon2 />
-                                    </button>  
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                            ))}
+                        </div>
+                    )}
+                </div>
 
                 <div className='cart-total'>
                     <p>Total: $
