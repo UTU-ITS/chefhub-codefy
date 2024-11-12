@@ -9,6 +9,11 @@
     transition: all 0.2s ease-in-out;
     width: 30%;
 }
+.product-image{
+    width: 200px;
+    height: 200px;
+    border-radius: 8%;
+}
 .title{
     font-family: Poppins, sans-serif;
     font-size: 1.5rem;

@@ -11,11 +11,12 @@ export default function Menu() {
 
   // Función para manejar cuando se selecciona "Todos"
   const handleSelectAll = () => {
-    setSelectedCategory(null); // Al hacer clic en "Todos", se selecciona null para mostrar todos los productos
+    setSelectedCategory(null);
   };
 
   return (
     <>
+   
       <div className='menu-div'>
         <div className='filters'>
           <Cart/>
@@ -36,6 +37,8 @@ export default function Menu() {
           </ChakraProvider>
         </div>
       </div>
+  
+
     </>
   );
 }
