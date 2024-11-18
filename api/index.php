@@ -11,35 +11,48 @@ $conn = $db->connect();
 // Obtener la ruta de la URL para distinguir entre productos y categorías
 $path = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
-
 if (isset($path[1])) {
     switch ($path[1]) {
         case 'products':
-
+            
             $ProductController = new ProductController($conn);
-            if (isset($path[2])) {
-
-                $productId = $path[2];
-                $ProductController->handleRequest($productId);
+            // Obtener todos los productos
+            if (!isset($path[2])) {
+                $ProductController->handleRequest('products'); // Maneja la solicitud sin ID
             } else {
+                echo json_encode(["message" => "Ruta no válida"]);
+            }
+            break;
 
-                $ProductController->handleRequest();
+        case 'productbycategory':
+            $ProductController = new ProductController($conn);
+            // Obtener productos por categoría
+            if (isset($path[2])) {
+                $categoryId = $path[2];
+                $ProductController->handleRequest('productbycategory', $categoryId); // Pasamos el ID
+            } else {
+                // Si no se proporciona un ID de categoría, devolver todos los productos
+                $ProductController->handleRequest('productbycategory'); // Llama para obtener todos los productos
             }
             break;
 
         case 'categories':
-            // Si la URL incluye "categories", pasa la solicitud a CategoriesController
             $CategoriesController = new CategoriesController($conn);
-            if (isset($path[2])) {
-                // Si hay un ID en la URL (ej. /api/categories/1), pasar el ID al controlador
+            // Obtener todas las categorías
+            if (!isset($path[2])) {
+                $CategoriesController->handleRequest(); // Maneja la solicitud sin ID
+            } elseif (isset($path[2])) {
                 $categoryId = $path[2];
-                $CategoriesController->handleRequest($categoryId);
+                $CategoriesController->handleRequest($categoryId); // Maneja la solicitud con ID
             } else {
-                // Sin ID, se obtienen todas las categorías
-                $CategoriesController->handleRequest();
+                echo json_encode(["message" => "Ruta no válida"]);
             }
             break;
-
+        case 'insertproduct':
+            $ProductController = new ProductController($conn);
+            // Insertar un nuevo producto
+            $ProductController->handleRequest('insertproduct');
+            break;
         default:
             // Si no coincide con ninguno, devuelve un error
             echo json_encode(["message" => "Endpoint no encontrado"]);

@@ -1,0 +1,97 @@
+body {
+  background-color: #f9f9f9; /* Fondo claro para contraste */
+  font-family: Poppins, sans-serif;
+
+}
+
+table {
+  width: 85%; /* Cambiado para dar margen */
+  margin: 20px auto; /* Centrando la tabla */
+  border-collapse: collapse;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+  border-radius: 8px; /* Bordes redondeados */
+  overflow: hidden; /* Esquinas redondeadas en la tabla */
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #811edb; /* Color de encabezado */
+  color: #ffffff; /* Texto blanco */
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer; /* Cambia el cursor al pasar sobre las filas */
+}
+
+tr:nth-of-type(even) {
+  background-color: #f2f2f2; /* Color alternativo para filas */
+}
+
+tr.selected {
+  background-color: #e5e5e5; /* Color de fila seleccionada */
+}
+
+tr:last-of-type {
+  border-bottom: 2px solid #811edb; /* Línea en la última fila */
+}
+
+button {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px; /* Bordes redondeados en botones */
+  background-color: #811edb; /* Color del botón */
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s; /* Transición suave al hover */
+}
+
+button:hover {
+  background-color: #6700b5; /* Color al pasar el ratón */
+}
+
+input[type="text"] {
+  padding: 8px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s; /* Transición suave al enfocar */
+}
+
+input[type="text"]:focus {
+  border-color: #811edb; /* Color al enfocar */
+  outline: none; /* Quitar contorno por defecto */
+}
+
+h2 {
+  text-align: center;
+  color: #333; /* Color del título */
+  margin-top: 20px; /* Margen superior */
+}
+
+.input-area {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los inputs se ajusten en varias líneas */
+  justify-content: center; /* Centrando los campos de entrada */
+  margin: 20px auto; /* Margen para la sección de entrada */
+}
+
+.input-area input {
+  margin: 5px; /* Espacio entre los campos de entrada */
+  width: calc(20% - 10px); /* Ajusta el ancho de los campos */
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+  
+}

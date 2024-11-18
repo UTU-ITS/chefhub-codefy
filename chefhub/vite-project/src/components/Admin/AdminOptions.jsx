@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import './AdminOptions.css';
-import Products from './Products';
+import AdminProducts from './AdminProducts';
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -96,7 +96,12 @@ export default function Options() {
             <div className="content">
                 <Routes>
                     <Route path="personalizacion" element={<h1>Personalización del portal</h1>} />
-                    <Route path="products" element={<Products />} />
+                    <Route path="products" element={<AdminProducts
+                                                        fetchData={() => api.get('/items')}
+                                                        addData={(newItem) => api.post('/items', newItem)}
+                                                        updateData={(updatedItem) => api.put(`/items/${updatedItem.id}`, updatedItem)}
+                                                        deleteData={(id) => api.delete(`/items/${id}`)}
+                                                        />} />
                     <Route path="funcionarios" element={<h1>Funcionarios</h1>} />
                     <Route path="clientes" element={<h1>Clientes</h1>} />
                     <Route path="preferencias" element={<h1>Preferencias</h1>} />

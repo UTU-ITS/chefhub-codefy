@@ -7,24 +7,26 @@ import LoginView from './components/Login-Register/LoginView'
 import Menu from './components/Shop/Menu'
 import Checkout from './components/Shop/Checkout'
 import AdminOptions from './components/Admin/AdminOptions'
+import { CartProvider } from './context/cart'
+import AddProduct from './components/Admin/AddProduct'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-    <NavBar></NavBar>
-
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/login" element={<LoginView/>}/>
-        <Route path="/menu" element={<Menu/>}/>
-        <Route path="/checkout" element={<Checkout/>}/>
-        <Route path="/admin/*" element={<AdminOptions/>}/>
-      </Routes> 
-    </BrowserRouter>
-    
+      <CartProvider>
+        <BrowserRouter>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<LoginView />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/admin/*" element={<AdminOptions />} />
+            <Route path="/admin/products/addproduct" element={<AddProduct />} />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </>
   )
 }

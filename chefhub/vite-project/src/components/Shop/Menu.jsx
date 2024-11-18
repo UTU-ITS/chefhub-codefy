@@ -4,19 +4,19 @@ import Categories from './Categories';
 import Product from './Product';
 import './Menu.css';
 import Cart from './Cart';
-import { CartProvider } from '../../context/cart';
+
 export default function Menu() {
   // Estado para la categoría seleccionada
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Función para manejar cuando se selecciona "Todos"
   const handleSelectAll = () => {
-    setSelectedCategory(null); // Al hacer clic en "Todos", se selecciona null para mostrar todos los productos
+    setSelectedCategory(null);
   };
 
   return (
     <>
-   <CartProvider>
+   
       <div className='menu-div'>
         <div className='filters'>
           <Cart/>
@@ -37,7 +37,7 @@ export default function Menu() {
           </ChakraProvider>
         </div>
       </div>
-      </CartProvider>
+  
 
     </>
   );

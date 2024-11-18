@@ -37,9 +37,31 @@ body{
   height: 50px;
   width: 250px;
   margin: 10px;
-  border-radius: 25px;
+  border-radius: 8px;
   border: 2px solid #811edb;
   padding: 10px;
 }
+
+.txt-area-notes{
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  height: 50px;
+  width: 500px;
+  margin: 10px;
+  border-radius: 8px;
+  border: 2px solid #811edb;
+  padding: 10px;
+}
+radio{
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  height: 50px;
+  width: 250px;
+  margin: 10px;
+  border-radius: 8px;
+  border: 2px solid #811edb;
+  padding: 10px;
+}
+
 
   
