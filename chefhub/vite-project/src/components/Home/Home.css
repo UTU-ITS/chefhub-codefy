@@ -1,6 +1,75 @@
-.home-div{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100vh;
+
+
+.borde{
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
 }
+
+.buscador{
+    padding: 100px 30px 48px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #6700b5 ;
+    size: 5%;
+}
+
+.slogan{
+    font-size: 60px;
+    font-weight: bold;
+    margin: 10px;
+    width: 90%;
+    max-width: 1440px;
+    min-width: 350px;
+    color: white;
+}
+
+.buscador-barra{
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 90%;
+    max-width: 1440px;
+    min-width: 350px;
+}
+
+.entrada{
+    width: 100%;
+    padding: 10px;
+    border: 0px solid #000000;
+    border-radius: 10px;
+    outline: none;
+}
+
+.bloques{
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.bloque{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 10px;
+    width: 13%;
+    height: 100px;
+    min-width: 100px;
+}
+
+
+.titulos{
+    justify-content: center;
+}
+
