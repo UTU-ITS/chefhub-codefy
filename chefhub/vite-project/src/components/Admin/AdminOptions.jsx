@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import './AdminOptions.css';
 import AdminProducts from './AdminProducts';
+import { ChakraProvider } from '@chakra-ui/react';
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -13,6 +14,7 @@ export default function Options() {
     const isSelected = (option) => selectedOption === option ? 'selectedOption' : '';
 
     return (
+        
         <div className='options-div'>
             <div className="options-div-box">
                 <div className="sidebar">
