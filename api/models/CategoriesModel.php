@@ -15,7 +15,7 @@ class Categories {
 
     public function getCatById($id = null) {
         // Construimos la base de la consulta
-        $sql = "SELECT c.* FROM categoria_producto c 
+        $sql = "SELECT * FROM categoria_producto c 
                 INNER JOIN producto_categoria pc 
                 ON c.id_categoria = pc.id_categoria";
         
