@@ -4,6 +4,7 @@ require('models/db.php');
 require('Controllers/CategoriesController.php');
 require('Controllers/ProductController.php');
 
+
 // Crear la conexión una vez y reutilizarla
 $db = new DbConnect();
 $conn = $db->connect();
@@ -48,11 +49,10 @@ if (isset($path[1])) {
                 echo json_encode(["message" => "Ruta no válida"]);
             }
             break;
-        case 'insertproduct':
-            $ProductController = new ProductController($conn);
-            // Insertar un nuevo producto
-            $ProductController->handleRequest('insertproduct');
-            break;
+            case 'insertproduct':
+                $ProductController = new ProductController($conn);
+                $ProductController->handleRequest('insertproduct');
+                break;            
         default:
             // Si no coincide con ninguno, devuelve un error
             echo json_encode(["message" => "Endpoint no encontrado"]);
