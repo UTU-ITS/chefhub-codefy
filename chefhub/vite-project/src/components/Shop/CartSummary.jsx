@@ -1,18 +1,23 @@
 import React, { useContext, useState } from 'react';
-import { CartContext } from '../../context/cart';
-import './CartSummary.css'; 
+import { CartContext } from '../../context/cart.jsx';
+import './CartSummary.css';
 import { CloseIcon2 } from '../../img/HeroIcons';
-import ExtraIngredients from './ExtraIngredients';
+import Ingredients from './Ingredients';
 
 export default function CartSummary() {
-  const { cartItems, increaseQuantity, decreaseQuantity, removeFromCart } = useContext(CartContext);
+  const { cartItems, addToCart, removeFromCartByUniqueId } = useContext(CartContext);
   const [notes, setNotes] = useState({});
 
-  const handleNoteChange = (id, note) => {
+  const handleNoteChange = (uniqueId, note) => {
     setNotes(prevNotes => ({
       ...prevNotes,
-      [id]: note
+      [uniqueId]: note
     }));
+  };
+
+  const handleAddItem = (item) => {
+    const { uniqueId, ...itemWithoutUniqueId } = item;
+    addToCart(itemWithoutUniqueId);
   };
 
   return (
@@ -24,39 +29,30 @@ export default function CartSummary() {
       ) : (
         <div className='cart-summary__items'>
           {cartItems.map((item) => (
-            <div className='cart-summary__item' key={item.id}>
+            <div className='cart-summary__item' key={item.uniqueId}>
+              <button 
+                className="cart-summary__add-button"
+                onClick={() => handleAddItem(item)}
+              >
+                +
+              </button>
               <img className="cart-summary__img" src={item.image} alt={item.name} />
               <div className="cart-summary__item-info">
                 <h3 className='item-s-name'>{item.name}</h3>
                 <p className='item-s-description'>{item.description}</p>
-                <ExtraIngredients></ExtraIngredients>
-                <div className='cart-summary__quantity'>
-                  <button 
-                    className="cart-summary__quantity-button quantity-down"
-                    onClick={() => decreaseQuantity(item.id)}
-                  >
-                    -
-                  </button>
-                  <input type="number" min="1" max="9" value={item.quantity} readOnly />
-                  <button 
-                    className="cart-summary__quantity-button quantity-up"
-                    onClick={() => increaseQuantity(item.id)}
-                  >
-                    +
-                  </button>
-                </div>
-                <p className='item-s-price'>${item.price}</p>
+                <Ingredients productId={item.id} uniqueId={item.uniqueId} />
+                <p className='item-s-price'>${item.price.toFixed(2)}</p>
                 <textarea
                   className="cart-summary__product-note"
                   placeholder="Agregar nota (opcional)"
-                  value={notes[item.id] || ''}
-                  onChange={(e) => handleNoteChange(item.id, e.target.value)}
+                  value={notes[item.uniqueId] || ''}
+                  onChange={(e) => handleNoteChange(item.uniqueId, e.target.value)}
                 />
               </div>
               
               <button 
                 className='cart-summary__btn-delete' 
-                onClick={() => removeFromCart(item.id)}
+                onClick={() => removeFromCartByUniqueId(item.uniqueId)}
               >
                 <CloseIcon2 />
               </button>
@@ -66,8 +62,8 @@ export default function CartSummary() {
       )}
 
       <div className='cart-summary__total'>
-        <p>Total: $
-          {cartItems.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)}
+        <p>Total: $ 
+          {cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)}
         </p>
       </div>
     </div>
