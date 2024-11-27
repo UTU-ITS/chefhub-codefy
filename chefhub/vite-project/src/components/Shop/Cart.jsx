@@ -26,7 +26,6 @@ export default function Cart() {
             <button onClick={handleClick} className="cssbuttons-io">
                 <span className={isFading ? 'fade' : ''}>
                     {isOpen ? <CloseIcon /> : <CartIcon />}
-                    {isOpen ? 'Ocultar Carrito' : 'Ver Carrito'}
                 </span>
             </button>
 
