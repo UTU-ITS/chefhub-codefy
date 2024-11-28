@@ -23,7 +23,13 @@ export default function Product({ selectedKey, onSelectKey }) {
       .get(url)
       .then((response) => {
         if (Array.isArray(response.data)) {
-          setProducts(response.data);
+          // Asegurarse de que el precio sea numérico
+          setProducts(
+            response.data.map((product) => ({
+              ...product,
+              precio: parseFloat(product.precio) || 0, // Forzar el precio a número
+            }))
+          );
         } else {
           console.error('La respuesta de la API no es un array:', response.data);
           setProducts([]);
@@ -38,7 +44,7 @@ export default function Product({ selectedKey, onSelectKey }) {
     setSelectedProduct({
       id: product.id_producto,
       name: product.nombre,
-      price: product.precio,
+      price: parseFloat(product.precio) || 0, // Convertir a número y manejar valores no válidos
       image: product.imagen,
       description: product.descripcion,
     });
@@ -47,10 +53,13 @@ export default function Product({ selectedKey, onSelectKey }) {
 
   const handleModalConfirm = (selectedIngredients, extraPrice) => {
     if (selectedProduct) {
-      addToCart({
-        ...selectedProduct,
-        price: selectedProduct.price + extraPrice
-      }, selectedIngredients);
+      addToCart(
+        {
+          ...selectedProduct,
+          price: (selectedProduct.price || 0) + (extraPrice || 0), // Garantizar valores numéricos
+        },
+        selectedIngredients
+      );
     }
     setSelectedProduct(null);
   };
@@ -62,20 +71,20 @@ export default function Product({ selectedKey, onSelectKey }) {
           <Card key={product.id_producto} maxW="sm" className="productCard">
             <CardBody>
               <Image
-                className='product-image'
+                className="product-image"
                 src={product.imagen}
                 alt={product.nombre}
                 borderRadius="lg"
               />
               <Stack mt="6" spacing="3">
-                <p className='title'>{product.nombre}</p>
-                <p className='description'>{product.descripcion}</p>
-                <p className='price'>${product.precio}</p>
+                <p className="title">{product.nombre}</p>
+                <p className="description">{product.descripcion}</p>
+                <p className="price">${product.precio}</p>
               </Stack>
             </CardBody>
             <Categories id={product.id_categoria} onSelectKey={onSelectKey} />
-            <CardFooter className='card-footer'>
-              <button className='btn' onClick={() => handleAddToCart(product)}>
+            <CardFooter className="card-footer">
+              <button className="btn" onClick={() => handleAddToCart(product)}>
                 Agregar al Carrito
               </button>
             </CardFooter>

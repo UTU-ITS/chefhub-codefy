@@ -9,6 +9,8 @@ const Ingredients = ({ productId, uniqueId }) => {
   const { cartItems, addPrice, decreasePrice, updateIngredients } = useContext(CartContext);
 
   useEffect(() => {
+
+    console.log('cartItems:', cartItems);
     // Buscar el producto en el contexto por uniqueId
     const cartItem = cartItems.find(item => item.uniqueId === uniqueId);
 
