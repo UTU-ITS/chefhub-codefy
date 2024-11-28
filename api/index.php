@@ -3,6 +3,7 @@
 require('models/db.php');
 require('Controllers/CategoriesController.php');
 require('Controllers/ProductController.php');
+require('Controllers/IngredientsController.php');
 
 
 // Crear la conexión una vez y reutilizarla
@@ -15,7 +16,6 @@ $path = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 if (isset($path[1])) {
     switch ($path[1]) {
         case 'products':
-            
             $ProductController = new ProductController($conn);
             // Obtener todos los productos
             if (!isset($path[2])) {
@@ -53,6 +53,17 @@ if (isset($path[1])) {
                 $ProductController = new ProductController($conn);
                 $ProductController->handleRequest('insertproduct');
                 break;            
+
+        case 'ingredients':
+            $IngredientsController = new IngredientsController($conn);
+            if (isset($path[2]) && $path[2] === 'allingredients' && isset($path[3])) {
+                $productId = $path[3];
+                $IngredientsController->handleRequest('allingredients', $productId); // Maneja la solicitud con acción e ID
+            } else {
+                echo json_encode(["message" => "Ruta no válida"]);
+            }
+            break;
+
         default:
             // Si no coincide con ninguno, devuelve un error
             echo json_encode(["message" => "Endpoint no encontrado"]);

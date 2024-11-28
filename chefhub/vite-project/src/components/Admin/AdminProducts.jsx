@@ -73,7 +73,7 @@ const AdminProducts = () => {
     <div>
       <h2>Productos</h2>
       <div className='options'>
-      <button onClick={() => window.location.href = 'products/addproduct'}>Agregar</button>
+      <button className='btn' onClick={() => window.location.href = 'products/addproduct'}>Agregar</button>
       </div>
       <table>
         <thead>
@@ -89,6 +89,7 @@ const AdminProducts = () => {
             <tr key={item.id}>
               <td>
                 <input
+                  className='prueba'
                   type="checkbox"
                   checked={selectedItemId === item.id} // Marca solo el checkbox seleccionado
                   onChange={() => toggleSelectItem(item.id)} // Cambia el estado al hacer clic
