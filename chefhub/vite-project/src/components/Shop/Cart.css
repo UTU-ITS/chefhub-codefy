@@ -5,7 +5,7 @@
     font-weight: 400;
     right: 0;
     top: 0;
-    width: 320px;
+    width: 340px;
     height: 100vh;
     background-color: #f9f9f9;
     color: #333;
@@ -37,7 +37,7 @@
 }
 
 .button-close {
-    font-size: 1.5rem;
+    font-size: 1.0rem;
     color: #333;
     background-color: transparent;
     cursor: pointer;
@@ -45,7 +45,7 @@
 }
 
 .button-close:hover {
-    color: #1f7a8c;
+    color: #811edb;
     background-color: transparent;
 }
 
@@ -142,8 +142,18 @@
     font-size: 1.2rem;
     font-weight: bold;
     text-align: right;
+    margin-top: auto;
     margin-bottom: 20px;
     color: #333;
+}
+
+.cart-empty {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #666;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .cart-buttons {
