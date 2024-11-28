@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import './LoginView.css';
+import { ChakraProvider } from '@chakra-ui/react';
 
 export default function LoginView() {
 
@@ -26,7 +27,8 @@ export default function LoginView() {
     }
 
   return (
-    <>
+  <ChakraProvider>
+
     <div className='login-div'>
       <div className="login-div-box">
 
@@ -52,7 +54,8 @@ export default function LoginView() {
       </div>
     </div>
 
-</>
+  </ChakraProvider>
+
 
   )
 }
