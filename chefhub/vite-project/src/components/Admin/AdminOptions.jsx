@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import './AdminOptions.css';
-import Products from './Products';
-import CrudTable from './Products';
+import AdminProducts from './AdminProducts';
+import { ChakraProvider } from '@chakra-ui/react';
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -14,6 +14,7 @@ export default function Options() {
     const isSelected = (option) => selectedOption === option ? 'selectedOption' : '';
 
     return (
+        
         <div className='options-div'>
             <div className="options-div-box">
                 <div className="sidebar">
@@ -97,7 +98,7 @@ export default function Options() {
             <div className="content">
                 <Routes>
                     <Route path="personalizacion" element={<h1>Personalización del portal</h1>} />
-                    <Route path="products" element={<CrudTable
+                    <Route path="products" element={<AdminProducts
                                                         fetchData={() => api.get('/items')}
                                                         addData={(newItem) => api.post('/items', newItem)}
                                                         updateData={(updatedItem) => api.put(`/items/${updatedItem.id}`, updatedItem)}

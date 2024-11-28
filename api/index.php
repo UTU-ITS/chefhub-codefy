@@ -5,6 +5,7 @@ require('Controllers/CategoriesController.php');
 require('Controllers/ProductController.php');
 require('Controllers/IngredientsController.php');
 
+
 // Crear la conexión una vez y reutilizarla
 $db = new DbConnect();
 $conn = $db->connect();
@@ -48,6 +49,10 @@ if (isset($path[1])) {
                 echo json_encode(["message" => "Ruta no válida"]);
             }
             break;
+            case 'insertproduct':
+                $ProductController = new ProductController($conn);
+                $ProductController->handleRequest('insertproduct');
+                break;            
 
         case 'ingredients':
             $IngredientsController = new IngredientsController($conn);

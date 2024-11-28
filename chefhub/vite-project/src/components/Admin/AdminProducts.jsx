@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Products.css'; // Asegúrate de importar el CSS
+import './AdminProducts.css'; // Asegúrate de importar el CSS
 import { ClearIcon, EditIcon } from '../../img/HeroIcons';
 
-const CrudTable = () => {
+const AdminProducts = () => {
   const [data, setData] = useState([]);
   const [editIndex, setEditIndex] = useState(-1);
   const [newItem, setNewItem] = useState({});
@@ -71,21 +71,9 @@ const CrudTable = () => {
 
   return (
     <div>
-      <h2>CRUD Table</h2>
-      <div className="input-area">
-        {data.length > 0 && Object.keys(data[0]).map((key) => (
-          <input
-            key={key}
-            type="text"
-            value={newItem[key] || ''}
-            onChange={(e) => setNewItem({ ...newItem, [key]: e.target.value })}
-            placeholder={`New ${key}`}
-          />
-        ))}
-        <button onClick={() => addData(newItem)}>Add</button>
-        {editIndex >= 0 && (
-          <button onClick={() => updateData(newItem)}>Save</button>
-        )}
+      <h2>Productos</h2>
+      <div className='options'>
+      <button className='btn' onClick={() => window.location.href = 'products/addproduct'}>Agregar</button>
       </div>
       <table>
         <thead>
@@ -101,6 +89,7 @@ const CrudTable = () => {
             <tr key={item.id}>
               <td>
                 <input
+                  className='prueba'
                   type="checkbox"
                   checked={selectedItemId === item.id} // Marca solo el checkbox seleccionado
                   onChange={() => toggleSelectItem(item.id)} // Cambia el estado al hacer clic
@@ -123,4 +112,4 @@ const CrudTable = () => {
   );
 };
 
-export default CrudTable;
+export default AdminProducts;
