@@ -1,4 +1,4 @@
-<?php
+<?php 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: *");
@@ -20,52 +20,67 @@ class ProductController {
         $this->product = new Product($conn);  // Instancia del modelo Product
     }
 
-    public function handleRequest($action, $productId = null) { // Asegúrate de que $action se pase aquí
+    public function handleRequest($action, $productId = null) {
         $method = $_SERVER['REQUEST_METHOD'];
     
         switch ($method) {
             case "GET":
+                // Lógica existente para GET
                 if ($action === 'productbycategory') {
                     if ($productId) {
-                        // Si hay un ID, obtener productos filtrados por categoría
-                        $result = $this->product->getProduct($productId); // Llama a getProduct con el ID de categoría
+                        $result = $this->product->getProduct($productId);
                     } else {
-                        // Si no hay ID, obtener todos los productos
-                        $result = $this->product->getProduct(); // Llama a getProduct para obtener todos los productos
+                        $result = $this->product->getProduct();
                     }
-                }elseif ($action === 'products') {
-                    // Si se accede a la acción "products", llamar a la función getProducts
+                } elseif ($action === 'products') {
                     $result = $this->product->getTableProducts();
                 } else {
-                    // Si no se especifica acción, devolver un mensaje de error
                     $result = ["message" => "Acción no reconocida"];
                 }
     
-                // Devolver el resultado como JSON
                 echo json_encode($result);
                 break;
+    
                 case "POST":
-                if ($action == 'insertproduct') {
-                    // Obtener datos del cuerpo de la solicitud
-                    $data = json_decode(file_get_contents("php://input"), true);
-
-                    if (!empty($data['nombre']) && !empty($data['precio']) && !empty($data['descripcion']) && !empty($data['imagen'])) {
-                        // Insertar un nuevo producto
-                        $result = $this->product->insertProduct($data);
-
-                        // Verificar si el producto se insertó y devolver el ID o mensaje de error
-                        if ($result) {
-                            echo json_encode(["success" => true, "id" => $result, "message" => "Producto insertado con éxito."]);
+                    if ($action === 'insertproduct') {
+                        // Leer datos de la solicitud POST
+                        $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
+                        $precio = isset($_POST['precio']) ? $_POST['precio'] : null;
+                        $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : null;
+                        $imagenFile = isset($_FILES['imagen']) ? $_FILES['imagen'] : null;
+                
+                        if ($nombre && $precio && $descripcion && $imagenFile) {
+                            try {
+                                // Insertar producto con la imagen
+                                $productId = $this->product->insertProduct(
+                                    $nombre,
+                                    $precio,
+                                    $descripcion,
+                                    $imagenFile
+                                );
+                
+                                // Solo enviar mensaje de éxito si la inserción es exitosa
+                                echo json_encode([
+                                    "message" => "Producto insertado con éxito",
+                                    "product_id" => $productId
+                                ]);
+                            } catch (Exception $e) {
+                                http_response_code(500);
+                                // Asegúrate de mostrar solo el mensaje de error real
+                                echo json_encode(["message" => "Error al agregar el producto: " . $e->getMessage()]);
+                            }
                         } else {
-                            echo json_encode(["success" => false, "message" => "Error al insertar el producto."]);
+                            http_response_code(400);
+                            echo json_encode(["message" => "Datos incompletos o archivo faltante"]);
                         }
                     } else {
-                        echo json_encode(["success" => false, "message" => "Datos incompletos."]);
+                        http_response_code(400);
+                        echo json_encode(["message" => "Acción no reconocida para POST"]);
                     }
-                }
-                break;
+                    break;                
+                
+    
             default:
-                // Respuesta para métodos no soportados
                 echo json_encode(["message" => "Método no soportado"]);
                 break;
         }
