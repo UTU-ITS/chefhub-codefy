@@ -1,0 +1,67 @@
+.ingredients-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .ingredient-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .ingredient-item span {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .ingredient-item input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .ingredient-item input:disabled {
+    background-color: #e9e9e9;
+    cursor: not-allowed;
+  }
+
+  .btn-ing {
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    height: 40px; 
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    background-color: #811edb;
+    color: #fff;
+    border: 2px solid #fff;
+    border-color: #fff;
+    border-radius: 8px;
+    transition-duration: 0.2s;
+    display: inline-block; 
+  }
+
+.btn-ing:hover {
+    background-color: #fff;
+    border-color: #811edb;
+    color: #811edb;
+}
+.btn-ing:disabled {
+    background-color: #e9e9e9;
+    cursor:default;
+    color: #ccc;
+    border-color: #ccc;
+}

@@ -58,7 +58,7 @@ button:hover {
   background-color: #6700b5; /* Color al pasar el ratón */
 }
 
-input[type="text"] {
+input .prueba[type="text"] {
   padding: 8px;
   border: 1px solid #cccccc;
   border-radius: 4px;

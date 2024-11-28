@@ -40,13 +40,63 @@
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.price input {
-  width: 100%;
+.price-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-input input {
+  width: 35%;
+}
+
+.row-image {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.row-image input {
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.image-preview {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.image-preview img {
+  max-width: 50%;
+  max-height: auto;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.row-description {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.row-description label {
+  margin-bottom: 0.8rem;
 }
 
 #description {
-  height: 150px;
+  height: 100px;
   width: 100%;
+  border-radius: 5px;
+  border-color: #ddd;
+  padding: 0.8rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  font-family: poppins;
+}
+
+#description:focus, .row-image input:focus, .price-input input:focus {
+  border-color: #811edb;
+  outline: none;
 }
 
 /* Ajustes para la caja de selección */
@@ -64,11 +114,32 @@
   height: 220px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 10px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   margin-bottom: 1rem;
+}
+
+.box-list::-webkit-scrollbar {
+  width: 8px; /* Grosor de la barra */
+}
+
+/* Fondo de la barra de desplazamiento */
+.box-list::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+/* Color de la barra de desplazamiento */
+.box-list::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 8px;
+  border: 2px solid #f0f0f0; /* Espacio alrededor de la barra */
+}
+
+/* Color de la barra al pasar el cursor */
+.box-list::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 .box-list li {
@@ -147,6 +218,11 @@ button[type='submit']:hover {
   display: flex;
   align-items: center;
   width: 100%;
+}
+
+.ingredient-list, .category-list {
+  list-style: none;
+  padding: 0px 1rem;
 }
 
 .category-box{
