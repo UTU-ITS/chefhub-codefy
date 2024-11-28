@@ -1,5 +1,3 @@
-// Cart.js
-
 import './Cart.css';
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,7 +8,7 @@ export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
     const [isFading, setIsFading] = useState(false);
     const { cartItems, addToCart, removeFromCartByUniqueId, clearCart } = useContext(CartContext);
-    const consolecart = () => { console.log(cartItems); };
+
     const toggleCart = () => setIsOpen(!isOpen);
 
     const handleClick = () => {
@@ -32,10 +30,11 @@ export default function Cart() {
             <div className={`cart ${isOpen ? 'open' : ''}`}>
                 <div className='cart-title'>
                     <p>Carrito</p>
+                    <button className='button-close' onClick={toggleCart}>X</button>
                 </div>
 
                 {cartItems.length === 0 ? (
-                    <p>Tu carrito está vacío</p>
+                    <p className="cart-empty">Tu carrito está vacío</p>
                 ) : (
                     <div className='cart-items'>
                         {cartItems.map((item, index) => (
@@ -46,7 +45,7 @@ export default function Cart() {
                                     <p>${item.price.toFixed(2)}</p>
                                     <button 
                                         className='btn-delete' 
-                                        onClick={() => removeFromCartByUniqueId(item.uniqueId)} // Use index here
+                                        onClick={() => removeFromCartByUniqueId(item.uniqueId)}
                                     >
                                         <CloseIcon2 />
                                     </button>  
@@ -56,16 +55,18 @@ export default function Cart() {
                     </div>
                 )}
 
-                <div className='cart-total'>
-                    <p>Total: ${cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)}</p>
-                </div>
+                {cartItems.length > 0 && (
+                    <div className='cart-total'>
+                        <p>Total: ${cartItems.reduce((total, item) => total + item.price, 0).toFixed(2)}</p>
+                    </div>
+                )}
 
                 <div className='cart-buttons'>
                     <span className='btn'>
                         <Link to="/checkout">Finalizar Compra</Link>
                         <DoneIcon />
                     </span>
-                    <button className='btn' onClick={() => { clearCart(); consolecart(); }}>
+                    <button className='btn' onClick={clearCart}>
                         Vaciar Carrito
                         <ClearIcon />
                     </button>
