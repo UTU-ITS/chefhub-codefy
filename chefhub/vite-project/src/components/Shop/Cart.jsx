@@ -21,11 +21,9 @@ export default function Cart() {
 
     return (
         <div>
-            <button onClick={handleClick} className="cssbuttons-io">
-                <span className={isFading ? 'fade' : ''}>
-                    {isOpen ? <CloseIcon /> : <CartIcon />}
-                </span>
-            </button>
+                <a onClick={handleClick}>
+                    <CartIcon />
+                </a>
 
             <div className={`cart ${isOpen ? 'open' : ''}`}>
                 <div className='cart-title'>

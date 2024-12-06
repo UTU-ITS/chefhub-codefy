@@ -16,7 +16,6 @@ export default function Options() {
     return (
         
         <div className='options-div'>
-            <div className="options-div-box">
                 <div className="sidebar">
                     <ul>
                         <li>
@@ -39,7 +38,7 @@ export default function Options() {
                         </li>
                         <li>
                             <Link 
-                                to="/admin/funcionarios" 
+                                to="/admin/employees" 
                                 onClick={() => handleOptionClick('Funcionarios')} 
                                 className={isSelected('Funcionarios')}
                             >
@@ -48,7 +47,7 @@ export default function Options() {
                         </li>
                         <li>
                             <Link 
-                                to="/admin/clientes" 
+                                to="/admin/customers" 
                                 onClick={() => handleOptionClick('Clientes')} 
                                 className={isSelected('Clientes')}
                             >
@@ -92,7 +91,6 @@ export default function Options() {
                             </Link>
                         </li>
                     </ul>
-                </div>
             </div>
 
             <div className="content">
@@ -104,8 +102,8 @@ export default function Options() {
                                                         updateData={(updatedItem) => api.put(`/items/${updatedItem.id}`, updatedItem)}
                                                         deleteData={(id) => api.delete(`/items/${id}`)}
                                                         />} />
-                    <Route path="funcionarios" element={<h1>Funcionarios</h1>} />
-                    <Route path="clientes" element={<h1>Clientes</h1>} />
+                    <Route path="employees" element={<h1>Funcionarios</h1>} />
+                    <Route path="customers" element={<h1>Clientes</h1>} />
                     <Route path="preferencias" element={<h1>Preferencias</h1>} />
                     <Route path="reservas" element={<h1>Reservas</h1>} />
                     <Route path="pedidos" element={<h1>Pedidos</h1>} />

@@ -63,7 +63,7 @@ const NavBar = () => {
             </li>
 
           <li className="nav-item">
-                <Cart />
+              <Cart />
             </li>
 
             <li className="nav-item">

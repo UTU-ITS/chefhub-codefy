@@ -71,43 +71,57 @@ const AdminProducts = () => {
 
   return (
     <div>
-      <h2>Productos</h2>
-      <div className='options'>
-      <button className='btn' onClick={() => window.location.href = 'products/addproduct'}>Agregar</button>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Select</th> {/* Nueva columna para checkboxes */}
-            {data.length > 0 &&
-              Object.keys(data[0]).map((key) => <th key={key}>{key}</th>)}
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item.id}>
-              <td>
-                <input
-                  className='prueba'
-                  type="checkbox"
-                  checked={selectedItemId === item.id} // Marca solo el checkbox seleccionado
-                  onChange={() => toggleSelectItem(item.id)} // Cambia el estado al hacer clic
-                />
-              </td>
-              {Object.values(item).map((value, idx) => <td key={idx}>{value}</td>)}
-              <td>
-                <button onClick={(e) => { e.stopPropagation(); deleteData(item.id); }}>
-                  <ClearIcon />
-                </button>
-                <button onClick={(e) => { e.stopPropagation(); setEditIndex(item.id); setNewItem(item); }}>
-                  <EditIcon />
-                </button>
-              </td>
+      <div className='admin-format'>
+
+        <div className='admin-title'>
+          <h2>Productos</h2>
+        </div>
+
+        <div className='admin-options'>
+          <button className='option-btn' onClick={() => window.location.href = 'products/addproduct'}>Nuevo</button>
+          <button className='option-btn' onClick={() => window.location.href = 'products/addproduct'}>Editar</button>
+          <button className='option-btn' onClick={() => window.location.href = 'products/addproduct'}>Eliminar</button>
+        </div>
+
+        <div className='admin-table'>
+        <table>
+          <thead>
+            <tr>
+              <th>Select</th>
+              {data.length > 0 &&
+                Object.keys(data[0]).map((key) => <th key={key}>{key}</th>)}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((item) => (
+              <tr key={item.id}>
+                <td>
+                  <input
+                    className='prueba'
+                    type="checkbox"
+                    checked={selectedItemId === item.id}
+                    onChange={() => toggleSelectItem(item.id)}
+                  />
+                </td>
+                {Object.entries(item).map(([key, value], idx) => (
+                  <td key={idx}>
+                    {key === "Imagen" ? (
+                      <img
+                        src={value}
+                        alt={`Imagen de ${item.name || 'producto'}`}
+                        style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      value
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        </div>
+      </div>
     </div>
   );
 };

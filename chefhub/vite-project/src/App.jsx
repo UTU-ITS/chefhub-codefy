@@ -9,6 +9,7 @@ import Checkout from './components/Shop/Checkout'
 import AdminOptions from './components/Admin/AdminOptions'
 import { CartProvider } from './context/cart'
 import AddProduct from './components/Admin/AddProduct'
+import AdminProducts from './components/Admin/AdminProducts'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
       <CartProvider>
         <BrowserRouter>
           <NavBar />
+          <div className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginView />} />
@@ -25,6 +27,7 @@ function App() {
             <Route path="/admin/*" element={<AdminOptions />} />
             <Route path="/admin/products/addproduct" element={<AddProduct />} />
           </Routes>
+          </div>
         </BrowserRouter>
       </CartProvider>
     </>

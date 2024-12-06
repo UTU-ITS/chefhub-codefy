@@ -1,39 +1,37 @@
+body {
+    margin: 0;
+    height: 100vh;
+}
+
 .options-div {
     display: flex;
-    padding: 5% 2%;
 }
 
 .sidebar {
     width: 250px;
-    background-color: #f1f1f1;
-    padding: 15px;
     height: 100vh;
+    border: 1px solid #ddd;
 }
 
 .sidebar ul {
     list-style-type: none;
     padding: 0;
-}
-
-.sidebar ul li {
-    margin-bottom: 15px;
+    margin: 0;
 }
 
 .sidebar ul li a {
     text-decoration: none;
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
     display: block;
-    padding: 10px;
+    padding: 15px;
     border-bottom: 1px solid #ddd;
-    border-radius: 4px;
     text-align: center;
     height: 100%;
 }
 
 .sidebar ul li a:hover {
-    background-color: #811edb;
-    color: #ffffff;
+    background-color: #e7e7e7;
     transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
     display: block;
 }
@@ -43,10 +41,16 @@
     color: #ffffff !important;  
 }
 
+.selectedOption:hover {
+    border: #811edb 3px solid;
+    background-color: #ffffff !important;
+    color: #811edb !important;
+}
+
 .content {
-    margin-left: 20px;
-    padding: 20px;
+    margin: 20px;
     flex-grow: 1;
+    border: 1px solid #ddd;
 }
 
 h1 {
