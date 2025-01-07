@@ -20,6 +20,9 @@ const NavBar = () => {
               <li className="nav-item">
                 <a className="nav-link" href="/menu">Menu</a>
               </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/register">Registrarme</a>
+              </li>
               <li className="nav-item"> 
                 <a className="nav-link" href="/login">
                   <button className='nav-item'>

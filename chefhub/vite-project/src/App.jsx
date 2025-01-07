@@ -7,6 +7,7 @@ import NavBar from './components/Home/NavBar'
 import Menu from './components/Shop/Menu'
 import Checkout from './components/Shop/Checkout'
 import AdminOptions from './components/Admin/AdminOptions'
+import RegisterView from './components/Login-Register/RegisterView'
 import { CartProvider } from './context/cart'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<LoginView/>}/>
         <Route path="/menu" element={<Menu/>}/>
+        <Route path="/register" element={<RegisterView/>}/>
         <Route path="/checkout" element={<Checkout/>}/>
         <Route path="/admin/*" element={<AdminOptions/>}/>
       </Routes> 
