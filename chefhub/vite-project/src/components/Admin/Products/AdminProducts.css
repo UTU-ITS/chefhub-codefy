@@ -1,7 +1,5 @@
 body {
-  background-color: #f9f9f9; /* Fondo claro para contraste */
   font-family: Poppins, sans-serif;
-
 }
 
 table {
@@ -9,12 +7,14 @@ table {
   border-collapse: collapse;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
   overflow: hidden; /* Esquinas redondeadas en la tabla */
+  border-radius: 10px; /* Esquinas redondeadas en la tabla */
 }
 
 th {
   padding: 4px 7px; /* Espaciado interno */
-  background-color: #811edb; /* Color de encabezado */
-  color: #ffffff; /* Texto blanco */
+  background-color: #ffffff; /* Color de encabezado */
+  color: #575757; /* Texto blanco */
+  font-size: 14px;
   text-transform: uppercase;
   font-weight: bold;
   text-align: center;
@@ -26,26 +26,15 @@ tr {
 }
 
 td {
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
   padding: 10px 7px; /* Espaciado interno */
-}
-
-tr:nth-of-type(even) {
-  background-color: #f2f2f2; /* Color alternativo para filas */
+  color: #575757; /* Texto blanco */
+  background-color: #f2f2f2;
 }
 
 tr.selected {
   background-color: #e5e5e5; /* Color de fila seleccionada */
-}
-
-tr:last-of-type {
-  border-bottom: 2px solid #811edb; /* Línea en la última fila */
-}
-
-h2 {
-  color: #333;
-  font-size: 20px;
 }
 
 .actions-buttons {
@@ -59,26 +48,32 @@ h2 {
 
 .admin-title {
   display: flex;
-  padding: 0 15px;
-  border-bottom: 1px solid #dddddd;
+  padding: 0 25px;
+  color: #ffffff;
+  font-size: 13px;
 }
 
 .admin-options {
-  padding: 5px 15px;
-  border-bottom: 1px solid #dddddd;
+  padding: 0 25px;
+  display: flex;
 }
 
 .admin-table {
   margin: 15px 15px;
+  padding: 0 15px;
 }
 
 .option-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  min-width: 60px;
   padding: 8px;
   margin: 5px;
-  border: none;
-  border-radius: 0px;
-  background-color: #dadada;
-  color: #000000;
-  cursor: pointer;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #575757;
   font-size: 12px;
+  gap: 5px;
 }
