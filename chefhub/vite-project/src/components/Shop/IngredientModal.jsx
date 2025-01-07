@@ -12,7 +12,7 @@ const IngredientModal = ({ isOpen, onClose, productId, onConfirm }) => {
       if (!isOpen || !productId) return;
       
       try {
-        const response = await axios.get(`http://localhost/api/ingredients/allingredients/${productId}`);
+        const response = await axios.get(`http://localhost/api/ingredients/perproduct/${productId}`);
         if (response.data) {
           const data = Array.isArray(response.data) ? response.data : [response.data];
           const initializedIngredients = data.map(ingredient => ({

@@ -10,10 +10,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw; /* Ajusta el ancho a toda la vista */
+  width: 100vw;
   z-index: 1000;
-  box-sizing: border-box; /* Asegura que padding no aumente el ancho */
+  box-sizing: border-box;
+  height: 50px;
 }
+
 
 .nav-container {
   display: flex;
