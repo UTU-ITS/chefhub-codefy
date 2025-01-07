@@ -2,6 +2,8 @@ import React from 'react'
 import './Home.css'
 import { ChakraProvider } from '@chakra-ui/react';
 import { PinIcon } from '../../img/HeroIcons';
+import hamburguesa from '../../assets/hamburguesa.png';
+
 
 export default function Home() {
   return (
@@ -17,51 +19,52 @@ export default function Home() {
         </i>
       </div>
 
-      <main className="recomendaciones borde">
-        <section className="section-categorias borde">
+      <main className="recomendaciones">
+        <section className="section-categorias">
           <h1 className='titulos'>Categorias Populares</h1>
           <div className='bloques'>
-            <div className="bloque  borde">
+            <div className="bloque hamburguesa">
+              Hamburguesas
             </div>
-            <div className="bloque  borde">
+            <div className="bloque pizza">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque helado">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
           </div>
         </section>
 
-        <section className="sugerencias  borde">
+        <section className="sugerencias">
           <h1>Sugerencias</h1>
           <div className='bloques'>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
           </div>
         </section>
 
-        <section className="opciones  borde">
+        <section className="opciones">
           <h1>Opciones</h1>
           <div className='bloques'>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
-            <div className="bloque  borde">
+            <div className="bloque">
             </div>
           </div>
         </section>
