@@ -7,8 +7,13 @@ import { CartIcon, CloseIcon, ClearIcon, DoneIcon, CloseIcon2 } from '../../img/
 export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
     const [isFading, setIsFading] = useState(false);
+<<<<<<< HEAD
+    const { cartItems, removeFromCartByUniqueId, clearCart } = useContext(CartContext);
+    const consolecart = () => { console.log(cartItems); };
+=======
     const { cartItems, addToCart, removeFromCartByUniqueId, clearCart } = useContext(CartContext);
 
+>>>>>>> b8ad6c322ce53d6f4cd426bef88df9edaf4260e8
     const toggleCart = () => setIsOpen(!isOpen);
 
     const handleClick = () => {

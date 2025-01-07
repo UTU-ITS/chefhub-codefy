@@ -19,6 +19,29 @@ const NavBar = () => {
           <a className="navbar-brand" href="/">
             <img alt="Chef Hub Logo" src={Logo} style={{ width: '40px' }} />
           </a>
+<<<<<<< HEAD
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="/menu">Menu</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/register">Registrarme</a>
+              </li>
+              <li className="nav-item"> 
+                <a className="nav-link" href="/login">
+                  <button className='nav-item'>
+                    <UserIcon/>
+                  </button>
+                </a>
+              </li>
+            </ul>
+          </div>
+=======
+>>>>>>> b8ad6c322ce53d6f4cd426bef88df9edaf4260e8
         </div>
 
         <div>

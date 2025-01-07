@@ -6,6 +6,7 @@ import LoginView from './components/Login-Register/LoginView'
 import Menu from './components/Shop/Menu'
 import Checkout from './components/Shop/Checkout'
 import AdminOptions from './components/Admin/AdminOptions'
+import RegisterView from './components/Login-Register/RegisterView'
 import { CartProvider } from './context/cart'
 import AddProduct from './components/Admin/Products/AddProduct'
 
@@ -27,6 +28,19 @@ function MainApp() {
 
   return (
     <>
+    <NavBar></NavBar>
+    <CartProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/login" element={<LoginView/>}/>
+        <Route path="/menu" element={<Menu/>}/>
+        <Route path="/register" element={<RegisterView/>}/>
+        <Route path="/checkout" element={<Checkout/>}/>
+        <Route path="/admin/*" element={<AdminOptions/>}/>
+      </Routes> 
+    </BrowserRouter>
+    </CartProvider>
       {shouldShowNavBar && <NavBar />} {/* Renderiza NavBar solo si no está en /admin */}
       <div className="main-content">
         <Routes>
