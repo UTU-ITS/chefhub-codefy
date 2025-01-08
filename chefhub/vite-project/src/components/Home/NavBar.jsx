@@ -14,13 +14,11 @@ const NavBar = () => {
   return (
     <nav className="custom-navbar">
       <div className="nav-container">
-
         <div>
-          <a className="navbar-brand" href="/">
-            <img alt="Chef Hub Logo" src={Logo} style={{ width: '40px' }} />
-          </a>
+            <a className="navbar-brand" href="/">
+              <img alt="Chef Hub Logo" src={Logo} style={{ width: '40px' }} />
+            </a>
         </div>
-
         <div>
         <ul className="nav-list">
               <li className="nav-item">
@@ -28,6 +26,9 @@ const NavBar = () => {
              </li>
               <li className="nav-item">
                 <a className="nav-link" href="/menu">Menú</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/register">Registrarme</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="/about">Sobre Nosotros</a>
@@ -63,7 +64,7 @@ const NavBar = () => {
             </li>
 
           <li className="nav-item">
-                <Cart />
+              <Cart />
             </li>
 
             <li className="nav-item">
