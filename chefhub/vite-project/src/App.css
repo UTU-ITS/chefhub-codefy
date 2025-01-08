@@ -1,3 +1,8 @@
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
 body {
   background: rgb(241, 241, 241) !important;
   font-family: Poppins, sans-serif;
@@ -7,7 +12,6 @@ body {
 .main-content {
   margin-top: 50px !important;
 }
-
 
 .btn {
     font-family: Poppins, sans-serif;
