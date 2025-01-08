@@ -1,15 +1,8 @@
-body {
-    margin: 0;
-    height: 100vh;
-    background-color: #ffffff !important;
-}
-
-.main-content {
-    margin: 0 !important;;
-}
-
 .options-div {
     display: flex;
+    min-width: 100%;
+    background-color: #ffffff;
+    min-height: 100vh;
 }
 
 .options-admin {

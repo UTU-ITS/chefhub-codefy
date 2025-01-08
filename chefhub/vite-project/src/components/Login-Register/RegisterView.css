@@ -1,0 +1,47 @@
+/* Estilos para el modal */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+}
+
+
+.modal-content {
+    background: white;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #5A31F4;
+}
+
+.modal-body {
+    margin: 10px 0;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+
+.btn-close {
+    background-color: #FF5A5F;
+}
+
+.btn-close:hover {
+    background-color: #E04848;
+}
