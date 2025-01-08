@@ -54,15 +54,18 @@ if (isset($path[1])) {
                 $ProductController->handleRequest('insertproduct');
                 break;            
 
-        case 'ingredients':
-            $IngredientsController = new IngredientsController($conn);
-            if (isset($path[2]) && $path[2] === 'allingredients' && isset($path[3])) {
-                $productId = $path[3];
-                $IngredientsController->handleRequest('allingredients', $productId); // Maneja la solicitud con acción e ID
-            } else {
-                echo json_encode(["message" => "Ruta no válida"]);
-            }
-            break;
+            case 'ingredients':
+                $IngredientsController = new IngredientsController($conn);
+    
+                if (!isset($path[2])) {
+                    $IngredientsController->handleRequest('allingredients'); // Maneja la solicitud sin ID
+                } elseif ($path[2] === 'perproduct' && isset($path[3])) {
+                    $productId = $path[3];
+                    $IngredientsController->handleRequest('perproduct', $productId); // Maneja la solicitud con acción e ID
+                } else {
+                    echo json_encode(["message" => "Ruta no válida"]);
+                }
+                break;
 
         default:
             // Si no coincide con ninguno, devuelve un error

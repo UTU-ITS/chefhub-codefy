@@ -1,9 +1,16 @@
+#root {
+  width: 100vw;
+  height: 100vh;
+}
 
-body{
-    background: rgb(241, 241, 241) !important;
-    font-family: Poppins, sans-serif;
-    font-weight: 400;
+body {
+  background: rgb(241, 241, 241) !important;
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+}
 
+.main-content {
+  margin-top: 50px !important;
 }
 
 .btn {
@@ -14,7 +21,7 @@ body{
     align-items: center;
     justify-content: center;
     margin-right: 10px;
-    background-color: #811edb;
+    background-color: #ab8ef4;
     color: #fff;
     border: 2px solid #fff;
     border-color: #fff;
@@ -26,8 +33,8 @@ body{
 
 .btn:hover {
     background-color: #fff;
-    border-color: #811edb;
-    color: #811edb;
+    border-color: #ab8ef4;
+    color: #ab8ef4;
 }
 
 .txt-area{
@@ -37,7 +44,7 @@ body{
   width: 250px;
   margin: 10px;
   border-radius: 8px;
-  border: 2px solid #811edb;
+  border: 2px solid #ab8ef4;
   padding: 10px;
 }
 
@@ -48,17 +55,7 @@ body{
   width: 500px;
   margin: 10px;
   border-radius: 8px;
-  border: 2px solid #811edb;
-  padding: 10px;
-}
-radio{
-  font-family: Poppins, sans-serif;
-  font-weight: 400;
-  height: 50px;
-  width: 250px;
-  margin: 10px;
-  border-radius: 8px;
-  border: 2px solid #811edb;
+  border: 2px solid #ab8ef4;
   padding: 10px;
 }
 

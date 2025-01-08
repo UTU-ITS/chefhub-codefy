@@ -24,18 +24,16 @@ class IngredientsController {
     
         switch ($method) {
             case "GET":
-                if ($productId) {
-                    if ($action === 'allingredients') {
+                    if ($action === 'allingredients'){
+                        // Obtener todos los ingredientes
+                        $result = $this->ing->GetIngredients();
+                    } else if ($action === 'perproduct') {
                         // Obtener todos los ingredientes para el producto con ID especificado
                         $result = $this->ing->GetIngredientsForProduct($productId);
                     } else {
                         // Acción no reconocida
                         $result = ["message" => "Acción no reconocida"];
                     }
-                } else {
-                    // Si no se proporciona un ID de producto, devolver un mensaje de error
-                    $result = ["message" => "ID de producto no proporcionado"];
-                }
     
                 // Devolver el resultado como JSON
                 echo json_encode($result);

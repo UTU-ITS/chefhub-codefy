@@ -23,7 +23,7 @@ class Product {
     
 
     public function getTableProducts() {
-        $sql = "SELECT * FROM producto";
+        $sql = "SELECT id_producto AS 'ID', nombre AS 'Nombre', precio AS 'Precio', descripcion AS 'Descripción', imagen AS 'Imagen' FROM producto";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,7 +31,7 @@ class Product {
 
     public function insertProduct($nombre, $precio, $descripcion, $imagenFile) {
         try {
-            $uploadDir = 'uploads/';  // Carpeta donde se guardarán las imágenes
+            $uploadDir = 'uploads/';
             $imagePath = $uploadDir . basename($imagenFile['name']);
     
             // Mover el archivo subido a la carpeta de destino
@@ -55,6 +55,61 @@ class Product {
         }
     }
     
+    public function insertProductIngredients($idProducto, $ingredientes) {
+        try {
+            // Verificar que se haya proporcionado un array de ingredientes
+            if (empty($ingredientes) || !is_array($ingredientes)) {
+                throw new Exception("El array de ingredientes es inválido o está vacío.");
+            }
+    
+            // Construir la consulta SQL
+            $sql = "INSERT INTO producto_ingrediente (id_producto, id_ingrediente) 
+                    VALUES (:id_producto, :id_ingrediente)";
+    
+            // Preparar la sentencia
+            $stmt = $this->conn->prepare($sql);
+    
+            // Iterar sobre los ingredientes y realizar la inserción
+            foreach ($ingredientes as $idIngrediente) {
+                $stmt->bindParam(':id_producto', $idProducto, PDO::PARAM_INT);
+                $stmt->bindParam(':id_ingrediente', $idIngrediente, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+    
+            return true; // Retornar true si todas las inserciones son exitosas
+        } catch (PDOException $e) {
+            throw new Exception("Error al insertar los ingredientes del producto: " . $e->getMessage());
+        }
+    }
+
+    public function insertProductCategories($idProducto, $categorias) {
+        try {
+            // Verificar que se haya proporcionado un array de categorías
+            if (empty($categorias) || !is_array($categorias)) {
+                throw new Exception("El array de categorías es inválido o está vacío.");
+            }
+
+            // Construir la consulta SQL
+            $sql = "INSERT INTO producto_categoria (id_producto, id_categoria) 
+                    VALUES (:id_producto, :id_categoria)";
+
+            // Preparar la sentencia
+            $stmt = $this->conn->prepare($sql);
+
+            // Iterar sobre las categorías y realizar la inserción
+            foreach ($categorias as $idCategoria) {
+                $stmt->bindParam(':id_producto', $idProducto, PDO::PARAM_INT);
+                $stmt->bindParam(':id_categoria', $idCategoria, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+
+            return true; // Retornar true si todas las inserciones son exitosas
+
+        } catch (PDOException $e) {
+            throw new Exception("Error al insertar las categorías del producto: " . $e->getMessage());
+        }
+
+    }
     
     
 }
