@@ -7,8 +7,8 @@ import { CartIcon, CloseIcon, ClearIcon, DoneIcon, CloseIcon2 } from '../../img/
 export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
     const [isFading, setIsFading] = useState(false);
-    const { cartItems, addToCart, removeFromCartByUniqueId, clearCart } = useContext(CartContext);
-
+    const { cartItems, removeFromCartByUniqueId, clearCart } = useContext(CartContext);
+    const consolecart = () => { console.log(cartItems); };
     const toggleCart = () => setIsOpen(!isOpen);
 
     const handleClick = () => {
@@ -21,11 +21,9 @@ export default function Cart() {
 
     return (
         <div>
-            <button onClick={handleClick} className="cssbuttons-io">
-                <span className={isFading ? 'fade' : ''}>
-                    {isOpen ? <CloseIcon /> : <CartIcon />}
-                </span>
-            </button>
+                <a onClick={handleClick}>
+                    <CartIcon />
+                </a>
 
             <div className={`cart ${isOpen ? 'open' : ''}`}>
                 <div className='cart-title'>

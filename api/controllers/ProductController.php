@@ -48,6 +48,8 @@ class ProductController {
                         $precio = isset($_POST['precio']) ? $_POST['precio'] : null;
                         $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : null;
                         $imagenFile = isset($_FILES['imagen']) ? $_FILES['imagen'] : null;
+                        $ingredientes = isset($_POST['ingredientes']) ? $_POST['ingredientes'] : null;
+                        $categorias = isset($_POST['categorias']) ? $_POST['categorias'] : null;
                 
                         if ($nombre && $precio && $descripcion && $imagenFile) {
                             try {
@@ -58,7 +60,17 @@ class ProductController {
                                     $descripcion,
                                     $imagenFile
                                 );
-                
+
+                                // Insertar ingredientes del producto
+                                if ($ingredientes) {
+                                    $this->product->insertProductIngredients($productId, $ingredientes);
+                                } 
+                                
+                                // Insertar categorías del producto
+                                if ($categorias) {
+                                    $this->product->insertProductCategories($productId, $categorias);
+                                }
+                                
                                 // Solo enviar mensaje de éxito si la inserción es exitosa
                                 echo json_encode([
                                     "message" => "Producto insertado con éxito",
