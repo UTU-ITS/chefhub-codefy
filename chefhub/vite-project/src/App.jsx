@@ -9,10 +9,12 @@ import AdminOptions from './components/Admin/AdminOptions';
 import RegisterView from './components/Login-Register/RegisterView';
 import { CartProvider } from './context/cart';
 import AddProduct from './components/Admin/Products/AddProduct';
+import { UserProvider } from './context/user';
 
 function App() {
 
   return (
+    <UserProvider>
     <CartProvider>
       <BrowserRouter>
       <NavBar />
@@ -29,6 +31,7 @@ function App() {
         </div>
       </BrowserRouter>
     </CartProvider>
+    </UserProvider>
   );
 }
 

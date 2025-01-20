@@ -4,6 +4,7 @@ require('models/db.php');
 require('Controllers/CategoriesController.php');
 require('Controllers/ProductController.php');
 require('Controllers/IngredientsController.php');
+require('Controllers/UserController.php');
 
 
 // Crear la conexión una vez y reutilizarla
@@ -67,6 +68,20 @@ if (isset($path[1])) {
                 }
                 break;
 
+            case 'empolyees':
+                $UserController = new UserController($conn);
+                $UserController->handleRequest('employees');
+                break;
+
+            case 'login':
+                $UserController = new UserController($conn);
+                $UserController->handleRequest('signin');
+                break;
+
+                case 'signup':
+                    $UserController = new UserController($conn);
+                    $UserController->handleRequest('signup');
+                    break;
         default:
             // Si no coincide con ninguno, devuelve un error
             echo json_encode(["message" => "Endpoint no encontrado"]);

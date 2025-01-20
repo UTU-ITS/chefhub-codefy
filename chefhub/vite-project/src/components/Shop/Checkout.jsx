@@ -6,7 +6,7 @@ import { CartContext } from '../../context/cart';
 import CartSummary from './CartSummary';
 
 export default function Checkout() {
-  const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity } = useContext(CartContext);
+  
   const [selectedPayment, setSelectedPayment] = useState('');
 
   const handlePaymentChange = (event) => {
