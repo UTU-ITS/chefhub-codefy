@@ -40,6 +40,9 @@ const NavBar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/menu">Menú</a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/reservations">Reserva tu mesa</a>
+            </li>
             {!user?.data && (
             <li className="nav-item">
               <a className="nav-link" href="/register">Registrarme</a>
@@ -51,7 +54,7 @@ const NavBar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/contact">Contáctanos</a>
             </li>
-  {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Gerente") && (
+  {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
   <>
 
     <li className="nav-item dropdown">
@@ -61,7 +64,7 @@ const NavBar = () => {
       </a>
        
       <ul className="dropdown-menu">
-      {user && user.data && user.data.cargo === "Gerente" && (
+      {user && user.data && user.data.cargo === "Administrativo" && (
         <>
         <li><a className="dropdown-item" href="/sub-opcion-1">Personalización del portal</a></li>
         <li><a className="dropdown-item" href="/sub-opcion-2">Productos</a></li>
@@ -71,10 +74,10 @@ const NavBar = () => {
         <li><a className="dropdown-item" href="/sub-opcion-3">Informes</a></li>
       </>
     )}
-        {user && user.data && (user.data.cargo === "Mesero" || user.data.cargo === "Gerente") &&(
+        {user && user.data && (user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") &&(
         <li><a className="dropdown-item" href="/sub-opcion-3">Reservas</a></li>
       )}
-        {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Gerente") && (
+        {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
         <li><a className="dropdown-item" href="/sub-opcion-3">Pedidos</a></li>
       )}
         

@@ -101,8 +101,8 @@ CREATE TABLE pedido (
     FOREIGN KEY (id_categoría) REFERENCES categoría_pedido(id_categoría)
 );
 
-CREATE TABLE categoría_producto (
-    id_categoría INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE categoria_producto (
+    id_categoria INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
     descripción TEXT NULL
 );
@@ -119,6 +119,11 @@ CREATE TABLE producto (
     FOREIGN KEY (id_categoría) REFERENCES categoría_producto(id_categoría),
     FOREIGN KEY (id_imagen) REFERENCES imagen(id_imagen)
 );
+CREATE TABLE producto_categoria(
+id_producto int not null,
+id_categoria int not null,
+FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+FOREIGN KEY (id_categoria) REFERENCES categoria_producto(id_categoria));
 
 CREATE TABLE menú (
     id_menú INT PRIMARY KEY AUTO_INCREMENT,
@@ -478,3 +483,12 @@ INSERT INTO mesa (capacidad) VALUES
 (8),
 (10);
 
+
+-- Tabla producto_categoria
+INSERT INTO producto_categoria  VALUES 
+(1,1),
+(2,2),
+(3,3),
+(4,3),
+(5,4),
+(1,2);

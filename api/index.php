@@ -5,6 +5,7 @@ require('Controllers/CategoriesController.php');
 require('Controllers/ProductController.php');
 require('Controllers/IngredientsController.php');
 require('Controllers/UserController.php');
+require('Controllers/TablesController.php');
 
 
 // Crear la conexión una vez y reutilizarla
@@ -82,6 +83,20 @@ if (isset($path[1])) {
                     $UserController = new UserController($conn);
                     $UserController->handleRequest('signup');
                     break;
+
+                    case 'freehours':
+                        $TablesController = new TablesController($conn);
+                        $TablesController->handleRequest('freehours', $path[2]);
+                        break;
+                    case 'freetables': // Para verificar el valor
+                        $TablesController = new TablesController($conn);
+                        $TablesController->handleRequest('freetables');
+                        break;
+
+                        case 'insertreservations': // Para verificar el valor
+                            $TablesController = new TablesController($conn);
+                            $TablesController->handleRequest('insertreservations');
+                            break;
         default:
             // Si no coincide con ninguno, devuelve un error
             echo json_encode(["message" => "Endpoint no encontrado"]);

@@ -10,6 +10,7 @@ import RegisterView from './components/Login-Register/RegisterView';
 import { CartProvider } from './context/cart';
 import AddProduct from './components/Admin/Products/AddProduct';
 import { UserProvider } from './context/user';
+import Reservations from './components/Reservations/Reservations';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/admin/*" element={<AdminOptions />} />
             <Route path="/admin/products/addproduct" element={<AddProduct />} />
+            <Route path="/reservations" element={<Reservations />} />
           </Routes>
         </div>
       </BrowserRouter>
