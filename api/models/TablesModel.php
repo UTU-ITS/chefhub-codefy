@@ -81,11 +81,17 @@ public function InsertReservations($id_mesa, $id_cliente, $fecha, $hora , $cant_
     $stmt->execute();
     
     return $stmt->rowCount();
-    
-
-
-
 
 }
+
+public function getTables() {
+    $sql = "SELECT id_mesa AS 'N° Mesa', capacidad AS 'Capacidad', estado AS 'Estado' 
+            FROM mesa
+            WHERE baja = FALSE";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>
