@@ -21,7 +21,7 @@ const Ingredients = ({ productId, uniqueId }) => {
       // Si no hay ingredientes en el contexto, realiza la solicitud a la API
       const fetchIngredients = async () => {
         try {
-          const response = await axios.get(`http://localhost/api/ingredients/allingredients/${productId}`);
+          const response = await axios.get(`http://localhost/api/ingredients/perproduct/${productId}`);
           if (response.data) {
             const data = Array.isArray(response.data) ? response.data : [response.data];
             const initializedIngredients = data.map(ingredient => ({

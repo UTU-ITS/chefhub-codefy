@@ -1,12 +1,10 @@
-#root {
-  width: 100vw;
-  height: 100vh;
-}
+@import './design.css';
 
 body {
   background: rgb(241, 241, 241) !important;
   font-family: Poppins, sans-serif;
   font-weight: 400;
+  margin: 0;
 }
 
 .main-content {
@@ -59,5 +57,192 @@ body {
   padding: 10px;
 }
 
+/*Diseños Administracion*/
 
-  
+.admin-format {
+  display: flex;
+  flex-direction: column;
+}
+
+/*Titulos*/
+
+.admin-title {
+  display: flex;
+  padding: 0 25px;
+  color: var(--navbar-color);
+  font-size: 13px;
+}
+
+/*Opciones*/
+.admin-options {
+  padding: 0 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*Botones*/
+
+.admin-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  min-width: 60px;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #575757;
+  font-size: 12px;
+  gap: 5px;
+  box-shadow: var(--shadow);
+}
+
+.admin-btn-view {
+  text-decoration: none;
+  min-width: 60px;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #575757;
+  font-size: 12px;
+  gap: 5px;
+  box-shadow: var(--shadow);
+}
+
+/*Tablas*/
+
+.admin-table {
+  margin: 15px 15px;
+  padding: 0 15px;
+}
+
+.admin-table table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.admin-table th {
+  padding: 4px 7px;
+  background-color: #ffffff;
+  color: #575757;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+}
+
+.admin-table tr {
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+}
+
+.admin-table td {
+  font-size: 12px;
+  text-align: center;
+  padding: 10px 7px;
+  color: #575757;
+  background-color: #f2f2f2;
+}
+
+.admin-table tr.selected {
+  background-color: #e5e5e5;
+}
+
+.admin-table td:last-child {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.admin-table button {
+padding: 2px 2px;
+font-size: 8px;
+gap: 2px;
+}
+
+/*Navegacion en la tabla*/
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+/*Barra de busqueda*/
+
+.search-bar {
+  padding: 10px;
+  font-size: 12px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  width: 250px;
+  height: 15px;
+}
+
+/*Direcciones Clientes*/
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1010;
+  position: relative;
+  width: 50%;
+}
+
+.modal-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.modal-content table th,
+.modal-content table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.modal-content h3 {
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.modal-content button {
+  background: #ab8ef4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}

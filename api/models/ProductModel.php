@@ -10,6 +10,7 @@ class Product {
         $sql = "SELECT * FROM producto_categoria pc INNER JOIN producto p ON pc.id_producto = p.id_producto";
         if ($id !== null) {
             $sql .= " WHERE pc.id_categoria = :id";
+            $sql .= " AND p.baja = FALSE";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
@@ -21,9 +22,10 @@ class Product {
         }
     }
     
-
     public function getTableProducts() {
-        $sql = "SELECT id_producto AS 'ID', nombre AS 'Nombre', precio AS 'Precio', descripcion AS 'Descripción', imagen AS 'Imagen' FROM producto";
+        $sql = "SELECT id_producto AS 'ID', nombre AS 'Nombre', precio AS 'Precio', descripcion AS 'Descripción', imagen AS 'Imagen' 
+        FROM producto
+        WHERE baja = FALSE";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -110,6 +112,8 @@ class Product {
         }
 
     }
+
+    
     
     
 }
