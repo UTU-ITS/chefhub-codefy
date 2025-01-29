@@ -19,7 +19,7 @@ export default function Menu() {
    
       <div className='menu-div'>
         <div className='filters'>
-          <Cart/>
+     
           <h1 className='filters-title'>Filtros</h1>
          
           <button 
