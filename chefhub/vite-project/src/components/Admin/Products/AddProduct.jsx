@@ -111,19 +111,19 @@ export default function AddProduct() {
 
   return (
     <div className='add-product'>
-      <h1>Nuevo Producto</h1>
+      <h2>Nuevo Producto</h2>
       <form>
         <div className='row-1'>
           <div className='col-1'>
             <div className='row row-image'>
-              <label htmlFor='image'>Imagen</label>
+              <label htmlFor='image' className='text-label'>Imagen</label>
               <input type='file' id='image' name='image' required onChange={handleImageChange} />
               <div className='image-preview'>
                 {preview && <img src={preview} alt="Vista previa" className="preview-image" />}
               </div>
             </div>
             <div className='row row-name'>
-              <label htmlFor='name'>Nombre</label>
+              <label htmlFor='name' className='text-label'>Nombre</label>
               <input
                 type='text'
                 id='name'
@@ -134,7 +134,7 @@ export default function AddProduct() {
               />
             </div>
             <div className='row row-description'>
-              <label htmlFor='description'>Descripción</label>
+              <label htmlFor='description' className='text-label'>Descripción</label>
               <textarea
                 id='description'
                 name='description'
@@ -144,7 +144,7 @@ export default function AddProduct() {
               />
             </div>
             <div className='row row-price'>
-              <label htmlFor='price'>Precio</label>
+              <label htmlFor='price' className='text-label'>Precio</label>
               <input
                 type='number'
                 id='price'
@@ -157,7 +157,7 @@ export default function AddProduct() {
           </div>
           <div className='col-2'>
             <div className='row ingredients'>
-              <label>Ingredientes extra</label>
+              <label className='text-label'>Ingredientes extra</label>
               <div className="ingredient-box">
                 <div className="box">
                   <div className="box-list">
@@ -172,7 +172,7 @@ export default function AddProduct() {
                       ))}
                     </ul>
                   </div>
-                  <p><strong>Disponible(s)</strong></p>
+                  <label className='text-label'><strong>Disponible(s)</strong></label>
                 </div>
                 <div className="box">
                   <div className="box-list">
@@ -187,12 +187,12 @@ export default function AddProduct() {
                       ))}
                     </ul>
                   </div>
-                  <p><strong>Seleccionado(s)</strong></p>
+                  <label className='text-label'><strong>Seleccionado(s)</strong></label>
                 </div>
               </div>
             </div>
             <div className='row categories'>
-              <label>Categorías</label>
+              <label className='text-label'>Categorías</label>
               <div className="category-box">
                 <div className="box">
                   <div className="box-list">
@@ -204,7 +204,7 @@ export default function AddProduct() {
                       ))}
                     </ul>
                   </div>
-                  <p><strong>Disponible(s)</strong></p>
+                  <label className='text-label'><strong>Disponible(s)</strong></label>
                 </div>
                 <div className="box">
                   <div className="box-list">
@@ -216,7 +216,7 @@ export default function AddProduct() {
                       ))}
                     </ul>
                   </div>
-                  <p><strong>Seleccionado(s)</strong></p>
+                  <label className='text-label'><strong>Seleccionado(s)</strong></label>
                 </div>
               </div>
             </div>

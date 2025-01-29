@@ -1,0 +1,198 @@
+.reservas-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.reservas-container h1 {
+  color: #6c5ce7;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.reservas-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Calendar customization */
+.calendar-section {
+  flex: 0 1 400px;
+}
+
+.custom-calendar {
+  width: 100% !important;
+  max-width: 400px;
+  margin: 0 auto;
+  border: none !important;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar__tile--active {
+  background: #6c5ce7 !important;
+  color: white !important;
+}
+
+.react-calendar__tile--now {
+  background: #a29bfe !important;
+}
+
+/* Time slots styling */
+.time-slots-section {
+  flex: 0 1 400px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.time-slots-section h2 {
+  color: #6c5ce7;
+  margin-bottom: 1rem;
+}
+
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.5rem;
+}
+
+.time-slot {
+  padding: 0.5rem;
+  border: 2px solid #6c5ce7;
+  border-radius: 4px;
+  background: white;
+  color: #6c5ce7;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.time-slot:hover {
+  background: #6c5ce7;
+  color: white;
+}
+
+.time-slot.selected {
+  background: #6c5ce7;
+  color: white;
+}
+
+/* Tables styling */
+.tables-section {
+  flex: 0 1 400px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tables-section h2 {
+  color: #6c5ce7;
+  margin-bottom: 1rem;
+}
+
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.table-card {
+  padding: 1rem;
+  border: 2px solid #6c5ce7;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.table-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+}
+
+.table-card.selected {
+  background: #6c5ce7;
+  color: white;
+}
+
+.table-card h3 {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.table-card p {
+  margin: 0;
+}
+
+/* Contact form styling */
+.contact-form {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form h2 {
+  color: #6c5ce7;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #4a4a4a;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #6c5ce7;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #5849e8;
+  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+}
+
+/* Reserve button */
+.reserve-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reserve-button:hover {
+  background: #5849e8;
+  transform: translateY(-2px);
+}
+
+.reserve-button:disabled {
+  background: #a29bfe;
+  cursor: not-allowed;
+  transform: none;
+}
