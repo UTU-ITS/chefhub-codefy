@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import "./RegisterView.css";
+import React, { useState } from 'react';
+import axios from 'axios';
+import './RegisterView.css';
 
 const RegisterView = () => {
   const [formData, setFormData] = useState({

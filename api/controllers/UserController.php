@@ -1,14 +1,14 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Methods: *");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-include dirname(__DIR__) . '/models/UserModel.php';
+include dirname(__DIR__) .'/models/UserModel.php';
 
 class UserController {
     private $user;
@@ -16,16 +16,21 @@ class UserController {
     public function __construct() {
         $db = new DbConnect();
         $conn = $db->connect();
-        $this->user = new User($conn); // Instancia del modelo User
+        $this->user = new User($conn);
     }
 
-    public function handleRequest($action) {
+    public function handleRequest($action, $productId = null) {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
-            case "POST":
-                
-                if ($action === 'signin') {
+            case "GET":
+                if ($action === 'employees') {
+                    $result = $this->user->getEmpolyees();
+                } else if ($action === 'customers'){
+                    $result = $this->user->getCustomers();
+                } else if ($action === 'customersaddress'){
+                    $result = $this->user->getCustomersAddress($productId);
+                } else if ($action === 'signin') {
                     // Leer datos del cuerpo de la solicitud
                     $data = json_decode(file_get_contents("php://input"), true);
 
@@ -79,15 +84,14 @@ class UserController {
                         echo json_encode(["message" => "Faltan parámetros"]);
                     }
                 } else {
-                    http_response_code(400);
-                    echo json_encode(["message" => "Acción no reconocida"]);
+                    $result = ["message" => "Acción no reconocida"];
                 }
-                break;
 
-            default:
-                http_response_code(405);
-                echo json_encode(["message" => "Método no soportado"]);
+                echo json_encode($result);
                 break;
+            default:
+            echo json_encode(["message" => "Método no soportado"]);
+            break;
         }
     }
 }

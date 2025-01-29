@@ -8,15 +8,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit();
 }
 
-include dirname(__DIR__) .'/models/OrderModel.php';
+include dirname(__DIR__) .'/models/TableModel.php';
 
-class OrderController {
-    private $order;
+class TableController {
+    private $table;
 
     public function __construct() {
         $db = new DbConnect();
         $conn = $db->connect();
-        $this->order = new Order($conn);
+        $this->table = new Table($conn);
     }
 
     public function handleRequest($action) {
@@ -24,11 +24,9 @@ class OrderController {
 
         switch ($method) {
             case "GET":
-                if ($action === 'onlinequantity') {
-                    $result = $this->order->getCantPendingOrders();
-                } else if ($action === 'orders'){
-                    $result = $this->order->getOrders();
-                }   else {
+                if ($action === 'tables') {
+                    $result = $this->table->getTables();
+                } else {
                     $result = ["message" => "Acción no reconocida"];
                 }
                 echo json_encode($result);
