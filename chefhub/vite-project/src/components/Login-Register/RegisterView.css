@@ -1,19 +1,5 @@
 /* Reset básico */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  /* Contenedor principal para centrar */
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #ffffff; /* Fondo blanco */
-  }
+
   
   .register-container {
     background-color: #f9f9f9; /* Fondo casi blanco */
