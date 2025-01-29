@@ -1,4 +1,4 @@
-
+@import '../../design.css';
 
 .borde{
     border: 0px solid #000000;
@@ -27,7 +27,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #6700b5 ;
+    background-color: var(--primary-color) ;
     size: 5%;
 }
 

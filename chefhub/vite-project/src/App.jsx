@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/Home/NavBar';
 import Home from './components/Home/Home';
@@ -9,13 +9,23 @@ import AdminOptions from './components/Admin/AdminOptions';
 import RegisterView from './components/Login-Register/RegisterView';
 import { CartProvider } from './context/cart';
 import AddProduct from './components/Admin/Products/AddProduct';
+import AdminProducts from './components/Admin/Products/AdminProducts';
+
+function NotFound() {
+  return (
+    <div style={{ textAlign: 'center', padding: '2rem' }}>
+      <h1>404</h1>
+      <p>La página que buscas no existe.</p>
+      <a href="/" style={{ color: 'blue', textDecoration: 'underline' }}>Volver al inicio</a>
+    </div>
+  );
+}
 
 function App() {
-
   return (
     <CartProvider>
       <BrowserRouter>
-      <NavBar />
+        <NavBar />
         <div className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -24,7 +34,7 @@ function App() {
             <Route path="/register" element={<RegisterView />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/admin/*" element={<AdminOptions />} />
-            <Route path="/admin/products/addproduct" element={<AddProduct />} />
+            <Route path="*" element={<NotFound />} /> {/* Ruta para manejar URLs no existentes */}
           </Routes>
         </div>
       </BrowserRouter>

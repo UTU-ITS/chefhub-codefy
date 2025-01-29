@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './RegisterView.css';
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select } from '@chakra-ui/react';
 
 const RegisterView = () => {
     const [formData, setFormData] = useState({
@@ -69,10 +68,10 @@ const RegisterView = () => {
     };
 
     return (
-        <div className="login-div">
-            <div className="login-div-box">
+        <div className="register-div">
+            <div className="register-div-box">
                 <h2>Registro</h2>
-                <form onSubmit={handleSubmit} className="login-div-content">
+                <form onSubmit={handleSubmit} className="register-div-content">
                     <input
                         type="text"
                         name="nombre"
@@ -113,6 +112,7 @@ const RegisterView = () => {
                         name="preferencia"
                         value={formData.preferencia}
                         onChange={handleChange}
+                        className="select-area"
                     >
                         <option value="">-- Preferencias Alimentarias --</option>
                         <option value="vegetariana">Vegetariana</option>
@@ -121,52 +121,48 @@ const RegisterView = () => {
                         <option value="kosher">Kosher</option>
                     </select>
                     {!isVerified && (
-                        <Button className="btn" type="button" onClick={() => setIsModalOpen(true)}>
+                        <button className="btn-register" type="button" onClick={() => setIsModalOpen(true)}>
                             Verificar Teléfono
-                        </Button>
+                        </button>
                     )}
-                    <Button className="btn" type="submit">Registrarse</Button>
+                    <button className="btn-register" type="submit">Registrarse</button>
                 </form>
             </div>
 
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-  
-     <ModalContent className="modal-content"
-     >
-        <ModalHeader className="modal-header">Verificación de Teléfono</ModalHeader>
-        <ModalBody className="modal-body">
-            {step === 1 ? (
-                <>
-                    <p>Introduce tu número de teléfono para recibir un código de verificación.</p>
-                    <Button className="btn" onClick={handleSendCode}>
-                        Enviar Código
-                    </Button>
-                </>
-            ) : (
-                <>
-                    <p>Introduce el código recibido:</p>
-                    <Input
-                        className="txt-area"
-                        type="text"
-                        placeholder="Código de Verificación"
-                        value={verificationCode}
-                        onChange={(e) => setVerificationCode(e.target.value)}
-                    />
-                </>
+            {isModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3>Verificación de Teléfono</h3>
+                            <button className="btn-close" onClick={() => setIsModalOpen(false)}>&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            {step === 1 ? (
+                                <>
+                                    <p>Introduce tu número de teléfono para recibir un código de verificación.</p>
+                                    <button className="btn-register" onClick={handleSendCode}>
+                                        Enviar Código
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <p>Introduce el código recibido:</p>
+                                    <input
+                                        className="txt-area"
+                                        type="text"
+                                        placeholder="Código de Verificación"
+                                        value={verificationCode}
+                                        onChange={(e) => setVerificationCode(e.target.value)}
+                                    />
+                                    <button className="btn-register" onClick={handleVerifyCode}>
+                                        Verificar
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
             )}
-        </ModalBody>
-        <ModalFooter className="modal-footer">
-            {step === 2 && (
-                <Button className="btn" onClick={handleVerifyCode}>
-                    Verificar
-                </Button>
-            )}
-            <Button className="btn btn-close" onClick={() => setIsModalOpen(false)}>
-                Cerrar
-            </Button>
-        </ModalFooter>
-    </ModalContent>
-</Modal>
         </div>
     );
 };

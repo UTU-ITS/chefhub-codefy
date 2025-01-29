@@ -4,7 +4,10 @@ require('models/db.php');
 require('Controllers/CategoriesController.php');
 require('Controllers/ProductController.php');
 require('Controllers/IngredientsController.php');
-
+require('Controllers/UserController.php');
+require('Controllers/OrderController.php');
+require('Controllers/ReservationController.php');
+require('Controllers/TableController.php');
 
 // Crear la conexión una vez y reutilizarla
 $db = new DbConnect();
@@ -66,7 +69,42 @@ if (isset($path[1])) {
                     echo json_encode(["message" => "Ruta no válida"]);
                 }
                 break;
+            case 'empolyees':
+                $UserController = new UserController($conn);
+                $UserController->handleRequest('employees');
+                break;
+            case 'customers':
+                $UserController = new UserController($conn);
+                if (!isset($path[2])) {
+                    $UserController->handleRequest('customers');                } else if ($path[2] === 'address' && isset($path[3])) {
+                    $customerId = $path[3];
+                    $UserController->handleRequest('customersaddress', $customerId);
+                } else {
+                    echo json_encode(["message" => "Ruta no válida"]);
+                    
+                }
+                break;
+            case 'orders':
+                $OrderController = new OrderController($conn);
 
+                if (!isset($path[2])) {
+                    $OrderController->handleRequest('orders');
+                } else if ($path[2] === 'onlinequantity') {
+                    $OrderController->handleRequest('onlinequantity');
+                } else {
+                    echo json_encode(["message" => "Ruta no válida"]);
+                }
+                break;
+
+            case 'cantreservation':
+                $ReservationController = new ReservationController($conn);
+                $ReservationController->handleRequest('cantreservation');
+                break;
+
+            case 'tables':
+                $TableController = new TableController($conn);
+                $TableController->handleRequest('tables');
+                break;
         default:
             // Si no coincide con ninguno, devuelve un error
             echo json_encode(["message" => "Endpoint no encontrado"]);
