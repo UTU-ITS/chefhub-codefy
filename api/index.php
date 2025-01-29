@@ -7,7 +7,8 @@ require('Controllers/IngredientsController.php');
 require('Controllers/UserController.php');
 require('Controllers/OrderController.php');
 require('Controllers/ReservationController.php');
-require('Controllers/TableController.php');
+require('Controllers/TablesController.php');
+
 
 // Crear la conexión una vez y reutilizarla
 $db = new DbConnect();
@@ -102,9 +103,38 @@ if (isset($path[1])) {
                 break;
 
             case 'tables':
-                $TableController = new TableController($conn);
+                $TableController = new TablesController($conn);
                 $TableController->handleRequest('tables');
                 break;
+
+            case 'empolyees':
+                $UserController = new UserController($conn);
+                $UserController->handleRequest('employees');
+                break;
+
+            case 'login':
+                $UserController = new UserController($conn);
+                $UserController->handleRequest('signin');
+                break;
+
+                case 'signup':
+                    $UserController = new UserController($conn);
+                    $UserController->handleRequest('signup');
+                    break;
+
+                    case 'freehours':
+                        $TablesController = new TablesController($conn);
+                        $TablesController->handleRequest('freehours', $path[2]);
+                        break;
+                    case 'freetables': // Para verificar el valor
+                        $TablesController = new TablesController($conn);
+                        $TablesController->handleRequest('freetables');
+                        break;
+
+                        case 'insertreservations': // Para verificar el valor
+                            $TablesController = new TablesController($conn);
+                            $TablesController->handleRequest('insertreservations');
+                            break;
         default:
             // Si no coincide con ninguno, devuelve un error
             echo json_encode(["message" => "Endpoint no encontrado"]);

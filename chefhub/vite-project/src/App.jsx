@@ -9,7 +9,8 @@ import AdminOptions from './components/Admin/AdminOptions';
 import RegisterView from './components/Login-Register/RegisterView';
 import { CartProvider } from './context/cart';
 import AddProduct from './components/Admin/Products/AddProduct';
-import AdminProducts from './components/Admin/Products/AdminProducts';
+import { UserProvider } from './context/user';
+import Reservations from './components/Reservations/Reservations';
 
 function NotFound() {
   return (
@@ -23,6 +24,7 @@ function NotFound() {
 
 function App() {
   return (
+    <UserProvider>
     <CartProvider>
       <BrowserRouter>
         <NavBar />
@@ -35,10 +37,13 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/admin/*" element={<AdminOptions />} />
             <Route path="*" element={<NotFound />} /> {/* Ruta para manejar URLs no existentes */}
+            <Route path="/admin/products/addproduct" element={<AddProduct />} />
+            <Route path="/reservations" element={<Reservations />} />
           </Routes>
         </div>
       </BrowserRouter>
     </CartProvider>
+    </UserProvider>
   );
 }
 
