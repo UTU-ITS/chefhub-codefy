@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import './NavBar.css';
-import { UserIcon, SearchIcon, LogoutIcon } from '../../img/HeroIcons';
+import { CartIcon, UserIcon, SearchIcon, AdminIcon, LogoutIcon } from '../../img/HeroIcons';
 import Logo from '../../assets/logo.svg';
 import Cart from '../Shop/Cart';
 import { UserContext } from '../../context/user';
@@ -90,9 +90,9 @@ const NavBar = () => {
         {/* Menú derecho */}
         <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           <ul className="nav-list">
-            <li className="nav-item">
-              <a className="nav-link right" href="">
-                <SearchIcon />
+          <li className="nav-item">
+              <a className="nav-link right" href="/admin/dashboard">
+                <AdminIcon />
               </a>
             </li>
             <li className="nav-item">
@@ -108,6 +108,7 @@ const NavBar = () => {
                     <a className="nav-link right" href="/login"> <UserIcon /></a>   
                      )}
             </li>
+
           </ul>
         </div>
       </div>

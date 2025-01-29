@@ -38,6 +38,8 @@ class TablesController {
                     } else {
                         $result = ["message" => "Fecha u hora no especificada"];
                     }
+                } else if ($action === 'tables'){
+                    $result = $this->tables->getTables();
                 } else {
                     $result = ["message" => "Acción no reconocida"];
                 }

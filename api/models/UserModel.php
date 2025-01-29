@@ -15,6 +15,35 @@ class User {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function getCustomers(){
+        $sql = "SELECT c.id_cliente, u.nombre AS 'Nombre', u.apellido AS 'Apellido', u.telefono AS 'Teléfono', u.email AS 'Correo'
+                FROM cliente c
+                JOIN usuario u ON c.id_usuario = u.id_usuario;
+                WHERE u.baja = false";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCustomersAddress($id_cliente){
+        $sql = "SELECT d.calle, d.esquina, d.n_puerta, d.referencia 
+                FROM cliente c 
+                JOIN pedido p ON c.id_cliente = p.id_cliente
+                JOIN direccion d ON p.id_direccion = d.id_direccion
+                WHERE c.id_cliente = :id_cliente
+                AND c.baja = FALSE
+                AND p.baja = FALSE
+                AND d.baja = FALSE";
+        
+        $stmt = $this->conn->prepare($sql);
+        // Aseguramos que el parámetro se pase correctamente
+        $stmt->bindParam(':id_cliente', $id_cliente, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        // Retornamos los resultados como un arreglo asociativo
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     // Insertar registro en login_log
     public function createUser($email, $pass) {

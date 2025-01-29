@@ -1,35 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { NewIcon, EditIcon, ClearIcon } from '../../../../img/HeroIcons';
-import { fetchData } from '../../apiService';
+import { NewIcon, EditIcon, ClearIcon, EyeIcon, CloseIcon2 } from '../../../img/HeroIcons';
+import { fetchData } from '../apiService';
 
-const AdminEmployees = () => {
+const AdminTables = () => {
   const [data, setData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(''); // Estado para la barra de búsqueda
-  const [currentPage, setCurrentPage] = useState(1); // Página actual
-  const itemsPerPage = 12; // Registros por página
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
   useEffect(() => {
-    fetchData('http://localhost/api/empolyees', setData);
+    fetchData('http://localhost/api/tables', setData);
   }, []);
 
-  // Filtrar datos según la búsqueda
   const filteredData = data.filter((item) =>
     Object.values(item)
-      .join(' ') // Combina todos los valores de un objeto en un string
+      .join(' ')
       .toLowerCase()
-      .includes(searchQuery.toLowerCase()) // Aplica el filtro de búsqueda
+      .includes(searchQuery.toLowerCase())
   );
 
-  // Calcular el número total de páginas
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  // Obtener los datos de la página actual
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  // Cambiar de página
   const handlePageChange = (direction) => {
     if (direction === 'prev' && currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -38,62 +34,66 @@ const AdminEmployees = () => {
     }
   };
 
+  const visibleColumns = currentData.length > 0
+    ? Object.keys(currentData[0]).filter((key) => key !== 'id_cliente')
+    : [];
+
   return (
     <div>
-      <div className='admin-format'>
-        <div className='admin-title'>
-          <h2>EMPLEADOS</h2>
+      <div className="admin-format">
+        <div className="admin-title">
+          <h2>MESAS</h2>
         </div>
 
-        <div className='admin-options'>
-          <a className='admin-btn' href="employees/addemployee">
+        <div className="admin-options">
+          <a className="admin-btn" href="tables/addtable">
             <NewIcon />Nuevo
           </a>
-          {/* Barra de búsqueda */}
           <input
             type="text"
-            placeholder="Buscar empleados..."
+            placeholder="Buscar mesas..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="search-bar"
           />
         </div>
 
-        <div className='admin-table'>
+        <div className="admin-table">
           <table>
             <thead>
               <tr>
-                {currentData.length > 0 &&
-                  Object.keys(currentData[0]).map((key) => <th key={key}>{key}</th>)}
+                {visibleColumns.map((key) => (
+                  <th key={key}>{key}</th>
+                ))}
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
               {currentData.map((item) => (
-                <tr key={item.id}>
-                  {Object.entries(item).map(([key, value], idx) => (
+                <tr key={item.id_cliente}>
+                  {visibleColumns.map((key, idx) => (
                     <td key={idx}>
-                      {key === "Foto" ? (
+                      {key === 'Foto' ? (
                         <img
-                          src={value}
-                          alt={`Foto de ${item.name || 'empleado'}`}
+                          src={item[key]}
+                          alt={`Foto de ${item.Nombre || 'cliente'}`}
                           style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                         />
                       ) : (
-                        value
+                        item[key]
                       )}
                     </td>
                   ))}
                   <td>
                     <button
                       className="admin-btn"
-                      onClick={() => handleEdit(item.id)}
+                      onClick={() => handleEdit(item.id_cliente)}
                     >
                       <EditIcon />
                     </button>
                     <button
                       className="admin-btn"
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => handleDelete(item.id_cliente)}
                     >
                       <ClearIcon />
                     </button>
@@ -104,21 +104,22 @@ const AdminEmployees = () => {
           </table>
         </div>
 
-        {/* Controles de paginación */}
         {filteredData.length > itemsPerPage && (
-          <div className='pagination'>
+          <div className="pagination">
             <button
               onClick={() => handlePageChange('prev')}
               disabled={currentPage === 1}
-              className='admin-btn'
+              className="admin-btn"
             >
               Anterior
             </button>
-            <span>{currentPage} de {totalPages}</span>
+            <span>
+              {currentPage} de {totalPages}
+            </span>
             <button
               onClick={() => handlePageChange('next')}
               disabled={currentPage === totalPages}
-              className='admin-btn'
+              className="admin-btn"
             >
               Siguiente
             </button>
@@ -129,4 +130,4 @@ const AdminEmployees = () => {
   );
 };
 
-export default AdminEmployees;
+export default AdminTables;
