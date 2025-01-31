@@ -1,0 +1,12 @@
+.orders-table {
+  display: flex;
+  flex-direction: row !important;
+}
+
+.left, .right {
+  width: 50%;
+  padding: 10px;
+}
+.left table {
+  width: 100%;
+}

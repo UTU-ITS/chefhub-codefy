@@ -7,6 +7,8 @@ import AdminCustomers from './Users/Customers/AdminCustomers';
 import AddProduct from './Products/AddProduct';
 import AdminTables from './Tables/AdminTables';
 import Dashboard from './Dashboard/Dashboard';
+import Orders from './Orders/AdminOrders';
+import AdminOrders from './Orders/AdminOrders';
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -130,7 +132,7 @@ export default function Options() {
                         <Route path="preferencias" element={<h1>Preferencias</h1>} />
                         <Route path="tables" element={<AdminTables />} />
                         <Route path="reservas" element={<h1>Reservas</h1>} />
-                        <Route path="orders" element={<h1>Pedidos</h1>} />
+                        <Route path="orders" element={<AdminOrders/>} />
                         <Route path="informes" element={<h1>Informes</h1>} />
                     </Routes>
             </div>
