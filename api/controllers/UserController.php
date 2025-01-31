@@ -19,7 +19,7 @@ class UserController {
         $this->user = new User($conn);
     }
 
-    public function handleRequest($action, $productId = null) {
+    public function handleRequest($action, $productId = null, $id_cliente = null) {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
@@ -29,8 +29,21 @@ class UserController {
                 } else if ($action === 'customers'){
                     $result = $this->user->getCustomers();
                 } else if ($action === 'customersaddress'){
-                    $result = $this->user->getCustomersAddress($productId);
-                } else if ($action === 'signin') {
+                    $result = $this->user->getAdresses($id_cliente);
+               
+                
+                } else if ($action === 'getadresses'){
+
+                    $result = $this->user->getAdresses($id_cliente);
+               
+                } else {
+                    $result = ["message" => "Acción no reconocida"];
+                }
+
+                echo json_encode($result);
+                break;
+                case "POST":
+                 if ($action === 'signin') {
                     // Leer datos del cuerpo de la solicitud
                     $data = json_decode(file_get_contents("php://input"), true);
 
@@ -52,6 +65,7 @@ class UserController {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
                     }
+
                 } else if ($action === 'signup') {
                     // Leer datos del cuerpo de la solicitud
                     $data = json_decode(file_get_contents("php://input"), true);
@@ -83,11 +97,7 @@ class UserController {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
                     }
-                } else {
-                    $result = ["message" => "Acción no reconocida"];
                 }
-
-                echo json_encode($result);
                 break;
             default:
             echo json_encode(["message" => "Método no soportado"]);

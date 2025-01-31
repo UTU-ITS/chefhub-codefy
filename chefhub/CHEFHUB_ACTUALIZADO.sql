@@ -74,12 +74,14 @@ CREATE TABLE token (
 
 -- Tabla direccion
 CREATE TABLE direccion (
+	id_usuario INT not null,
     id_direccion INT PRIMARY KEY AUTO_INCREMENT,
     calle VARCHAR(255) NOT NULL,
-    esquina VARCHAR(255) NOT NULL,
+    apto VARCHAR(20) NOT NULL,
     n_puerta INT NOT NULL,
     referencia VARCHAR(255),
-    baja INT DEFAULT 0 
+    baja INT DEFAULT 0,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 -- Tabla factura
@@ -120,6 +122,7 @@ CREATE TABLE producto (
     nombre VARCHAR(50) NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
     descripcion TEXT,
+    imagen text,
     baja INT DEFAULT 0 
 );
 
@@ -129,9 +132,9 @@ CREATE TABLE categoria_producto (
     nombre VARCHAR(50) NOT NULL,
     descripcion TEXT,
     id_categoria_padre INT,
+    imagen text,
     baja INT DEFAULT 0 
 );
-
 -- Tabla mesa
 CREATE TABLE mesa (
     id_mesa INT PRIMARY KEY AUTO_INCREMENT,
@@ -347,12 +350,12 @@ INSERT INTO cliente (id_usuario) VALUES
 (1), (2), (3), (4), (5);
 
 -- Insertar datos en la tabla direccion
-INSERT INTO direccion (calle, esquina, n_puerta, referencia) VALUES
-('Calle A', 'Esquina 1', 101, 'Frente a la plaza'),
-('Calle B', 'Esquina 2', 202, 'Al lado del supermercado'),
-('Calle C', 'Esquina 3', 303, 'Cerca del parque'),
-('Calle D', 'Esquina 4', 404, 'Junto a la iglesia'),
-('Calle E', 'Esquina 5', 505, 'Frente al estadio');
+INSERT INTO direccion (id_usuario,calle, apto, n_puerta, referencia) VALUES
+(5,'Calle A', '101', 101, 'Frente a la plaza'),
+(4,'Calle B', '222', 202, 'Al lado del supermercado'),
+(3,'Calle C', '333', 303, 'Cerca del parque'),
+(2,'Calle D', '444', 404, 'Junto a la iglesia'),
+(1,'Calle E', '555', 505, 'Frente al estadio');
 
 -- Insertar datos en la tabla factura
 INSERT INTO factura (fecha, hora, total, iva, estado) VALUES
@@ -373,20 +376,20 @@ INSERT INTO preferencia (nombre, alimentaria, dietetica, id_categoria) VALUES
 
 
 -- Insertar datos en la tabla producto
-INSERT INTO producto (nombre, precio, descripcion) VALUES
-('Hamburguesa', 10.00, 'Deliciosa hamburguesa de carne'),
-('Pizza', 15.00, 'Pizza con ingredientes frescos'),
-('Ensalada', 8.00, 'Ensalada fresca con aderezo especial'),
-('Pasta', 12.00, 'Pasta al estilo italiano'),
-('Sopa', 7.00, 'Sopa casera con vegetales');
+INSERT INTO producto (nombre, precio, descripcion,imagen) VALUES
+('Hamburguesa', 10.00, 'Deliciosa hamburguesa de carne','image-example.jpg'),
+('Pizza', 15.00, 'Pizza con ingredientes frescos','image-example.jpg'),
+('Ensalada', 8.00, 'Ensalada fresca con aderezo especial','image-example.jpg'),
+('Pasta', 12.00, 'Pasta al estilo italiano','image-example.jpg'),
+('Sopa', 7.00, 'Sopa casera con vegetales','image-example.jpg');
 
 -- Insertar datos en la tabla categoria_producto
-INSERT INTO categoria_producto (nombre, descripcion, id_categoria_padre) VALUES
-('Plato Principal', 'Comidas principales', NULL),
-('Postre', 'Dulces y postres', NULL),
-('Bebidas', 'Bebidas frías y calientes', NULL),
-('Entradas', 'Entradas y aperitivos', NULL),
-('Comida Rápida', 'Comidas rápidas para llevar', NULL);
+INSERT INTO categoria_producto (nombre, descripcion, id_categoria_padre, imagen) VALUES
+('Hamburguesas', '', NULL, 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGFtYnVyZ2VyfGVufDB8fDB8fHww'),
+('Helado', '', NULL, 'https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Pizza', '', NULL, 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Entradas', 'Entradas y aperitivos', NULL ,''),
+('Comida Rápida', 'Comidas rápidas para llevar', NULL, '');
 
 -- Insertar datos en la tabla mesa
 INSERT INTO mesa (capacidad) VALUES

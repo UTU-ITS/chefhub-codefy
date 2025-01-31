@@ -135,7 +135,20 @@ if (isset($path[1])) {
                             $TablesController = new TablesController($conn);
                             $TablesController->handleRequest('insertreservations');
                             break;
-        default:
+                    case 'getadresses': 
+                        $UserController = new UserController($conn);
+        
+                        if (isset($path[2])) {  
+                            
+                            $id_cliente = $path[2];  
+                            $UserController->handleRequest('getadresses', null, $id_cliente);
+                        } else {
+                            echo json_encode(["message" => "Ruta no válida (ID no proporcionado)"]);
+                        }
+                        break;
+                            
+            default:
+       
             // Si no coincide con ninguno, devuelve un error
             echo json_encode(["message" => "Endpoint no encontrado"]);
             break;
