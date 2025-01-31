@@ -90,11 +90,14 @@ const NavBar = () => {
         {/* Menú derecho */}
         <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           <ul className="nav-list">
+          {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+            <>
           <li className="nav-item">
               <a className="nav-link right" href="/admin/dashboard">
                 <AdminIcon />
               </a>
             </li>
+            </>)}
             <li className="nav-item">
               <Cart />
             </li>

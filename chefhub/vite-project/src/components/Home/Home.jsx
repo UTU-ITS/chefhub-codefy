@@ -2,7 +2,6 @@ import React from 'react'
 import './Home.css'
 import { ChakraProvider } from '@chakra-ui/react';
 import { PinIcon } from '../../img/HeroIcons';
-import hamburguesa from '../../assets/hamburguesa.png';
 
 
 export default function Home() {
