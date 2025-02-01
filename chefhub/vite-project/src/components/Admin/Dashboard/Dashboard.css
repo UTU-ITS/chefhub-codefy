@@ -22,7 +22,7 @@
     background-color: #fff;
     color: var(--navbar-color);
     padding: 20px;
-    width: 200px; /* Ajusta el ancho según tus necesidades */
+    width: 300px;
     font-weight: bold;
     min-height: 60px;
   }
