@@ -66,9 +66,9 @@ CREATE TABLE cliente (
 -- Tabla token
 CREATE TABLE token (
     id_token INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,
+    email varchar(50) NOT NULL,
+    token VARCHAR (6) NOT NULL,
     fecha_creacion DATETIME NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     baja INT DEFAULT 0 
 );
 
@@ -87,10 +87,8 @@ CREATE TABLE direccion (
 -- Tabla factura
 CREATE TABLE factura (
     id_factura INT PRIMARY KEY AUTO_INCREMENT,
-    fecha DATE NOT NULL,
-    hora TIME NOT NULL,
+    fecha_hora DATETIME DEFAULT current_timestamp NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
-    iva DECIMAL(5, 2) NOT NULL,
     estado VARCHAR(50) NOT NULL,
     baja INT DEFAULT 0 
 );
@@ -149,19 +147,15 @@ CREATE TABLE pedido (
     estado VARCHAR(50) NOT NULL,
     categoria VARCHAR(50) NOT NULL,
     id_cliente INT NOT NULL,
-    fecha DATE NOT NULL,
-    hora TIME NOT NULL,
-    comentario TEXT,
-    calificacion INT CHECK (calificacion BETWEEN 1 AND 5),
     id_direccion INT NULL,
     id_factura INT NOT NULL,
+    fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    baja TINYINT DEFAULT 0,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion),
     FOREIGN KEY (id_factura) REFERENCES factura(id_factura),
-    CHECK (categoria != 'Delivery' OR id_direccion IS NOT NULL),
-    baja INT DEFAULT 0 
-);
-
+	CONSTRAINT chk_categoria CHECK (categoria != 'Delivery' OR id_direccion IS NOT NULL));
+    
 -- Tabla dia_horario
 CREATE TABLE dia_horario (
     dia_semana VARCHAR(10) PRIMARY KEY,
@@ -244,7 +238,7 @@ CREATE TABLE producto_categoria (
 -- Índices recomendados
 CREATE INDEX idx_cliente ON cliente(id_cliente);
 CREATE INDEX idx_pedido ON pedido(id_pedido);
-CREATE INDEX idx_fecha_hora_pedido ON pedido(fecha, hora);
+CREATE INDEX idx_fecha_hora_pedido ON pedido(fecha_hora);
 CREATE INDEX idx_mesa ON mesa(id_mesa);
 
 -- Auditoría
@@ -283,10 +277,20 @@ CREATE TABLE ingrediente (
     nombre VARCHAR(100) NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL,
-    extra BOOLEAN NOT NULL DEFAULT false,
     baja INT DEFAULT 0 
 );
-
+CREATE TABLE pedido_ingrediente (
+    id INT AUTO_INCREMENT PRIMARY KEY,  -- ID único para cada fila
+    id_pedido INT NOT NULL,
+    id_producto INT NOT NULL,
+    id_ingrediente INT NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+    extra INT NOT NULL,
+    cantidad INT NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
+    FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+    FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id_ingrediente)
+);
 CREATE TABLE producto_ingrediente (
     id_producto INT NOT NULL,
     id_ingrediente INT NOT NULL,
@@ -358,12 +362,12 @@ INSERT INTO direccion (id_usuario,calle, apto, n_puerta, referencia) VALUES
 (1,'Calle E', '555', 505, 'Frente al estadio');
 
 -- Insertar datos en la tabla factura
-INSERT INTO factura (fecha, hora, total, iva, estado) VALUES
-('2025-01-01', '12:00:00', 50.00, 10.00, 'Pagada'),
-('2025-01-02', '14:30:00', 80.00, 16.00, 'Pendiente'),
-('2025-01-03', '15:00:00', 100.00, 20.00, 'Pagada'),
-('2025-01-04', '16:45:00', 120.00, 24.00, 'Pendiente'),
-('2025-01-05', '18:00:00', 60.00, 12.00, 'Pagada');
+INSERT INTO factura (fecha_hora, total, estado) VALUES
+('2025-01-01 12:00:00', 50.00,  'Pagada'),
+('2025-01-02 14:30:00', 80.00,  'Pendiente'),
+('2025-01-03 15:00:00', 100.00,  'Pagada'),
+('2025-01-04 16:45:00', 120.00,  'Pendiente'),
+('2025-01-05 18:00:00', 60.00,  'Pagada');
 
 
 -- Insertar datos en la tabla preferencia (corregido para no violar el check constraint)
@@ -400,12 +404,12 @@ INSERT INTO mesa (capacidad) VALUES
 (10);
 
 -- Insertar datos en la tabla pedido
-INSERT INTO pedido (subtotal, estado, categoria, id_cliente, fecha, hora, comentario, calificacion, id_direccion, id_factura) VALUES
-(50.00, 'Pendiente', 'Delivery', 1, '2025-01-01', '12:00:00', 'Ninguno', 5, 1, 1),
-(80.00, 'Pendiente', 'Mesa', 2, '2025-01-02', '14:30:00', 'Ninguno', 4, 2, 2),
-(100.00, 'Pagada', 'Delivery', 3, '2025-01-03', '15:00:00', 'Pedido grande', 3, 3, 3),
-(120.00, 'Pendiente', 'Mesa', 4, '2025-01-04', '16:45:00', 'Ninguno', 2, 4, 4),
-(60.00, 'Pagada', 'Delivery', 5, '2025-01-05', '18:00:00', 'Sin comentarios', 5, 5, 5);
+INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura) VALUES
+(50.00, 'Pendiente', 'Delivery', 1, 1, 1),
+(80.00, 'Pendiente', 'Mesa', 2,  2, 2),
+(100.00, 'Pagada', 'Delivery', 3,  3, 3),
+(120.00, 'Pendiente', 'Mesa', 4,   4, 4),
+(60.00, 'Pagada', 'Delivery', 5,  5, 5);
 -- TEST DE RESERVAS
 INSERT INTO cliente_mesa (id_cliente, id_mesa, fecha, hora, cant_personas, nombre_reserva, tel_contacto, estado) VALUES
 (1, 1, '2025-02-01', '10:00:00', 4, 'Carlos Pérez', 123456789, 'Reservada'),
@@ -460,28 +464,28 @@ INSERT INTO producto_categoria (id_producto, id_categoria) VALUES
 (4, 4),
 (5, 5);
 
-INSERT INTO ingrediente (nombre, precio, stock, extra) VALUES
-('Queso', 2.00, 50, true),    -- Ingrediente extra
-('Tomate', 0.50, 100, false), -- No extra
-('Lechuga', 0.30, 80, false), -- No extra
-('Bacon', 3.00, 30, true),    -- Ingrediente extra
-('Salsa especial', 1.00, 20, true), -- Ingrediente extra
-('Pechuga de pollo', 3.50, 40, true), -- Ingrediente extra
-('Pepperoni', 2.50, 60, true), -- Ingrediente extra
-('Mushrooms', 1.80, 70, true), -- Ingrediente extra
-('Aceitunas', 1.20, 90, false), -- No extra
-('Cebolla', 0.70, 100, false); -- No extra
+INSERT INTO ingrediente (nombre, precio, stock) VALUES
+('Queso', 2.00, 50 ),  
+('Tomate', 0.50, 100),
+('Lechuga', 0.30, 80),
+('Bacon', 3.00, 30),
+('Salsa especial', 1.00, 20), 
+('Pechuga de pollo', 3.50, 40),
+('Pepperoni', 2.50, 60), 
+('Mushrooms', 1.80, 70), 
+('Aceitunas', 1.20, 90),
+('Cebolla', 0.70, 100); 
 
 -- Hamburguesa
 INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
 VALUES (1, 1, 1, true),  -- Hamburguesa con queso (extra)
-       (1, 2, 2, false), -- Hamburguesa con tomate
-       (1, 3, 1, false), -- Hamburguesa con lechuga
+       (1, 2, 2, true), -- Hamburguesa con tomate
+       (1, 3, 1, true), -- Hamburguesa con lechuga
        (1, 4, 1, true),  -- Hamburguesa con bacon (extra)
-       (1, 5, 1, false), -- Hamburguesa con salsa especial
-       (1, 7, 1, false), -- Hamburguesa con pepperoni
+       (1, 5, 1, true), -- Hamburguesa con salsa especial
+       (1, 7, 1, true), -- Hamburguesa con pepperoni
        (1, 9, 1, true),  -- Hamburguesa con aceitunas (extra)
-       (1, 10, 1, false);-- Hamburguesa con cebolla
+       (1, 10, 1, true);-- Hamburguesa con cebolla
 
 -- Pizza
 INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
@@ -526,9 +530,3 @@ VALUES (5, 1, 1, false), -- Sopa con queso
        (5, 7, 1, false), -- Sopa con pepperoni
        (5, 9, 1, true),  -- Sopa con aceitunas (extra)
        (5, 10, 1, false);-- Sopa con cebolla
-
-
-
-
-
-

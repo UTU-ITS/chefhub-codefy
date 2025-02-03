@@ -10,7 +10,7 @@ class Order {
         $sql = "SELECT COUNT(*) AS 'Cantidad'
                 FROM pedido
                 WHERE estado = 'Pendiente'
-                AND fecha = CURDATE()
+                AND fecha_hora = CURDATE()
                 AND baja = FALSE";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -18,7 +18,7 @@ class Order {
     }
 
     public function getPendingOrders() {
-        $sql = "SELECT p.id_pedido AS 'ID', p.estado AS 'Estado', u.nombre AS 'Nombre', u.telefono AS 'Teléfono', p.fecha AS 'Fecha', p.hora AS 'Hora'
+        $sql = "SELECT p.id_pedido AS 'ID', p.estado AS 'Estado', u.nombre AS 'Nombre', u.telefono AS 'Teléfono', p.fecha_hora AS 'Fecha'
                 FROM pedido p
                 JOIN cliente c ON p.id_cliente = c.id_cliente
                 JOIN usuario u ON c.id_usuario = u.id_usuario
@@ -87,12 +87,10 @@ class Order {
             $this->conn->rollBack();
             return ['error' => 'Error al insertar pedido: ' . $e->getMessage()];
         }
-    }
-
-}    
+    }   
 
     public function getInPreparationOrders() {
-        $sql = "SELECT p.id_pedido AS 'ID', p.estado AS 'Estado', u.nombre AS 'Nombre', u.telefono AS 'Teléfono', p.fecha AS 'Fecha', p.hora AS 'Hora'
+        $sql = "SELECT p.id_pedido AS 'ID', p.estado AS 'Estado', u.nombre AS 'Nombre', u.telefono AS 'Teléfono', p.fecha_hora AS 'Fecha'
                 FROM pedido p
                 JOIN cliente c ON p.id_cliente = c.id_cliente
                 JOIN usuario u ON c.id_usuario = u.id_usuario
@@ -104,7 +102,7 @@ class Order {
     }
 
     public function getReadyOrders() {
-        $sql = "SELECT p.id_pedido AS 'ID', p.estado AS 'Estado', u.nombre AS 'Nombre', u.telefono AS 'Teléfono', p.fecha AS 'Fecha', p.hora AS 'Hora'
+        $sql = "SELECT p.id_pedido AS 'ID', p.estado AS 'Estado', u.nombre AS 'Nombre', u.telefono AS 'Teléfono', p.fecha_hora AS 'Fecha'
                 FROM pedido p
                 JOIN cliente c ON p.id_cliente = c.id_cliente
                 JOIN usuario u ON c.id_usuario = u.id_usuario
