@@ -33,6 +33,19 @@ class OrderController {
                 }
                 echo json_encode($result);
                 break;
+                case "POST":
+                        if ($action === 'insertorder') {
+                            $jsonPedido = file_get_contents("php://input");
+                            $result = $this->order->insertarPedido($jsonPedido);
+                        }
+
+
+                    echo json_encode($result);
+                    break;
+
+
+
+                
             default:
                 echo json_encode(["message" => "Método no soportado"]);
                 break;

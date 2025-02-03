@@ -8,6 +8,7 @@ require('Controllers/UserController.php');
 require('Controllers/OrderController.php');
 require('Controllers/ReservationController.php');
 require('Controllers/TablesController.php');
+require('Controllers/TokenController.php');
 
 
 // Crear la conexión una vez y reutilizarla
@@ -146,7 +147,24 @@ if (isset($path[1])) {
                             echo json_encode(["message" => "Ruta no válida (ID no proporcionado)"]);
                         }
                         break;
-                            
+                        case 'insertorder': // Para verificar el valor
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('insertorder');
+                            break;
+                        case 'insertaddress': // Para verificar el valor
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('insertaddress');
+                            break;
+                        case 'sendmail': 
+                            $TokenController = new TokenController($conn);
+                            $TokenController->handleRequest('sendmail');
+                            break;
+                        case 'checktoken': 
+                            $TokenController = new TokenController($conn);
+                            $TokenController->handleRequest('checktoken');
+                            break;
+                                
+                                 
             default:
        
             // Si no coincide con ninguno, devuelve un error
