@@ -34,8 +34,7 @@ export default function LoginView() {
         });
 
             if (response.data) {
-                login(response.data);
-                console.log(response.data) // Guardar los datos del usuario en el contexto
+                login(response.data); // Guardar los datos del usuario en el contexto
                 navigate('/'); // Redirigir al inicio u otra ruta
             }
         } catch (err) {
