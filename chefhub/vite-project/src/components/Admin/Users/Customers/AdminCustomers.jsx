@@ -18,7 +18,7 @@ const AdminCustomers = () => {
   const fetchAddress = async (id_cliente) => {
     setLoadingAddress(true);
     try {
-      const response = await fetch(`http://localhost/api/customers/address/${id_cliente}`);
+      const response = await fetch(`http://localhost/api/getadresses/${id_cliente}`);
       const data = await response.json();
       setAddressData(data);
     } catch (error) {
@@ -168,8 +168,9 @@ const AdminCustomers = () => {
                 <thead>
                   <tr>
                     <th>Calle</th>
-                    <th>Esquina</th>
+                    
                     <th>N° Puerta</th>
+                    <th>Apto</th>
                     <th>Referencia</th>
                   </tr>
                 </thead>
@@ -177,8 +178,9 @@ const AdminCustomers = () => {
                   {addressData.map((address, idx) => (
                     <tr key={idx}>
                       <td>{address.calle}</td>
-                      <td>{address.esquina}</td>
+                      
                       <td>{address.n_puerta}</td>
+                      <td>{address.esquina}</td>
                       <td>{address.referencia}</td>
                     </tr>
                   ))}

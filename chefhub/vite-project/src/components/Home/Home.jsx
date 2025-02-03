@@ -4,7 +4,6 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { PinIcon } from '../../img/HeroIcons';
 import Recomendacion from './recomendacion';
 
-
 export default function Home() {
   return (
     <ChakraProvider>
