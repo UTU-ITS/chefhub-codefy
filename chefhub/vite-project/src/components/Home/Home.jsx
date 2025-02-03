@@ -2,7 +2,7 @@ import React from 'react'
 import './Home.css'
 import { ChakraProvider } from '@chakra-ui/react';
 import { PinIcon } from '../../img/HeroIcons';
-import hamburguesa from '../../assets/hamburguesa.png';
+import Recomendacion from './recomendacion';
 
 
 export default function Home() {
@@ -23,32 +23,26 @@ export default function Home() {
         <section className="section-categorias">
           <h1 className='titulos'>Categorias Populares</h1>
           <div className='bloques'>
-            <div className="bloque hamburguesa">
-              Hamburguesas
-            </div>
-            <div className="bloque pizza">
-            </div>
-            <div className="bloque helado">
-            </div>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
+            
+            <Recomendacion />
+            <Recomendacion />
+            <Recomendacion />
+
           </div>
         </section>
 
         <section className="sugerencias">
           <h1>Sugerencias</h1>
           <div className='bloques'>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
           </div>
         </section>
@@ -56,21 +50,21 @@ export default function Home() {
         <section className="opciones">
           <h1>Opciones</h1>
           <div className='bloques'>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
-            <div className="bloque">
+            <div className="blur-container">
             </div>
           </div>
         </section>
       </main>
 
-      <section className="registrate  borde">
+      <section className="registrate">
         <h3>Registra tu Empresa</h3>
       </section>
       <footer className="borde">
