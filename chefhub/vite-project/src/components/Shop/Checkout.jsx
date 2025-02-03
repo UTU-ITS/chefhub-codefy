@@ -216,7 +216,7 @@ export default function Checkout() {
     setShowNewAddressForm(addressId === 'new');
   };
 
-  const HandleAddAddress = async (e) => {
+  const handleAddAddress = async (e) => {
     e.preventDefault();
     
     if (!newAddress.calle || !newAddress.n_puerta) {
@@ -252,11 +252,11 @@ export default function Checkout() {
         
         // Limpiar el formulario
         setNewAddress({
+          id_usuario: user?.data?.id_usuario || null,
           calle: '',
           apto: '',
           n_puerta: '',
-          referencia: '',
-          id_usuario: user?.data?.id_usuario || null
+          referencia: ''
         });
         
         // Recargar las direcciones
@@ -386,7 +386,7 @@ export default function Checkout() {
                       </div>
 
                       {selectedAddressId === 'new' && (
-                        <form className="new-address-form" onSubmit={HandleAddAddress}>
+                        <form className="new-address-form" onSubmit={handleAddAddress}>
                           <div className="form-row">
                             <input
                               type="text"
