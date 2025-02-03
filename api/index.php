@@ -88,10 +88,17 @@ if (isset($path[1])) {
             case 'orders':
                 $OrderController = new OrderController($conn);
 
-                if (!isset($path[2])) {
-                    $OrderController->handleRequest('orders');
-                } else if ($path[2] === 'onlinequantity') {
+                if ($path[2] === 'pending') {
+                    $OrderController->handleRequest('pendingorders');
+                } else if($path[2] === 'preparation'){
+                    $OrderController->handleRequest('preparationorders');
+                }else if($path[2] === 'ready'){
+                    $OrderController->handleRequest('readyorders');
+                }else if ($path[2] === 'onlinequantity') {
                     $OrderController->handleRequest('onlinequantity');
+                }else if($path[2] === 'detail' && isset($path[3])){
+                    $orderId = $path[3];
+                    $OrderController->handleRequest('detailorder', $orderId);
                 } else {
                     echo json_encode(["message" => "Ruta no válida"]);
                 }

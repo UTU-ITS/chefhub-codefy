@@ -187,6 +187,38 @@ gap: 2px;
   height: 15px;
 }
 
+/*select*/
+select {
+  padding: 8px 12px;
+  font-size: 12px;
+  border: 2px solid #aaa;
+  border-radius: 50px;
+  width: 250px;
+  height: auto;
+  min-height: 35px;
+  background-color: white;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  appearance: none; /* Oculta el diseño por defecto en algunos navegadores */
+}
+
+/* Flecha personalizada para navegadores que soportan `appearance: none;` */
+select::-ms-expand {
+  display: none;
+}
+
+/* Efecto al pasar el mouse */
+select:hover {
+  border-color: #888;
+}
+
+/* Efecto cuando se hace clic */
+select:focus {
+  border-color: #555;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 /*Direcciones Clientes*/
 
 .modal-overlay {
