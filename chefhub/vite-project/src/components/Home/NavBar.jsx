@@ -11,7 +11,6 @@ const NavBar = () => {
 
   // Debug: Verificar cambios en el usuario
   useEffect(() => {
-    console.log("Usuario actualizado:", user);
   }, [user]);
 
   const toggleMenu = () => {
