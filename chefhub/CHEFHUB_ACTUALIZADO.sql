@@ -66,9 +66,9 @@ CREATE TABLE cliente (
 -- Tabla token
 CREATE TABLE token (
     id_token INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,
+    email varchar(50) NOT NULL,
+    token VARCHAR (6) NOT NULL,
     fecha_creacion DATETIME NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     baja INT DEFAULT 0 
 );
 
