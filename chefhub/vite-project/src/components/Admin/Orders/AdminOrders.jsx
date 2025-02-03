@@ -9,7 +9,6 @@ const AdminOrders = () => {
     const [readyData, setReadyData] = useState([]);
     const [orderDetails, setOrderDetails] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedOrderId, setSelectedOrderId] = useState(null);
 
     // Estados de paginación independientes
     const [currentPagePending, setCurrentPagePending] = useState(1);
@@ -29,7 +28,6 @@ const AdminOrders = () => {
             const response = await fetch(`http://localhost/api/orders/detail/${id}`);
             const data = await response.json();
             setOrderDetails(data);
-            setSelectedOrderId(id);
             console.log("Detalles obtenidos:", data);
         } catch (error) {
             console.error("Error al obtener detalles del pedido:", error);
@@ -101,7 +99,7 @@ const AdminOrders = () => {
                             </thead>
                             <tbody>
                                 {currentPendingData.map((item) => (
-                                    <tr key={item.ID} className={selectedOrderId === item.ID ? 'selected' : ''}>
+                                    <tr key={item.ID}>
                                         {Object.entries(item).map(([key, value], idx) => (
                                             <td key={idx}>{value}</td>
                                         ))}
