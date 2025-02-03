@@ -1,5 +1,9 @@
 
- 
+ .btns-login
+{   display: flex;
+    align-items: center;
+    margin: 10px;
+}
 .login-span{
     font-family: Poppins, sans-serif;
     font-weight: 400;

@@ -1,174 +1,201 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './RegisterView.css';
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select } from '@chakra-ui/react';
 
 const RegisterView = () => {
-    const [formData, setFormData] = useState({
-        nombre: '',
-        apellido: '',
-        telefono: '',
-        contrasena: '',
-        preferencia: '',
-    });
-    const [verificationCode, setVerificationCode] = useState('');
-    const [isVerified, setIsVerified] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    preferences: ["Sin preferencias"],
+  });
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
+  const [errors, setErrors] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [serverCode, setServerCode] = useState("");
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      setFormData((prevData) => {
+        const preferences = [...prevData.preferences];
+        if (checked) {
+          preferences.push(value);
+        } else {
+          const index = preferences.indexOf(value);
+          if (index > -1) preferences.splice(index, 1);
+        }
+        return { ...prevData, preferences };
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.firstName) newErrors.firstName = "Nombre es requerido.";
+    if (!formData.lastName) newErrors.lastName = "Apellido es requerido.";
+    if (!formData.phone) newErrors.phone = "Teléfono es requerido.";
+    if (!formData.email) newErrors.email = "Email es requerido.";
+    if (!formData.password) newErrors.password = "Contraseña es requerida.";
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Las contraseñas no coinciden.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSendVerificationEmail = async () => {
+    if (!formData.email) {
+      alert("Por favor, ingresa un correo electrónico.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost/api/sendmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setServerCode(result.verificationCode); // Suponiendo que el código se envía de vuelta
+        setIsModalOpen(true);
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Error al enviar el mail:", error);
+      alert("Hubo un problema al enviar el mail. Inténtalo más tarde.");
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    try {
+      const response = await fetch("http://localhost/api/checktoken", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email, tokenInput: verificationCode }),
+      });
+
+      const result = await response.json();
+      console.log(result);
+      if (result.success) {
+
+        alert("Código verificado correctamente.");
+        setIsModalOpen(false);
+        handleRegister();
+      } else {
+        alert("Código incorrecto, intenta de nuevo.");
+      }
+    } catch (error) {
+      console.error("Error al verificar código:", error);
+      alert("Hubo un problema al verificar el código.");
+    }
+  };
+
+  const handleRegister = async () => {
+    if (validateForm()) {
+      try {
+        const response = await fetch("http://localhost/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            pass: formData.password,
+            nombre: formData.firstName,
+            apellido: formData.lastName,
+            telefono: formData.phone,
+            role: "cliente",
+            preferences: formData.preferences,
+          }),
         });
-    };
 
-    const handleSendCode = async () => {
-        try {
-            await axios.post('/api/send-verification-code', { telefono: formData.telefono });
-            setStep(2);
-        } catch (error) {
-            alert('Error al enviar el código de verificación.');
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("Usuario registrado exitosamente");
+          window.location.href = "/login";
+        } else {
+          alert(`Error: ${result.message}`);
         }
-    };
+      } catch (error) {
+        console.error("Error al registrar el usuario:", error);
+        alert("Hubo un problema al registrar el usuario.");
+      }
+    }
+  };
 
-    const handleVerifyCode = async () => {
-        try {
-            const response = await axios.post('/api/verify-code', { 
-                telefono: formData.telefono,
-                code: verificationCode
-            });
-            if (response.data.success) {
-                setIsVerified(true);
-                alert('Verificación exitosa.');
-                setIsModalOpen(false);
-            } else {
-                alert('Código de verificación incorrecto.');
-            }
-        } catch (error) {
-            alert('Error al verificar el código.');
-        }
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!isVerified) {
-            alert('Por favor verifica tu teléfono antes de registrarte.');
-            return;
-        }
-        try {
-            const response = await axios.post('/api/register', formData);
-            if (response.data.success) {
-                alert('Usuario registrado con éxito.');
-            } else {
-                alert('Error en el registro.');
-            }
-        } catch (error) {
-            alert('Error al registrar el usuario.');
-        }
-    };
-
-    return (
-        <div className="login-div">
-            <div className="login-div-box">
-                <h2>Registro</h2>
-                <form onSubmit={handleSubmit} className="login-div-content">
-                    <input
-                        type="text"
-                        name="nombre"
-                        className="txt-area"
-                        placeholder="Nombre"
-                        value={formData.nombre}
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="apellido"
-                        placeholder="Apellido"
-                        className="txt-area"
-                        value={formData.apellido}
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="telefono"
-                        placeholder="Teléfono"
-                        className="txt-area"
-                        value={formData.telefono}
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="contrasena"
-                        placeholder="Contraseña"
-                        className="txt-area"
-                        value={formData.contrasena}
-                        onChange={handleChange}
-                        required
-                    />
-                    <select
-                        name="preferencia"
-                        value={formData.preferencia}
-                        onChange={handleChange}
-                    >
-                        <option value="">-- Preferencias Alimentarias --</option>
-                        <option value="vegetariana">Vegetariana</option>
-                        <option value="vegana">Vegana</option>
-                        <option value="sin_gluten">Sin Gluten</option>
-                        <option value="kosher">Kosher</option>
-                    </select>
-                    {!isVerified && (
-                        <Button className="btn" type="button" onClick={() => setIsModalOpen(true)}>
-                            Verificar Teléfono
-                        </Button>
-                    )}
-                    <Button className="btn" type="submit">Registrarse</Button>
-                </form>
-            </div>
-
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-  
-     <ModalContent className="modal-content"
-     >
-        <ModalHeader className="modal-header">Verificación de Teléfono</ModalHeader>
-        <ModalBody className="modal-body">
-            {step === 1 ? (
-                <>
-                    <p>Introduce tu número de teléfono para recibir un código de verificación.</p>
-                    <Button className="btn" onClick={handleSendCode}>
-                        Enviar Código
-                    </Button>
-                </>
-            ) : (
-                <>
-                    <p>Introduce el código recibido:</p>
-                    <Input
-                        className="txt-area"
-                        type="text"
-                        placeholder="Código de Verificación"
-                        value={verificationCode}
-                        onChange={(e) => setVerificationCode(e.target.value)}
-                    />
-                </>
-            )}
-        </ModalBody>
-        <ModalFooter className="modal-footer">
-            {step === 2 && (
-                <Button className="btn" onClick={handleVerifyCode}>
-                    Verificar
-                </Button>
-            )}
-            <Button className="btn btn-close" onClick={() => setIsModalOpen(false)}>
-                Cerrar
-            </Button>
-        </ModalFooter>
-    </ModalContent>
-</Modal>
+  return (
+    <div className="register-container">
+      <h2>Registro</h2>
+      <form className="register-form">
+        <div className="form-row">
+          <div className="form-group">
+            <label>Nombre</label>
+            <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} />
+            {errors.firstName && <span className="error">{errors.firstName}</span>}
+          </div>
+          <div className="form-group">
+            <label>Apellido</label>
+            <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
+            {errors.lastName && <span className="error">{errors.lastName}</span>}
+          </div>
+          <div className="form-group">
+            <label>Teléfono</label>
+            <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} />
+            {errors.phone && <span className="error">{errors.phone}</span>}
+          </div>
         </div>
-    );
+        <div className="form-row">
+          <div className="form-group">
+            <label>Email</label>
+            <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+            {errors.email && <span className="error">{errors.email}</span>}
+          </div>
+          <div className="form-group">
+            <label>Contraseña</label>
+            <input type="password" name="password" value={formData.password} onChange={handleInputChange} />
+            {errors.password && <span className="error">{errors.password}</span>}
+          </div>
+          <div className="form-group">
+            <label>Confirmar Contraseña</label>
+            <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} />
+            {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+          </div>
+        </div>
+        <button type="button" className="btn-submit" onClick={handleSendVerificationEmail}>
+          Enviar Código de Verificación
+        </button>
+      </form>
+
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Verificar Código</h3>
+            <p>Ingrese el código recibido por correo electrónico:</p>
+            <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
+            <button onClick={handleVerifyCode} className="btn-submit">
+              Verificar Código
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default RegisterView;

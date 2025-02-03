@@ -1,0 +1,60 @@
+@import '../../../design.css';
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+.dashboard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    padding: 0 20px;
+    height: 30%;
+  }
+
+  .dashboard-item {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    background-color: #fff;
+    color: var(--navbar-color);
+    padding: 20px;
+    width: 300px;
+    font-weight: bold;
+    min-height: 60px;
+  }
+
+  .dashboard-item h4{
+    margin: 0;
+    font-size: small;
+  }
+
+  .dashboard-item h2{
+    margin: 10px 0 0 0;
+  }
+
+  .dashboard-middle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70%;
+    margin: 0 20px;
+    padding: 0 20px;
+  }
+
+  .dashboard-middle-left, .dashboard-middle-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: rgb(255, 255, 255);
+    padding: 20px;
+    width: 45%;
+    font-weight: bold;
+    min-height: 350px;
+    background-color: #fff;
+    box-shadow: var(--shadow);
+  }
