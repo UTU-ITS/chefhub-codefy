@@ -1,0 +1,38 @@
+.orders-format {
+  display: flex;
+  flex-direction: row;
+}
+
+.orders-table {
+  display: flex;
+  flex-direction: row !important;
+}
+
+.orders-title {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orders-options {
+  width: 60% !important;
+}
+
+.admin-title-left, .admin-title-right {
+  padding: 0 10px !important;
+  margin: 10px 0;
+}
+
+.left {
+  width: 60%;
+}
+
+.right {
+  width: 40%;
+}
+.left table {
+  width: 100%;
+}
+
+.selected {
+  background-color: #f0f0f0;
+}
