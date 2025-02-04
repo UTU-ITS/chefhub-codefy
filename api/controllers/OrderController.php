@@ -19,7 +19,7 @@ class OrderController {
         $this->order = new Order($conn);
     }
 
-    public function handleRequest($action, $orderId = null) {
+    public function handleRequest($action, $orderId = null, $id_producto = null) {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
@@ -34,8 +34,9 @@ class OrderController {
                     $result = $this->order->getReadyOrders();
                 } else if($action === 'detailorder'){
                     $result = $this->order->getDetailOrder($orderId);
-
-                }else {
+                } else if($action === 'ingredientsperproduct'){
+                    getIngredientsPerProductInOrder($orderId, $id_producto);
+                } else {
                     $result = ["message" => "Acción no reconocida"];
                 }
                 echo json_encode($result);
