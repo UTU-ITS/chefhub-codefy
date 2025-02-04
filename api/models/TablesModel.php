@@ -93,5 +93,15 @@ public function getTables() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function getTablePerOrder($order_id) {
+    $sql = "SELECT id_mesa
+            FROM mesa_pedido
+            WHERE id_pedido = :id_pedido";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_pedido', $order_id);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>

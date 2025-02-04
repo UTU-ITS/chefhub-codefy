@@ -153,6 +153,7 @@ export default function Checkout() {
       categoria: OrderCategorie
     };
 
+    console.log(cartItems);
     try {
       const response = await fetch("http://localhost/api/insertorder", {
         method: "POST",

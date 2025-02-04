@@ -5,14 +5,10 @@ import { CloseIcon2 } from '../../img/HeroIcons';
 import Ingredients from './Ingredients';
 
 export default function CartSummary() {
-  const { cartItems, addToCart, removeFromCartByUniqueId } = useContext(CartContext);
-  const [notes, setNotes] = useState({});
-
+  const { cartItems, addToCart, removeFromCartByUniqueId, updateNoteInCart } = useContext(CartContext);
+  
   const handleNoteChange = (uniqueId, note) => {
-    setNotes(prevNotes => ({
-      ...prevNotes,
-      [uniqueId]: note
-    }));
+    updateNoteInCart(uniqueId, note);
   };
 
   const handleAddItem = (item) => {
@@ -45,7 +41,7 @@ export default function CartSummary() {
                 <textarea
                   className="cart-summary__product-note"
                   placeholder="Agregar nota (opcional)"
-                  value={notes[item.uniqueId] || ''}
+                  value={item.note || ''}
                   onChange={(e) => handleNoteChange(item.uniqueId, e.target.value)}
                 />
               </div>
