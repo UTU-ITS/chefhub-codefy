@@ -2,7 +2,8 @@ import React from 'react'
 import './Home.css'
 import { ChakraProvider } from '@chakra-ui/react';
 import { PinIcon } from '../../img/HeroIcons';
-import Recomendacion from './recomendacion';
+import Categorias from './CategoriesDisplay';
+import ProductDisplay from './ProductDisplay';
 
 
 export default function Home() {
@@ -23,10 +24,10 @@ export default function Home() {
         <section className="section-categorias">
           <h1 className='titulos'>Categorias Populares</h1>
           <div className='bloques'>
-            
-            <Recomendacion />
-            <Recomendacion />
-            <Recomendacion />
+     
+              <Categorias />
+              <Categorias />
+              <Categorias />
 
           </div>
         </section>
@@ -34,16 +35,9 @@ export default function Home() {
         <section className="sugerencias">
           <h1>Sugerencias</h1>
           <div className='bloques'>
-            <div className="blur-container">
-            </div>
-            <div className="blur-container">
-            </div>
-            <div className="blur-container">
-            </div>
-            <div className="blur-container">
-            </div>
-            <div className="blur-container">
-            </div>
+            
+            <ProductDisplay />
+
           </div>
         </section>
 
