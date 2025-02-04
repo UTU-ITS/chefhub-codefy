@@ -27,7 +27,7 @@ class User {
     }
 
     public function getCustomersAddress($id_cliente){
-        $sql = "SELECT d.calle, d.esquina, d.n_puerta, d.referencia 
+        $sql = "SELECT d.calle, d.apto, d.n_puerta, d.referencia 
                 FROM cliente c 
                 JOIN pedido p ON c.id_cliente = p.id_cliente
                 JOIN direccion d ON p.id_direccion = d.id_direccion
@@ -118,15 +118,18 @@ public function CheckUser($email, $pass) {
             $user_data = $stmt->fetch(PDO::FETCH_OBJ);
             $id_usuario = $user_data->id_usuario;
 
+            // Inicializar id_cliente como NULL por defecto
+            $user_data->id_cliente = null;
+
             // Verificar si el usuario está registrado como cliente
-            $client_check_query = "SELECT * FROM cliente WHERE id_usuario = :id_usuario";
+            $client_check_query = "SELECT id_cliente FROM cliente WHERE id_usuario = :id_usuario";
             $client_check_stmt = $this->conn->prepare($client_check_query);
             $client_check_stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
             $client_check_stmt->execute();
 
             if ($client_check_stmt->rowCount() > 0) {
                 $client_data = $client_check_stmt->fetch(PDO::FETCH_OBJ);
-                return $user_data; // Retornar datos del cliente
+                $user_data->id_cliente = $client_data->id_cliente;
             }
 
             // Verificar si el usuario está registrado como funcionario
@@ -141,21 +144,20 @@ public function CheckUser($email, $pass) {
 
             if ($employee_check_stmt->rowCount() > 0) {
                 $employee_data = $employee_check_stmt->fetch(PDO::FETCH_OBJ);
-                return $employee_data; // Retornar datos del funcionario
+                return $employee_data; // Si es funcionario, retorna sus datos
             }
 
-            // Si no es cliente ni funcionario
-            return false;
-        } else {
-            // Usuario o contraseña incorrectos
-            return false;
-        }
+            return $user_data; // Si es cliente o solo usuario normal, retorna el objeto con id_cliente
+        } 
+        
+        return false; // Usuario o contraseña incorrectos
+
     } catch (PDOException $e) {
-        // Manejar errores de base de datos
-        echo "Error en la base de datos: " . $e->getMessage();
+        error_log("Error en CheckUser: " . $e->getMessage()); // Loguea el error sin mostrarlo al usuario
         return false;
     }
 }
+
 
 
 public function CheckUserExist($email) {
@@ -209,6 +211,33 @@ public function InsertClient ($id_usuario){
 }
 
 
-
+public function getAdresses($id_cliente){
+    $sql = "SELECT d.id_direccion, d.calle, d.apto, d.n_puerta, d.referencia 
+            FROM direccion d
+            JOIN usuario u ON u.id_usuario = d.id_usuario
+            WHERE u.id_usuario= :id_cliente
+            AND u.baja = FALSE
+            AND d.baja = FALSE";
+    
+    $stmt = $this->conn->prepare($sql);
+    // Aseguramos que el parámetro se pase correctamente
+    $stmt->bindParam(':id_cliente', $id_cliente, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    // Retornamos los resultados como un arreglo asociativo
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-?>
+
+public function InsertNewAddress($calle, $apto, $n_puerta, $referencia, $id_usuario){
+    $sql = "INSERT INTO direccion (calle, apto, n_puerta, referencia, id_usuario) 
+            VALUES (:calle, :apto, :n_puerta, :referencia, :id_usuario)";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':calle', $calle);
+    $stmt->bindParam(':apto', $apto);
+    $stmt->bindParam(':n_puerta', $n_puerta);
+    $stmt->bindParam(':referencia', $referencia);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+
+    return $stmt->execute(); // Devolver true si es exitoso, false si falla
+}
+}

@@ -19,7 +19,7 @@ class UserController {
         $this->user = new User($conn);
     }
 
-    public function handleRequest($action, $productId = null) {
+    public function handleRequest($action, $productId = null, $id_cliente = null) {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
@@ -29,8 +29,21 @@ class UserController {
                 } else if ($action === 'customers'){
                     $result = $this->user->getCustomers();
                 } else if ($action === 'customersaddress'){
-                    $result = $this->user->getCustomersAddress($productId);
-                } else if ($action === 'signin') {
+                    $result = $this->user->getAdresses($id_cliente);
+               
+                
+                } else if ($action === 'getadresses'){
+
+                    $result = $this->user->getAdresses($id_cliente);
+               
+                } else {
+                    $result = ["message" => "Acción no reconocida"];
+                }
+
+                echo json_encode($result);
+                break;
+                case "POST":
+                 if ($action === 'signin') {
                     // Leer datos del cuerpo de la solicitud
                     $data = json_decode(file_get_contents("php://input"), true);
 
@@ -52,6 +65,7 @@ class UserController {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
                     }
+
                 } else if ($action === 'signup') {
                     // Leer datos del cuerpo de la solicitud
                     $data = json_decode(file_get_contents("php://input"), true);
@@ -83,11 +97,39 @@ class UserController {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
                     }
-                } else {
-                    $result = ["message" => "Acción no reconocida"];
+                }else if ($action === 'insertaddress') {
+                    // Leer datos del cuerpo de la solicitud
+                    $data = json_decode(file_get_contents("php://input"), true);
+                
+                    // Validar los datos recibidos
+                    if (
+                        isset($data['calle']) &&
+                        isset($data['n_puerta']) &&
+                        isset($data['apto']) &&
+                        isset($data['id_usuario']) &&
+                        isset($data['referencia']) 
+                    ) {
+                        $referencia = $data['referencia'];
+                        $id_usuario = $data['id_usuario'];
+                        $apto = $data['apto'];
+                        $n_puerta = $data['n_puerta'];
+                        $calle = $data['calle'];
+                
+                        // Llamar al método del modelo para insertar la dirección
+                        $result = $this->user->InsertNewAddress($calle, $apto, $n_puerta, $referencia, $id_usuario);
+                
+                        if ($result) {
+                            echo json_encode(["success" => true,"message" => "Dirección registrada exitosamente"]);
+                        } else {
+                            http_response_code(500);
+                            echo json_encode(["message" => "Error al registrar la dirección"]);
+                        }
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(["message" => "Faltan parámetros"]);
+                    }
                 }
-
-                echo json_encode($result);
+                
                 break;
             default:
             echo json_encode(["message" => "Método no soportado"]);

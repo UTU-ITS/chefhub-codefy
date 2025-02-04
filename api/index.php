@@ -8,6 +8,7 @@ require('Controllers/UserController.php');
 require('Controllers/OrderController.php');
 require('Controllers/ReservationController.php');
 require('Controllers/TablesController.php');
+require('Controllers/TokenController.php');
 
 
 // Crear la conexión una vez y reutilizarla
@@ -88,10 +89,17 @@ if (isset($path[1])) {
             case 'orders':
                 $OrderController = new OrderController($conn);
 
-                if (!isset($path[2])) {
-                    $OrderController->handleRequest('orders');
-                } else if ($path[2] === 'onlinequantity') {
+                if ($path[2] === 'pending') {
+                    $OrderController->handleRequest('pendingorders');
+                } else if($path[2] === 'preparation'){
+                    $OrderController->handleRequest('preparationorders');
+                }else if($path[2] === 'ready'){
+                    $OrderController->handleRequest('readyorders');
+                }else if ($path[2] === 'onlinequantity') {
                     $OrderController->handleRequest('onlinequantity');
+                }else if($path[2] === 'detail' && isset($path[3])){
+                    $orderId = $path[3];
+                    $OrderController->handleRequest('detailorder', $orderId);
                 } else {
                     echo json_encode(["message" => "Ruta no válida"]);
                 }
@@ -135,7 +143,37 @@ if (isset($path[1])) {
                             $TablesController = new TablesController($conn);
                             $TablesController->handleRequest('insertreservations');
                             break;
-        default:
+                    case 'getadresses': 
+                        $UserController = new UserController($conn);
+        
+                        if (isset($path[2])) {  
+                            
+                            $id_cliente = $path[2];  
+                            $UserController->handleRequest('getadresses', null, $id_cliente);
+                        } else {
+                            echo json_encode(["message" => "Ruta no válida (ID no proporcionado)"]);
+                        }
+                        break;
+                        case 'insertorder': // Para verificar el valor
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('insertorder');
+                            break;
+                        case 'insertaddress': // Para verificar el valor
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('insertaddress');
+                            break;
+                        case 'sendmail': 
+                            $TokenController = new TokenController($conn);
+                            $TokenController->handleRequest('sendmail');
+                            break;
+                        case 'checktoken': 
+                            $TokenController = new TokenController($conn);
+                            $TokenController->handleRequest('checktoken');
+                            break;
+                                
+                                 
+            default:
+       
             // Si no coincide con ninguno, devuelve un error
             echo json_encode(["message" => "Endpoint no encontrado"]);
             break;

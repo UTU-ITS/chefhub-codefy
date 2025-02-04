@@ -5,7 +5,6 @@ import { PinIcon } from '../../img/HeroIcons';
 import Categorias from './CategoriesDisplay';
 import ProductDisplay from './ProductDisplay';
 
-
 export default function Home() {
   return (
     <ChakraProvider>
