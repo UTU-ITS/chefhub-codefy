@@ -177,7 +177,7 @@ public function CheckUserExist($email) {
 
 public function InsertClientUser ($email,$pass,$nombre,$apellido,$telefono){
     if ($this->CheckUserExist($email)==true){ 
-        echo "El usuario ya existe: ";
+        echo json_encode (["message" => "El usuario ya existe"]);
         return false;
     }else{
     $sql = "INSERT INTO usuario (email, clave, nombre, apellido, telefono, fecha_creacion) VALUES (:email, :pass, :nombre, :apellido, :telefono, :fecha_creacion)";
@@ -189,8 +189,9 @@ public function InsertClientUser ($email,$pass,$nombre,$apellido,$telefono){
     $stmt->bindParam(':apellido', $apellido);
     $stmt->bindParam(':telefono', $telefono);
     $stmt->bindParam(':fecha_creacion',$fecha_creacion);
-    return $stmt->execute();
+    $stmt->execute();
     $this->InsertClient($this->IndexUserID($email)->id_usuario);
+    return true;
 }
 }
 
@@ -203,11 +204,12 @@ public function IndexUserID($email){
 }
 
 
-public function InsertClient ($id_usuario){
+public function InsertClient($id_usuario) {
     $sql = "INSERT INTO cliente (id_usuario) VALUES (:id_usuario)";
     $stmt = $this->conn->prepare($sql);
-    $stmt->bindParam(':id_usuario', $id_usuario);
-    return $stmt->fetch(PDO::FETCH_OBJ);
+    $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+    
+    return $stmt->execute();
 }
 
 
@@ -240,4 +242,73 @@ public function InsertNewAddress($calle, $apto, $n_puerta, $referencia, $id_usua
 
     return $stmt->execute(); // Devolver true si es exitoso, false si falla
 }
+
+
+public function CheckEmail($email) {
+    $sql = "SELECT id_usuario FROM usuario WHERE email = :email LIMIT 1"; // Agregar LIMIT 1 para optimizar la consulta
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    
+    // Usar fetchColumn para obtener solo el primer valor, que es id_usuario
+    $id_usuario = $stmt->fetchColumn();
+    if ($id_usuario) {
+        return $id_usuario; // Retornar id_usuario si el correo existe
+    } else {
+        return false; // El correo no existe
+    }
 }
+public function ResetPassword($pass, $id_usuario) {
+    $sql = "UPDATE usuario SET clave = :pass WHERE id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':pass', $pass);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    return $stmt->execute();
+}
+public function DeleteAddress($id_direccion){
+    $sql = "UPDATE direccion SET baja = TRUE WHERE id_direccion = :id_direccion";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_direccion', $id_direccion);
+    return $stmt->execute();
+}
+public function UpdatePassword($pass, $id_usuario) {
+    $sql = "UPDATE usuario SET clave = :pass WHERE id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':pass', $pass);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    return $stmt->execute();
+
+
+}
+public function CheckPassword($pass, $id_usuario) {
+    $sql = "SELECT clave FROM usuario WHERE clave = :pass AND id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':pass', $pass);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    $stmt->execute();
+
+    // Obtener el resultado
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        // Si hay un resultado, devolver la contraseña
+        return $result['clave'];
+    } else {
+        // Si no hay resultado, devolver false o un mensaje de error
+        return false;
+    }
+}
+
+public function UpdateUserName($nombre, $apellido, $id_usuario) {
+    $sql = "UPDATE usuario SET nombre = :nombre, apellido = :apellido WHERE id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':nombre', $nombre);
+    $stmt->bindParam(':apellido', $apellido);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    return $stmt->execute();
+
+
+}
+}
+
+?>

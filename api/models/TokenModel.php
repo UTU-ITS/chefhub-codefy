@@ -45,7 +45,7 @@ class TokenModel {
                            <p>Si no has solicitado este código, ignora este mensaje.</p>";
         
             $mail->send();
-            echo json_encode(["message" => "Correo enviado exitosamente"]);
+            echo json_encode(["success"=>true, "message" => "Correo enviado exitosamente"]);
         } catch (Exception $e) {
             echo json_encode(["message" => "Error al enviar el correo: {$mail->ErrorInfo}"]);
         }
@@ -54,13 +54,19 @@ class TokenModel {
 
 
 
-    public function checkToken($email,$token) {
-        $sql = "SELECT * FROM token WHERE token = :token AND email= :email";
+    public function checkToken($email, $token) {
+        $sql = "SELECT * FROM token WHERE email = :email 
+                ORDER BY fecha_creacion DESC LIMIT 1";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':token', $token, PDO::PARAM_STR);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $latestToken = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        // Verifica si existe un token y si coincide con el que se envió como parámetro
+        if ($latestToken && $latestToken['token'] === $token) {
+            return $latestToken;
+        }
+    
+        return null; // Retorna null si no hay coincidencia
     }
-
 }

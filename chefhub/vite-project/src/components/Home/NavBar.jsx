@@ -53,6 +53,13 @@ const NavBar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/contact">Contáctanos</a>
             </li>
+            {user && user.data && (
+              <>
+            <li className="nav-item">
+              <a className="nav-link" href="/myprofile">Mi perfil</a>
+            </li>
+            </>
+            )}
   {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
   <>
 

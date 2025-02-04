@@ -170,6 +170,36 @@ if (isset($path[1])) {
                             $TokenController = new TokenController($conn);
                             $TokenController->handleRequest('checktoken');
                             break;
+                        case 'checkemail': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('checkemail');
+                        break;
+                        case 'resetpassword': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('resetpassword');
+                        break;
+                        case 'deleteaddress': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('deleteaddress');
+                        break;
+                        case 'getpassword': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('checkpassword');
+                        break;
+                        case 'updatepassword': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('checkpassword');
+                        break;
+                        case 'updatename': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('updatename');
+                        break;
                                 
                                  
             default:
