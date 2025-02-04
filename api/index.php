@@ -78,7 +78,8 @@ if (isset($path[1])) {
             case 'customers':
                 $UserController = new UserController($conn);
                 if (!isset($path[2])) {
-                    $UserController->handleRequest('customers');                } else if ($path[2] === 'address' && isset($path[3])) {
+                    $UserController->handleRequest('customers');                
+                } else if ($path[2] === 'address' && isset($path[3])) {
                     $customerId = $path[3];
                     $UserController->handleRequest('customersaddress', $customerId);
                 } else {
@@ -90,7 +91,7 @@ if (isset($path[1])) {
                 $OrderController = new OrderController($conn);
 
                 if ($path[2] === 'pending') {
-                    $OrderController->handleRequest('pendingorders');
+                    $OrderController->handleRequest('pendingorders', null, null);
                 } else if($path[2] === 'preparation'){
                     $OrderController->handleRequest('preparationorders');
                 }else if($path[2] === 'ready'){
@@ -99,7 +100,7 @@ if (isset($path[1])) {
                     $OrderController->handleRequest('onlinequantity');
                 }else if($path[2] === 'detail' && isset($path[3])){
                     $orderId = $path[3];
-                    $OrderController->handleRequest('detailorder', $orderId);
+                    $OrderController->handleRequest('detailorder', $orderId, null);
                 } else {
                     echo json_encode(["message" => "Ruta no válida"]);
                 }
@@ -110,10 +111,17 @@ if (isset($path[1])) {
                 $ReservationController->handleRequest('cantreservation');
                 break;
 
-            case 'tables':
-                $TableController = new TablesController($conn);
-                $TableController->handleRequest('tables');
-                break;
+                case 'tables':
+                    $TableController = new TablesController($conn);
+                    if (!isset($path[2])) {
+                        $TableController->handleRequest('tables');
+                    } else if (isset($path[2]) && $path[2] === 'perorder' && isset($path[3])) {
+                        $order_id = $path[3];
+                        $TableController->handleRequest('perorder', null, null, $order_id);
+                    } else {
+                        echo json_encode(["message" => "Ruta no válida (ID no proporcionado)"]);
+                    }
+                    break;
 
             case 'empolyees':
                 $UserController = new UserController($conn);
