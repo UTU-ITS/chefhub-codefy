@@ -152,9 +152,7 @@ export default function Checkout() {
       estado: "Pendiente",
       categoria: OrderCategorie,
     };
-  
-    console.log(Order);
-  
+
     try {
       const response = await fetch("http://localhost/api/insertorder", {
         method: "POST",

@@ -3,23 +3,26 @@
   flex-direction: row;
 }
 
-.orders-table {
-  display: flex;
-  flex-direction: row !important;
-}
-
 .orders-title {
   justify-content: space-between;
   align-items: center;
+  height: 10%;
 }
 
 .orders-options {
   width: 60% !important;
 }
 
-.admin-title-left, .admin-title-right {
-  padding: 0 10px !important;
-  margin: 10px 0;
+.admin-details {
+  padding: 0 25px !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-item{
+ display: flex;
+ align-items: center;
+ gap: 10px;
 }
 
 .left {
