@@ -12,6 +12,7 @@ import AddProduct from './components/Admin/Products/AddProduct';
 import { UserProvider } from './context/user';
 import Reservations from './components/Reservations/Reservations';
 import AboutUs from './components/AboutUs/AboutUs';
+import ContactUs from './components/ContactUs/ContactUs';
 
 function NotFound() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/admin/*" element={<AdminOptions />} />
             <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
             <Route path="*" element={<NotFound />} /> {/* Ruta para manejar URLs no existentes */}
             <Route path="/admin/products/addproduct" element={<AddProduct />} />
             <Route path="/reservations" element={<Reservations />} />
