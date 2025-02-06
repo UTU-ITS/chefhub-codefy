@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useToast, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, Text } from '@chakra-ui/react';
 import { NewIcon, EditIcon, ClearIcon, EyeIcon, CloseIcon2 } from '../../../../img/HeroIcons';
 import { fetchData } from '../../apiService';
 
@@ -7,13 +8,21 @@ const AdminCustomers = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [modalVisible, setModalVisible] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
   const [addressData, setAddressData] = useState([]);
   const [loadingAddress, setLoadingAddress] = useState(false);
   const itemsPerPage = 12;
 
+  const toast = useToast();
+
   useEffect(() => {
-    fetchData('http://localhost/api/customers', setData);
+    fetchCustomers();
   }, []);
+
+  const fetchCustomers = async () => {
+    fetchData('http://localhost/api/customers', setData);
+  };
 
   const fetchAddress = async (id_cliente) => {
     setLoadingAddress(true);
@@ -27,6 +36,57 @@ const AdminCustomers = () => {
       setLoadingAddress(false);
       setModalVisible(true);
     }
+  };
+
+  const confirmDelete = (client) => {
+    setSelectedClient(client);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedClient) return;
+
+    try {
+      const response = await fetch("http://localhost/api/customers/deletecustomers", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id_usuario: selectedClient.id_cliente }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "Cliente dado de baja",
+          description: "El cliente se ha dado de baja con éxito",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+
+        fetchCustomers(); // Refresca la lista de clientes
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Error desconocido",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+
+    setDeleteModalOpen(false);
   };
 
   const filteredData = data.filter((item) =>
@@ -64,7 +124,7 @@ const AdminCustomers = () => {
 
         <div className="admin-options">
           <a className="admin-btn" href="customers/addcustomer">
-            <NewIcon />Nuevo
+            <NewIcon /> Nuevo
           </a>
           <input
             type="text"
@@ -103,24 +163,15 @@ const AdminCustomers = () => {
                     </td>
                   ))}
                   <td>
-                    <button
-                      className="admin-btn-view"
-                      onClick={() => fetchAddress(item.id_cliente)}
-                    >
+                    <button className="admin-btn-view" onClick={() => fetchAddress(item.id_cliente)}>
                       <EyeIcon />
                     </button>
                   </td>
                   <td>
-                    <button
-                      className="admin-btn"
-                      onClick={() => handleEdit(item.id_cliente)}
-                    >
+                    <button className="admin-btn" onClick={() => handleEdit(item.id_cliente)}>
                       <EditIcon />
                     </button>
-                    <button
-                      className="admin-btn"
-                      onClick={() => handleDelete(item.id_cliente)}
-                    >
+                    <button className="admin-btn" onClick={() => confirmDelete(item)}>
                       <ClearIcon />
                     </button>
                   </td>
@@ -132,63 +183,55 @@ const AdminCustomers = () => {
 
         {filteredData.length > itemsPerPage && (
           <div className="pagination">
-            <button
-              onClick={() => handlePageChange('prev')}
-              disabled={currentPage === 1}
-              className="admin-btn"
-            >
+            <button onClick={() => handlePageChange('prev')} disabled={currentPage === 1} className="admin-btn">
               Anterior
             </button>
-            <span>
-              {currentPage} de {totalPages}
-            </span>
-            <button
-              onClick={() => handlePageChange('next')}
-              disabled={currentPage === totalPages}
-              className="admin-btn"
-            >
+            <span>{currentPage} de {totalPages}</span>
+            <button onClick={() => handlePageChange('next')} disabled={currentPage === totalPages} className="admin-btn">
               Siguiente
             </button>
           </div>
         )}
       </div>
 
+      {/* Modal de confirmación para eliminar cliente */}
+      <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirmar eliminación</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>¿Estás seguro de que deseas eliminar a este cliente?</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" onClick={handleDelete}>Eliminar</Button>
+            <Button onClick={() => setDeleteModalOpen(false)}>Cancelar</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
       {/* Modal de direcciones */}
       {modalVisible && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className='modal-header'>
-            <h3>Direcciones del cliente</h3>
-            <a onClick={() => setModalVisible(false)}><CloseIcon2/></a>
+              <h3>Direcciones del cliente</h3>
+              <a onClick={() => setModalVisible(false)}><CloseIcon2 /></a>
             </div>
             {loadingAddress ? (
               <p>Cargando...</p>
             ) : addressData.length > 0 ? (
               <table>
                 <thead>
-                  <tr>
-                    <th>Calle</th>
-                    
-                    <th>N° Puerta</th>
-                    <th>Apto</th>
-                    <th>Referencia</th>
-                  </tr>
+                  <tr><th>Calle</th><th>N° Puerta</th><th>Apto</th><th>Referencia</th></tr>
                 </thead>
                 <tbody>
                   {addressData.map((address, idx) => (
-                    <tr key={idx}>
-                      <td>{address.calle}</td>
-                      
-                      <td>{address.n_puerta}</td>
-                      <td>{address.esquina}</td>
-                      <td>{address.referencia}</td>
-                    </tr>
+                    <tr key={idx}><td>{address.calle}</td><td>{address.n_puerta}</td><td>{address.apto}</td><td>{address.referencia}</td></tr>
                   ))}
                 </tbody>
               </table>
-            ) : (
-              <p>No se encontraron direcciones.</p>
-            )}
+            ) : <p>No se encontraron direcciones.</p>}
           </div>
         </div>
       )}

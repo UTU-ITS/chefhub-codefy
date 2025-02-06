@@ -132,28 +132,27 @@ export default function Checkout() {
   };
 
   const handleOrderSubmit = async () => {
-    if (selectedPayment === 'tarjeta' && !validateCardData()) {
+    if (selectedPayment === "tarjeta" && !validateCardData()) {
       toast({
-        title: 'Error de validación',
-        description: 'Por favor, corrija los errores en los datos de la tarjeta',
-        status: 'error',
+        title: "Error de validación",
+        description: "Por favor, corrija los errores en los datos de la tarjeta",
+        status: "error",
         duration: 3000,
-        isClosable: true
+        isClosable: true,
       });
       return;
     }
-
+  
     const Order = {
       id_cliente: user?.data?.id_cliente || null,
-      id_direccion: selectedAddressId,
+      id_direccion: OrderCategorie === "Mesa" ? null : selectedAddressId, // Si la categoría es "Mesa", id_direccion será null
       total: cartTotal,
       metodo_pago: selectedPayment,
       productos: cartItems,
       estado: "Pendiente",
-      categoria: OrderCategorie
+      categoria: OrderCategorie,
     };
 
-    console.log(cartItems);
     try {
       const response = await fetch("http://localhost/api/insertorder", {
         method: "POST",
@@ -162,36 +161,38 @@ export default function Checkout() {
         },
         body: JSON.stringify(Order),
       });
+  
       const result = await response.json();
-
+  
       if (result.success) {
         toast({
-          title: 'Pedido realizado',
-          description: 'Su pedido ha sido procesado con éxito',
-          status: 'success',
+          title: "Pedido realizado",
+          description: "Su pedido ha sido procesado con éxito",
+          status: "success",
           duration: 3000,
-          isClosable: true
+          isClosable: true,
         });
         clearCart();
       } else {
         toast({
-          title: 'Error',
-          description: result.error || 'Error desconocido',
-          status: 'error',
+          title: "Error",
+          description: result.error || "Error desconocido",
+          status: "error",
           duration: 3000,
-          isClosable: true
+          isClosable: true,
         });
       }
     } catch (error) {
       toast({
-        title: 'Error',
+        title: "Error",
         description: error.message,
-        status: 'error',
+        status: "error",
         duration: 3000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
+  
 
   const handlePaymentChange = (event) => {
     setSelectedPayment(event.target.value);

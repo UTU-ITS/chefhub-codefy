@@ -11,6 +11,10 @@ import { CartProvider } from './context/cart';
 import AddProduct from './components/Admin/Products/AddProduct';
 import { UserProvider } from './context/user';
 import Reservations from './components/Reservations/Reservations';
+import AboutUs from './components/AboutUs/AboutUs';
+import ContactUs from './components/ContactUs/ContactUs';
+import ForgotPassword from './components/Login-Register/ForgotPassword';
+import CustomerAutoManagement from './components/Admin/Users/Customers/CustomerAutoManagement';
 
 function NotFound() {
   return (
@@ -31,14 +35,18 @@ function App() {
         <div className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/login" element={<LoginView />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/register" element={<RegisterView />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/admin/*" element={<AdminOptions />} />
+            <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
             <Route path="*" element={<NotFound />} /> {/* Ruta para manejar URLs no existentes */}
             <Route path="/admin/products/addproduct" element={<AddProduct />} />
             <Route path="/reservations" element={<Reservations />} />
+            <Route path="/myprofile" element={<CustomerAutoManagement />} />
           </Routes>
         </div>
       </BrowserRouter>

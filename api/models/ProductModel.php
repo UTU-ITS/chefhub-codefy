@@ -112,8 +112,18 @@ class Product {
         }
 
     }
-
-    
-    
-    
+    public function DeleteProduct($id_producto){
+        
+            $sql = "UPDATE producto SET baja = TRUE WHERE id_producto = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $id_producto);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        
+    }
+     
 }

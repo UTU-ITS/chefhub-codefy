@@ -3,14 +3,21 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './LoginView.css';
 import { ChakraProvider } from '@chakra-ui/react';
+import Modal from 'react-modal';
 import { UserContext } from '../../context/user';
+
+Modal.setAppElement('#root');
 
 export default function LoginView() {
     const navigate = useNavigate();
     const { login } = useContext(UserContext);
     const [inputs, setInputs] = useState({});
     const [error, setError] = useState('');
-    const [step, setStep] = useState(1); // Estado para controlar la vista (1 = Email, 2 = Password)
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [email, setEmail] = useState('');
+    const [verificationCode, setVerificationCode] = useState('');
+    const [stepFG, setStepFG] = useState(1);
+    const [step, setStep] = useState(1);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -51,6 +58,72 @@ export default function LoginView() {
             console.error(err);
             setError('Error de inicio de sesión. Verifique sus credenciales.');
         }
+        console.log(inputs);
+    };
+
+    const handleSendVerificationEmail = async () => {
+        const HandleCheckMailisRegistered = async () => {
+            try {
+                const response = await axios.post("http://localhost/api/checkemail", { email });
+                if (response.data.success) {
+                    console.log(response.data);
+                    return response.data; // Devuelvo la id si el correo está registrado
+                } else {
+                    alert(`Error: ${response.data.message}`);
+                    return null; // Si no está registrado, devuelvo null
+                }
+            } catch (error) {
+                console.error("Error al verificar el correo:", error);
+                alert("Este correo no está registrado.");
+                return null;
+            }
+        }
+    
+        if (!email) {
+            alert("Por favor, ingresa un correo electrónico.");
+            return;
+        }
+    
+        // Verificamos si el correo está registrado
+        const userId = await HandleCheckMailisRegistered();
+        if (!userId) return; // Si la verificación falla, no continuamos
+    
+        // Ahora enviamos el correo solo si la verificación es exitosa
+        try {
+            const response = await axios.post("http://localhost/api/sendmail", { email });
+            if (response.data.success) {
+                setStepFG(2);
+    
+                // Aquí guardamos la id en el contexto del usuario
+                // Asegúrate de tener acceso a tu contexto y setearlo adecuadamente
+                login({ id_usuario: userId.data }); // O la forma adecuada de actualizar el contexto
+            } else {
+                alert(`Error: ${response.data.message}`);
+            }
+        } catch (error) {
+            console.error("Error al enviar el mail:", error);
+            alert("Hubo un problema al enviar el mail. Inténtalo más tarde.");
+        }
+    };
+    
+    
+
+    const handleVerifyCode = async () => {
+        try {
+            const response = await axios.post("http://localhost/api/checktoken", { email, tokenInput: verificationCode });
+            
+            if (response.data.success) {
+               
+                alert("Código verificado correctamente.");
+                setModalIsOpen(false);
+                navigate('/forgot-password');
+            } else {
+                alert("Código incorrecto, intenta de nuevo.");
+            }
+        } catch (error) {
+            console.error("Error al verificar código:", error);
+            alert("Hubo un problema al verificar el código.");
+        }
     };
 
     return (
@@ -61,7 +134,6 @@ export default function LoginView() {
                     <h1>iniciar sesión</h1>
                 </div>
                 <div className="login-div-box">
-                    <form onSubmit={handleSubmit} className="login-form">
                         <div className="login-div-content">
                             {step === 1 && (
                                 <>
@@ -103,15 +175,31 @@ export default function LoginView() {
                                         {error && <div className="error-message">{error}</div>}
                                     </div>
                                     <div className="login-div-email">
-                                        <button className="btn">Iniciar Sesión</button>
-                                        <button className='btn btn-otc'>¿Olvidaste tu contraseña?</button>
+                                        <button className="btn" onClick={handleSubmit}>Iniciar Sesión</button>
+                                        <button className='btn btn-otc' onClick={() => setModalIsOpen(true)}>¿Olvidaste tu contraseña?</button>
                                     </div>
                                 </>
                             )}
                         </div>
-                    </form>
                 </div>
             </div>
+            
+            <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal-content">
+                {stepFG === 1 && (
+                    <div>
+                        <h2>Recuperar contraseña</h2>
+                        <input type="email" placeholder="Ingrese su correo" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <button onClick={handleSendVerificationEmail}>Enviar</button>
+                    </div>
+                )}
+                {stepFG === 2 && (
+                    <div>
+                        <h2>Ingrese el código de verificación</h2>
+                        <input type="text" placeholder="Código" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
+                        <button onClick={handleVerifyCode}>Verificar</button>
+                    </div>
+                )}
+            </Modal>
         </ChakraProvider>
     );
 }

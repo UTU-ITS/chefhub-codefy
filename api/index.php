@@ -82,6 +82,8 @@ if (isset($path[1])) {
                 } else if ($path[2] === 'address' && isset($path[3])) {
                     $customerId = $path[3];
                     $UserController->handleRequest('customersaddress', $customerId);
+                } else if ($path[2] === 'deletecustomers') {
+                        $UserController->handleRequest('deletecustomers');
                 } else {
                     echo json_encode(["message" => "Ruta no válida"]);
                     
@@ -178,6 +180,52 @@ if (isset($path[1])) {
                             $TokenController = new TokenController($conn);
                             $TokenController->handleRequest('checktoken');
                             break;
+                        case 'checkemail': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('checkemail');
+                        break;
+                        case 'resetpassword': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('resetpassword');
+                        break;
+                        case 'deleteaddress': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('deleteaddress');
+                        break;
+                        case 'getpassword': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('checkpassword');
+                        break;
+                        case 'updatepassword': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('checkpassword');
+                        break;
+                        case 'updatename': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('updatename');
+                        break;
+                        case 'deleteproduct': 
+
+                            $ProductController = new ProductController($conn);
+                            $ProductController->handleRequest('deleteproduct');
+                        break;
+                        case 'deleteemployee': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('deleteemployee');
+                        break;
+                        case 'cancelorder': 
+
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('cancelorder');
+                        break;
+
                                 
                                  
             default:

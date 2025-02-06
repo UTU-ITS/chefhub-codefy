@@ -158,4 +158,18 @@ class Order {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function CancelOrder($id_pedido) {
+        $sql = "UPDATE pedido SET estado = 'Cancelado' WHERE id_pedido = :id_pedido";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_pedido', $id_pedido);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            return ['success' => 'Pedido cancelado correctamente'];
+        } else {
+            return false;
+        }
+    }
+
+
+
 }
