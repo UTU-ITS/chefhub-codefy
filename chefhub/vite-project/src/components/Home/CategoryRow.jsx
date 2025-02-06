@@ -12,6 +12,14 @@ export default function CategoryRow() {
                 <ProductDisplay />
                 <ProductDisplay />
                 <ProductDisplay />
+                <ProductDisplay />
+                <ProductDisplay />
+                <ProductDisplay />
+                <ProductDisplay />
+                <ProductDisplay />
+                <ProductDisplay />
+                <ProductDisplay />
+                <ProductDisplay />
             </div>
         </section>
         </>
