@@ -10,6 +10,10 @@ require('Controllers/ReservationController.php');
 require('Controllers/TablesController.php');
 require('Controllers/TokenController.php');
 
+require __DIR__.'\vendor\autoload.php';
+use MercadoPago\Client\Payment\PreferenceClient;
+use MercadoPago\MercadoPagoConfig;
+$access_token = "APP_USR-5865558838187477-020615-2302c3889cb69404412550090df0ce2e-2255431918";
 
 // Crear la conexión una vez y reutilizarla
 $db = new DbConnect();
@@ -29,6 +33,48 @@ if (isset($path[1])) {
                 echo json_encode(["message" => "Ruta no válida"]);
             }
             break;
+
+            case 'payment':
+                MercadoPago\SDK::setAccessToken($access_token);
+                $preference = new MercadoPago\Preference();
+                
+                $preference->back_urls = array(
+                    "success" => "http://localhost:5173/",
+                    "failure" => "https://localhost/mercadopago/fail.php",
+                    "pending" => "https://localhost/mercadopago/fail.php",
+                );
+                
+                $preference->auto_return = "approved";
+                
+                $productos = [];
+                
+                // Decodifica el JSON recibido en el cuerpo de la solicitud
+                $data = json_decode(file_get_contents('php://input'), true);
+            
+                // Verifica si 'items' existe en los datos recibidos
+                if (isset($data['items']) && is_array($data['items'])) {
+                    $itemsData = $data['items']; // array de items que recibimos por JSON
+                    
+                    foreach ($itemsData as $itemData) {
+                        $item = new MercadoPago\Item();
+                        $item->title = $itemData['title'];  // Título del producto
+                        $item->quantity = $itemData['quantity'];  // Cantidad
+                        $item->unit_price = $itemData['unit_price'];  // Precio unitario
+                        
+                        array_push($productos, $item);
+                    }
+                    
+                    $preference->items = $productos;
+                    $preference->save();
+
+                    echo json_encode(["preference_id" => $preference->id]);
+                    
+                } else {
+                    // Maneja el caso en que 'items' no está presente en el JSON
+                    echo "Error: No se recibieron los datos de los productos.";
+                }
+                
+            break;                      
 
         case 'productbycategory':
             $ProductController = new ProductController($conn);
