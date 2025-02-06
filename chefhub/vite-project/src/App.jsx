@@ -15,6 +15,7 @@ import AboutUs from './components/AboutUs/AboutUs';
 import ContactUs from './components/ContactUs/ContactUs';
 import ForgotPassword from './components/Login-Register/ForgotPassword';
 import CustomerAutoManagement from './components/Admin/Users/Customers/CustomerAutoManagement';
+import AfterCheckout from './components/Shop/AfterCheckout';
 
 function NotFound() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/menu" element={<Menu />} />
             <Route path="/register" element={<RegisterView />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout/success" element={<AfterCheckout />} />
             <Route path="/admin/*" element={<AdminOptions />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
