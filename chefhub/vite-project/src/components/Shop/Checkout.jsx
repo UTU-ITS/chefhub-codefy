@@ -7,8 +7,11 @@ import { CartContext } from '../../context/cart';
 import { UserContext } from '../../context/user';
 import CartSummary from './CartSummary';
 import axios from 'axios';
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+initMercadoPago('APP_USR-c4ae400c-ca0c-4d11-bf66-634b6910a8aa');
 
 export default function Checkout() {
+  
   const { user } = useContext(UserContext);
   const { cartItems, clearCart } = useContext(CartContext);
   const [selectedPayment, setSelectedPayment] = useState('');
@@ -19,6 +22,7 @@ export default function Checkout() {
   const [cartTotal, setCartTotal] = useState(0);
   const [selectedTab, setSelectedTab] = useState(0);
   const [OrderCategorie, setOrderCategorie] = useState('');
+  const [preferenceId, setPreferenceId] = useState('');
   const toast = useToast();
 
   // Estado para datos de tarjeta
@@ -132,39 +136,30 @@ export default function Checkout() {
   };
 
   const handleOrderSubmit = async () => {
-    if (selectedPayment === "tarjeta" && !validateCardData()) {
-      toast({
-        title: "Error de validación",
-        description: "Por favor, corrija los errores en los datos de la tarjeta",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-  
-    const Order = {
-      id_cliente: user?.data?.id_cliente || null,
-      id_direccion: OrderCategorie === "Mesa" ? null : selectedAddressId, // Si la categoría es "Mesa", id_direccion será null
-      total: cartTotal,
-      metodo_pago: selectedPayment,
-      productos: cartItems,
-      estado: "Pendiente",
-      categoria: OrderCategorie,
-    };
-
     try {
-      const response = await fetch("http://localhost/api/insertorder", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(Order),
+    
+      // Crear preferencia de pago en MercadoPago
+      const preferenceResponse = await axios.post('http://localhost/api/payment', {
+        items: cartItems.map(item => ({
+          title: item.name,
+          quantity: 1,
+          unit_price: item.price,
+        })),
       });
+
+      console.log(preferenceResponse);
+      
+      if (preferenceResponse?.data) {
+        const preferenceId = preferenceResponse.data.preference_id;
   
-      const result = await response.json();
+        // Verificar si preferenceId es válido antes de actualizar el estado
+        if (preferenceId) {
+          console.log('Preference ID:', preferenceId);
+          setPreferenceId(preferenceId);
+        } else {
+          throw new Error("No se recibió un preferenceId válido.");
+        }
   
-      if (result.success) {
         toast({
           title: "Pedido realizado",
           description: "Su pedido ha sido procesado con éxito",
@@ -172,16 +167,11 @@ export default function Checkout() {
           duration: 3000,
           isClosable: true,
         });
-        clearCart();
+
       } else {
-        toast({
-          title: "Error",
-          description: result.error || "Error desconocido",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
+        throw new Error("Error en la respuesta de la API.");
       }
+  
     } catch (error) {
       toast({
         title: "Error",
@@ -192,7 +182,6 @@ export default function Checkout() {
       });
     }
   };
-  
 
   const handlePaymentChange = (event) => {
     setSelectedPayment(event.target.value);
@@ -485,6 +474,12 @@ export default function Checkout() {
 
                       {selectedPayment === 'tarjeta' && (
                         <div className="card-payment-details">
+                          <div id="wallet_container">
+                            <button onClick={handleOrderSubmit}>Pagar con Wallet
+                            <Wallet initialization={{ preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}}/>
+                            </button>
+                          
+                          </div>
                           <div className="form-group">
                             <input
                               type="text"
