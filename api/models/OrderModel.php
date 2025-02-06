@@ -56,50 +56,35 @@ class Order {
             // Verificar si hay productos en el pedido
             if (!empty($data['productos']) && is_array($data['productos'])) {
                 
-                // Contar la cantidad de cada producto en el pedido
-$producto_cantidades = [];
-
-foreach ($data['productos'] as $producto) {
-    $id_producto = $producto['id'];
+                foreach ($data['productos'] as $producto) {
+                    $id_producto = $producto['id'];
+                    
     
-    if (!isset($producto_cantidades[$id_producto])) {
-        $producto_cantidades[$id_producto] = 0;
-    }
+                    $queryProducto = "INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) 
+                                     VALUES (:id_pedido, :id_producto, :cantidad, :importe, :nota)";
+                    $stmtProducto = $this->conn->prepare($queryProducto);
+                    $stmtProducto->bindValue(":id_pedido", $id_pedido, PDO::PARAM_INT);
+                    $stmtProducto->bindValue(":id_producto", $id_producto, PDO::PARAM_INT);
+                    $stmtProducto->bindValue(":cantidad", 1, PDO::PARAM_INT);
+                    $stmtProducto->bindValue(":importe", $producto['price'], PDO::PARAM_STR);
+                    $stmtProducto->bindValue(":nota", $producto['note'] ?? null, PDO::PARAM_STR);
+                    $stmtProducto->execute();
 
-    $producto_cantidades[$id_producto] += 1; // Incrementa la cantidad
-}
-
-// Insertar productos con la cantidad correcta
-foreach ($producto_cantidades as $id_producto => $cantidad) {
-    // Buscar un producto con este id para obtener otros valores (ejemplo: precio y nota)
-    $productoEjemplo = current(array_filter($data['productos'], fn($p) => $p['id'] === $id_producto));
-
-    $queryProducto = "INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) 
-                      VALUES (:id_pedido, :id_producto, :cantidad, :importe, :nota)";
+                    $id_pedido_producto = $this->conn->lastInsertId();
     
-    $stmtProducto = $this->conn->prepare($queryProducto);
-    $stmtProducto->bindValue(":id_pedido", $id_pedido, PDO::PARAM_INT);
-    $stmtProducto->bindValue(":id_producto", $id_producto, PDO::PARAM_INT);
-    $stmtProducto->bindValue(":cantidad", $cantidad, PDO::PARAM_INT);
-    $stmtProducto->bindValue(":importe", $productoEjemplo['price'], PDO::PARAM_STR);
-    $stmtProducto->bindValue(":nota", $productoEjemplo['note'] ?? null, PDO::PARAM_STR);
-    $stmtProducto->execute();
-
-    // Verificar si el producto tiene ingredientes
-    if (!empty($productoEjemplo['ingredients']) && is_array($productoEjemplo['ingredients'])) {
-        foreach ($productoEjemplo['ingredients'] as $ingrediente) {
-            $queryIngrediente = "INSERT INTO pedido_ingrediente (id_pedido, id_producto, id_ingrediente, cantidad) 
-                                 VALUES (:id_pedido, :id_producto, :id_ingrediente, :cantidad)";
-            
-            $stmtIngrediente = $this->conn->prepare($queryIngrediente);
-            $stmtIngrediente->bindValue(":id_pedido", $id_pedido, PDO::PARAM_INT);
-            $stmtIngrediente->bindValue(":id_producto", $id_producto, PDO::PARAM_INT);
-            $stmtIngrediente->bindValue(":id_ingrediente", $ingrediente['id_ingrediente'], PDO::PARAM_INT);
-            $stmtIngrediente->bindValue(":cantidad", $ingrediente['cantidad'], PDO::PARAM_INT);
-            $stmtIngrediente->execute();
-        }
-    }
-}
+                    // Verificar si el producto tiene ingredientes
+                    if (!empty($producto['ingredients']) && is_array($producto['ingredients'])) {
+                        foreach ($producto['ingredients'] as $ingrediente) {
+                            $queryIngrediente = "INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) 
+                                                 VALUES (:id_pedido_producto, :id_ingrediente, :cantidad)";
+                            $stmtIngrediente = $this->conn->prepare($queryIngrediente);
+                            $stmtIngrediente->bindValue(":id_pedido_producto", $id_pedido_producto, PDO::PARAM_INT);
+                            $stmtIngrediente->bindValue(":id_ingrediente", $ingrediente['id_ingrediente'], PDO::PARAM_INT);
+                            $stmtIngrediente->bindValue(":cantidad", $ingrediente['cantidad'], PDO::PARAM_INT);
+                            $stmtIngrediente->execute();
+                        }
+                    }
+                }
             }
     
             // Confirmar la transacción
@@ -173,4 +158,18 @@ foreach ($producto_cantidades as $id_producto => $cantidad) {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function CancelOrder($id_pedido) {
+        $sql = "UPDATE pedido SET estado = 'Cancelado' WHERE id_pedido = :id_pedido";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_pedido', $id_pedido);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            return ['success' => 'Pedido cancelado correctamente'];
+        } else {
+            return false;
+        }
+    }
+
+
+
 }

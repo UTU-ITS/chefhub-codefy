@@ -42,17 +42,20 @@ const NavBar = () => {
             <li className="nav-item">
               <a href="/reservations">Reserva tu mesa</a>
             </li>
-            {!user?.data && (
-            <li className="nav-item">
-              <a href="/register">Registrarme</a>
-            </li>
-             )}
             <li className="nav-item">
               <a href="/aboutus">Sobre Nosotros</a>
             </li>
             <li className="nav-item">
               <a href="/contact">Contáctanos</a>
             </li>
+            {user && user.data && (
+              <>
+            <li className="nav-item">
+              <a className="nav-link" href="/myprofile">Mi perfil</a>
+            </li>
+            </>
+            )}
+  
           </ul>
         </div>
 

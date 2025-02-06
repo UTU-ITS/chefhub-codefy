@@ -51,7 +51,24 @@ class OrderController {
                     echo json_encode($result);
                     break;
 
+                case "PUT":
+                    if ($action === 'cancelorder') {
 
+                        $data = json_decode(file_get_contents("php://input"), true);
+
+                        $id_pedido = $data['id_pedido'];
+
+                        $result = $this->order->CancelOrder($id_pedido);
+                        if ($result) {
+                            $result = ["success" => true,"message" => "Pedido cancelado"];
+                        } else {
+                            $result = ["message" => "Error al cancelar pedido"];
+                        }
+                    } else {
+                        $result = ["message" => "Acción no reconocida"];
+                    }
+                    echo json_encode($result);
+                    break;
 
                 
             default:

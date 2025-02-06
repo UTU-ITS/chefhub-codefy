@@ -18,17 +18,19 @@ export default function Menu() {
     <>
    
       <div className='menu-div'>
-        <div className='filters'>
-     
-          <h1 className='filters-title'>Filtros</h1>
-         
-          <button 
-            className={`btn-tag ${selectedCategory === null ? 'selected' : ''}`} 
-            onClick={handleSelectAll}
-          >
-            Todos
-          </button>
-          <Categories selectedKey={selectedCategory} onSelectKey={setSelectedCategory} />
+        <div className='search-div'>
+          <i className='borde buscador-barra barra-menu'>
+          <input type='text' placeholder='Buscar...' />
+          <button className='btn'>Buscar</button>
+          </i>
+        </div>
+        <div className='filters-div'>
+          <div className='filters-tags'>
+            <button className={`btn-tag ${selectedCategory === null ? 'selected' : ''}`} onClick={handleSelectAll}>
+              Todos
+            </button>
+            <Categories selectedKey={selectedCategory} onSelectKey={setSelectedCategory} className={'btn-tag'}/>
+          </div>
         </div>
 
         <div className="catalog">
