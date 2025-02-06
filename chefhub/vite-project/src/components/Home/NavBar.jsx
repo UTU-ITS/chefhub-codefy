@@ -43,7 +43,7 @@ const NavBar = () => {
               <a href="/reservations">Reserva tu mesa</a>
             </li>
             <li className="nav-item">
-              <a href="/about">Sobre Nosotros</a>
+              <a href="/aboutus">Sobre Nosotros</a>
             </li>
             <li className="nav-item">
               <a href="/contact">Contáctanos</a>

@@ -16,6 +16,7 @@ export default function LoginView() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [email, setEmail] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
+    const [stepFG, setStepFG] = useState(1);
     const [step, setStep] = useState(1);
 
     const handleChange = (event) => {
@@ -57,6 +58,7 @@ export default function LoginView() {
             console.error(err);
             setError('Error de inicio de sesión. Verifique sus credenciales.');
         }
+        console.log(inputs);
     };
 
     const handleSendVerificationEmail = async () => {
@@ -90,7 +92,7 @@ export default function LoginView() {
         try {
             const response = await axios.post("http://localhost/api/sendmail", { email });
             if (response.data.success) {
-                setStep(2);
+                setStepFG(2);
     
                 // Aquí guardamos la id en el contexto del usuario
                 // Asegúrate de tener acceso a tu contexto y setearlo adecuadamente
@@ -132,7 +134,6 @@ export default function LoginView() {
                     <h1>iniciar sesión</h1>
                 </div>
                 <div className="login-div-box">
-                    <form onSubmit={handleSubmit} className="login-form">
                         <div className="login-div-content">
                             {step === 1 && (
                                 <>
@@ -174,25 +175,24 @@ export default function LoginView() {
                                         {error && <div className="error-message">{error}</div>}
                                     </div>
                                     <div className="login-div-email">
-                                        <button className="btn">Iniciar Sesión</button>
-                                        <button className='btn btn-otc' onClick={() => setModalIsOpen(true)>¿Olvidaste tu contraseña?</button>
+                                        <button className="btn" onClick={handleSubmit}>Iniciar Sesión</button>
+                                        <button className='btn btn-otc' onClick={() => setModalIsOpen(true)}>¿Olvidaste tu contraseña?</button>
                                     </div>
                                 </>
                             )}
                         </div>
-                    </form>
                 </div>
             </div>
             
             <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal-content">
-                {step === 1 && (
+                {stepFG === 1 && (
                     <div>
                         <h2>Recuperar contraseña</h2>
                         <input type="email" placeholder="Ingrese su correo" value={email} onChange={(e) => setEmail(e.target.value)} />
                         <button onClick={handleSendVerificationEmail}>Enviar</button>
                     </div>
                 )}
-                {step === 2 && (
+                {stepFG === 2 && (
                     <div>
                         <h2>Ingrese el código de verificación</h2>
                         <input type="text" placeholder="Código" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />

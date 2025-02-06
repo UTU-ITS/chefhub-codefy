@@ -1,6 +1,7 @@
 @import url(../../design.css);
 
 .ingredients-column {
+    margin-top: 12px;
     display: flex;
     flex-direction: column;
     gap: 10px;
