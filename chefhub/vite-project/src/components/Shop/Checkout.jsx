@@ -467,11 +467,11 @@ export default function Checkout() {
                           <div className="change-options">
                             <label>
                               <input type="radio" name="change" value="si" />
-                              <span>Sí</span>
+                              <span className='cash-options'>Sí</span>
                             </label>
                             <label>
                               <input type="radio" name="change" value="no" />
-                              <span>No</span>
+                              <span className='cash-options'>No</span>
                             </label>
                           </div>
                           <input
@@ -538,6 +538,15 @@ export default function Checkout() {
                           </div>
                         </div>
                       )}
+                      <div className="checkout-btn-container">
+                        <button 
+                          className="checkout-btn" 
+                          onClick={handleOrderSubmit}
+                          disabled={!selectedPayment || (selectedTab === 0 && selectedAddressId === 'new')}
+                        >
+                          Realizar pedido
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </TabPanel>
@@ -558,13 +567,6 @@ export default function Checkout() {
 
           <div className="checkout-summary">
             <CartSummary isCheckout={true} />
-            <button 
-              className="checkout-btn" 
-              onClick={handleOrderSubmit}
-              disabled={!selectedPayment || (selectedTab === 0 && selectedAddressId === 'new')}
-            >
-              Realizar pedido
-            </button>
           </div>
         </div>
       </ChakraProvider>

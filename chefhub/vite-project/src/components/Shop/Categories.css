@@ -1,48 +1,51 @@
+@import url(../../design.css);
+
 .btn-tag {
   font-family: Poppins, sans-serif;
-  font-weight: 400;
-  font-size: small;
-  margin-left:10px ;
-  margin-right: 10px;
-  margin-top: 10px;
-  background-color: #ebebeb;
-  color: #353434;
-  border: 2px solid #fff;
-  border-color: #fff;
-  border-radius: 25px;
-  transition-duration: 0.2s;
-  width: auto;    
-  display: inline-block; 
-  padding: 2%;
-  }
+  font-weight: 500;
+  font-size: 14px;
+  margin: 8px;
+  padding: 10px 20px;
+  color: var(--navbar-color);
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  min-width: 100px;
+  margin-bottom: 10px;  /* Añadido para mejor espaciado */
+}
 
-  .btn-tag:hover {
-    background-color: #fff;
-    border-color: #811edb;
-    color: #811edb;
-  }
-
-  
-.selected:hover{
-  font-family: Poppins, sans-serif;
-  font-weight: 400;
-  font-size: small;
-  margin-left:10px ;
-  margin-right: 10px;
-  margin-top: 10px;
-  background-color: #ebebeb;
-  color: #353434;
-  border: 2px solid #fff;
-  border-color: #fff;
-  border-radius: 25px;
-  transition-duration: 0.2s;
-  width: auto;    
-  display: inline-block; 
-  padding: 2%;
-  }
-
+/* Estilo de botón seleccionado */
 .selected {
-background-color: #fff;
-border-color: #811edb;
-color: #811edb;
+  background-color: #fff;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;  /* Permite que las etiquetas se ajusten cuando el espacio es reducido */
+  justify-content: center;
+  width: 100%;
+}
+
+/* Estilo responsivo */
+@media (max-width: 768px) {
+  .btn-tag {
+    font-size: 12px;
+    padding: 8px 16px;
+    min-width: 80px; /* Ajusta el tamaño mínimo */
+  }
+
+  .filters {
+    flex-direction: column; /* Cambia la dirección de los filtros a columna en pantallas más pequeñas */
+    align-items: center;
+  }
+  
+  .filters-tags {
+    flex-direction: column;  /* Acomoda las etiquetas verticalmente */
+  }
 }
