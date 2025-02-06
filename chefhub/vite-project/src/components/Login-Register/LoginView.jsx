@@ -23,16 +23,31 @@ export default function LoginView() {
         setInputs((values) => ({ ...values, [name]: value }));
     };
 
+    const handleContinue = () => {
+        if (inputs.email) {
+            setStep(2); // Pasar a la pantalla de contraseña
+        } else {
+            setError('Por favor, ingrese su correo electrónico.');
+        }
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError('');
+
         try {
-            const response = await axios.post('http://localhost/api/login', {
-                email: inputs.email,
-                password: inputs.password,
-            }, {
-                headers: { 'Content-Type': 'application/json' },
-            });
+            const response = await axios.post(
+                'http://localhost/api/login',
+                {
+                    email: inputs.email,
+                    password: inputs.password,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
 
             if (response.data) {
                 login(response.data);
@@ -112,36 +127,58 @@ export default function LoginView() {
     return (
         <ChakraProvider>
             <div className='login-div'>
+                <div className='login-div-text'>
+                    <h1>Ingresa tu e-mail para</h1>
+                    <h1>iniciar sesión</h1>
+                </div>
                 <div className="login-div-box">
-                    <form onSubmit={handleSubmit}>
-                        <div className="login-span">
-                            <strong>Inicio de Sesión</strong>
-                        </div>
+                    <form onSubmit={handleSubmit} className="login-form">
                         <div className="login-div-content">
-                            <span className="login-span">Correo Electrónico</span>
-                            <input
-                                name="email"
-                                type="email"
-                                placeholder="Ingrese Correo Electrónico"
-                                className="txt-area"
-                                onChange={handleChange}
-                            />
-                            <span className="login-span">Contraseña</span>
-                            <input
-                                name="password"
-                                type="password"
-                                placeholder="Ingrese Contraseña"
-                                className="txt-area"
-                                onChange={handleChange}
-                            />
-                            {error && <div className="error-message">{error}</div>}
-                            <button type="button" className="forgot-pass" onClick={() => setModalIsOpen(true)}>¿Olvidó su contraseña?</button>
-                        </div>
-                        <div className="btns-login">
-                            <button className="btn">Iniciar Sesión</button>
-                            <a href="/register">
-                                <button type="button" className="btn">Registrarme</button>
-                            </a>
+                            {step === 1 && (
+                                <>
+                                    <div className="login-div-email">
+                                        <span className="login-span">E-mail</span>
+                                    </div>
+                                    <div className='login-div-email'>
+                                        <input
+                                        name="email"
+                                        type="email"
+                                        placeholder="Ingrese su correo"
+                                        onChange={handleChange}
+                                    />
+                                    </div>
+                                    <div className="login-div-email">
+                                        {error && <div className="error-message">{error}</div>}
+                                    </div>
+                                    <div className="login-div-email div-button-register">
+                                        <button type="button" className="btn" onClick={handleContinue}>Continuar</button>
+                                        <button type="button" className="btn btn-register">Registrarse</button>
+                                    </div>
+                                </>
+                            )}
+                            
+                            {step === 2 && (
+                                <>
+                                    <div className="login-div-email">
+                                        <span className="login-span">Contraseña</span>
+                                    </div>
+                                    <div className="login-div-email">
+                                        <input
+                                        name="password"
+                                        type="password"
+                                        placeholder="Ingrese su contraseña"
+                                        onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="login-div-email">
+                                        {error && <div className="error-message">{error}</div>}
+                                    </div>
+                                    <div className="login-div-email">
+                                        <button className="btn">Iniciar Sesión</button>
+                                        <button className='btn btn-otc' onClick={() => setModalIsOpen(true)>¿Olvidaste tu contraseña?</button>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </form>
                 </div>

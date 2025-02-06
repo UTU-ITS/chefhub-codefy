@@ -1,3 +1,5 @@
+@import url(../../design.css);
+
 .ingredients-column {
     display: flex;
     flex-direction: column;
@@ -9,6 +11,7 @@
   }
   
   .ingredient-item {
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -19,8 +22,7 @@
   }
   
   .ingredient-item span {
-    flex: 1;
-    margin-right: 10px;
+    font-size: var(--text-size);
   }
   
   .ingredient-item input {
@@ -37,10 +39,11 @@
   }
 
   .btn-ing {
+    font-size: var(--text-size);
     font-family: Poppins, sans-serif;
     font-weight: 600;
-    height: 40px; 
-    width: 40px;
+    height: 25px; 
+    width: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
