@@ -11,8 +11,9 @@ const AdminOrders = () => {
     const [tableDetails, setTableDetails] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedOrder, setSelectedOrder] = useState(null);
+    const [showCancelModal, setShowCancelModal] = useState(false); // Controlar el modal de confirmación
 
-    // Estados de paginación independientes
+    
     const [currentPagePending, setCurrentPagePending] = useState(1);
     const [currentPagePreparing, setCurrentPagePreparing] = useState(1);
     const [currentPageReady, setCurrentPageReady] = useState(1);
@@ -40,15 +41,44 @@ const AdminOrders = () => {
         try {
             const response = await fetch(`http://localhost/api/tables/perorder/${id}`);
             const data = await response.json();
-            
-            // Si la API devuelve un array, extraemos el primer elemento
             setTableDetails(data.length > 0 ? data[0] : null);
         } catch (error) {
             console.error("Error al obtener detalles de la mesa:", error);
         }
-    };    
+    };
 
-    // Función de filtrado de búsqueda
+    const cancelOrder = async (id) => {
+        try {
+            const response = await fetch('http://localhost/api/cancelorder', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id_pedido: id }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert('Pedido cancelado con éxito');
+                // Resetear las tablas de datos después de cancelar
+                fetchData('http://localhost/api/orders/pending', setData);
+                fetchData('http://localhost/api/orders/preparation', setPreparingData);
+                fetchData('http://localhost/api/orders/ready', setReadyData);
+            } else {
+                alert('Error al cancelar el pedido');
+            }
+            setShowCancelModal(false); // Cerrar el modal después de cancelar
+        } catch (error) {
+            console.error("Error al cancelar el pedido:", error);
+            alert('Hubo un problema al cancelar el pedido');
+            setShowCancelModal(false);
+        }
+    };
+
+    const handleCancelClick = (id) => {
+        setSelectedOrder(id);
+        setShowCancelModal(true);
+    };
+
     const filterOrders = (orders) => {
         return orders.filter((item) =>
             Object.values(item)
@@ -58,12 +88,10 @@ const AdminOrders = () => {
         );
     };
 
-    // Filtramos cada conjunto de datos
     const filteredPendingData = filterOrders(data);
     const filteredPreparingData = filterOrders(preparingData);
     const filteredReadyData = filterOrders(readyData);
 
-    // Paginación específica para cada tabla
     const paginateOrders = (orders, currentPage) => {
         const totalPages = Math.ceil(orders.length / itemsPerPage);
         const currentData = orders.slice(
@@ -77,7 +105,6 @@ const AdminOrders = () => {
     const { currentData: currentPreparingData, totalPages: totalPagesPreparing } = paginateOrders(filteredPreparingData, currentPagePreparing);
     const { currentData: currentReadyData, totalPages: totalPagesReady } = paginateOrders(filteredReadyData, currentPageReady);
 
-    // Manejo de paginación por tabla
     const handlePageChange = (type, direction) => {
         if (type === 'pending') {
             setCurrentPagePending((prev) =>
@@ -98,7 +125,7 @@ const AdminOrders = () => {
         <div>
             <div className='orders-format'>
                 <div className='left'>
-                    {/* PEDIDOS PENDIENTES */}
+
                     <div className='admin-title orders-title'>
                         <h2>PEDIDOS PENDIENTES</h2>
                         <input type="text" placeholder="Buscar pedidos..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="search-bar" />
@@ -121,8 +148,9 @@ const AdminOrders = () => {
                                                 <td key={idx}>{value}</td>
                                             ))}
                                             <td>
-                                                <button className="admin-btn">
-                                                    <CloseIcon />
+                                                <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
+                                                
+                                                    <CloseIcon/>
                                                 </button>
                                                 <button className='admin-btn' onClick={() => handleViewDetails(item.ID) && handleTableOrder(item.ID)}>
                                                     <EyeIcon />
@@ -152,7 +180,6 @@ const AdminOrders = () => {
                         </div>
                     )}
 
-                    {/* PEDIDOS EN PREPARACIÓN */}
                     <div className='admin-title orders-title'>
                         <h2>PEDIDOS EN PREPARACIÓN</h2>
                     </div>
@@ -174,8 +201,8 @@ const AdminOrders = () => {
                                                 <td key={idx}>{value}</td>
                                             ))}
                                             <td>
-                                                <button className="admin-btn">
-                                                    <CloseIcon />
+                                            <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
+                                            <CloseIcon />
                                                 </button>
                                                 <button className='admin-btn' onClick={() => handleViewDetails(item.ID)}>
                                                     <EyeIcon />
@@ -227,8 +254,8 @@ const AdminOrders = () => {
                                                 <td key={idx}>{value}</td>
                                             ))}
                                             <td>
-                                                <button className="admin-btn">
-                                                    <CloseIcon />
+                                            <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
+                                            <CloseIcon />
                                                 </button>
                                                 <button className='admin-btn' onClick={() => handleViewDetails(item.ID)}>
                                                     <EyeIcon />
@@ -336,9 +363,19 @@ const AdminOrders = () => {
                                 )}
                             </tbody>
                         </table>
+                        
                     </div>
                 </div>
             </div>
+            {showCancelModal && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h3>¿Está seguro de cancelar el pedido?</h3>
+                        <button className="cancel-btn" onClick={() => setShowCancelModal(false)}>Cancelar</button>
+                        <button className="confirm-btn" onClick={() => cancelOrder(selectedOrder)}>Confirmar</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -48,6 +48,14 @@ const NavBar = () => {
             <li className="nav-item">
               <a href="/contact">Contáctanos</a>
             </li>
+            {user && user.data && (
+              <>
+            <li className="nav-item">
+              <a className="nav-link" href="/myprofile">Mi perfil</a>
+            </li>
+            </>
+            )}
+  
           </ul>
         </div>
 
