@@ -97,6 +97,7 @@ body {
   font-size: 12px;
   gap: 5px;
   box-shadow: var(--shadow);
+  border: transparent;
 }
 
 .admin-btn-view {
@@ -284,7 +285,7 @@ select:focus {
 }
 
 /*Inputs*/
-input {
+input [type="text"] {
   width: 100%;
     height: 40px;
     border: 1px solid #ccc;
