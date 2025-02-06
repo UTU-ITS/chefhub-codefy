@@ -7,9 +7,9 @@ class User {
     }
 
     public function getEmpolyees() {
-        $sql = "SELECT f.ci AS 'Cedula', u.nombre AS 'Nombre', u.apellido AS 'Apellido', u.telefono AS 'Teléfono', f.direccion AS 'Dirección', f.horario_entrada AS 'Entrada', f.horario_salida AS 'Salida', f.cargo AS 'Cargo' 
+        $sql = "SELECT f.id_usuario , f.ci AS 'Cedula', u.nombre AS 'Nombre', u.apellido AS 'Apellido', u.telefono AS 'Teléfono', f.direccion AS 'Dirección', f.horario_entrada AS 'Entrada', f.horario_salida AS 'Salida', f.cargo AS 'Cargo' 
                 FROM funcionario f
-                JOIN usuario u ON f.id_usuario = u.id_usuario;
+                JOIN usuario u ON f.id_usuario = u.id_usuario
                 WHERE u.baja = false";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -17,10 +17,10 @@ class User {
     }
     
     public function getCustomers(){
-        $sql = "SELECT c.id_cliente, u.nombre AS 'Nombre', u.apellido AS 'Apellido', u.telefono AS 'Teléfono', u.email AS 'Correo'
+        $sql = "SELECT c.id_usuario AS id, c.id_cliente, u.nombre AS 'Nombre', u.apellido AS 'Apellido', u.telefono AS 'Teléfono', u.email AS 'Correo'
                 FROM cliente c
-                JOIN usuario u ON c.id_usuario = u.id_usuario;
-                WHERE u.baja = false";
+                JOIN usuario u ON c.id_usuario = u.id_usuario
+                WHERE c.baja = 0 AND u.baja = 0";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -287,14 +287,15 @@ public function CheckPassword($pass, $id_usuario) {
     $stmt->bindParam(':id_usuario', $id_usuario);
     $stmt->execute();
 
-    // Obtener el resultado
+
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($result) {
-        // Si hay un resultado, devolver la contraseña
+
         return $result['clave'];
+
     } else {
-        // Si no hay resultado, devolver false o un mensaje de error
+
         return false;
     }
 }
@@ -309,6 +310,47 @@ public function UpdateUserName($nombre, $apellido, $id_usuario) {
 
 
 }
+public function DeleteClient($id_usuario){
+  
+    $sql = "UPDATE cliente SET baja = TRUE WHERE id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
+public function DeleteUser($id_usuario){
+    $sql = "UPDATE usuario SET baja = TRUE WHERE id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+public function DeleteEmployee($id_usuario){
+    $sql = "UPDATE funcionario SET baja = TRUE WHERE id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+
+
+
+}
 ?>

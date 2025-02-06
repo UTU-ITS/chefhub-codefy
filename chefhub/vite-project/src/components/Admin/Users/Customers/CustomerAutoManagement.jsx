@@ -143,7 +143,6 @@ function CustomerAutoManagement() {
           isClosable: true
         });
         
-        // Limpiar el formulario
         setNewAddress({
           id_usuario: user?.data?.id_usuario || null,
           calle: '',

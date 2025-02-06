@@ -82,6 +82,8 @@ if (isset($path[1])) {
                 } else if ($path[2] === 'address' && isset($path[3])) {
                     $customerId = $path[3];
                     $UserController->handleRequest('customersaddress', $customerId);
+                } else if ($path[2] === 'deletecustomers') {
+                        $UserController->handleRequest('deletecustomers');
                 } else {
                     echo json_encode(["message" => "Ruta no válida"]);
                     
@@ -208,6 +210,22 @@ if (isset($path[1])) {
                             $UserController = new UserController($conn);
                             $UserController->handleRequest('updatename');
                         break;
+                        case 'deleteproduct': 
+
+                            $ProductController = new ProductController($conn);
+                            $ProductController->handleRequest('deleteproduct');
+                        break;
+                        case 'deleteemployee': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('deleteemployee');
+                        break;
+                        case 'cancelorder': 
+
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('cancelorder');
+                        break;
+
                                 
                                  
             default:

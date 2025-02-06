@@ -225,7 +225,7 @@ class UserController {
                         http_response_code(500);
                         echo json_encode(["message" => "Error al actualizar"]);
                     }
-                } if ($action === 'updatename') {
+                } else if ($action === 'updatename') {
                     $data = json_decode(file_get_contents("php://input"), true);
                     $nombre = $data['nombre'];
                     $apellido = $data['apellido'];
@@ -233,7 +233,34 @@ class UserController {
                     $result = $this->user->UpdateUserName( $nombre, $apellido, $id_usuario);
 
 
-                } else {
+                } else if ($action === 'deletecustomers') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    $id_usuario = $data['id_usuario'];
+                    $result = $this->user->DeleteClient($id_usuario);
+                    $result1 = $this->user->DeleteUser($id_usuario);
+
+                    if ($result && $result1) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                    }
+
+                }else if ($action === 'deleteemployee') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    $id_usuario = $data['id_usuario'];
+                    echo "aaaaaa".$id_usuario;
+                    $result = $this->user->DeleteEmployee($id_usuario);
+                    $result1 = $this->user->DeleteUser($id_usuario);
+
+                    if ($result && $result1) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                    }
+
+                }else{
                     echo json_encode(["message" => "Acción no reconocida"]);
                 }
                 break;
