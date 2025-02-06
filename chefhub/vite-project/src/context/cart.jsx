@@ -15,14 +15,27 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product, selectedIngredients = []) => {
     const uniqueId = `${product.id}-${Date.now()}`;
+  
+    const filteredIngredients = selectedIngredients.filter(ing => 
+      ing.extra === true || (ing.cantidad && ing.cantidad > ing.baseCantidad)
+    );
+  
     setCartItems(prevItems => [...prevItems, { 
       ...product, 
       uniqueId,
-      ingredients: selectedIngredients.map(ing => ({
+      ingredients: filteredIngredients.map(ing => ({
         ...ing,
         cantidad: ing.cantidad || ing.baseCantidad || 0
       }))
     }]);
+  };
+
+  const updateNoteInCart = (uniqueId, note) => {
+    setCartItems((prevCartItems) =>
+      prevCartItems.map((item) =>
+        item.uniqueId === uniqueId ? { ...item, note } : item
+      )
+    );
   };
 
   const removeFromCartByUniqueId = (uniqueId) => {
@@ -71,6 +84,7 @@ export const CartProvider = ({ children }) => {
         removeFromCartByUniqueId,
         updateIngredients,
         clearCart,
+        updateNoteInCart
       }}
     >
       {children}

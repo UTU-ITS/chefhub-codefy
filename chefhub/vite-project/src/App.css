@@ -138,16 +138,20 @@ body {
 }
 
 .admin-table tr {
-  border-bottom: 1px solid #dddddd;
-  cursor: pointer;
+  height: auto; /* Permite que la altura se ajuste automáticamente */
+}
+
+.admin-table tbody:has(tr:only-child) tr {
+  height: 40px; /* Altura más baja cuando hay un solo registro */
 }
 
 .admin-table td {
   font-size: 12px;
   text-align: center;
-  padding: 10px 7px;
+  padding: 5px 7px; /* Reducido de 10px a 5px */
   color: #575757;
   background-color: #f2f2f2;
+  min-height: 30px; /* Ajusta la altura mínima */
 }
 
 .admin-table tr.selected {

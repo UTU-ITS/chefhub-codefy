@@ -20,7 +20,7 @@ class TablesController {
         $this->tables = new TablesModel($conn);  // Instancia del modelo Table, no el controlador
     }
 
-    public function handleRequest($action, $date = null , $time = null) {
+    public function handleRequest($action, $date = null , $time = null, $order_id = null) {
         $method = $_SERVER['REQUEST_METHOD'];
     
         switch ($method) {
@@ -40,10 +40,11 @@ class TablesController {
                     }
                 } else if ($action === 'tables'){
                     $result = $this->tables->getTables();
+                } else if ($action === 'perorder'){
+                    $result = $this->tables->getTablePerOrder($order_id);
                 } else {
                     $result = ["message" => "Acción no reconocida"];
                 }
-    
                 echo json_encode($result);
                 break;
     
