@@ -58,24 +58,6 @@
   margin-right: 0;
 }
 
-.btn {
-  font-family: Poppins, sans-serif;
-  font-weight: 600;
-  padding: 0.5rem 1.5rem;
-  background-color: #811edb;
-  color: #fff;
-  border: 2px solid #fff;
-  border-radius: 25px;
-  transition-duration: 0.2s;
-  display: inline-block;
-}
-
-.btn:hover {
-  background-color: #fff;
-  border-color: #811edb;
-  color: #811edb;
-}
-
 
 
 /* Estilo para el contenedor del menú desplegable */

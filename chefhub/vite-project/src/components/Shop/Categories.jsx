@@ -27,7 +27,7 @@ export default function Categories({ id = null, selectedKey, onSelectKey }) {
   }, [id]);
 
   return (
-    <span>
+    <div className='filters'>
       {categories.length > 0 ? (
         categories.map((category) => (
           <button
@@ -38,10 +38,11 @@ export default function Categories({ id = null, selectedKey, onSelectKey }) {
           >
             {category.nombre}
           </button>
+          
         ))
       ) : (
         <p>No hay categorías</p>
       )}
-    </span>
+    </div>
   );
 }

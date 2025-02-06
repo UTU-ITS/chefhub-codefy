@@ -155,27 +155,6 @@
   color: #ab8ef4;
 }
 
-/* Botón de agregar producto */
-button {
-  padding: 0.7rem 2rem;
-  background-color: var(--primary-color);
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, box-shadow 0.3s;
-  max-width: 250px;
-  margin: 1rem 0.2rem;
-}
-
-button:hover {
-  background-color: var(--primary-color-light);
-  color: var(--primary-color);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
 .button-grey {
   background-color: #ddd;
   color: #333;
@@ -240,10 +219,6 @@ button:hover {
   .arrow-buttons {
     flex-direction: row;
     gap: 5px;
-  }
-
-  button {
-    width: 100%;
   }
 }
 
