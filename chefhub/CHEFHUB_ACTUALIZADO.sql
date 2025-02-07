@@ -203,11 +203,9 @@ CREATE TABLE mesa_pedido (
     fecha DATE NOT NULL,
     hora_inicio TIME NOT NULL,
     hora_fin TIME,
-    ci VARCHAR(11) NOT NULL,
     PRIMARY KEY (id_pedido, id_mesa),
     FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
     FOREIGN KEY (id_mesa) REFERENCES mesa(id_mesa),
-    FOREIGN KEY (ci) REFERENCES funcionario(ci),
     baja INT DEFAULT 0 
 );
 
@@ -432,11 +430,17 @@ INSERT INTO cliente_mesa (id_cliente, id_mesa, fecha, hora, cant_personas, nombr
 (5, 5, '2025-02-05', '18:00:00', 5, 'Rodrigo Alonso', 741852963, 'Reservada'),
 (5, 5, '2025-02-10', '20:00:00', 5, 'Vanessa Sánchez', 369258147, 'Reservada'),
 (5, 5, '2025-02-15', '22:00:00', 5, 'Ismael Correa', 852963741, 'Reservada');
+INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura) VALUES
+(50.00, 'Pendiente', 'Delivery', 1, 1, 1),
+(80.00, 'Pendiente', 'Mesa', 2,  2, 2),
+(100.00, 'Listo', 'Delivery', 3,  3, 3),
+(120.00, 'Pendiente', 'Mesa', 4,   4, 4),
+(60.00, 'En preparación', 'Delivery', 5,  5, 5);
+       
 
-
-INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin, ci) VALUES
-(2, 2, '2025-01-28', '13:00:00', '14:30:00', '22222222222'),
-(4, 3, '2025-01-28', '14:00:00', '15:00:00', '22222222222');
+INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin )VALUES
+(2, 2, '2025-01-28', '13:00:00', '14:30:00'),
+(4, 3, '2025-01-28', '14:00:00', '15:00:00' );
 
 INSERT INTO producto_categoria (id_producto, id_categoria) VALUES
 (1, 1),
@@ -513,13 +517,7 @@ VALUES (5, 1, 1, false), -- Sopa con queso
        (5, 10, 1, false);-- Sopa con cebolla
        
 -- Insertar datos en la tabla pedido
-INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura) VALUES
-(50.00, 'Pendiente', 'Delivery', 1, 1, 1),
-(80.00, 'Pendiente', 'Mesa', 2,  2, 2),
-(100.00, 'Listo', 'Delivery', 3,  3, 3),
-(120.00, 'Pendiente', 'Mesa', 4,   4, 4),
-(60.00, 'En preparación', 'Delivery', 5,  5, 5);
-       
+
 INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) VALUES
 (1, 1, 1, 15.00, 'Sin salsa'),
 (1, 1, 1, 20.00, 'Con extra queso');

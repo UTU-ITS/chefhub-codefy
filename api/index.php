@@ -39,11 +39,11 @@ if (isset($path[1])) {
                 $preference = new MercadoPago\Preference();
                 
                 $preference->back_urls = array(
-                    "success" => "http://localhost:5173/",
-                    "failure" => "https://localhost/mercadopago/fail.php",
+                    "success" => "http://localhost:5173/success",
+                    "failure" => "http://localhost:5173/fail",
                     "pending" => "https://localhost/mercadopago/fail.php",
                 );
-                
+
                 $preference->auto_return = "approved";
                 
                 $productos = [];
@@ -73,8 +73,10 @@ if (isset($path[1])) {
                     // Maneja el caso en que 'items' no está presente en el JSON
                     echo "Error: No se recibieron los datos de los productos.";
                 }
-                
-            break;                      
+
+            
+            break; 
+                                  
 
         case 'productbycategory':
             $ProductController = new ProductController($conn);
