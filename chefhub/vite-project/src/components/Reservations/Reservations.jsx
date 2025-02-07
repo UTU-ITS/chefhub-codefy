@@ -6,6 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 import './Reservations.css';
 import { UserIcon } from '../../img/HeroIcons';
 import { UserContext } from '../../context/user';
+import { ChakraProvider } from '@chakra-ui/react';
 
 function Reservations() {
   const { user } = useContext(UserContext);

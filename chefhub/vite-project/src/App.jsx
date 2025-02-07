@@ -29,14 +29,6 @@ function NotFound() {
 
 function App() {
   return (
-    <UserProvider>
-    <CartProvider>
-      <BrowserRouter>
-        <NavBar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/login" element={<LoginView />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/register" element={<RegisterView />} />
@@ -54,6 +46,19 @@ function App() {
       </BrowserRouter>
     </CartProvider>
     </UserProvider>
+                <Route path="/register" element={<RegisterView />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/admin/*" element={<AdminOptions />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/admin/products/addproduct" element={<AddProduct />} />
+                <Route path="/reservations" element={<Reservations />} />
+                <Route path="/myprofile" element={<CustomerAutoManagement />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </CartProvider>
+      </UserProvider>
+    </ChakraProvider>
   );
 }
 

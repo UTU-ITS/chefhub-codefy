@@ -51,11 +51,10 @@ const RegisterView = () => {
   };
 
   const handleSendVerificationEmail = async () => {
-    if (!formData.email) {
-      alert("Por favor, ingresa un correo electrónico.");
-      return;
+    if (!validateForm()) {
+      return; // Si hay errores, detener la ejecución
     }
-
+  
     try {
       const response = await fetch("http://localhost/api/sendmail", {
         method: "POST",
@@ -64,9 +63,9 @@ const RegisterView = () => {
         },
         body: JSON.stringify({ email: formData.email }),
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok) {
         setServerCode(result.verificationCode); // Suponiendo que el código se envía de vuelta
         setIsModalOpen(true);
@@ -77,7 +76,7 @@ const RegisterView = () => {
       console.error("Error al enviar el mail:", error);
       alert("Hubo un problema al enviar el mail. Inténtalo más tarde.");
     }
-  };
+  };  
 
   const handleVerifyCode = async () => {
     try {
@@ -141,59 +140,64 @@ const RegisterView = () => {
 
   return (
     <div className="register-container">
-      <h2>Registro</h2>
-      <form className="register-form">
-        <div className="form-row">
-          <div className="form-group">
-            <label>Nombre</label>
-            <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} />
-            {errors.firstName && <span className="error">{errors.firstName}</span>}
-          </div>
-          <div className="form-group">
-            <label>Apellido</label>
-            <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
-            {errors.lastName && <span className="error">{errors.lastName}</span>}
-          </div>
-          <div className="form-group">
-            <label>Teléfono</label>
-            <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} />
-            {errors.phone && <span className="error">{errors.phone}</span>}
-          </div>
+      <div className="register-content">
+        <div className="register-tittle">
+          <h1>¡Bienvenido!</h1>
+          <p>Regístrate para disfrutar
+            de todos nuestros productos.</p>
         </div>
-        <div className="form-row">
-          <div className="form-group">
-            <label>Email</label>
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
-            {errors.email && <span className="error">{errors.email}</span>}
-          </div>
-          <div className="form-group">
-            <label>Contraseña</label>
-            <input type="password" name="password" value={formData.password} onChange={handleInputChange} />
-            {errors.password && <span className="error">{errors.password}</span>}
-          </div>
-          <div className="form-group">
-            <label>Confirmar Contraseña</label>
-            <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} />
-            {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
-          </div>
-        </div>
-        <button type="button" className="btn-submit" onClick={handleSendVerificationEmail}>
-          Enviar Código de Verificación
-        </button>
-      </form>
+              <div className="register-form">
+                  <div className="register-group">
+                    <label>Nombre</label>
+                    <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} />
+                    {errors.firstName && <span className="error">{errors.firstName}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Apellido</label>
+                    <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
+                    {errors.lastName && <span className="error">{errors.lastName}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Teléfono</label>
+                    <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} />
+                    {errors.phone && <span className="error">{errors.phone}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Email</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+                    {errors.email && <span className="error">{errors.email}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Contraseña</label>
+                    <input type="password" name="password" value={formData.password} onChange={handleInputChange} />
+                    {errors.password && <span className="error">{errors.password}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Confirmar Contraseña</label>
+                    <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} />
+                    {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+                  </div>
+                  <div className="register-group">
+                    <button type="button" className="btn" onClick={handleSendVerificationEmail}>
+                    Enviar Código de Verificación
+                  </button>
+                  </div>
+                {isModalOpen && (
+              <div className="modal">
+                <div className="modal-content">
+                  <h3>Verificar Código</h3>
+                  <p>Ingrese el código recibido por correo electrónico:</p>
+                  <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
+                  <button onClick={handleVerifyCode} className="btn-submit">
+                    Verificar Código
+                  </button>
+                </div>
+              </div>
+            )}
+              </div>
 
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>Verificar Código</h3>
-            <p>Ingrese el código recibido por correo electrónico:</p>
-            <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
-            <button onClick={handleVerifyCode} className="btn-submit">
-              Verificar Código
-            </button>
+            
           </div>
-        </div>
-      )}
     </div>
   );
 };

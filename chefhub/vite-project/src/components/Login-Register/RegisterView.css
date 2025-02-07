@@ -1,99 +1,103 @@
-/* Reset básico */
+@import url(../../design.css);
 
-  
-  .register-container {
-    background-color: #f9f9f9; /* Fondo casi blanco */
-    color: #000000; /* Texto negro */
-    padding: 30px;
-    max-width: 700px;
-    width: 100%; /* Para mantener el diseño responsivo */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .register-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .register-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Espaciado entre filas */
-  }
-  
-  .register-form .form-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px; /* Espaciado entre columnas */
-  }
-  
-  .register-form .form-group {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .register-form label {
-    font-weight: 400;
-    margin-bottom: 5px;
-  }
-  
-  .register-form input[type="text"],
-  .register-form input[type="tel"],
-  .register-form input[type="email"],
-  .register-form input[type="password"] {
-    width: 90%;
-    height: 90%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px; /* Espaciado entre checkboxes */
-  }
-  
-  .btn-submit {
-    background-color: #ab8ef4;
-    color: #FFFFFF;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .btn-submit:hover {
-    background-color: #9361f2;
-  }
-  
-  .error {
-    color: #FF6347;
-    font-size: 12px;
-  }
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  background-color: #f1f1f1; /* Fondo gris claro */
+}
 
+.register-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9; /* Fondo casi blanco */
+  color: #000000; /* Texto negro */
+  padding: 30px;
+  max-width: 550px;
+  width: 100%; /* Para mantener el diseño responsivo */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  height: auto;
+}
 
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal-content {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
+.register-row {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espaciado entre filas */
+}
+
+.register-form .form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px; /* Espaciado entre columnas */
+}
+
+.register-form .form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form label {
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+
+.register-form input[type="text"],
+.register-form input[type="tel"],
+.register-form input[type="email"],
+.register-form input[type="password"] {
+  width: auto;
+  height: 90%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.register-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-group button{
+  width: 100%;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Espaciado entre checkboxes */
+}
+
+.error {
+  color: #FF6347;
+  font-size: 12px;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
