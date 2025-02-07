@@ -186,9 +186,7 @@ export default function Checkout() {
     }
   };
 
-   useEffect(() => {
-    console.log('tableNumber actualizado:', TableNumber); // Para verificar que el número de mesa se esté actualizando
-  }, [TableNumber]); // Este effect se ejecuta cada vez que tableNumber cambia
+// Este effect se ejecuta cada vez que tableNumber cambia
 
   const handleOrderSubmitToBD = async () => {
     if (TableNumber.trim() === '') {
@@ -269,6 +267,9 @@ export default function Checkout() {
   const handleCartInteraction = () => {
     setCartInteracted(true);
     setSelectedPayment('');
+  };
+  const handleCheckoutInteraction = () => {
+    setCartInteracted(false);
   };
 
   const handleAddAddress = async (e) => {
@@ -351,27 +352,7 @@ export default function Checkout() {
     }
   };
 
-  const handleCardInput = (e) => {
-    const { name, value } = e.target;
-    let formattedValue = value;
-
-    if (name === 'number') {
-      formattedValue = formatCardNumber(value);
-    } else if (name === 'expiry') {
-      formattedValue = value
-        .replace(/\D/g, '')
-        .replace(/^(\d{2})/, '$1/')
-        .substr(0, 5);
-    } else if (name === 'cvv') {
-      formattedValue = value.replace(/\D/g, '').substr(0, 3);
-    }
-
-    setCardData(prev => ({
-      ...prev,
-      [name]: formattedValue
-    }));
-  };
-
+  
   return (
     <>
       <NavBar />
@@ -392,7 +373,7 @@ export default function Checkout() {
               
               <TabPanels>
                 <TabPanel>
-                  <div className="delivery-section">
+                  <div className="delivery-section" onClick={handleCheckoutInteraction}>
                     <div className="address-section">
                       <h2 className="section-title">Dirección de envío</h2>
 

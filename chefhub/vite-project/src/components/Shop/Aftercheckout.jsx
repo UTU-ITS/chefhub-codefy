@@ -12,8 +12,8 @@ const AfterCheckout = () => {
   const hasSubmitted = useRef(false);
 
   const handleOrderSubmitToBD = async () => {
-    if (hasSubmitted.current) return; // Si ya se ejecutó, salir
-    hasSubmitted.current = true; // Marcar como ejecutado
+    if (hasSubmitted.current) return; 
+    hasSubmitted.current = true; 
     console.log("handleOrderSubmitToBD called");
     try {
       const response = await fetch("http://localhost/api/insertorder", {
@@ -27,14 +27,9 @@ const AfterCheckout = () => {
       const result = await response.json();
   
       if (result.success) {
-        toast({
-          title: "Pedido realizado",
-          description: "Su pedido ha sido procesado con éxito",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
+        
         clearCart();
+        clearOrder();
       } else {
         toast({
           title: "Error",
@@ -57,7 +52,7 @@ const AfterCheckout = () => {
 
   useEffect(() => {
     handleOrderSubmitToBD();
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {

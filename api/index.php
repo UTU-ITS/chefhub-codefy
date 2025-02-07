@@ -273,8 +273,44 @@ if (isset($path[1])) {
                             $OrderController = new OrderController($conn);
                             $OrderController->handleRequest('cancelorder');
                         break;
+                        case 'editemployee': 
 
-                                
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('editemployee');
+                        break;
+                        case 'addemployee': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('addemployee');
+
+                        break;
+
+                        case 'inserttable': 
+
+                            $TablesController = new TablesController($conn);
+                            $TablesController->handleRequest('inserttable');
+                            break;
+
+                        case 'updatetable':
+                            $TablesController = new TablesController($conn);
+                            $TablesController->handleRequest('updatetable');
+                            break;
+
+                        case 'updateproduct':
+                            $ProductController = new ProductController($conn);
+                            $ProductController->handleRequest('updatetable');
+                            break;  
+                            
+                        case 'cancelreservation':
+                            $ReservationController = new ReservationController($conn);
+                            $ReservationController->handleRequest('cancelreservation');
+                            break;  
+
+                        case 'getreservation':
+                            $ReservationController = new ReservationController($conn);
+                            $ReservationController->handleRequest('getreservation');
+                            break;               
+                                                    
                                  
             default:
        

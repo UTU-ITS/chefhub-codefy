@@ -430,13 +430,13 @@ INSERT INTO cliente_mesa (id_cliente, id_mesa, fecha, hora, cant_personas, nombr
 (5, 5, '2025-02-05', '18:00:00', 5, 'Rodrigo Alonso', 741852963, 'Reservada'),
 (5, 5, '2025-02-10', '20:00:00', 5, 'Vanessa Sánchez', 369258147, 'Reservada'),
 (5, 5, '2025-02-15', '22:00:00', 5, 'Ismael Correa', 852963741, 'Reservada');
+
 INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura) VALUES
 (50.00, 'Pendiente', 'Delivery', 1, 1, 1),
 (80.00, 'Pendiente', 'Mesa', 2,  2, 2),
 (100.00, 'Listo', 'Delivery', 3,  3, 3),
 (120.00, 'Pendiente', 'Mesa', 4,   4, 4),
 (60.00, 'En preparación', 'Delivery', 5,  5, 5);
-       
 
 INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin )VALUES
 (2, 2, '2025-01-28', '13:00:00', '14:30:00'),
@@ -525,6 +525,5 @@ INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) VA
 -- Insertar ingredientes para el pedido 1
 INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) VALUES
 (1, 5, 1), -- Ingrediente 5 para producto 1
-
 (2, 2, 2); -- Ingrediente 2 para producto 1
 
