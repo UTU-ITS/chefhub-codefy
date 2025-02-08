@@ -9,7 +9,7 @@ Modal.setAppElement('#root');
 
 export default function LoginView() {
     const navigate = useNavigate();
-    const { login } = useContext(UserContext);
+    const { user, login } = useContext(UserContext);
     const [inputs, setInputs] = useState({});
     const [error, setError] = useState('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -48,16 +48,16 @@ export default function LoginView() {
                     },
                 }
             );
-
             if (response.data) {
                 login(response.data);
+
                 navigate('/');
             }
         } catch (err) {
             console.error(err);
             setError('Error de inicio de sesión. Verifique sus credenciales.');
         }
-        console.log(inputs);
+        
     };
 
     return (

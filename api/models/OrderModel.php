@@ -16,7 +16,7 @@ class Order {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    function insertarPedido($jsonPedido) {
+    public function insertarPedido($jsonPedido) {
         $data = json_decode($jsonPedido, true);
     
         if (!$data) {
@@ -26,6 +26,16 @@ class Order {
         try {
             // Iniciar la transacción
             $this->conn->beginTransaction();
+    
+            // Validar si id_mesa está presente y asignar categoría "Mesa"
+            if (isset($data['id_mesa']) && empty($data['categoria'])) {
+                $data['categoria'] = 'Mesa'; // Asignamos automáticamente la categoría si id_mesa está presente
+            }
+    
+            // Si la categoría es "Mesa", asegurarse de que id_mesa esté presente
+            if ($data['categoria'] === "Mesa" && !isset($data['id_mesa'])) {
+                throw new Exception("El campo 'id_mesa' es requerido para pedidos de tipo 'Mesa'.");
+            }
     
             // Insertar en factura
             $queryFactura = "INSERT INTO factura (total, estado) VALUES (:total, 'Pendiente')";
@@ -42,7 +52,7 @@ class Order {
             $stmtPedido->bindValue(":estado", $data['estado'], PDO::PARAM_STR);
             $stmtPedido->bindValue(":categoria", $data['categoria'], PDO::PARAM_STR);
             $stmtPedido->bindValue(":id_cliente", $data['id_cliente'], PDO::PARAM_INT);
-            
+    
             if (isset($data['id_direccion'])) {
                 $stmtPedido->bindValue(":id_direccion", $data['id_direccion'], PDO::PARAM_INT);
             } else {
@@ -53,26 +63,26 @@ class Order {
             $stmtPedido->execute();
             $id_pedido = $this->conn->lastInsertId();
     
-            // Verificar si hay productos en el pedido
-            if (!empty($data['productos']) && is_array($data['productos'])) {
-                
-                foreach ($data['productos'] as $producto) {
-                    $id_producto = $producto['id'];
-                    
+            // Insertar en pedido_mesa si es necesario
+            if ($data['categoria'] === "Mesa" && isset($data['id_mesa'])) {
+                $this->insertTableOrder($data['id_mesa'], $id_pedido);
+            }
     
+            // Insertar productos en pedido_producto
+            if (!empty($data['productos']) && is_array($data['productos'])) {
+                foreach ($data['productos'] as $producto) {
                     $queryProducto = "INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) 
                                      VALUES (:id_pedido, :id_producto, :cantidad, :importe, :nota)";
                     $stmtProducto = $this->conn->prepare($queryProducto);
                     $stmtProducto->bindValue(":id_pedido", $id_pedido, PDO::PARAM_INT);
-                    $stmtProducto->bindValue(":id_producto", $id_producto, PDO::PARAM_INT);
+                    $stmtProducto->bindValue(":id_producto", $producto['id'], PDO::PARAM_INT);
                     $stmtProducto->bindValue(":cantidad", 1, PDO::PARAM_INT);
                     $stmtProducto->bindValue(":importe", $producto['price'], PDO::PARAM_STR);
                     $stmtProducto->bindValue(":nota", $producto['note'] ?? null, PDO::PARAM_STR);
                     $stmtProducto->execute();
-
                     $id_pedido_producto = $this->conn->lastInsertId();
     
-                    // Verificar si el producto tiene ingredientes
+                    // Insertar ingredientes si existen
                     if (!empty($producto['ingredients']) && is_array($producto['ingredients'])) {
                         foreach ($producto['ingredients'] as $ingrediente) {
                             $queryIngrediente = "INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) 
@@ -91,11 +101,31 @@ class Order {
             $this->conn->commit();
     
             return ['success' => 'Pedido insertado correctamente', 'id_pedido' => $id_pedido];
+    
         } catch (Exception $e) {
             $this->conn->rollBack();
             return ['error' => 'Error al insertar pedido: ' . $e->getMessage()];
         }
     }
+    
+    
+    // ✅ Función corregida para insertar en pedido_mesa con fecha y hora
+    public function insertTableOrder($id_mesa, $id_pedido) {
+        $sql = "INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin) 
+                VALUES (:id_pedido, :id_mesa, NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 1 HOUR))";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_pedido', $id_pedido, PDO::PARAM_INT);
+        $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        if ($stmt->rowCount() > 0) {
+            return ['success' => 'Pedido insertado correctamente en pedido_mesa'];
+        } else {
+            throw new Exception('Error al insertar pedido en pedido_mesa');
+        }
+    }
+    
     
 
     public function getPendingOrders() {
@@ -170,6 +200,9 @@ class Order {
         }
     }
 
+        
+    
+    
 
 
 }

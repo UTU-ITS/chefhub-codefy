@@ -39,11 +39,11 @@ if (isset($path[1])) {
                 $preference = new MercadoPago\Preference();
                 
                 $preference->back_urls = array(
-                    "success" => "http://localhost:5173/",
-                    "failure" => "https://localhost/mercadopago/fail.php",
+                    "success" => "http://localhost:5173/success",
+                    "failure" => "http://localhost:5173/fail",
                     "pending" => "https://localhost/mercadopago/fail.php",
                 );
-                
+
                 $preference->auto_return = "approved";
                 
                 $productos = [];
@@ -73,8 +73,10 @@ if (isset($path[1])) {
                     // Maneja el caso en que 'items' no está presente en el JSON
                     echo "Error: No se recibieron los datos de los productos.";
                 }
-                
-            break;                      
+
+            
+            break; 
+                                  
 
         case 'productbycategory':
             $ProductController = new ProductController($conn);
@@ -271,8 +273,48 @@ if (isset($path[1])) {
                             $OrderController = new OrderController($conn);
                             $OrderController->handleRequest('cancelorder');
                         break;
+                        case 'editemployee': 
 
-                                
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('editemployee');
+                        break;
+                        case 'addemployee': 
+
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('addemployee');
+
+                        break;
+
+                        case 'inserttable': 
+
+                            $TablesController = new TablesController($conn);
+                            $TablesController->handleRequest('inserttable');
+                            break;
+
+                        case 'updatetable':
+                            $TablesController = new TablesController($conn);
+                            $TablesController->handleRequest('updatetable');
+                            break;
+
+                        case 'updateproduct':
+                            $ProductController = new ProductController($conn);
+                            $ProductController->handleRequest('updatetable');
+                            break;  
+                            
+                        case 'cancelreservation':
+                            $ReservationController = new ReservationController($conn);
+                            $ReservationController->handleRequest('cancelreservation');
+                            break;  
+
+                        case 'getreservation':
+                            $ReservationController = new ReservationController($conn);
+                            $ReservationController->handleRequest('getreservation');
+                            break;    
+                        case 'contactus':
+                            $TokenController = new TokenController($conn);
+                            $TokenController->handleRequest('contactus');
+                            break;           
+                                                    
                                  
             default:
        

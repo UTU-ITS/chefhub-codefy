@@ -46,7 +46,13 @@ class TokenController {
 
 
                     
-                    else{
+                    else if($action==='contactus'){
+                        $inputData = json_decode(file_get_contents('php://input'), true);
+                        $email = $inputData['email'];
+                        $mensaje = $inputData['mensaje'];
+                        $nombre = $inputData['nombre'];
+                        $this->token->sendMailContactUs($email, $token);
+                    } else{
                         echo json_encode(["message" => "Acción no válida"]);
                     }
                 $inputData = json_decode(file_get_contents('php://input'), true);
