@@ -19,7 +19,7 @@ class OrderController {
         $this->order = new Order($conn);
     }
 
-    public function handleRequest($action, $orderId = null, $id_producto = null) {
+    public function handleRequest($action, $orderId = null, $id_producto = null, $order = null) {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
@@ -46,7 +46,9 @@ class OrderController {
                             $jsonPedido = file_get_contents("php://input");
                             $result = $this->order->insertarPedido($jsonPedido);
                         }
-
+                        else if ($action === 'insertorderpayment') {
+                            $result = $this->order->insertarPedido($order);
+                        }
 
                     echo json_encode($result);
                     break;

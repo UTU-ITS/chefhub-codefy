@@ -2,6 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php'; 
+
 class TokenModel {
     private $conn;
 
@@ -51,6 +52,44 @@ class TokenModel {
         }
     }
 
+    public function sendMailContactUs($email, $mensaje, $nombre)
+{
+    $mail = new PHPMailer(true);
+    try {
+
+        if (!$email) {
+            echo json_encode(["success" => false, "message" => "Email inválido"]);
+            exit;
+        }
+
+        // Configuración del servidor SMTP
+        $mail->isSMTP();
+        $mail->Host = 'pro.turbo-smtp.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'codefy.supp@gmail.com'; 
+        $mail->Password = '0ItA6otK';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Configurar remitente y destinatario
+        $mail->setFrom('codefy.supp@gmail.com', 'Equipo de soporte');
+        $mail->addReplyTo($email, $nombre);
+        $mail->addAddress('codefy.supp@gmail.com');
+        
+        // Configurar el contenido del correo
+        $mail->Subject = 'Mensaje de ' . $nombre;
+        $mail->isHTML(true);
+        $mail->Body = "<p><strong>Nombre:</strong> $nombre</p>
+                       <p><strong>Email:</strong> $email</p>
+                       <p><strong>Mensaje:</strong><br>$mensaje</p>";
+
+        // Enviar correo
+        $mail->send();
+        echo json_encode(["success" => true, "message" => "Correo enviado exitosamente"]);
+    } catch (Exception $e) {
+        echo json_encode(["success" => false, "message" => "Error al enviar el correo: {$mail->ErrorInfo}"]);
+    }
+}
 
 
 

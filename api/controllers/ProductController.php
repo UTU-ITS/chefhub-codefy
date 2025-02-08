@@ -74,7 +74,8 @@ class ProductController {
                                 // Solo enviar mensaje de éxito si la inserción es exitosa
                                 echo json_encode([
                                     "message" => "Producto insertado con éxito",
-                                    "product_id" => $productId
+                                    "product_id" => $productId,
+                                 "success"=>true
                                 ]);
                             } catch (Exception $e) {
                                 http_response_code(500);
@@ -124,7 +125,7 @@ class ProductController {
                                     }
                                     
                                     // Solo enviar mensaje de éxito si la actualización es exitosa
-                                    echo json_encode(["message" => "Producto actualizado con éxito"]);
+                                    echo json_encode(["message" => "Producto modificado con éxito" ,"success"=>true ]);
                                 } catch (Exception $e) {
                                     http_response_code(500);
                                     // Asegúrate de mostrar solo el mensaje de error real
@@ -139,7 +140,7 @@ class ProductController {
                             $id_producto = $data['id_producto'];
                             $result = $this->product->DeleteProduct($id_producto);
                             if ($result) {
-                                echo json_encode(["message" => "Producto eliminado con éxito"]);
+                                echo json_encode(["message" => "Producto eliminado con éxito" ,"success"=>true ]);
                             } else {
                                 http_response_code(400);
                                 echo json_encode(["message" => "Datos incompletos"]);
