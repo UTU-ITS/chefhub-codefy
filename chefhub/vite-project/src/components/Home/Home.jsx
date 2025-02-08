@@ -1,13 +1,11 @@
 import React from 'react'
 import './Home.css'
-import { ChakraProvider } from '@chakra-ui/react';
 import { PinIcon } from '../../img/HeroIcons';
 import CategoriesDisplay from './CategoriesDisplay';
 import CategoryRow from './CategoryRow';
 
 export default function Home() {
   return (
-    <ChakraProvider>
 
     <div className='home-div'>
       <div className="buscador">
@@ -25,15 +23,10 @@ export default function Home() {
           <div className='bloques'>
      
               <CategoriesDisplay />
-              <CategoriesDisplay />
-              <CategoriesDisplay />
-              <CategoriesDisplay />
 
           </div>
         </section>
-
-          <CategoryRow />
-          <CategoryRow />
+        
           <CategoryRow />
 
       </main>
@@ -45,7 +38,5 @@ export default function Home() {
 
       </footer>
     </div>
-
-    </ChakraProvider>
   )
 }
