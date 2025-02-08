@@ -7,7 +7,7 @@ import { CartContext } from "../../context/cart";
 const AfterCheckout = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { order, clearCart } = useContext(CartContext);
+  const { order, clearCart, clearOrder } = useContext(CartContext);
 
   const hasSubmitted = useRef(false);
 

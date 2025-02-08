@@ -63,9 +63,11 @@ class UserController {
                             http_response_code(401);
                             echo json_encode(["message" => "Usuario o contraseña incorrectos"]);
                         }
+                        return;
                     } else {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
                     }
 
                 } else if ($action === 'signup') {
@@ -95,9 +97,11 @@ class UserController {
                             http_response_code(500);
                             echo json_encode(["message" => "Error al registrar usuario"]);
                         }
+                        return;
                     } else {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
                     }
                 }else if ($action === 'insertaddress') {
                     // Leer datos del cuerpo de la solicitud
@@ -119,15 +123,20 @@ class UserController {
                 
                         // Llamar al método del modelo para insertar la dirección
                         $result = $this->user->InsertNewAddress($calle, $apto, $n_puerta, $referencia, $id_usuario);
-                
+                        
                         if ($result) {
                             echo json_encode(["success" => true,"message" => "Dirección registrada exitosamente"]);
                         } else {
                             http_response_code(500);
                             echo json_encode(["message" => "Error al registrar la dirección"]);
                         }
+                        return;
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
                     }
-                }else if ($action === 'checkemail') {
+                } else if ($action === 'checkemail') {
                     // Leer datos del cuerpo de la solicitud
                     $data = json_decode(file_get_contents("php://input"), true);
                     
@@ -147,9 +156,11 @@ class UserController {
                             http_response_code(500);
                             echo json_encode(["message" => "Error al chequear correo"]);
                         }
+                        return;
                     } else {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
                     }
                 }else if ($action === 'resetpassword') {
                     // Leer datos del cuerpo de la solicitud
@@ -193,13 +204,16 @@ class UserController {
                                 http_response_code(500);
                                 echo json_encode(["message" => "Error al chequear "]);
                             }
+                            return;
                         } else {
                             http_response_code(400);
                             echo json_encode(["message" => "Faltan parámetros"]);
+                            return;
                         }
                     } else  {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
                     }
                 } if ($action === 'addemployee') {
                     $data = json_decode(file_get_contents("php://input"), true);
@@ -212,7 +226,7 @@ class UserController {
                         http_response_code(500);
                         echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
                     }
-
+                    return;
                 }else{
                     echo json_encode(["message" => "Acción no reconocida"]);
                 }               
