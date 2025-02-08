@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import './Ingredients.css';
+import './IngredientsModal.css';
 
 const IngredientModal = ({ isOpen, onClose, productId, onConfirm }) => {
   const [ingredients, setIngredients] = useState([]);
@@ -62,14 +62,14 @@ const IngredientModal = ({ isOpen, onClose, productId, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal-header">
+    <div className="modal-overlay-ingredients">
+      <div className="modal-content-ingredients">
+        <div className="modal-header-ingredients">
           <h2>Personalizar Ingredientes</h2>
           <button className="modal-close" onClick={onClose}>&times;</button>
         </div>
         
-        <div className="modal-body">
+        <div className="modal-body-ingredients">
           <div className='ingredients-column'>
             {ingredients.map((ingredient, index) => (
               <div key={ingredient.id_ingrediente} className='ingredient-item'>
@@ -105,9 +105,8 @@ const IngredientModal = ({ isOpen, onClose, productId, onConfirm }) => {
           </div>
         </div>
 
-        <div className="modal-footer">
-          <button className="btn-cancel" onClick={onClose}>Cancelar</button>
-          <button className="btn-confirm" onClick={handleConfirm}>Confirmar</button>
+        <div className="modal-footer-ingredients">
+          <button className="btn btn-confirm-ingredients" onClick={handleConfirm}>Confirmar</button>
         </div>
       </div>
     </div>
