@@ -100,6 +100,7 @@ const Contactanos = () => {
   };
 
   return (
+
     <div className="contact-container">
       <h2>Contáctanos</h2>
       <form className="contact-form" onSubmit={SendContactUs}>
@@ -133,7 +134,10 @@ const Contactanos = () => {
           Enviar
         </button>
       </form>
+
+   
     </div>
+    
   );
 };
 

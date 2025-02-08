@@ -9,5 +9,7 @@
     --title-size: 14px;
     --title-size-lg: 16px;
     --title-size-xl: 18px;
+    --title-size-xxl: 1.5rem;
+    --title-size-xxxl: 2rem;
     --input-color: #e9ecef;
 }

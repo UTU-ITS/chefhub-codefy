@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
 import './App.css';
 import NavBar from './components/Home/NavBar';
 import Home from './components/Home/Home';
@@ -16,9 +17,11 @@ import ContactUs from './components/ContactUs/ContactUs';
 import ForgotPassword from './components/Login-Register/ForgotPassword';
 import CustomerAutoManagement from './components/Admin/Users/Customers/CustomerAutoManagement';
 import Aftercheckout from './components/Shop/Aftercheckout';
-import AfterCheckoutInside from './components/Shop/AftercheckoutInside';
+import AfterCheckoutInside from './components/Shop/AfterCheckoutInside';
 import AfterChekoutFail from './components/Shop/AfterCheckoutFail';
+
 function NotFound() {
+  
   return (
     <div style={{ textAlign: 'center', padding: '2rem' }}>
       <h1>404</h1>
@@ -30,34 +33,35 @@ function NotFound() {
 
 function App() {
   return (
-    <UserProvider>
-    <CartProvider>
-      <BrowserRouter>
-        <NavBar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/login" element={<LoginView />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/register" element={<RegisterView />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/success" element={<Aftercheckout />} />
-            <Route path="/successin" element={<AfterCheckoutInside />} />
-            <Route path="/fail" element={<AfterChekoutFail />} />
-            <Route path="/admin/*" element={<AdminOptions />} />
-            <Route path="/aboutus" element={<AboutUs />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="*" element={<NotFound />} /> {/* Ruta para manejar URLs no existentes */}
-            <Route path="/admin/products/addproduct" element={<AddProduct />} />
-            <Route path="/reservations" element={<Reservations />} />
-            <Route path="/myprofile" element={<CustomerAutoManagement />} />
-            
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </CartProvider>
-    </UserProvider>
+    <ChakraProvider>
+      <UserProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <NavBar />
+            <div className="main-content">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/login" element={<LoginView />} />
+                <Route path="/menu" element={<Menu />} />
+                <Route path="/register" element={<RegisterView />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/success" element={<Aftercheckout />} />
+                <Route path="/successin" element={<AfterCheckoutInside />} />
+                <Route path="/fail" element={<AfterChekoutFail />} />
+                <Route path="/admin/*" element={<AdminOptions />} />
+                <Route path="/aboutus" element={<AboutUs />} />
+                <Route path="/contact" element={<ContactUs />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/admin/products/addproduct" element={<AddProduct />} />
+                <Route path="/reservations" element={<Reservations />} />
+                <Route path="/myprofile" element={<CustomerAutoManagement />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </CartProvider>
+      </UserProvider>
+    </ChakraProvider>
   );
 }
 
