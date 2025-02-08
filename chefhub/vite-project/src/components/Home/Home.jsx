@@ -25,15 +25,10 @@ export default function Home() {
           <div className='bloques'>
      
               <CategoriesDisplay />
-              <CategoriesDisplay />
-              <CategoriesDisplay />
-              <CategoriesDisplay />
 
           </div>
         </section>
-
-          <CategoryRow />
-          <CategoryRow />
+        
           <CategoryRow />
 
       </main>
