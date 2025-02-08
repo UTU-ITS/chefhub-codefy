@@ -309,7 +309,11 @@ if (isset($path[1])) {
                         case 'getreservation':
                             $ReservationController = new ReservationController($conn);
                             $ReservationController->handleRequest('getreservation');
-                            break;               
+                            break;    
+                        case 'contactus':
+                            $TokenController = new TokenController($conn);
+                            $TokenController->handleRequest('contactus');
+                            break;           
                                                     
                                  
             default:
