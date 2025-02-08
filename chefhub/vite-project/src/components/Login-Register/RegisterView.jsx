@@ -184,7 +184,7 @@ const RegisterView = () => {
                   </div>
                 {isModalOpen && (
               <div className="modal">
-                <div className="modal-content">
+                <div className="modal-content-register">
                   <h3>Verificar Código</h3>
                   <p>Ingrese el código recibido por correo electrónico:</p>
                   <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />

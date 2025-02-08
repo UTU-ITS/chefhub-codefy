@@ -117,7 +117,7 @@ export default function LoginView() {
                 </div>
             </div>
 
-            <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal-content">
+            <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal-content-login">
                 {stepFG === 1 && (
                     <div>
                         <h2>Recuperar contraseña</h2>

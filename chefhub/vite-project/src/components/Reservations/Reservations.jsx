@@ -4,9 +4,9 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import 'react-calendar/dist/Calendar.css';
 import './Reservations.css';
-import { UserIcon } from '../../img/HeroIcons';
+import { UserIcon, RightArrow, ReservationsIcon} from '../../img/HeroIcons';
 import { UserContext } from '../../context/user';
-import { ChakraProvider } from '@chakra-ui/react';
+import { es } from 'date-fns/locale';
 
 function Reservations() {
   const { user } = useContext(UserContext);
@@ -63,6 +63,7 @@ function Reservations() {
   }, [date, selectedTime]);
 
   const handleDateChange = (newDate) => {
+
     setDate(newDate);
     setSelectedTime(null);
     setSelectedTable(null);
@@ -127,35 +128,67 @@ function Reservations() {
   return (
     <div className="reservas">
       <div className="reservas-container">
-        <h1>Reservas</h1>
+        <div className="reservas-header">
+          <h1>Realiza tu lugar ahora</h1>
+          <ReservationsIcon />
+        </div>
+      <div className="reservas-description">
+        <p>Selecciona la fecha, hora y mesa para tu reserva. Asegúrate de completar todos los pasos y proporcionar tus datos de contacto para confirmar</p>  
+      </div>
         <div className="reservas-content">
-          {step === 1 && (
-            <div className="calendar-section">
-              <Calendar
-                onChange={handleDateChange}
-                value={date}
-                minDate={new Date()}
-                className="custom-calendar"
-              />
-              {date && (
-                <div className="summary">
-                  <h3>Fecha seleccionada: {format(date, 'dd MMMM yyyy')}</h3>
+        {step === 1 && (
+          <div className="calendar-section">
+            <div className="calendar-section-left">
+            <Calendar
+              onChange={handleDateChange}
+              value={date}
+              minDate={new Date()}
+              className="custom-calendar"
+              locale="es"
+              formatMonthYear={(locale, date) =>
+                format(date, "MMMM yyyy", { locale: es }).charAt(0).toUpperCase() +
+                format(date, "MMMM yyyy", { locale: es }).slice(1)
+              }
+            />
+            </div>
+            <div className="calendar-section-right">
+              {date ? (
+                <div className="reservation-summary">
+                  <p>Fecha seleccionada:</p>
+                  <p className="selected-date">{format(date, 'dd MMMM yyyy', { locale: es })}</p>
+                </div>
+              ) : (
+                <div className="reservation-instructions">
+                  <p>Por favor, selecciona una fecha para continuar.</p>
                 </div>
               )}
               {user && user.data ? (
-                <button className="next-step-button" onClick={() => setStep(2)}>
-                  Siguiente
-                </button>
+                <div className="reservation-next-button">
+                  <button
+                    className="btn"
+                    onClick={() => setStep(2)}
+                    disabled={
+                      (user && user.data && ["Chef", "Mesero", "Administrativo"].includes(user.data.cargo)) || 
+                      !date
+                    }
+                  >
+                    <RightArrow />
+                  </button>
+                </div>
               ) : (
-                <>
-                  <p>Por favor inicia sesión para continuar</p>
+                <div className="login-prompt">
+                  <p>Por favor, inicia sesión para continuar con la reserva.</p>
                   <a href="/login">
-                    <button><UserIcon /></button>
+                    <button className="login-button">
+                      <UserIcon />
+                      Iniciar Sesión
+                    </button>
                   </a>
-                </>
+                </div>
               )}
             </div>
-          )}
+          </div>
+        )}
 
           {step === 2 && date && (
             <div className="time-slots-section">

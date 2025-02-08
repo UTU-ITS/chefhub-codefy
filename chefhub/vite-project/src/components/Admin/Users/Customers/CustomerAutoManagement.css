@@ -125,10 +125,6 @@
     font-size: 18px;
   }
   
-  .modal-content {
-    margin-bottom: 10px;
-  }
-  
   .modal-actions {
     display: flex;
     justify-content: flex-end;

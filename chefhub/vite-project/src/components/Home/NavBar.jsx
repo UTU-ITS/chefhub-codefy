@@ -88,7 +88,9 @@ const NavBar = () => {
                         <a href="/myorders" onClick={() => setIsUserMenuOpen(false)}>Mis pedidos</a>
                       </li>
                       <li>
-                        <button onClick={handleLogout}>Cerrar sesión</button>
+                        <a href="/login">
+                          <button onClick={handleLogout}>Cerrar sesión</button>
+                        </a>
                       </li>
                     </ul>
                   )}
