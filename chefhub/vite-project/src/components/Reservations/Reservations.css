@@ -1,28 +1,106 @@
+@import url(../../design.css);
+
 .reservas-container {
+  background-color: #ffffff;
+  width: 80%;
+  height: auto;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.reservas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  flex-direction: column;
 }
 
-.reservas-container h1 {
-  color: #6c5ce7;
-  margin-bottom: 2rem;
+.reservas-header {
+  width: 100%;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}	
+
+.reservas-header h1 {
+  color: var(--navbar-color);
   text-align: center;
+  font-size: var(--title-size-xxl);
+  font-weight: 600;
+}
+
+.reservas-header svg {
+  fill: var(--primary-color);
 }
 
 .reservas-content {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+  width: 100%;
 }
 
-/* Calendar customization */
+.reservation-next-button {
+  display: flex;
+  justify-content: center;
+}
+
+.reservas-description {
+  width: 100%;
+  padding: 1rem;
+}
+
+.reservas-description p {
+  text-align: center;
+  color: var(--navbar-color);
+  font-size: var(--title-size-lg);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: var(--font-family, sans-serif);
+}
+
 .calendar-section {
-  flex: 0 1 400px;
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+.calendar-section-left, .calendar-section-right {
+  width: 50%;
+  height: 100%;
+}
+
+.calendar-section-right {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+}
+
+.reservation-summary {
+  text-align: center;
+}
+
+.selected-date {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-top: 0.5rem;
+}
+
+.reservation-instructions {
+  text-align: center;
 }
 
 .custom-calendar {
@@ -30,169 +108,138 @@
   max-width: 400px;
   margin: 0 auto;
   border: none !important;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.react-calendar__tile--active {
-  background: #6c5ce7 !important;
-  color: white !important;
-}
-
-.react-calendar__tile--now {
-  background: #a29bfe !important;
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Time slots styling */
 .time-slots-section {
   flex: 0 1 400px;
-  background: white;
+  background: #f4f4f9;
   padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
 .time-slots-section h2 {
-  color: #6c5ce7;
+  color: var(--primary-color);
   margin-bottom: 1rem;
 }
 
 .time-slots-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 0.5rem;
 }
 
 .time-slot {
   padding: 0.5rem;
-  border: 2px solid #6c5ce7;
-  border-radius: 4px;
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
   background: white;
-  color: #6c5ce7;
+  color: var(--primary-color);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .time-slot:hover {
-  background: #6c5ce7;
+  background: var(--primary-color);
   color: white;
 }
 
 .time-slot.selected {
-  background: #6c5ce7;
+  background: var(--primary-color);
   color: white;
+  transform: scale(1.05);
 }
 
-/* Tables styling */
+/* Tables section */
 .tables-section {
   flex: 0 1 400px;
-  background: white;
+  background: #f4f4f9;
   padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
 .tables-section h2 {
-  color: #6c5ce7;
+  color: var(--primary-color);
   margin-bottom: 1rem;
 }
 
 .tables-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
 .table-card {
+  background: white;
   padding: 1rem;
-  border: 2px solid #6c5ce7;
   border-radius: 8px;
-  cursor: pointer;
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+  border: 2px solid var(--primary-color);
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .table-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+  background: var(--primary-color);
+  color: white;
 }
 
 .table-card.selected {
-  background: #6c5ce7;
+  background: var(--primary-color);
   color: white;
+  transform: scale(1.05);
 }
 
-.table-card h3 {
-  margin: 0;
-  margin-bottom: 0.5rem;
-}
-
-.table-card p {
-  margin: 0;
-}
-
-/* Contact form styling */
 .contact-form {
-  max-width: 400px;
-  margin: 2rem auto;
+  background-color: #ffffff;
   padding: 1.5rem;
-  background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
-.contact-form h2 {
-  color: #6c5ce7;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.form-group {
+.contact-form .form-group {
   margin-bottom: 1rem;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #4a4a4a;
-}
-
-.form-group input {
+.contact-form input {
   width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #6c5ce7;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #5849e8;
-  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
-}
-
-/* Reserve button */
 .reserve-button {
-  display: block;
-  width: 100%;
-  max-width: 300px;
-  margin: 2rem auto;
-  padding: 1rem 2rem;
-  background: #6c5ce7;
+  background: var(--primary-color);
   color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  padding: 0.8rem 1.5rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .reserve-button:hover {
-  background: #5849e8;
-  transform: translateY(-2px);
+  background: transparent;
+  color: var(--primary-color);
 }
 
-.reserve-button:disabled {
-  background: #a29bfe;
-  cursor: not-allowed;
-  transform: none;
+.react-calendar__tile--now:enabled:hover, .react-calendar__tile--now:enabled {
+  background: var(--primary-color-light) !important;
+  color: var(--primary-color);
+}
+
+.react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus {
+  background: var(--primary-color) !important;
+  color: white;
+}
+
+.react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled {
+  background: var(--primary-color) !important;
+  color: white;
 }

@@ -1,13 +1,11 @@
 import React from 'react'
 import './Home.css'
-import { ChakraProvider } from '@chakra-ui/react';
 import { PinIcon } from '../../img/HeroIcons';
-import Categorias from './CategoriesDisplay';
-import ProductDisplay from './ProductDisplay';
+import CategoriesDisplay from './CategoriesDisplay';
+import CategoryRow from './CategoryRow';
 
 export default function Home() {
   return (
-    <ChakraProvider>
 
     <div className='home-div'>
       <div className="buscador">
@@ -20,41 +18,17 @@ export default function Home() {
       </div>
 
       <main className="recomendaciones">
-        <section className="section-categorias">
+        <section >
           <h1 className='titulos'>Categorias Populares</h1>
           <div className='bloques'>
      
-              <Categorias />
-              <Categorias />
-              <Categorias />
+              <CategoriesDisplay />
 
           </div>
         </section>
+        
+          <CategoryRow />
 
-        <section className="sugerencias">
-          <h1>Sugerencias</h1>
-          <div className='bloques'>
-            
-            <ProductDisplay />
-
-          </div>
-        </section>
-
-        <section className="opciones">
-          <h1>Opciones</h1>
-          <div className='bloques'>
-            <div className="blur-container">
-            </div>
-            <div className="blur-container">
-            </div>
-            <div className="blur-container">
-            </div>
-            <div className="blur-container">
-            </div>
-            <div className="blur-container">
-            </div>
-          </div>
-        </section>
       </main>
 
       <section className="registrate">
@@ -64,7 +38,5 @@ export default function Home() {
 
       </footer>
     </div>
-
-    </ChakraProvider>
   )
 }

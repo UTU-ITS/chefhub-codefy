@@ -2,6 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php'; 
+
 class TokenModel {
     private $conn;
 
@@ -45,22 +46,66 @@ class TokenModel {
                            <p>Si no has solicitado este código, ignora este mensaje.</p>";
         
             $mail->send();
-            echo json_encode(["message" => "Correo enviado exitosamente"]);
+            echo json_encode(["success"=>true, "message" => "Correo enviado exitosamente"]);
         } catch (Exception $e) {
             echo json_encode(["message" => "Error al enviar el correo: {$mail->ErrorInfo}"]);
         }
     }
 
+    public function sendMailContactUs($email, $mensaje, $nombre)
+{
+    $mail = new PHPMailer(true);
+    try {
+
+        if (!$email) {
+            echo json_encode(["success" => false, "message" => "Email inválido"]);
+            exit;
+        }
+
+        // Configuración del servidor SMTP
+        $mail->isSMTP();
+        $mail->Host = 'pro.turbo-smtp.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'codefy.supp@gmail.com'; 
+        $mail->Password = '0ItA6otK';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Configurar remitente y destinatario
+        $mail->setFrom('codefy.supp@gmail.com', 'Equipo de soporte');
+        $mail->addReplyTo($email, $nombre);
+        $mail->addAddress('codefy.supp@gmail.com');
+        
+        // Configurar el contenido del correo
+        $mail->Subject = 'Mensaje de ' . $nombre;
+        $mail->isHTML(true);
+        $mail->Body = "<p><strong>Nombre:</strong> $nombre</p>
+                       <p><strong>Email:</strong> $email</p>
+                       <p><strong>Mensaje:</strong><br>$mensaje</p>";
+
+        // Enviar correo
+        $mail->send();
+        echo json_encode(["success" => true, "message" => "Correo enviado exitosamente"]);
+    } catch (Exception $e) {
+        echo json_encode(["success" => false, "message" => "Error al enviar el correo: {$mail->ErrorInfo}"]);
+    }
+}
 
 
 
-    public function checkToken($email,$token) {
-        $sql = "SELECT * FROM token WHERE token = :token AND email= :email";
+    public function checkToken($email, $token) {
+        $sql = "SELECT * FROM token WHERE email = :email 
+                ORDER BY fecha_creacion DESC LIMIT 1";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':token', $token, PDO::PARAM_STR);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $latestToken = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        // Verifica si existe un token y si coincide con el que se envió como parámetro
+        if ($latestToken && $latestToken['token'] === $token) {
+            return $latestToken;
+        }
+    
+        return null; // Retorna null si no hay coincidencia
     }
-
 }

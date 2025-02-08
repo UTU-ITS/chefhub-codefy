@@ -203,11 +203,9 @@ CREATE TABLE mesa_pedido (
     fecha DATE NOT NULL,
     hora_inicio TIME NOT NULL,
     hora_fin TIME,
-    ci VARCHAR(11) NOT NULL,
     PRIMARY KEY (id_pedido, id_mesa),
     FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
     FOREIGN KEY (id_mesa) REFERENCES mesa(id_mesa),
-    FOREIGN KEY (ci) REFERENCES funcionario(ci),
     baja INT DEFAULT 0 
 );
 
@@ -266,12 +264,13 @@ CREATE TABLE ingrediente (
 );
 
 CREATE TABLE pedido_producto (
+	id_pedido_producto INT AUTO_INCREMENT,
     id_pedido INT NOT NULL,
     id_producto INT NOT NULL,
     cantidad INT NOT NULL,
     importe DECIMAL(10, 2) NOT NULL,
     nota TEXT,
-    PRIMARY KEY (id_pedido, id_producto),
+    PRIMARY KEY (id_pedido_producto),
     FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
     baja INT DEFAULT 0 
@@ -279,13 +278,10 @@ CREATE TABLE pedido_producto (
 
 -- Tabla para saber que ingredientes lleva cada producto dentro del pedido (incluyendo ingredientes base)
 CREATE TABLE pedido_ingrediente (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- ID único para cada fila
-    id_pedido INT NOT NULL,
-    id_producto INT NOT NULL,
+    id_pedido_producto INT NOT NULL,
     id_ingrediente INT NOT NULL,
     cantidad INT NOT NULL,
-    FOREIGN KEY (id_pedido) REFERENCES pedido_producto(id_pedido),
-    FOREIGN KEY (id_producto) REFERENCES pedido_producto(id_producto),
+    FOREIGN KEY (id_pedido_producto) REFERENCES pedido_producto(id_pedido_producto),
     FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id_ingrediente)
 );
 
@@ -402,13 +398,7 @@ INSERT INTO mesa (capacidad) VALUES
 (8),
 (10);
 
--- Insertar datos en la tabla pedido
-INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura) VALUES
-(50.00, 'Pendiente', 'Delivery', 1, 1, 1),
-(80.00, 'Pendiente', 'Mesa', 2,  2, 2),
-(100.00, 'Listo', 'Delivery', 3,  3, 3),
-(120.00, 'Pendiente', 'Mesa', 4,   4, 4),
-(60.00, 'En preparación', 'Delivery', 5,  5, 5);
+
 -- TEST DE RESERVAS
 INSERT INTO cliente_mesa (id_cliente, id_mesa, fecha, hora, cant_personas, nombre_reserva, tel_contacto, estado) VALUES
 (1, 1, '2025-02-01', '10:00:00', 4, 'Carlos Pérez', 123456789, 'Reservada'),
@@ -441,17 +431,16 @@ INSERT INTO cliente_mesa (id_cliente, id_mesa, fecha, hora, cant_personas, nombr
 (5, 5, '2025-02-10', '20:00:00', 5, 'Vanessa Sánchez', 369258147, 'Reservada'),
 (5, 5, '2025-02-15', '22:00:00', 5, 'Ismael Correa', 852963741, 'Reservada');
 
+INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura) VALUES
+(50.00, 'Pendiente', 'Delivery', 1, 1, 1),
+(80.00, 'Pendiente', 'Mesa', 2,  2, 2),
+(100.00, 'Listo', 'Delivery', 3,  3, 3),
+(120.00, 'Pendiente', 'Mesa', 4,   4, 4),
+(60.00, 'En preparación', 'Delivery', 5,  5, 5);
 
-INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin, ci) VALUES
-(2, 2, '2025-01-28', '13:00:00', '14:30:00', '22222222222'),
-(4, 3, '2025-01-28', '14:00:00', '15:00:00', '22222222222');
-
-INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) VALUES
-(1, 1, 2, 20.00, 'Sin salsa'),
-(2, 2, 1, 15.00, 'Con extra queso'),
-(3, 3, 3, 30.00, 'Con ensalada'),
-(4, 4, 4, 40.00, 'Con bebida'),
-(5, 5, 5, 50.00, 'Con postre');
+INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin )VALUES
+(2, 2, '2025-01-28', '13:00:00', '14:30:00'),
+(4, 3, '2025-01-28', '14:00:00', '15:00:00' );
 
 INSERT INTO producto_categoria (id_producto, id_categoria) VALUES
 (1, 1),
@@ -526,24 +515,15 @@ VALUES (5, 1, 1, false), -- Sopa con queso
        (5, 7, 1, false), -- Sopa con pepperoni
        (5, 9, 1, true),  -- Sopa con aceitunas (extra)
        (5, 10, 1, false);-- Sopa con cebolla
+       
+-- Insertar datos en la tabla pedido
+
+INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) VALUES
+(1, 1, 1, 15.00, 'Sin salsa'),
+(1, 1, 1, 20.00, 'Con extra queso');
 
 -- Insertar ingredientes para el pedido 1
-INSERT INTO pedido_ingrediente (id_pedido, id_producto, id_ingrediente, cantidad) VALUES
-(1, 1, 1, 1), -- Ingrediente 1 para producto 1
-(1, 1, 2, 2), -- Ingrediente 2 para producto 1, extra, cantidad 2
-(1, 2, 3, 1); -- Ingrediente 3 para producto 2
+INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) VALUES
+(1, 5, 1), -- Ingrediente 5 para producto 1
+(2, 2, 2); -- Ingrediente 2 para producto 1
 
--- Insertar ingredientes para el pedido 2
-INSERT INTO pedido_ingrediente (id_pedido, id_producto, id_ingrediente, cantidad) VALUES
-(2, 1, 1, 1), -- Ingrediente 1 para producto 1
-(2, 2, 4, 1); -- Ingrediente 4 para producto 2, extra
-
--- Insertar ingredientes para el pedido 4
-INSERT INTO pedido_ingrediente (id_pedido, id_producto, id_ingrediente, cantidad) VALUES
-(4, 3, 2, 3), -- Ingrediente 2 para producto 3
-(4, 3, 5, 2); -- Ingrediente 5 para producto 3
-
--- Insertar ingredientes para el pedido 5
-INSERT INTO pedido_ingrediente (id_pedido, id_producto, id_ingrediente, cantidad) VALUES
-(5, 4, 3, 1), -- Ingrediente 3 para producto 4
-(5, 5, 1, 1); -- Ingrediente 1 para producto 5, extra

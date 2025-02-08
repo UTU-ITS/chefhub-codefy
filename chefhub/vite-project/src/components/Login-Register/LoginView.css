@@ -1,3 +1,4 @@
+@import url(../../design.css);
 
  .btns-login
 {   display: flex;
@@ -16,29 +17,109 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 80vh;
 } 
 
 .login-div-content{
     display: flex;
     flex-direction: column;
-    align-items: start;
-    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding: 2rem;
 }
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    align-items: center;
+}
+
+.login-div-email{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    margin: 2px 0;
+}
+
+.login-div-email input{
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .login-div-box{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 400px;
-    width: 400px;
-    background-color: #eeeeee;
-    border-radius: 8%;
+    height: 240px;
+    width: 500px;
+    background-color: #fff;
+    border-radius: 2%;
     flex-direction: column;
-    box-shadow: #00000038 10px 10px 5px;
+    box-shadow: var(--shadow);
   }
 
-.forgot-pass{
-    color:rgb(143, 143, 143);
-    margin-left: 40px;
+.login-div-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    margin-right: 5rem;
+  }
+
+.login-div-text h1{
+    font-family: Poppins, sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+    margin-bottom: 1rem;
+}
+
+.modal-content-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.div-button-register{
+    display: flex;
+    flex-direction: row;
+}
+
+.div-button-register .btn-register{
+    color: var(--primary-color);
+    background-color: transparent;
+    border: none;
+}
+
+.div-button-register .btn-register:hover{
+    background-color: var(--primary-color-light);
+}
+
+.btn-otc {
+    color: var(--primary-color);
+    background-color: var(--primary-color-light);
+    border: none;
+}
+
+.btn-otc:hover {
+    background-color: var(--primary-color-light-hover);
+    border: none;
+}
+
+.error-message {
+    color: red;
     font-size: 12px;
+    margin-bottom: 5px;
 }

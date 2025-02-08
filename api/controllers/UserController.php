@@ -36,13 +36,15 @@ class UserController {
 
                     $result = $this->user->getAdresses($id_cliente);
                
-                } else {
+                } else  {
+
+
                     $result = ["message" => "Acción no reconocida"];
                 }
 
                 echo json_encode($result);
                 break;
-                case "POST":
+            case "POST":
                  if ($action === 'signin') {
                     // Leer datos del cuerpo de la solicitud
                     $data = json_decode(file_get_contents("php://input"), true);
@@ -61,9 +63,11 @@ class UserController {
                             http_response_code(401);
                             echo json_encode(["message" => "Usuario o contraseña incorrectos"]);
                         }
+                        return;
                     } else {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
                     }
 
                 } else if ($action === 'signup') {
@@ -93,9 +97,11 @@ class UserController {
                             http_response_code(500);
                             echo json_encode(["message" => "Error al registrar usuario"]);
                         }
+                        return;
                     } else {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
                     }
                 }else if ($action === 'insertaddress') {
                     // Leer datos del cuerpo de la solicitud
@@ -117,19 +123,190 @@ class UserController {
                 
                         // Llamar al método del modelo para insertar la dirección
                         $result = $this->user->InsertNewAddress($calle, $apto, $n_puerta, $referencia, $id_usuario);
-                
+                        
                         if ($result) {
                             echo json_encode(["success" => true,"message" => "Dirección registrada exitosamente"]);
                         } else {
                             http_response_code(500);
                             echo json_encode(["message" => "Error al registrar la dirección"]);
                         }
+                        return;
                     } else {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
                     }
-                }
+                } else if ($action === 'checkemail') {
+                    // Leer datos del cuerpo de la solicitud
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    
+
+                    // Validar los datos recibidos
+                    if (
+                        isset($data['email'])
+                    ) {
+                        $email = $data['email'];
                 
+                        // Llamar al método del modelo para insertar el usuario
+                        $result = $this->user->CheckEmail($email);
+                
+                        if ($result) {
+                            echo json_encode([ "success" => true,"message" => "Correo existe", "data" => $result]);
+                        } else {
+                            http_response_code(500);
+                            echo json_encode(["message" => "Error al chequear correo"]);
+                        }
+                        return;
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
+                    }
+                }else if ($action === 'resetpassword') {
+                    // Leer datos del cuerpo de la solicitud
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    
+
+                    // Validar los datos recibidos
+                    if (
+                        isset($data['pass']) &&
+                        isset($data['id_usuario']))
+
+                     {
+                        $pass = $data['pass'];
+                        $id_usuario = $data['id_usuario'];
+                        // Llamar al método del modelo para insertar el usuario
+                        $result = $this->user->ResetPassword($pass , $id_usuario);
+                
+                        if ($result) {
+                            echo json_encode([ "success" => true]);
+                        } else {
+                            http_response_code(500);
+                            echo json_encode(["message" => "Error al chequear correo"]);
+                        }
+                    } else if ($action === 'getpassword'){
+                        // Leer datos del cuerpo de la solicitud
+                        $data = json_decode(file_get_contents("php://input"), true);
+                        
+    
+                        // Validar los datos recibidos
+                        if (
+                            isset($data['id_usuario']))
+    
+                         {
+                            $id_usuario = $data['id_usuario'];
+                            // Llamar al método del modelo para insertar el usuario
+                            $result = $this->user->CheckPassword($id_usuario);
+                    
+                            if ($result) {
+                                echo json_encode([ "success" => true, "data" => $result]);
+                            } else {
+                                http_response_code(500);
+                                echo json_encode(["message" => "Error al chequear "]);
+                            }
+                            return;
+                        } else {
+                            http_response_code(400);
+                            echo json_encode(["message" => "Faltan parámetros"]);
+                            return;
+                        }
+                    } else  {
+                        http_response_code(400);
+                        echo json_encode(["message" => "Faltan parámetros"]);
+                        return;
+                    }
+                } if ($action === 'addemployee') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    
+                    $result = $this->user->insertEmployee($data);
+
+                    if ($result && $result1) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                    }
+                    return;
+                }else{
+                    echo json_encode(["message" => "Acción no reconocida"]);
+                }               
+                break;
+
+            case "PUT":
+                if ($action === 'deleteaddress') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    $id_direccion = $data['id_direccion'];
+                    $result = $this->user->DeleteAddress($id_direccion);
+
+
+                } else if ($action === 'updatepassword') {
+
+
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    $id_usuario = $data['id_usuario'];
+                    $pass = $data['pass'];
+                    $result = $this->user->UpdatePassword($id_usuario, $pass);
+                    if ($result) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar"]);
+                    }
+                } else if ($action === 'updatename') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    $nombre = $data['nombre'];
+                    $apellido = $data['apellido'];
+                    $id_usuario = $data['id_usuario'];
+                    $result = $this->user->UpdateUserName( $nombre, $apellido, $id_usuario);
+
+
+                } else if ($action === 'deletecustomers') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    $id_usuario = $data['id_usuario'];
+                    $result = $this->user->DeleteClient($id_usuario);
+                    $result1 = $this->user->DeleteUser($id_usuario);
+
+                    if ($result && $result1) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                    }
+
+                }else if ($action === 'deleteemployee') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    $id_usuario = $data['id_usuario'];
+                    $result = $this->user->DeleteEmployee($id_usuario);
+                    $result1 = $this->user->DeleteUser($id_usuario);
+
+                    if ($result && $result1) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                    }
+
+                }else  if ($action === 'editemployee') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+
+                    $id_usuario = $data['id_usuario'];
+                    $telefono = $data['telefono'];
+                    $email = $data['email'];
+                    $hora_entrada = $data['hora_entrada'];
+                    $hora_salida = $data['hora_salida'];
+                    $cargo = $data['cargo'];
+                    $result = $this->user->UpdateEmployee($id_funcionario, $telefono, $email, $hora_entrada, $hora_salida, $cargo);
+
+                    if ($result && $result1) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                    }
+
+                }else{
+                    echo json_encode(["message" => "Acción no reconocida"]);
+                }
                 break;
             default:
             echo json_encode(["message" => "Método no soportado"]);

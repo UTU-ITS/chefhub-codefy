@@ -7,10 +7,15 @@ import { CartContext } from '../../context/cart';
 import { UserContext } from '../../context/user';
 import CartSummary from './CartSummary';
 import axios from 'axios';
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import {Link, useNavigate} from 'react-router-dom';
+import mpImage from '../../img/mp.jpeg';
+
+initMercadoPago('APP_USR-c4ae400c-ca0c-4d11-bf66-634b6910a8aa');
 
 export default function Checkout() {
   const { user } = useContext(UserContext);
-  const { cartItems, clearCart } = useContext(CartContext);
+  const { cartItems, clearCart, addOrder, clearOrder } = useContext(CartContext);
   const [selectedPayment, setSelectedPayment] = useState('');
   const [selectedAddressId, setSelectedAddressId] = useState(
     user?.defaultAddress?.id_direccion || 'new'
@@ -19,9 +24,11 @@ export default function Checkout() {
   const [cartTotal, setCartTotal] = useState(0);
   const [selectedTab, setSelectedTab] = useState(0);
   const [OrderCategorie, setOrderCategorie] = useState('');
+  const [preferenceId, setPreferenceId] = useState('');
+  const [cartInteracted, setCartInteracted] = useState(false);
+  const [TableNumber, setTableNumber] = useState('');
   const toast = useToast();
 
-  // Estado para datos de tarjeta
   const [cardData, setCardData] = useState({
     number: '',
     name: '',
@@ -29,7 +36,6 @@ export default function Checkout() {
     cvv: ''
   });
 
-  // Estado para errores de tarjeta
   const [cardErrors, setCardErrors] = useState({
     number: '',
     name: '',
@@ -37,7 +43,6 @@ export default function Checkout() {
     cvv: ''
   });
 
-  // Estado para dirección
   const [newAddress, setNewAddress] = useState({
     calle: '',
     apto: '',
@@ -53,10 +58,10 @@ export default function Checkout() {
   }, [cartItems]);
 
   useEffect(() => {
-    setOrderCategorie(selectedTab === 0 ? "Delivery" : "Mesa");
-  }, [selectedTab]);
+  console.log("selectedTab cambió a:", selectedTab);
+  setOrderCategorie(selectedTab === 0 ? "Delivery" : "Mesa");
+}, [selectedTab]);
 
-  // Función para cargar direcciones
   const loadAddresses = async () => {
     if (user?.data) {
       try {
@@ -86,7 +91,6 @@ export default function Checkout() {
     loadAddresses();
   }, [user]);
 
-  // Validación de tarjeta
   const validateCardData = () => {
     const errors = {
       number: '',
@@ -96,19 +100,16 @@ export default function Checkout() {
     };
     let isValid = true;
 
-    // Validar número de tarjeta (16 dígitos)
     if (!/^\d{16}$/.test(cardData.number.replace(/\s/g, ''))) {
       errors.number = 'El número de tarjeta debe tener 16 dígitos';
       isValid = false;
     }
 
-    // Validar nombre
     if (!/^[a-zA-Z\s]+$/.test(cardData.name)) {
       errors.name = 'Ingrese un nombre válido';
       isValid = false;
     }
 
-    // Validar fecha de expiración (MM/YY)
     if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(cardData.expiry)) {
       errors.expiry = 'Formato inválido (MM/YY)';
       isValid = false;
@@ -121,7 +122,6 @@ export default function Checkout() {
       }
     }
 
-    // Validar CVV (3 dígitos)
     if (!/^\d{3}$/.test(cardData.cvv)) {
       errors.cvv = 'El CVV debe tener 3 dígitos';
       isValid = false;
@@ -132,89 +132,144 @@ export default function Checkout() {
   };
 
   const handleOrderSubmit = async () => {
-    if (selectedPayment === 'tarjeta' && !validateCardData()) {
-      toast({
-        title: 'Error de validación',
-        description: 'Por favor, corrija los errores en los datos de la tarjeta',
-        status: 'error',
-        duration: 3000,
-        isClosable: true
-      });
-      return;
-    }
-
     const Order = {
       id_cliente: user?.data?.id_cliente || null,
-      id_direccion: selectedAddressId,
+      id_direccion: OrderCategorie === "Mesa" ? null : selectedAddressId,
       total: cartTotal,
       metodo_pago: selectedPayment,
       productos: cartItems,
       estado: "Pendiente",
-      categoria: OrderCategorie
+      categoria: OrderCategorie,
+      id_mesa: TableNumber,
     };
+    addOrder(Order);
 
-    console.log(cartItems);
     try {
-      const response = await fetch("http://localhost/api/insertorder", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(Order),
+      const preferenceResponse = await axios.post('http://localhost/api/payment', {
+        items: cartItems.map(item => ({
+          title: item.name,
+          quantity: 1,
+          unit_price: item.price,
+        })),
       });
-      const result = await response.json();
 
-      if (result.success) {
+      if (preferenceResponse?.data) {
+        const preferenceId = preferenceResponse.data.preference_id;
+
+        if (preferenceId) {
+          console.log('Preference ID:', preferenceId);
+          setPreferenceId(preferenceId);
+        } else {
+          throw new Error("No se recibió un preferenceId válido.");
+        }
+
         toast({
-          title: 'Pedido realizado',
-          description: 'Su pedido ha sido procesado con éxito',
-          status: 'success',
+          title: "Pedido realizado",
+          description: "Su pedido ha sido procesado con éxito",
+          status: "success",
           duration: 3000,
-          isClosable: true
+          isClosable: true,
         });
-        clearCart();
+
       } else {
-        toast({
-          title: 'Error',
-          description: result.error || 'Error desconocido',
-          status: 'error',
-          duration: 3000,
-          isClosable: true
-        });
+        throw new Error("Error en la respuesta de la API.");
       }
+
     } catch (error) {
       toast({
-        title: 'Error',
+        title: "Error",
         description: error.message,
-        status: 'error',
+        status: "error",
         duration: 3000,
-        isClosable: true
+        isClosable: true,
       });
     }
   };
 
+// Este effect se ejecuta cada vez que tableNumber cambia
+
+  const handleOrderSubmitToBD = async () => {
+    if (TableNumber.trim() === '') {
+      alert('Por favor, ingrese un número de mesa válido');
+      return;
+    }
+
+    // Aquí creamos el objeto Order
+    const Order = {
+      id_cliente: user?.data?.id_cliente || null,
+      id_direccion: OrderCategorie === "Mesa" ? null : selectedAddressId,
+      total: cartTotal,
+      metodo_pago: selectedPayment,
+      productos: cartItems,
+      estado: "Pendiente",
+      categoria: OrderCategorie,
+      id_mesa: TableNumber,  // Asegúrate de que TableNumber tiene el valor esperado
+    };
+    console.log('Objeto Order:', Order);  // Verifica el contenido de Order en la consola
+
+    // Aquí enviamos el objeto Order al backend
+    const response = await fetch('http://localhost/api/insertorder', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(Order), // Enviamos el objeto Order
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert('Pedido realizado con éxito');
+      clearCart();
+      // Aquí podrías redirigir o limpiar el estado si es necesario
+    } else {
+      alert('Hubo un error al realizar el pedido');
+    }
+  };
+
+  // Verificar si se puede seleccionar método de pago
+  const canSelectPayment = () => {
+    if (selectedTab === 0) { // Solo para delivery
+      if (selectedAddressId === 'new') {
+        return newAddress.calle.trim() !== '' && newAddress.n_puerta.trim() !== '';
+      }
+      return selectedAddressId !== '';
+    }
+    return true; // Para mesa siempre se puede seleccionar
+  };
+
   const handlePaymentChange = (event) => {
-    setSelectedPayment(event.target.value);
-    // Limpiar datos de tarjeta al cambiar método de pago
-    if (event.target.value !== 'tarjeta') {
-      setCardData({
-        number: '',
-        name: '',
-        expiry: '',
-        cvv: ''
-      });
-      setCardErrors({
-        number: '',
-        name: '',
-        expiry: '',
-        cvv: ''
-      });
+    if (canSelectPayment()) {
+      setSelectedPayment(event.target.value);
+      if (event.target.value !== 'tarjeta') {
+        setCardData({
+          number: '',
+          name: '',
+          expiry: '',
+          cvv: ''
+        });
+        setCardErrors({
+          number: '',
+          name: '',
+          expiry: '',
+          cvv: ''
+        });
+      }
     }
   };
 
   const handleAddressChange = (addressId) => {
     setSelectedAddressId(addressId);
     setShowNewAddressForm(addressId === 'new');
+    setSelectedPayment(''); // Reset payment when address changes
+  };
+
+  const handleCartInteraction = () => {
+    setCartInteracted(true);
+    setSelectedPayment('');
+  };
+  const handleCheckoutInteraction = () => {
+    setCartInteracted(false);
   };
 
   const handleAddAddress = async (e) => {
@@ -241,7 +296,6 @@ export default function Checkout() {
       });
       const result = await response.json();
       
-      
       if (result.success) {
         toast({
           title: 'Dirección agregada',
@@ -251,7 +305,6 @@ export default function Checkout() {
           isClosable: true
         });
         
-        // Limpiar el formulario
         setNewAddress({
           id_usuario: user?.data?.id_usuario || null,
           calle: '',
@@ -260,10 +313,7 @@ export default function Checkout() {
           referencia: ''
         });
         
-        // Recargar las direcciones
         await loadAddresses();
-        
-        // Cerrar el formulario
         setShowNewAddressForm(false);
       } else {
         toast({
@@ -285,7 +335,6 @@ export default function Checkout() {
     }
   };
 
-  // Formatear número de tarjeta
   const formatCardNumber = (value) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     const matches = v.match(/\d{4,16}/g);
@@ -303,27 +352,7 @@ export default function Checkout() {
     }
   };
 
-  const handleCardInput = (e) => {
-    const { name, value } = e.target;
-    let formattedValue = value;
-
-    if (name === 'number') {
-      formattedValue = formatCardNumber(value);
-    } else if (name === 'expiry') {
-      formattedValue = value
-        .replace(/\D/g, '')
-        .replace(/^(\d{2})/, '$1/')
-        .substr(0, 5);
-    } else if (name === 'cvv') {
-      formattedValue = value.replace(/\D/g, '').substr(0, 3);
-    }
-
-    setCardData(prev => ({
-      ...prev,
-      [name]: formattedValue
-    }));
-  };
-
+  
   return (
     <>
       <NavBar />
@@ -344,7 +373,7 @@ export default function Checkout() {
               
               <TabPanels>
                 <TabPanel>
-                  <div className="delivery-section">
+                  <div className="delivery-section" onClick={handleCheckoutInteraction}>
                     <div className="address-section">
                       <h2 className="section-title">Dirección de envío</h2>
 
@@ -391,7 +420,7 @@ export default function Checkout() {
                           <div className="form-row">
                             <input
                               type="text"
-                              placeholder="Calle"
+                              placeholder="Calle *"
                               className="form-input"
                               value={newAddress.calle}
                               onChange={(e) => setNewAddress({...newAddress, calle: e.target.value})}
@@ -399,7 +428,7 @@ export default function Checkout() {
                             />
                             <input
                               type="text"
-                              placeholder="Número"
+                              placeholder="Número *"
                               className="form-input"
                               value={newAddress.n_puerta}
                               onChange={(e) => setNewAddress({...newAddress, n_puerta: e.target.value})}
@@ -414,7 +443,7 @@ export default function Checkout() {
                             onChange={(e) => setNewAddress({...newAddress, apto: e.target.value})}
                           />
                           <textarea
-                            placeholder="Notas de entrega (ej: Puerta negra, timbre no funciona)"
+                            placeholder="Notas de entrega (Opcional)"
                             className="form-textarea"
                             value={newAddress.referencia}
                             onChange={(e) => setNewAddress({...newAddress, referencia: e.target.value})}
@@ -439,39 +468,44 @@ export default function Checkout() {
                     <div className="payment-section">
                       <h2>Método de Pago</h2>
                       <div className="payment-options">
-                        <label className="payment-option">
+                        <label className={`payment-option ${!canSelectPayment() ? 'disabled' : ''}`}>
                           <input
                             type="radio"
                             name="payment"
                             value="efectivo"
                             onChange={handlePaymentChange}
+                            disabled={!canSelectPayment()}
+                            checked={selectedPayment === 'efectivo'}
                           />
                           <Banknote className="payment-icon" />
                           <span>Efectivo</span>
                         </label>
-                        <label className="payment-option">
+                        <label className={`payment-option ${!canSelectPayment() ? 'disabled' : ''}`}>
                           <input
                             type="radio"
                             name="payment"
                             value="tarjeta"
                             onChange={handlePaymentChange}
+                            disabled={!canSelectPayment()}
+                            checked={selectedPayment === 'tarjeta'}
+                            onClick={handleOrderSubmit}
                           />
                           <CreditCard className="payment-icon" />
                           <span>Tarjeta</span>
                         </label>
                       </div>
 
-                      {selectedPayment === 'efectivo' && (
+                      {selectedPayment === 'efectivo' && !cartInteracted && (
                         <div className="cash-payment-details">
                           <h3>¿Necesita cambio?</h3>
                           <div className="change-options">
                             <label>
                               <input type="radio" name="change" value="si" />
-                              <span>Sí</span>
+                              <span className='cash-options'>Sí</span>
                             </label>
                             <label>
                               <input type="radio" name="change" value="no" />
-                              <span>No</span>
+                              <span className='cash-options'>No</span>
                             </label>
                           </div>
                           <input
@@ -479,62 +513,29 @@ export default function Checkout() {
                             placeholder="Monto con el que pagará"
                             className="form-input"
                           />
+                          <Link to="/success">
+                            <button 
+                              className="checkout-btn" 
+                              onClick={handleOrderSubmitToBD}
+                              disabled={!selectedPayment || (selectedTab === 0 && !canSelectPayment())}
+                            >
+                              Realizar pedido
+                            </button>
+                          </Link>
                         </div>
                       )}
 
-                      {selectedPayment === 'tarjeta' && (
+                      {selectedPayment === 'tarjeta' && !cartInteracted && (
                         <div className="card-payment-details">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              name="number"
-                              placeholder="Número de Tarjeta"
-                              className={`form-input ${cardErrors.number ? 'error' : ''}`}
-                              value={cardData.number}
-                              onChange={handleCardInput}
-                              maxLength="19"
-                            />
-                            {cardErrors.number && <span className="error-message">{cardErrors.number}</span>}
-                          </div>
-                          
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              name="name"
-                              placeholder="Nombre en la Tarjeta"
-                              className={`form-input ${cardErrors.name ? 'error' : ''}`}
-                              value={cardData.name}
-                              onChange={handleCardInput}
-                            />
-                            {cardErrors.name && <span className="error-message">{cardErrors.name}</span>}
-                          </div>
-                          
-                          <div className="form-row">
-                            <div className="form-group">
-                              <input
-                                type="text"
-                                name="expiry"
-                                placeholder="MM/YY"
-                                className={`form-input ${cardErrors.expiry ? 'error' : ''}`}
-                                value={cardData.expiry}
-                                onChange={handleCardInput}
-                                maxLength="5"
+                          <div id="wallet_container">
+                            <img src={mpImage} alt="Imagen de pago" />
+                            <button onClick={handleOrderSubmit}>
+                              Pagar con Wallet
+                              <Wallet 
+                                initialization={{ preferenceId }} 
+                                customization={{ texts:{ valueProp: 'smart_option'}}}
                               />
-                              {cardErrors.expiry && <span className="error-message">{cardErrors.expiry}</span>}
-                            </div>
-                            
-                            <div className="form-group">
-                              <input
-                                type="text"
-                                name="cvv"
-                                placeholder="CVV"
-                                className={`form-input ${cardErrors.cvv ? 'error' : ''}`}
-                                value={cardData.cvv}
-                                onChange={handleCardInput}
-                                maxLength="3"
-                              />
-                              {cardErrors.cvv && <span className="error-message">{cardErrors.cvv}</span>}
-                            </div>
+                            </button>
                           </div>
                         </div>
                       )}
@@ -549,22 +550,26 @@ export default function Checkout() {
                       type="number"
                       placeholder="Ingrese el número de mesa"
                       className="form-input"
+                      value={TableNumber} // Aseguramos que el input esté vinculado al estado
+                      onChange={(e) => setTableNumber(e.target.value)} // Actualiza el estado con el valor del input
+
                     />
+                            <Link to="/successin">
+                            <button 
+                              className="checkout-btn" 
+                              onClick={handleOrderSubmitToBD}
+                            >
+                              Realizar pedido
+                            </button>
+                          </Link>
                   </div>
                 </TabPanel>
               </TabPanels>
             </Tabs>
           </div>
 
-          <div className="checkout-summary">
+          <div className="checkout-summary" onClick={handleCartInteraction}>
             <CartSummary isCheckout={true} />
-            <button 
-              className="checkout-btn" 
-              onClick={handleOrderSubmit}
-              disabled={!selectedPayment || (selectedTab === 0 && selectedAddressId === 'new')}
-            >
-              Realizar pedido
-            </button>
           </div>
         </div>
       </ChakraProvider>

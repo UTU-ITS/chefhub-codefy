@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.10.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@mercadopago/sdk-react": "^0.0.23",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "date-fns": "^4.1.0",
@@ -21,6 +22,7 @@
     "react": "^18.3.1",
     "react-calendar": "^5.1.0",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.3",
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
