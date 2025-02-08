@@ -8,11 +8,20 @@ export const CartProvider = ({ children }) => {
     const savedCart = localStorage.getItem('cartItems');
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const [order, setOrder] = useState(() => {
+    const savedOrder = localStorage.getItem('order');
+    return savedOrder ? JSON.parse(savedOrder) : [];
+  });
 
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
-
+  useEffect(() => {
+    localStorage.setItem('order', JSON.stringify(order));
+  }, [order]);
+  const addOrder = (order) => {
+    setOrder(order);
+  };
   const addToCart = (product, selectedIngredients = []) => {
     const uniqueId = `${product.id}-${Date.now()}`;
   
@@ -71,13 +80,16 @@ export const CartProvider = ({ children }) => {
       )
     );
   };
-
+ const clearOrder= () => setCartItems([]);
   const clearCart = () => setCartItems([]);
 
   return (
     <CartContext.Provider
       value={{
         cartItems,
+        order,
+        addOrder,
+        clearOrder,
         addToCart,
         addPrice,
         decreasePrice,

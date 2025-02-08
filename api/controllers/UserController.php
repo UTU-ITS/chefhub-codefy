@@ -197,12 +197,25 @@ class UserController {
                             http_response_code(400);
                             echo json_encode(["message" => "Faltan parámetros"]);
                         }
-                    } else {
+                    } else  {
                         http_response_code(400);
                         echo json_encode(["message" => "Faltan parámetros"]);
                     }
-                }
-                
+                } if ($action === 'addemployee') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    
+                    $result = $this->user->insertEmployee($data);
+
+                    if ($result && $result1) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                    }
+
+                }else{
+                    echo json_encode(["message" => "Acción no reconocida"]);
+                }               
                 break;
 
             case "PUT":
@@ -249,9 +262,26 @@ class UserController {
                 }else if ($action === 'deleteemployee') {
                     $data = json_decode(file_get_contents("php://input"), true);
                     $id_usuario = $data['id_usuario'];
-                    echo "aaaaaa".$id_usuario;
                     $result = $this->user->DeleteEmployee($id_usuario);
                     $result1 = $this->user->DeleteUser($id_usuario);
+
+                    if ($result && $result1) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                    }
+
+                }else  if ($action === 'editemployee') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+
+                    $id_usuario = $data['id_usuario'];
+                    $telefono = $data['telefono'];
+                    $email = $data['email'];
+                    $hora_entrada = $data['hora_entrada'];
+                    $hora_salida = $data['hora_salida'];
+                    $cargo = $data['cargo'];
+                    $result = $this->user->UpdateEmployee($id_funcionario, $telefono, $email, $hora_entrada, $hora_salida, $cargo);
 
                     if ($result && $result1) {
                         echo json_encode([ "success" => true]);

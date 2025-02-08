@@ -26,13 +26,29 @@ class ReservationController {
             case "GET":
                 if ($action === 'cantreservation') {
                     $result = $this->reservation->getCantReservation();
+                } else  if ($action === 'getreservations') {
+                    $result = $this->reservation->getReservation();
                 } else {
-                    $result = ["message" => "Acción no reconocida"];
+                    $result = ["message" => "Acción no reconocida" ,"success"=>true  ];
                 }
                 echo json_encode($result);
                 break;
             default:
+            case "PUT":
+
+            if ($action === 'cancelreservation') {
+                $data = json_decode(file_get_contents('php://input'), true);
+                $id_usuario = $data['id_usuario'];
+                $id_mesa = $data['id_mesa'];
+                $fecha = $data['fecha'];
+                $hora = $data['hora'];
+                $result = $this->reservation->updateReservation($id_usuario, $id_mesa, $fecha, $hora);
+                echo json_encode($result ? ["success"=>true  ,"message" => "Reserva cancelada"] : ["message" => "Error al cancelar la reserva"]);
+
+            } else {
+                    
                 echo json_encode(["message" => "Método no soportado"]);
+                }
                 break;
         }
     }

@@ -102,6 +102,34 @@ public function getTablePerOrder($order_id) {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
+public function InsertTable($capacidad)
+{
+    $sql = "INSERT INTO mesa (capacidad)
+     VALUES (:capacidad)";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':capacidad', $capacidad, PDO::PARAM_INT);
+    $stmt->execute();
+    if($stmt->rowCount() == 0){
+        return "No se ha modificado ninguna mesa";
+    }else {
+        return "Mesa modificada con éxito";
+    }
+    
+}
+public function UpdateTable($id_mesa, $capacidad)
+{
+    $sql = "UPDATE mesa SET capacidad = :capacidad WHERE id_mesa = :id_mesa";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
+    $stmt->bindParam(':capacidad', $capacidad, PDO::PARAM_INT);
+    $stmt->execute();
+    if($stmt->rowCount() == 0){
+        return "No se ha modificado ninguna mesa";
+    }else {
+        return "Mesa modificada con éxito";
+    }
+    
+    return $stmt->rowCount(); 
+}
 }
 ?>
