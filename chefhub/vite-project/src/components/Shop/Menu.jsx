@@ -39,8 +39,6 @@ export default function Menu() {
           </ChakraProvider>
         </div>
       </div>
-  
-
     </>
   );
 }

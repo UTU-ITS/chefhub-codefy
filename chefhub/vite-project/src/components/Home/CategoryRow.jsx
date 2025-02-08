@@ -30,16 +30,6 @@ export default function CategoryRow() {
                         <h2>{category.nombre}</h2>
                         <div className='bloques'>
                         <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
-                        <ProductDisplay categoryId={category.id_categoria} />
                         </div>
                     </div>
                 ))
