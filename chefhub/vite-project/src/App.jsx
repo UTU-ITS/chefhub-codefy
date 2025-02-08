@@ -17,7 +17,7 @@ import ContactUs from './components/ContactUs/ContactUs';
 import ForgotPassword from './components/Login-Register/ForgotPassword';
 import CustomerAutoManagement from './components/Admin/Users/Customers/CustomerAutoManagement';
 import Aftercheckout from './components/Shop/Aftercheckout';
-import AfterCheckoutInside from './components/Shop/AftercheckoutInside';
+import AfterCheckoutInside from './components/Shop/AfterCheckoutInside';
 import AfterChekoutFail from './components/Shop/AfterCheckoutFail';
 
 function NotFound() {
