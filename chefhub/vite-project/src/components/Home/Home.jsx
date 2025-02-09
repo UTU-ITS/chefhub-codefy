@@ -1,6 +1,6 @@
 import React from 'react'
 import './Home.css'
-import { PinIcon } from '../../img/HeroIcons';
+
 import CategoriesDisplay from './CategoriesDisplay';
 import CategoryRow from './CategoryRow';
 
@@ -11,8 +11,7 @@ export default function Home() {
       <div className="buscador">
         <p className='slogan'>Pide lo que quieras, Cuando quieras</p>
         <i className='borde buscador-barra'>
-          <PinIcon />
-          <input className='entrada' type="text" placeholder="Busca locales" />
+          <input className='entrada' type="text" placeholder="Busca productos..." />
           <button className='btn'>Buscar</button>
         </i>
       </div>
