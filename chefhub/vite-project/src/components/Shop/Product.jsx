@@ -6,7 +6,7 @@ import './Product.css';
 import { CartContext } from '../../context/cart';
 import IngredientModal from './IngredientModal';
 
-export default function Product({ selectedKey, onSelectKey }) {
+export default function Product({ selectedKey, searchTerm }) {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +24,7 @@ export default function Product({ selectedKey, onSelectKey }) {
           setProducts(
             response.data.map((product) => ({
               ...product,
-              precio: parseFloat(product.precio) || 0, 
+              precio: parseFloat(product.precio) || 0,
             }))
           );
         } else {
@@ -36,6 +36,11 @@ export default function Product({ selectedKey, onSelectKey }) {
         console.error('Error al obtener productos: ', error);
       });
   }, [selectedKey]);
+
+  // 🔍 Filtrar productos según el término de búsqueda
+  const filteredProducts = products.filter((product) =>
+    searchTerm ? product.nombre.toLowerCase().includes(searchTerm.toLowerCase()) : true
+  );
 
   const handleAddToCart = (product) => {
     setSelectedProduct({
@@ -64,43 +69,34 @@ export default function Product({ selectedKey, onSelectKey }) {
 
   return (
     <div className="product-container">
-      {products.length > 0 ? (
-        products.map((product) => (
-          <Card key={product.id_producto} direction={{ base: 'column', sm: 'row' }} overflow='hidden' variant='outline' className='product-card'>
-            <Image
-              objectFit='cover'
-              maxW={{ base: '100%', sm: '200px' }}
-              src={product.imagen}
-              alt={product.nombre}
-              boxSize="200px"
-            />
-            <Stack className='product-info'>
-              <CardBody className='card-body'>
-                <Heading size='md'>{product.nombre}</Heading>
-                <Text py='2'>{product.descripcion}</Text>
+      {filteredProducts.length > 0 ? (
+        filteredProducts.map((product) => (
+          <Card key={product.id_producto} direction={{ base: 'column', sm: 'row' }} overflow="hidden" variant="outline" className="product-card">
+            <Image objectFit="cover" maxW={{ base: '100%', sm: '200px' }} src={product.imagen} alt={product.nombre} boxSize="200px" />
+            <Stack className="product-info">
+              <CardBody className="card-body">
+                <Heading size="md">{product.nombre}</Heading>
+                <Text py="2">{product.descripcion}</Text>
                 <Heading>${product.precio.toFixed(2)}</Heading>
               </CardBody>
-              <CardFooter className='card-footer'>
-                <button className='btn' onClick={() => handleAddToCart(product)}>Agregar al Carrito</button>
+              <CardFooter className="card-footer">
+                <button className="btn" onClick={() => handleAddToCart(product)}>
+                  Agregar al Carrito
+                </button>
               </CardFooter>
             </Stack>
           </Card>
         ))
       ) : (
-        <Text className="no-products">No hay productos disponibles</Text>
+        <Text className="no-products">No se encontraron productos</Text>
       )}
 
-      <IngredientModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        productId={selectedProduct?.id}
-        onConfirm={handleModalConfirm}
-      />
+      <IngredientModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} productId={selectedProduct?.id} onConfirm={handleModalConfirm} />
     </div>
   );
 }
 
 Product.propTypes = {
   selectedKey: PropTypes.string,
-  onSelectKey: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string, // Agregamos validación para searchTerm
 };
