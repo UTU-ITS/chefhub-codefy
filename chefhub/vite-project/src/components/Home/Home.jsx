@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
@@ -20,15 +21,8 @@ export default function Home() {
       <div className="buscador">
         <p className='slogan'>Pide lo que quieras, Cuando quieras</p>
         <i className='borde buscador-barra'>
-          <PinIcon />
-          <input 
-            className='entrada' 
-            type="text" 
-            placeholder="Busca locales" 
-            value={searchTerm} 
-            onChange={(e) => setSearchTerm(e.target.value)} 
-          />
-          <button className='btn' onClick={handleSearch}>Buscar</button>
+          <input className='entrada' type="text" placeholder="Busca productos..." />
+          <button className='btn'>Buscar</button>
         </i>
       </div>
 
