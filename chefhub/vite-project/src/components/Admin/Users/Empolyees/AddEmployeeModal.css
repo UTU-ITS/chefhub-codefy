@@ -1,0 +1,68 @@
+.custom-modal-content {
+  border-radius: 10px !important;
+  padding: 20px;
+  max-width: 800px !important;
+  max-height: 80vh; /* Ajusta el alto máximo del modal */
+  overflow: hidden; /* Evita que el contenido se desborde */
+}
+
+.custom-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto; /* Agrega scroll interno */
+  max-height: 60vh; /* Ajusta el alto máximo del cuerpo del modal */
+}
+
+.custom-form-columns {
+  display: flex;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+.custom-form-left,
+.custom-form-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.custom-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.custom-form-group label {
+  font-weight: 500;
+}
+
+.custom-input {
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.custom-generate-btn,
+.custom-copy-btn {
+  background-color: #4a5568;
+  color: white;
+}
+
+.custom-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.custom-cancel-btn {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.custom-submit-btn {
+  background-color: #3182ce;
+  color: white;
+}

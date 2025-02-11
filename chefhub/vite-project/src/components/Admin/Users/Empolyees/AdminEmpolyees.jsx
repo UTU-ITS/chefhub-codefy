@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NewIcon, EditIcon, ClearIcon } from '../../../../img/HeroIcons';
 import { fetchData } from '../../apiService';
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@chakra-ui/react';
+import AddEmployeeModal from './AddEmployeeModal';
 
 const AdminEmployees = () => {
   const [data, setData] = useState([]);
@@ -17,13 +18,13 @@ const AdminEmployees = () => {
 
   const fetchEmployees = async () => {
     await fetchData('http://localhost/api/empolyees', setData);
-    console.log(data); // Verifica la estructura de los datos
+    console.log(data);
   };
-  useEffect(() => {
-    if (selectedEmployee) {
-      console.log('Modal abriéndose con empleado:', selectedEmployee.id_usuario);
-    }
-  }, [selectedEmployee]); 
+
+  const handleEmployeeAdded = () => {
+    fetchEmployees();
+  };
+
   const handleDelete = async (id) => {
     console.log('Eliminando empleado con ID:', id);
     try {
@@ -59,7 +60,7 @@ const AdminEmployees = () => {
       <div className='admin-format'>
         <div className='admin-title'><h2>EMPLEADOS</h2></div>
         <div className='admin-options'>
-          <a className='admin-btn' href='employees/addemployee'><NewIcon />Nuevo</a>
+            <AddEmployeeModal onEmployeeAdded={handleEmployeeAdded} />
           <input
             type='text'
             placeholder='Buscar empleados...'
