@@ -12,11 +12,11 @@ import {
   useDisclosure,
   useToast
 } from '@chakra-ui/react';
-import { NewIcon } from '../../../img/HeroIcons';
+import { EditIcon } from '../../../img/HeroIcons';
 import './AddProductModal.css';
 
 
-const AddProductModal = ({ onProductAdded }) => {
+const EditProductModal = ({onProductUpdated, product }) => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [image, setImage] = useState(null);
@@ -28,7 +28,16 @@ const AddProductModal = ({ onProductAdded }) => {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [availableCategories, setAvailableCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-
+useEffect(() => {
+    console.log(product);
+     const SetPreData = async () => {
+         setName(product.Producto);
+            setDescription(product.Descripción);
+            setPrice(product.Precio);
+            setImage(product.Imagen);         
+        }
+        SetPreData();
+    }, [product]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -100,7 +109,8 @@ const AddProductModal = ({ onProductAdded }) => {
 
   const handleSubmit = async (e, action) => {
     e.preventDefault();
-    
+
+    // Verificar si los campos obligatorios están completos
     if (!name || !description || !price || !image) {
       toast({
         title: 'Error',
@@ -113,61 +123,118 @@ const AddProductModal = ({ onProductAdded }) => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('nombre', name);
-    formData.append('precio', price);
-    formData.append('descripcion', description);
-    formData.append('imagen', image);
-    selectedIngredients.forEach(i => formData.append('ingredientes[]', i.id_ingrediente));
-    selectedCategories.forEach(c => formData.append('categorias[]', c.id_categoria));
-
     try {
-      const response = await fetch('http://localhost/api/insertproduct', {
-        method: 'POST',
-        body: formData,
-      });
+        // Verificar si image es un objeto de tipo File
+        if (image instanceof File) {
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                const base64Image = reader.result;
 
-      if (!response.ok) throw new Error('Error en la respuesta del servidor');
-      
-      const result = await response.json();
-      toast({
-        title: 'Éxito',
-        description: `Producto agregado con ID: ${result.product_id}`,
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right'
-      });
+                // Crear el objeto de datos a enviar en el formato adecuado
+                const requestData = {
+                    id_producto: product.ID,
+                    nombre: name,
+                    precio: price,
+                    descripcion: description,
+                    imagen: base64Image,  // La imagen ya está en base64
+                    ingredientes: selectedIngredients.map(i => i.id_ingrediente),
+                    categorias: selectedCategories.map(c => c.id_categoria),
+                };
 
-      onProductAdded();
-      if (action === 'new') {
-        resetForm();
-      } else {
-        onClose();
-      }
+                // Enviar la solicitud PUT con los datos en formato JSON
+                const response = await fetch('http://localhost/api/updateproduct', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',  // Asegurarnos de que el servidor entienda que es JSON
+                    },
+                    body: JSON.stringify(requestData),  // Convertimos el objeto a JSON
+                });
+
+                if (!response.ok) throw new Error('Error en la respuesta del servidor');
+
+                const result = await response.json();
+
+                toast({
+                    title: 'Éxito',
+                    description: `Producto modificado: ${name}`,
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'top-right'
+                });
+
+                onProductUpdated();
+                if (action === 'new') {
+                    resetForm();
+                } else {
+                    onClose();
+                }
+            };
+
+            reader.readAsDataURL(image);  // Convertir la imagen a base64
+        } else {
+            // Si no es un archivo válido, podemos enviar la solicitud sin imagen
+            const requestData = {
+                id_producto: product.ID,
+                nombre: name,
+                precio: price,
+                descripcion: description,
+                ingredientes: selectedIngredients.map(i => i.id_ingrediente),
+                categorias: selectedCategories.map(c => c.id_categoria),
+            };
+
+            // Enviar la solicitud PUT con los datos en formato JSON
+            const response = await fetch('http://localhost/api/updateproduct', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',  // Asegurarnos de que el servidor entienda que es JSON
+                },
+                body: JSON.stringify(requestData),  // Convertimos el objeto a JSON
+            });
+
+            if (!response.ok) throw new Error('Error en la respuesta del servidor');
+
+            const result = await response.json();
+
+            toast({
+                title: 'Éxito',
+                description: `Producto modificado: ${name}`,
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right'
+            });
+
+            onProductUpdated();
+            if (action === 'new') {
+                resetForm();
+            } else {
+                onClose();
+            }
+        }
     } catch (error) {
-      console.error('Error:', error);
-      toast({
-        title: 'Error',
-        description: 'Error al agregar el producto',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right'
-      });
+        console.error('Error:', error);
+        toast({
+            title: 'Error',
+            description: 'Error al agregar el producto',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right'
+        });
     }
-  };
+};
 
   return (
     <>
       <button className="admin-btn" onClick={onOpen}>
-        <NewIcon /> Nuevo
+        <EditIcon />
       </button>
 
       <Modal isOpen={isOpen} onClose={onClose} size="3xl">
         <ModalOverlay />
         <ModalContent className="addproduct-modal">
-          <ModalHeader className="addproduct-header">Nuevo Producto</ModalHeader>
+          <ModalHeader className="addproduct-header">Editar Producto</ModalHeader>
           <ModalBody className="addproduct-body" overflowY="auto" maxH="70vh">
             <div className="addproduct-columns">
               <div className="addproduct-left">
@@ -293,9 +360,6 @@ const AddProductModal = ({ onProductAdded }) => {
             <Button className="addproduct-cancel-btn" onClick={onClose}>
               Cancelar
             </Button>
-            <Button className="addproduct-submit-btn" onClick={(e) => handleSubmit(e, 'new')}>
-              Guardar y Nuevo
-            </Button>
             <Button className="addproduct-submit-btn" onClick={(e) => handleSubmit(e, 'close')}>
               Guardar
             </Button>
@@ -306,4 +370,4 @@ const AddProductModal = ({ onProductAdded }) => {
   );
 };
 
-export default AddProductModal;
+export default EditProductModal;

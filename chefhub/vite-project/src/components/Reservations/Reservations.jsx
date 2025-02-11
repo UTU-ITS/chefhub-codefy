@@ -68,22 +68,22 @@ function Reservations() {
     setSelectedTime(null);
     setSelectedTable(null);
     setShowContactForm(false);
-    setStep(1); // Volver al primer paso cuando se cambie la fecha
+    setStep(1);
   };
 
   const handleTimeSelect = (time) => {
     setSelectedTime(time);
     setSelectedTable(null);
     setShowContactForm(false);
-    setStep(2); // Ir al siguiente paso
+    setStep(2);
   };
 
   const handleTableSelect = (table) => {
     setSelectedTable(table);
     setShowContactForm(false);
-    setStep(3); // Ir al siguiente paso
+    setStep(3);
   };
-
+ 
   const handleContactInfoChange = (e) => {
     const { name, value } = e.target;
     setContactInfo(prev => ({ ...prev, [name]: value }));

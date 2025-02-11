@@ -22,14 +22,6 @@ CREATE TABLE usuario (
     baja INT DEFAULT 0 
 );
 
--- Tabla personalizacion
-CREATE TABLE personalizacion (
-    nombre_rest VARCHAR(50) PRIMARY KEY,
-    direccion VARCHAR(255) NOT NULL,
-    zona_horaria VARCHAR(50) NOT NULL,
-    moneda VARCHAR(10) NOT NULL,
-    baja INT DEFAULT 0 
-);
 
 -- Tabla telefono
 CREATE TABLE telefono (
@@ -103,16 +95,6 @@ CREATE TABLE pago (
     baja INT DEFAULT 0 
 );
 
--- Tabla preferencia
-CREATE TABLE preferencia (
-    id_preferencia INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(50) NOT NULL,
-    alimentaria BOOLEAN NOT NULL,
-    dietetica BOOLEAN NOT NULL,
-    id_categoria INT NOT NULL,
-    CONSTRAINT chk_alimentaria_dietetica CHECK (alimentaria != dietetica),
-    baja INT DEFAULT 0 
-);
 
 -- Tabla producto
 CREATE TABLE producto (
@@ -129,7 +111,6 @@ CREATE TABLE categoria_producto (
     id_categoria INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
     descripcion TEXT,
-    id_categoria_padre INT,
     imagen text,
     baja INT DEFAULT 0 
 );
@@ -150,10 +131,12 @@ CREATE TABLE pedido (
     id_direccion INT NULL,
     id_factura INT NOT NULL,
     fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    ci varchar (8),
     baja TINYINT DEFAULT 0,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion),
     FOREIGN KEY (id_factura) REFERENCES factura(id_factura),
+    FOREIGN KEY (ci) REFERENCES funcionario(ci),
 	CONSTRAINT chk_categoria CHECK (categoria != 'Delivery' OR id_direccion IS NOT NULL));
     
 -- Tabla dia_horario
@@ -161,6 +144,7 @@ CREATE TABLE dia_horario (
     dia_semana VARCHAR(10) PRIMARY KEY,
     horario_apertura TIME NOT NULL,
     horario_cierre TIME NOT NULL,
+    duracion_reserva TIME NOT NULL,
     baja INT DEFAULT 0 
 );
 
@@ -172,15 +156,7 @@ CREATE TABLE excepcion_horario (
     baja INT DEFAULT 0 
 );
 
--- Relaciones entre tablas
-CREATE TABLE cliente_preferencia (
-    id_cliente INT NOT NULL,
-    id_preferencia INT NOT NULL,
-    PRIMARY KEY (id_cliente, id_preferencia),
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
-    FOREIGN KEY (id_preferencia) REFERENCES preferencia(id_preferencia),
-    baja INT DEFAULT 0 
-);
+
 
 CREATE TABLE cliente_mesa (
     id_cliente INT NOT NULL,
@@ -218,48 +194,10 @@ CREATE TABLE producto_categoria (
     baja INT DEFAULT 0 
 );
 
--- Índices recomendados
-CREATE INDEX idx_cliente ON cliente(id_cliente);
-CREATE INDEX idx_pedido ON pedido(id_pedido);
-CREATE INDEX idx_fecha_hora_pedido ON pedido(fecha_hora);
-CREATE INDEX idx_mesa ON mesa(id_mesa);
-
--- Auditoría
-CREATE TABLE pedido_auditoria (
-    id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
-    id_pedido INT NOT NULL,
-    fecha_modificacion DATETIME NOT NULL DEFAULT NOW(),
-    estado_anterior VARCHAR(50) NOT NULL,
-    estado_nuevo VARCHAR(50) NOT NULL,
-    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
-    baja INT DEFAULT 0 
-);
-
-CREATE TABLE factura_auditoria (
-    id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
-    id_factura INT NOT NULL,
-    fecha_modificacion DATETIME NOT NULL DEFAULT NOW(),
-    estado_anterior VARCHAR(50) NOT NULL,
-    estado_nuevo VARCHAR(50) NOT NULL,
-    FOREIGN KEY (id_factura) REFERENCES factura(id_factura),
-    baja INT DEFAULT 0 
-);
-
-CREATE TABLE pago_auditoria (
-    id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
-    id_pago INT NOT NULL,
-    fecha_modificacion DATETIME NOT NULL DEFAULT NOW(),
-    monto_anterior DECIMAL(10, 2) NOT NULL,
-    monto_nuevo DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (id_pago) REFERENCES pago(id_pago),
-    baja INT DEFAULT 0 
-);
-
 CREATE TABLE ingrediente (
     id_ingrediente INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
-    stock INT NOT NULL,
     baja INT DEFAULT 0 
 );
 
@@ -297,6 +235,123 @@ CREATE TABLE producto_ingrediente (
     baja INT DEFAULT 0 
 );
 
+-- Índices recomendados
+CREATE INDEX idx_cliente ON cliente(id_cliente);
+CREATE INDEX idx_pedido ON pedido(id_pedido);
+CREATE INDEX idx_fecha_hora_pedido ON pedido(fecha_hora);
+CREATE INDEX idx_mesa ON mesa(id_mesa);
+
+-- Auditoría
+
+CREATE TABLE pedido_auditoria (
+    id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
+    id_pedido INT NOT NULL,
+    fecha_modificacion DATETIME NOT NULL DEFAULT NOW(),
+    estado_anterior VARCHAR(50) NOT NULL,
+    estado_nuevo VARCHAR(50) NOT NULL,
+    ci_anterior VARCHAR(8) NULL,  -- Guarda la cédula anterior del pedido
+    ci_nuevo VARCHAR(8) NULL,     -- Guarda la cédula nueva del pedido
+    ci VARCHAR(8) NOT NULL,       -- Guarda la cédula del usuario que hizo el cambio
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido)
+);
+
+
+
+
+CREATE TABLE factura_auditoria (
+    id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
+    id_factura INT NOT NULL,
+    fecha_modificacion DATETIME NOT NULL DEFAULT NOW(),
+    estado_anterior VARCHAR(50) NOT NULL,
+    estado_nuevo VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_factura) REFERENCES factura(id_factura),
+    baja INT DEFAULT 0 
+);
+
+CREATE TABLE pago_auditoria (
+    id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
+    id_pago INT NOT NULL,
+    fecha_modificacion DATETIME NOT NULL DEFAULT NOW(),
+    monto_anterior DECIMAL(10, 2) NOT NULL,
+    monto_nuevo DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_pago) REFERENCES pago(id_pago),
+    baja INT DEFAULT 0 
+);
+CREATE TABLE cliente_mesa_auditoria (
+    id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
+    id_cliente INT NOT NULL,
+    id_mesa INT NOT NULL,
+    fecha DATE NOT NULL,
+    hora TIME NOT NULL,
+    cant_personas INT NOT NULL,
+    nombre_reserva VARCHAR(20) NOT NULL,
+    tel_contacto INT NOT NULL,
+    estado_anterior VARCHAR(20),
+    estado_nuevo VARCHAR(20),
+    accion VARCHAR(10) NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
+    fecha_modificacion DATETIME NOT NULL DEFAULT NOW()
+);
+
+-- Trigers para cada una de las tablas auditorias
+DELIMITER $$
+
+CREATE TRIGGER trg_pedido_ci_auditoria
+BEFORE UPDATE ON pedido
+FOR EACH ROW
+BEGIN
+    -- Si la cédula (ci) cambió, guardar en la auditoría
+    IF OLD.ci <> NEW.ci THEN
+        INSERT INTO pedido_auditoria (id_pedido, fecha_modificacion, estado_anterior, estado_nuevo, ci_anterior, ci_nuevo, ci)
+        VALUES (OLD.id_pedido, NOW(), OLD.estado, NEW.estado, OLD.ci, NEW.ci, @usuario_ci);
+    END IF;
+END $$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE TRIGGER trg_factura_auditoria
+BEFORE UPDATE ON factura
+FOR EACH ROW
+BEGIN
+    IF OLD.estado <> NEW.estado THEN
+        INSERT INTO factura_auditoria (id_factura, estado_anterior, estado_nuevo)
+        VALUES (OLD.id_factura, OLD.estado, NEW.estado);
+    END IF;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER trg_pago_auditoria
+BEFORE UPDATE ON pago
+FOR EACH ROW
+BEGIN
+    IF OLD.monto <> NEW.monto THEN
+        INSERT INTO pago_auditoria (id_pago, monto_anterior, monto_nuevo)
+        VALUES (OLD.id_pago, OLD.monto, NEW.monto);
+    END IF;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER trg_cliente_mesa_auditoria
+AFTER INSERT ON cliente_mesa
+FOR EACH ROW
+BEGIN
+    INSERT INTO cliente_mesa_auditoria (id_cliente, id_mesa, fecha, hora, cant_personas, nombre_reserva, tel_contacto, estado_nuevo, accion)
+    VALUES (NEW.id_cliente, NEW.id_mesa, NEW.fecha, NEW.hora, NEW.cant_personas, NEW.nombre_reserva, NEW.tel_contacto, NEW.estado, 'INSERT');
+END $$
+
+DELIMITER ;
+
+
 
 
   -- Insertar datos en la tabla imagen
@@ -319,14 +374,6 @@ INSERT INTO usuario (email, clave, nombre, apellido, telefono) VALUES
 ('victor@example.com', 'clave505', 'Victor', 'Sanchez', '778899112'),
 ('sofia@example.com', 'clave606', 'Sofia', 'Martinez', '334455667'),
 ('pedro@example.com', 'clave707', 'Pedro', 'Perez', '445566778');
-
--- Insertar datos en la tabla personalizacion
-INSERT INTO personalizacion (nombre_rest, direccion, zona_horaria, moneda) VALUES
-('Restaurante A', 'Calle 123, Ciudad', 'UTC-3', 'USD'),
-('Restaurante B', 'Avenida 456, Ciudad', 'UTC-3', 'EUR'),
-('Restaurante C', 'Calle 789, Ciudad', 'UTC-3', 'USD'),
-('Restaurante D', 'Avenida 101, Ciudad', 'UTC-3', 'EUR'),
-('Restaurante E', 'Calle 202, Ciudad', 'UTC-3', 'USD');
 
 -- Insertar datos en la tabla telefono
 INSERT INTO telefono (telefono, nombre_rest) VALUES
@@ -365,15 +412,6 @@ INSERT INTO factura (fecha_hora, total, estado) VALUES
 ('2025-01-05 18:00:00', 60.00,  'Pagada');
 
 
--- Insertar datos en la tabla preferencia (corregido para no violar el check constraint)
-INSERT INTO preferencia (nombre, alimentaria, dietetica, id_categoria) VALUES
-('Vegetariana', true, false, 1),
-('Sin gluten', true, false, 2),  -- Cambio: alimentaria true, dietetica false
-('Sin lactosa', true, false, 3),  -- Cambio: alimentaria true, dietetica false
-('Vegana', true, false, 4),
-('Carnívora', false, true, 5);
-
-
 -- Insertar datos en la tabla producto
 INSERT INTO producto (nombre, precio, descripcion,imagen) VALUES
 ('Hamburguesa', 10.00, 'Deliciosa hamburguesa de carne','image-example.jpg'),
@@ -383,12 +421,12 @@ INSERT INTO producto (nombre, precio, descripcion,imagen) VALUES
 ('Sopa', 7.00, 'Sopa casera con vegetales','image-example.jpg');
 
 -- Insertar datos en la tabla categoria_producto
-INSERT INTO categoria_producto (nombre, descripcion, id_categoria_padre, imagen) VALUES
-('Hamburguesas', '', NULL, 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGFtYnVyZ2VyfGVufDB8fDB8fHww'),
-('Helado', '', NULL, 'https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Pizza', '', NULL, 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Entradas', 'Entradas y aperitivos', NULL ,''),
-('Comida Rápida', 'Comidas rápidas para llevar', NULL, '');
+INSERT INTO categoria_producto (nombre, descripcion, imagen) VALUES
+('Hamburguesas', '', 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGFtYnVyZ2VyfGVufDB8fDB8fHww'),
+('Helado', '',  'https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Pizza', '',  'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Entradas', 'Entradas y aperitivos', ''),
+('Comida Rápida', 'Comidas rápidas para llevar', '');
 
 -- Insertar datos en la tabla mesa
 INSERT INTO mesa (id_mesa, capacidad) VALUES
@@ -431,12 +469,12 @@ INSERT INTO cliente_mesa (id_cliente, id_mesa, fecha, hora, cant_personas, nombr
 (5, 5, '2025-02-10', '20:00:00', 5, 'Vanessa Sánchez', 369258147, 'Reservada'),
 (5, 5, '2025-02-15', '22:00:00', 5, 'Ismael Correa', 852963741, 'Reservada');
 
-INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura) VALUES
-(50.00, 'Pendiente', 'Delivery', 1, 1, 1),
-(80.00, 'Pendiente', 'Mesa', 2,  2, 2),
-(100.00, 'Listo', 'Delivery', 3,  3, 3),
-(120.00, 'Pendiente', 'Mesa', 4,   4, 4),
-(60.00, 'En preparación', 'Delivery', 5,  5, 5);
+INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura,ci) VALUES
+(50.00, 'Pendiente', 'Delivery', 1, 1, 1,'11111111'),
+(80.00, 'Pendiente', 'Mesa', 2,  2, 2,'22222222'),
+(100.00, 'Listo', 'Delivery', 3,  3, 3,'22222222'),
+(120.00, 'Pendiente', 'Mesa', 4,   4, 4,'11111111'),
+(60.00, 'En preparación', 'Delivery', 5,  5, 5,'22222222');
 
 INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin )VALUES
 (2, 2, '2025-01-28', '13:00:00', '14:30:00'),
@@ -449,17 +487,17 @@ INSERT INTO producto_categoria (id_producto, id_categoria) VALUES
 (4, 4),
 (5, 5);
 
-INSERT INTO ingrediente (nombre, precio, stock) VALUES
-('Queso', 2.00, 50 ),  
-('Tomate', 0.50, 100),
-('Lechuga', 0.30, 80),
-('Bacon', 3.00, 30),
-('Salsa especial', 1.00, 20), 
-('Pechuga de pollo', 3.50, 40),
-('Pepperoni', 2.50, 60), 
-('Mushrooms', 1.80, 70), 
-('Aceitunas', 1.20, 90),
-('Cebolla', 0.70, 100); 
+INSERT INTO ingrediente (nombre, precio) VALUES
+('Queso', 2.00),  
+('Tomate', 0.50),
+('Lechuga', 0.30),
+('Bacon', 3.00),
+('Salsa especial', 1.00), 
+('Pechuga de pollo', 3.50),
+('Pepperoni', 2.50), 
+('Mushrooms', 1.80), 
+('Aceitunas', 1.20),
+('Cebolla', 0.70); 
 
 -- Hamburguesa
 INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
@@ -526,4 +564,13 @@ INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) VA
 INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) VALUES
 (1, 5, 1), -- Ingrediente 5 para producto 1
 (2, 2, 2); -- Ingrediente 2 para producto 1
+
+INSERT INTO dia_horario (dia_semana, horario_apertura, horario_cierre,duracion_reserva) VALUES
+('Monday', '09:00:00', '22:00:00','3:00:00'),
+('Tuesday', '09:00:00', '22:00:00','3:00:00'),
+('Wednesday', '09:00:00', '22:00:00','3:00:00'),
+('Thursday', '09:00:00', '22:00:00','3:00:00'),
+('Friday', '09:00:00', '23:00:00','3:00:00'),
+('Saturday', '10:00:00', '23:00:00','3:00:00'),
+('Sunday', '10:00:00', '21:00:00','3:00:00');
 
