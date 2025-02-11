@@ -302,47 +302,49 @@ public function DeleteEmployee($id_usuario){
     }
 }
 
-public function insertEmployee($usuarioData)
-{
+public function insertEmployee($usuarioData) {
     try {
-        $this->db->beginTransaction();
+        $this->conn->beginTransaction();
 
-       
+        // Insertar en la tabla usuario
         $sqlUsuario = "INSERT INTO usuario (email, clave, nombre, apellido, telefono) 
                         VALUES (:email, :clave, :nombre, :apellido, :telefono)";
-        $stmt = $this->db->prepare($sqlUsuario);
+        $stmt = $this->conn->prepare($sqlUsuario);
         $stmt->bindParam(':email', $usuarioData['email']);
         $stmt->bindParam(':clave', $usuarioData['clave']);
         $stmt->bindParam(':nombre', $usuarioData['nombre']);
         $stmt->bindParam(':apellido', $usuarioData['apellido']);
         $stmt->bindParam(':telefono', $usuarioData['telefono']);
-
         $stmt->execute();
 
-       
-        $idUsuario = $this->db->lastInsertId();
+        // Verificar si el usuario se insertó correctamente
+        $idUsuario = $this->conn->lastInsertId();
+        if (!$idUsuario) {
+            throw new Exception("No se pudo obtener el ID del usuario insertado.");
+        }
 
-       
-        $sqlEmpleado = "INSERT INTO funcionario (ci, dirección, horario_entrada, horario_salida, cargo, id_usuario) 
-                        VALUES (:ci, :dirección, :horario_entrada, :horario_salida, :cargo, :id_usuario)";
-        $stmt = $this->db->prepare($sqlEmpleado);
+        // Insertar en la tabla funcionario
+        $sqlEmpleado = "INSERT INTO funcionario (ci, fecha_nacimiento, direccion, horario_entrada, horario_salida, cargo, id_usuario) 
+                        VALUES (:ci, :fecha_nacimiento, :direccion, :horario_entrada, :horario_salida, :cargo, :id_usuario)";
+        $stmt = $this->conn->prepare($sqlEmpleado);
         $stmt->bindParam(':ci', $usuarioData['ci']);
-        $stmt->bindParam(':dirección', $usuarioData['dirección']);
+        $stmt->bindParam(':fecha_nacimiento', $usuarioData['fecha_nacimiento']);
+        $stmt->bindParam(':direccion', $usuarioData['direccion']);
         $stmt->bindParam(':horario_entrada', $usuarioData['horario_entrada']);
         $stmt->bindParam(':horario_salida', $usuarioData['horario_salida']);
         $stmt->bindParam(':cargo', $usuarioData['cargo']);
         $stmt->bindParam(':id_usuario', $idUsuario);
+        $stmt->execute();
+
         // Confirmar la transacción
-        $this->db->commit();
+        $this->conn->commit();
 
         return true;
     } catch (PDOException $e) {
-        // Revertir la transacción en caso de error
-        $this->db->rollBack();
+        $this->conn->rollBack();
         throw new Exception("Error al insertar usuario y empleado: " . $e->getMessage());
     }
 }
-
 
 public function UpdateEmployee($direccion, $horario_entrada, $horario_salida, $cargo, $id_usuario) {
     $sql = "UPDATE funcionario SET direccion = :direccion, horario_entrada = :horario_entrada, horario_salida = :horario_salida, cargo = :cargo WHERE id_usuario = :id_usuario";

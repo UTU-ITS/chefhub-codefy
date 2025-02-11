@@ -9,6 +9,7 @@ require('Controllers/OrderController.php');
 require('Controllers/ReservationController.php');
 require('Controllers/TablesController.php');
 require('Controllers/TokenController.php');
+require('Controllers/ReportsController.php');
 
 require __DIR__.'\vendor\autoload.php';
 use MercadoPago\Client\Payment\PreferenceClient;
@@ -306,15 +307,23 @@ if (isset($path[1])) {
                             $ReservationController->handleRequest('cancelreservation');
                             break;  
 
-                        case 'getreservation':
-                            $ReservationController = new ReservationController($conn);
-                            $ReservationController->handleRequest('getreservation');
-                            break;    
+                            case 'getreservation':
+                                $ReservationController = new ReservationController($conn);
+                                $ReservationController->handleRequest('getreservation');
+                                break;
+                            
                         case 'contactus':
                             $TokenController = new TokenController($conn);
                             $TokenController->handleRequest('contactus');
                             break;           
-                                                    
+                        case 'reports':
+                            if(isset($path[2]) && $path[2] === 'columnsdb') {
+                                $ReportsController = new ReportsController($conn);
+                                $ReportsController->handleRequest($path[2]);
+                            } else {
+                                echo json_encode(["message" => "Ruta no válida"]);
+                            }
+                            break;
                                  
             default:
        
