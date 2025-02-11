@@ -4,7 +4,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import 'react-calendar/dist/Calendar.css';
 import './Reservations.css';
-import { UserIcon, RightArrow, ReservationsIcon} from '../../img/HeroIcons';
+import { UserIcon, RightArrow, LeftArrow ,ReservationsIcon} from '../../img/HeroIcons';
 import { UserContext } from '../../context/user';
 import { es } from 'date-fns/locale';
 
@@ -136,40 +136,207 @@ function Reservations() {
         <p>Selecciona la fecha, hora y mesa para tu reserva. Asegúrate de completar todos los pasos y proporcionar tus datos de contacto para confirmar</p>  
       </div>
         <div className="reservas-content">
-        {step === 1 && (
-          <div className="calendar-section">
-            <div className="calendar-section-left">
-            <Calendar
-              onChange={handleDateChange}
-              value={date}
-              minDate={new Date()}
-              className="custom-calendar"
-              locale="es"
-              formatMonthYear={(locale, date) =>
-                format(date, "MMMM yyyy", { locale: es }).charAt(0).toUpperCase() +
-                format(date, "MMMM yyyy", { locale: es }).slice(1)
-              }
-            />
+          {step === 1 && (
+            <div className="reservas-section">
+              <div className="reservas-section-left">
+                <div className="slots-section">
+                  <Calendar
+                  onChange={handleDateChange}
+                  value={date}
+                  minDate={new Date()}
+                  className="custom-calendar"
+                  locale="es"
+                  formatMonthYear={(locale, date) =>
+                    format(date, "MMMM yyyy", { locale: es }).charAt(0).toUpperCase() +
+                    format(date, "MMMM yyyy", { locale: es }).slice(1)
+                  }
+                />
+                </div>
+              </div>
+              <div className="reservas-section-right">
+                {date ? (
+                  <div className="reservation-summary">
+                    <div className="item-summary">
+                      <h2>Fecha seleccionada</h2>
+                      <p className="selected-date">{format(date, 'dd MMMM yyyy', { locale: es })}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="reservation-instructions">
+                    <p>Por favor, selecciona una fecha para continuar.</p>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="calendar-section-right">
-              {date ? (
+          )}
+
+          {step === 2 && date && (
+            <div className="reservas-section">
+              <div className="reservas-section-left">
+                <div className="slots-section">
+                  <div className="slots-title">
+                    <h2>Horarios Disponibles</h2>
+                  </div>
+                  <div className="slots-grid">
+                    {timeSlots.map((time) => (
+                      <button
+                        key={time}
+                        className={`card-slot ${selectedTime === time ? 'selected' : ''}`}
+                        onClick={() => handleTimeSelect(time)}
+                      >
+                        {time}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="reservas-section-right">
                 <div className="reservation-summary">
-                  <p>Fecha seleccionada:</p>
-                  <p className="selected-date">{format(date, 'dd MMMM yyyy', { locale: es })}</p>
+                  <div className="item-summary">
+                      <h2>Fecha seleccionada</h2>
+                      <p className="selected-date">{format(date, 'dd MMMM yyyy', { locale: es })}</p>
+                  </div>
                 </div>
-              ) : (
-                <div className="reservation-instructions">
-                  <p>Por favor, selecciona una fecha para continuar.</p>
+                {selectedTime ? (
+                  <div className="reservation-summary">
+                    <div className="item-summary">
+                      <h2>Hora seleccionada</h2>
+                      <p className="selected-date">{selectedTime} hs</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="reservation-instructions">
+                    <p>Por favor, selecciona una hora para continuar.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+
+          {step === 3 && date && selectedTime && tables.length > 0 && (
+            <div className="reservas-section">
+              <div className="reservas-section-left">
+                <div className="slots-section">
+                  <div className="slots-title">
+                    <h2>Mesas Disponibles</h2>
+                  </div>
+                  <div className="slots-grid">
+                    {tables.map((table) => (
+                      <div
+                        key={table.id_mesa}
+                        className={`card-slot ${selectedTable?.id_mesa === table.id_mesa ? 'selected' : ''}`}
+                        onClick={() => handleTableSelect(table)}
+                      >
+                        <h3>Mesa {table.id_mesa}</h3>
+                        <p><span className='table-capacity'>{table.capacidad}</span> personas</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              )}
+              </div>
+              <div className="reservas-section-right">
+                <div className="reservation-summary">
+                  <div className="item-summary">
+                      <h2>Fecha seleccionada</h2>
+                      <p className="selected-date">{format(date, 'dd MMMM yyyy', { locale: es })}</p>
+                    </div>
+                    <div className="item-summary">
+                      <h2>Hora seleccionada</h2>
+                      <p className="selected-date">{selectedTime} hs</p>
+                  </div>
+                  {selectedTable && (
+                    <>
+                      <div className="item-summary">
+                        <h2>Mesa seleccionada</h2>
+                        <p className='selected-date'>N° {selectedTable.id_mesa}</p>
+                      </div>
+                      <div className="item-summary">
+                        <h2>Capacidad</h2>
+                        <p className='selected-date'>{selectedTable.capacidad} personas</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {step === 4 && date && selectedTime && selectedTable && (
+            <div className="reservas-section">
+              <div className="reservas-section-left">
+                <div className="reservation-summary">
+                    <div className="item-summary">
+                        <h2>Fecha seleccionada</h2>
+                        <p className="selected-date">{format(date, 'dd MMMM yyyy', { locale: es })}</p>
+                      </div>
+                      <div className="item-summary">
+                        <h2>Hora seleccionada</h2>
+                        <p className="selected-date">{selectedTime} hs</p>
+                    </div>
+                        <div className="item-summary">
+                          <h2>Mesa seleccionada</h2>
+                          <p className='selected-date'>N° {selectedTable.id_mesa}</p>
+                        </div>
+                        <div className="item-summary">
+                          <h2>Capacidad</h2>
+                          <p className='selected-date'>{selectedTable.capacidad} personas</p>
+                        </div>
+                  </div>
+              </div>
+              <div className="reservas-section-right">
+                  <div className="slots-section">
+                  <div className="slots-title">
+                    <h2>Información de Contacto</h2>
+                  </div>
+                  <div className="contact-form">
+                    <div className="form-item">
+                      <label htmlFor="name">Nombre:</label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={contactInfo.name}
+                        onChange={handleContactInfoChange}
+                        placeholder="Ingrese su nombre"
+                      />
+                    </div>
+                    <div className="form-item">
+                      <label htmlFor="phone">Teléfono:</label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={contactInfo.phone}
+                        onChange={handleContactInfoChange}
+                        placeholder="Ingrese su teléfono"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+        </div>
+        <div className="reservas-navigation">
+          {step > 1 && (
+            <button className="btn" onClick={() => setStep(step - 1)}>
+              <LeftArrow />
+            </button>
+          )}
+          {step < 4 && (
+            <>
               {user && user.data ? (
                 <div className="reservation-next-button">
                   <button
                     className="btn"
-                    onClick={() => setStep(2)}
+                    onClick={() => setStep(step + 1)}
                     disabled={
-                      (user && user.data && ["Chef", "Mesero", "Administrativo"].includes(user.data.cargo)) || 
-                      !date
+                      (["Chef", "Mesero", "Administrativo"].includes(user.data.cargo)) || 
+                      (step === 1 && !date) || 
+                      (step === 2 && !selectedTime) || 
+                      (step === 3 && !selectedTable)
                     }
                   >
                     <RightArrow />
@@ -186,110 +353,13 @@ function Reservations() {
                   </a>
                 </div>
               )}
-            </div>
-          </div>
-        )}
-
-          {step === 2 && date && (
-            <div className="time-slots-section">
-              <h2>Horarios Disponibles</h2>
-              <div className="time-slots-grid">
-                {timeSlots.map((time) => (
-                  <button
-                    key={time}
-                    className={`time-slot ${selectedTime === time ? 'selected' : ''}`}
-                    onClick={() => handleTimeSelect(time)}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </div>
-              {selectedTime && (
-                <div className="summary">
-                  <h3>Hora seleccionada: {selectedTime}</h3>
-                </div>
-              )}
-              {user && user.data ? (
-                <button className="next-step-button" onClick={() => setStep(3)}>
-                  Siguiente
-                </button>
-              ) : (
-                <>
-                  <p>Por favor inicia sesión para continuar</p>
-                  <a href="/login">
-                    <button><UserIcon /></button>
-                  </a>
-                </>
-              )}
-            </div>
+            </>
           )}
-
-          {step === 3 && date && selectedTime && tables.length > 0 && (
-            <div className="tables-section">
-              <h2>Mesas Disponibles</h2>
-              <div className="tables-grid">
-                {tables.map((table) => (
-                  <div
-                    key={table.id_mesa}
-                    className={`table-card ${selectedTable?.id_mesa === table.id_mesa ? 'selected' : ''}`}
-                    onClick={() => handleTableSelect(table)}
-                  >
-                    <h3>Mesa {table.id_mesa}</h3>
-                    <p>Capacidad: {table.capacidad} personas</p>
-                  </div>
-                ))}
-              </div>
-              {selectedTable && (
-                <div className="summary">
-                  <h3>Mesa seleccionada: {selectedTable.id_mesa} (Capacidad: {selectedTable.capacidad} personas)</h3>
-                </div>
-              )}
-              {user && user.data ? (
-                <button className="next-step-button" onClick={() => setStep(4)}>
-                  Siguiente
-                </button>
-              ) : (
-                <>
-                  <p>Por favor inicia sesión para continuar</p>
-                  <a href="/login">
-                    <button><UserIcon /></button>
-                  </a>
-                </>
-              )}
-            </div>
+          {step === 4 && selectedTable && (
+            <button className="btn" onClick={handleReservation}>
+              Confirmar Reserva
+            </button>
           )}
-
-          {step === 4 && date && selectedTime && selectedTable && (
-            <div className="contact-form">
-              <h2>Información de Contacto</h2>
-              <div className="form-group">
-                <label htmlFor="name">Nombre:</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={contactInfo.name}
-                  onChange={handleContactInfoChange}
-                  placeholder="Ingrese su nombre"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="phone">Teléfono:</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={contactInfo.phone}
-                  onChange={handleContactInfoChange}
-                  placeholder="Ingrese su teléfono"
-                />
-              </div>
-              <button className="reserve-button" onClick={handleReservation}>
-                Confirmar Reserva
-              </button>
-            </div>
-          )}
-
         </div>
       </div>
     </div>

@@ -51,7 +51,7 @@ class TokenController {
                         $email = $inputData['email'];
                         $mensaje = $inputData['mensaje'];
                         $nombre = $inputData['nombre'];
-                        $this->token->sendMailContactUs($email, $token);
+                        $this->token->sendMailContactUs($email, $mensaje, $nombre);
                     } else{
                         echo json_encode(["message" => "Acción no válida"]);
                     }

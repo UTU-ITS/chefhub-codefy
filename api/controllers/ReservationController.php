@@ -23,11 +23,20 @@ class ReservationController {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
+            case "POST":
+                if ($action === 'getreservation') {
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    $fecha = $data['fecha'];
+                    $hora = $data['hora'];
+                    $result = $this->reservation->getReservation($fecha, $hora);
+                } else {
+                    $result = ["message" => "Acción no reconocida" ,"success"=>true  ];
+                }
+                echo json_encode($result);
+            break;
             case "GET":
                 if ($action === 'cantreservation') {
                     $result = $this->reservation->getCantReservation();
-                } else  if ($action === 'getreservations') {
-                    $result = $this->reservation->getReservation();
                 } else {
                     $result = ["message" => "Acción no reconocida" ,"success"=>true  ];
                 }

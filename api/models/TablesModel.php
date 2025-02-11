@@ -102,11 +102,12 @@ public function getTablePerOrder($order_id) {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-public function InsertTable($capacidad)
+public function InsertTable($id_mesa, $capacidad)
 {
-    $sql = "INSERT INTO mesa (capacidad)
-     VALUES (:capacidad)";
+    $sql = "INSERT INTO mesa (id_mesa, capacidad)
+     VALUES (:id_mesa, :capacidad)";
     $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
     $stmt->bindParam(':capacidad', $capacidad, PDO::PARAM_INT);
     $stmt->execute();
     if($stmt->rowCount() == 0){

@@ -1,12 +1,22 @@
-import React from 'react'
-import './Home.css'
 
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Home.css';
+import { PinIcon } from '../../img/HeroIcons';
 import CategoriesDisplay from './CategoriesDisplay';
 import CategoryRow from './CategoryRow';
 
 export default function Home() {
-  return (
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
+  const handleSearch = () => {
+    if (searchTerm.trim() !== '') {
+      navigate(`/menu?search=${encodeURIComponent(searchTerm)}`);
+    }
+  };
+
+  return (
     <div className='home-div'>
       <div className="buscador">
         <p className='slogan'>Pide lo que quieras, Cuando quieras</p>
@@ -17,25 +27,20 @@ export default function Home() {
       </div>
 
       <main className="recomendaciones">
-        <section >
+        <section>
           <h1 className='titulos'>Categorias Populares</h1>
           <div className='bloques'>
-     
-              <CategoriesDisplay />
-
+            <CategoriesDisplay />
           </div>
         </section>
         
-          <CategoryRow />
-
+        <CategoryRow />
       </main>
 
       <section className="registrate">
         <h3>Registra tu Empresa</h3>
       </section>
-      <footer className="borde">
-
-      </footer>
+      <footer className="borde"></footer>
     </div>
-  )
+  );
 }

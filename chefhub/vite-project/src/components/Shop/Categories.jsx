@@ -32,13 +32,11 @@ export default function Categories({ id = null, selectedKey, onSelectKey }) {
         categories.map((category) => (
           <button
             key={category.id_categoria}
-
-            className={`btn-tag ${selectedKey === category.id_categoria ? 'selected' : ''}`}
-            onClick={() => onSelectKey(category.id_categoria)} 
+            className={`btn-tag ${String(selectedKey) === String(category.id_categoria) ? 'selected' : ''}`}
+            onClick={() => onSelectKey(category.id_categoria)}
           >
             {category.nombre}
           </button>
-          
         ))
       ) : (
         <p>No hay categorías</p>
