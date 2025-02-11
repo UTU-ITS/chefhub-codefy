@@ -1,0 +1,112 @@
+@import url('../../../design.css');
+
+.addproduct-modal {
+  max-width: 1100px !important;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.addproduct-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.addproduct-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.addproduct-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.addproduct-field {
+  margin-bottom: 15px;
+}
+
+.addproduct-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.addproduct-preview img {
+  max-width: 200px;
+  max-height: 200px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.addproduct-selection {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.addproduct-box {
+  flex: 1;
+}
+
+.addproduct-list {
+  height: 200px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px;
+  overflow-y: auto;
+  background: white;
+}
+
+.addproduct-item {
+  padding: 8px 12px;
+  margin: 4px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.addproduct-item:hover {
+  background-color: #f7fafc;
+  color: #3182ce;
+}
+
+.addproduct-footer {
+  margin-top: 20px;
+  gap: 10px;
+}
+
+/* Clases específicas para botones */
+.addproduct-cancel-btn {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.addproduct-submit-btn {
+  background-color: #3182ce;
+  color: white;
+}
+
+.addproduct-field label{
+  margin-bottom: 1rem;
+}
+
+.addproduct-field input[type="number"] {
+  width: 150px !important;
+  text-align: start;
+  padding-left: 15px;
+}
+
+.addproduct-field h2 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.label-ingredients, .label-categories {
+  color: var(--primary-color) !important;
+}

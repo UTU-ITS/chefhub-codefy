@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NewIcon, EditIcon, ClearIcon, EyeIcon, CloseIcon2 } from '../../../img/HeroIcons';
 import { fetchData } from '../apiService';
+import AddTableModal from './AddTableModal';
 
 const AdminTables = () => {
   const [data, setData] = useState([]);
@@ -46,9 +47,7 @@ const AdminTables = () => {
         </div>
 
         <div className="admin-options">
-          <a className="admin-btn" href="tables/addtable">
-            <NewIcon />Nuevo
-          </a>
+        <AddTableModal onTableAdded={() => fetchData('http://localhost/api/tables', setData)} />
           <input
             type="text"
             placeholder="Buscar mesas..."

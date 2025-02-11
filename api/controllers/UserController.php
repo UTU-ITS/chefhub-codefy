@@ -220,7 +220,7 @@ class UserController {
                     
                     $result = $this->user->insertEmployee($data);
 
-                    if ($result && $result1) {
+                    if ($result) {
                         echo json_encode([ "success" => true]);
                     } else {
                         http_response_code(500);
