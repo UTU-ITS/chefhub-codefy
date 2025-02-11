@@ -122,251 +122,254 @@ const AdminOrders = () => {
     };
 
     return (
-        <div>
             <div className='orders-format'>
                 <div className='left'>
-
-                    <div className='admin-title orders-title'>
-                        <h2>PEDIDOS PENDIENTES</h2>
-                        <input type="text" placeholder="Buscar pedidos..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="search-bar" />
+                    <div className="orders-tables">
+                        <div className='admin-subtitle orders-title'>
+                            <h2>PEDIDOS PENDIENTES</h2>
+                            <input type="text" placeholder="Buscar pedidos..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="search-bar" />
+                        </div>
+                        <div className='admin-table'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        {currentPendingData.length > 0 
+                                            ? Object.keys(currentPendingData[0]).map((key) => <th key={key}>{key}</th>) 
+                                            : <th colSpan="100%">Estado</th>}
+                                        {currentPendingData.length > 0 && <th>Acciones</th>}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {currentPendingData.length > 0 ? (
+                                        currentPendingData.map((item) => (
+                                            <tr key={item.ID}>
+                                                {Object.entries(item).map(([key, value], idx) => (
+                                                    <td key={idx}>{value}</td>
+                                                ))}
+                                                <td>
+                                                    <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
+                                                    
+                                                        <CloseIcon/>
+                                                    </button>
+                                                    <button className='admin-btn' onClick={() => handleViewDetails(item.ID) && handleTableOrder(item.ID)}>
+                                                        <EyeIcon />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="100%" style={{ textAlign: 'center', fontStyle: 'italic' }}>
+                                                No hay registros para visualizar
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                        {totalPagesPending > 1 && (
+                            <div className='pagination'>
+                                <button onClick={() => handlePageChange('pending', 'prev')} disabled={currentPagePending === 1} className='admin-btn'>
+                                    Anterior
+                                </button>
+                                <span>{currentPagePending} de {totalPagesPending}</span>
+                                <button onClick={() => handlePageChange('pending', 'next')} disabled={currentPagePending === totalPagesPending} className='admin-btn'>
+                                    Siguiente
+                                </button>
+                            </div>
+                        )}
                     </div>
-                    <div className='admin-table'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    {currentPendingData.length > 0 
-                                        ? Object.keys(currentPendingData[0]).map((key) => <th key={key}>{key}</th>) 
-                                        : <th colSpan="100%">Estado</th>}
-                                    {currentPendingData.length > 0 && <th>Acciones</th>}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentPendingData.length > 0 ? (
-                                    currentPendingData.map((item) => (
-                                        <tr key={item.ID}>
-                                            {Object.entries(item).map(([key, value], idx) => (
-                                                <td key={idx}>{value}</td>
-                                            ))}
-                                            <td>
+                    <div className="orders-tables">
+                        <div className='admin-subtitle'>
+                            <h2>PEDIDOS EN PREPARACIÓN</h2>
+                        </div>
+                        <div className='admin-table'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        {currentPreparingData.length > 0 
+                                            ? Object.keys(currentPreparingData[0]).map((key) => <th key={key}>{key}</th>) 
+                                            : <th colSpan="100%">Estado</th>}
+                                        {currentPreparingData.length > 0 && <th>Acciones</th>}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {currentPreparingData.length > 0 ? (
+                                        currentPreparingData.map((item) => (
+                                            <tr key={item.ID}>
+                                                {Object.entries(item).map(([key, value], idx) => (
+                                                    <td key={idx}>{value}</td>
+                                                ))}
+                                                <td>
                                                 <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
-                                                
-                                                    <CloseIcon/>
-                                                </button>
-                                                <button className='admin-btn' onClick={() => handleViewDetails(item.ID) && handleTableOrder(item.ID)}>
-                                                    <EyeIcon />
-                                                </button>
+                                                <CloseIcon />
+                                                    </button>
+                                                    <button className='admin-btn' onClick={() => handleViewDetails(item.ID)}>
+                                                        <EyeIcon />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="100%" style={{ textAlign: 'center', fontStyle: 'italic' }}>
+                                                No hay registros para visualizar
                                             </td>
                                         </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="100%" style={{ textAlign: 'center', fontStyle: 'italic' }}>
-                                            No hay registros para visualizar
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                    {totalPagesPending > 1 && (
-                        <div className='pagination'>
-                            <button onClick={() => handlePageChange('pending', 'prev')} disabled={currentPagePending === 1} className='admin-btn'>
-                                Anterior
-                            </button>
-                            <span>{currentPagePending} de {totalPagesPending}</span>
-                            <button onClick={() => handlePageChange('pending', 'next')} disabled={currentPagePending === totalPagesPending} className='admin-btn'>
-                                Siguiente
-                            </button>
+                                    )}
+                                </tbody>
+                            </table>
                         </div>
-                    )}
-
-                    <div className='admin-title orders-title'>
-                        <h2>PEDIDOS EN PREPARACIÓN</h2>
+                        {totalPagesPreparing > 1 && (
+                            <div className='pagination'>
+                                <button onClick={() => handlePageChange('preparing', 'prev')} disabled={currentPagePreparing === 1} className='admin-btn'>
+                                    Anterior
+                                </button>
+                                <span>{currentPagePreparing} de {totalPagesPreparing}</span>
+                                <button onClick={() => handlePageChange('preparing', 'next')} disabled={currentPagePreparing === totalPagesPreparing} className='admin-btn'>
+                                    Siguiente
+                                </button>
+                            </div>
+                        )}
                     </div>
-                    <div className='admin-table'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    {currentPreparingData.length > 0 
-                                        ? Object.keys(currentPreparingData[0]).map((key) => <th key={key}>{key}</th>) 
-                                        : <th colSpan="100%">Estado</th>}
-                                    {currentPreparingData.length > 0 && <th>Acciones</th>}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentPreparingData.length > 0 ? (
-                                    currentPreparingData.map((item) => (
-                                        <tr key={item.ID}>
-                                            {Object.entries(item).map(([key, value], idx) => (
-                                                <td key={idx}>{value}</td>
-                                            ))}
-                                            <td>
-                                            <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
-                                            <CloseIcon />
-                                                </button>
-                                                <button className='admin-btn' onClick={() => handleViewDetails(item.ID)}>
-                                                    <EyeIcon />
-                                                </button>
+                    <div className="orders-tables">
+                        <div className='admin-subtitle'>
+                            <h2>PEDIDOS LISTOS</h2>
+                        </div>
+                        <div className='admin-table'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        {currentReadyData.length > 0 
+                                            ? Object.keys(currentReadyData[0]).map((key) => <th key={key}>{key}</th>) 
+                                            : <th colSpan="100%">Estado</th>}
+                                        {currentReadyData.length > 0 && <th>Acciones</th>}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {currentReadyData.length > 0 ? (
+                                        currentReadyData.map((item) => (
+                                            <tr key={item.ID}>
+                                                {Object.entries(item).map(([key, value], idx) => (
+                                                    <td key={idx}>{value}</td>
+                                                ))}
+                                                <td>
+                                                <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
+                                                <CloseIcon />
+                                                    </button>
+                                                    <button className='admin-btn' onClick={() => handleViewDetails(item.ID)}>
+                                                        <EyeIcon />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="100%" style={{ textAlign: 'center', fontStyle: 'italic' }}>
+                                                No hay registros para visualizar
                                             </td>
                                         </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="100%" style={{ textAlign: 'center', fontStyle: 'italic' }}>
-                                            No hay registros para visualizar
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                    {totalPagesPreparing > 1 && (
-                        <div className='pagination'>
-                            <button onClick={() => handlePageChange('preparing', 'prev')} disabled={currentPagePreparing === 1} className='admin-btn'>
-                                Anterior
-                            </button>
-                            <span>{currentPagePreparing} de {totalPagesPreparing}</span>
-                            <button onClick={() => handlePageChange('preparing', 'next')} disabled={currentPagePreparing === totalPagesPreparing} className='admin-btn'>
-                                Siguiente
-                            </button>
+                                    )}
+                                </tbody>
+                            </table>
                         </div>
-                    )}
 
-                    {/* PEDIDOS LISTOS */}
-                    <div className='admin-title orders-title'>
-                        <h2>PEDIDOS LISTOS</h2>
+                        {totalPagesReady > 1 && (
+                            <div className='pagination'>
+                                <button onClick={() => handlePageChange('ready', 'prev')} disabled={currentPageReady === 1} className='admin-btn'>
+                                    Anterior
+                                </button>
+                                <span>{currentPageReady} de {totalPagesReady}</span>
+                                <button onClick={() => handlePageChange('ready', 'next')} disabled={currentPageReady === totalPagesReady} className='admin-btn'>
+                                    Siguiente
+                                </button>
+                            </div>
+                        )}
                     </div>
-                    <div className='admin-table'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    {currentReadyData.length > 0 
-                                        ? Object.keys(currentReadyData[0]).map((key) => <th key={key}>{key}</th>) 
-                                        : <th colSpan="100%">Estado</th>}
-                                    {currentReadyData.length > 0 && <th>Acciones</th>}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentReadyData.length > 0 ? (
-                                    currentReadyData.map((item) => (
-                                        <tr key={item.ID}>
-                                            {Object.entries(item).map(([key, value], idx) => (
-                                                <td key={idx}>{value}</td>
-                                            ))}
-                                            <td>
-                                            <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
-                                            <CloseIcon />
-                                                </button>
-                                                <button className='admin-btn' onClick={() => handleViewDetails(item.ID)}>
-                                                    <EyeIcon />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="100%" style={{ textAlign: 'center', fontStyle: 'italic' }}>
-                                            No hay registros para visualizar
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {totalPagesReady > 1 && (
-                        <div className='pagination'>
-                            <button onClick={() => handlePageChange('ready', 'prev')} disabled={currentPageReady === 1} className='admin-btn'>
-                                Anterior
-                            </button>
-                            <span>{currentPageReady} de {totalPagesReady}</span>
-                            <button onClick={() => handlePageChange('ready', 'next')} disabled={currentPageReady === totalPagesReady} className='admin-btn'>
-                                Siguiente
-                            </button>
-                        </div>
-                    )}
                 </div>
 
                 <div className='right'>
-                    <div className='admin-title orders-title'>
-                        <div className='admin-title-right'>
+                    <div className="orders-table details-section">
+                        <div className='admin-subtitle'>
                             <h2>DETALLES DEL PEDIDO</h2>
                         </div>
-                    </div>
-                    <div className='admin-details'>
-                        <div className='details-item'>
-                            <h4>Pedido</h4>
-                            <PendingOrdersIcon/>
-                         <p>{selectedOrder ? selectedOrder : 'Seleccione un pedido'}</p>
-                        </div>
-                        <div className='details-item'>
-                            <h4>Mesa</h4><TableIcon/>
-                            <p>{tableDetails ? tableDetails.id_mesa : 'N/A'}</p>
+                        <div className='admin-details'>
+                            <div className='details-item'>
+                                <h4>Pedido</h4>
+                                <PendingOrdersIcon/>
+                            <p>{selectedOrder ? selectedOrder : 'Seleccione un pedido'}</p>
+                            </div>
+                            <div className='details-item'>
+                                <h4>Mesa</h4><TableIcon/>
+                                <p>{tableDetails ? tableDetails.id_mesa : 'N/A'}</p>
 
+                            </div>
+                            
+                        </div> 
+                        <div className='admin-table'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        {orderDetails ? (
+                                            <>
+                                                <th>Producto</th>
+                                                <th>Cantidad</th>
+                                            </>
+                                        ) : (
+                                            <th>Estado</th>
+                                        )}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {orderDetails ? (
+                                        <tr>
+                                            <td>{orderDetails.producto}</td>
+                                            <td>{orderDetails.cantidad}</td>
+                                        </tr>
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="2">Seleccione un pedido para ver los detalles</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
                         </div>
-                        
-                    </div> 
-                    <div className='admin-table'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    {orderDetails ? (
-                                        <>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                        </>
-                                    ) : (
-                                        <th>Estado</th>
-                                    )}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orderDetails ? (
-                                    <tr>
-                                        <td>{orderDetails.producto}</td>
-                                        <td>{orderDetails.cantidad}</td>
-                                    </tr>
-                                ) : (
-                                    <tr>
-                                        <td colSpan="2">Seleccione un pedido para ver los detalles</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
                     </div>
-
-                    <div className='admin-table'>
-                        <h4>Ingredientes</h4>
-                        <table>
-                            <thead>
-                                <tr>
+                    <div className="orders-tables">
+                        <div className="admin-subtitle">
+                            <h2>INGREDIENTES</h2>
+                            </div>
+                        <div className='admin-table'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        {orderDetails ? (
+                                            <>
+                                                <th>Producto</th>
+                                                <th>Cantidad</th>
+                                            </>
+                                        ) : (
+                                            <th>Estado</th>
+                                        )}
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     {orderDetails ? (
-                                        <>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                        </>
+                                        <tr>
+                                            <td>{orderDetails.producto}</td>
+                                            <td>{orderDetails.cantidad}</td>
+                                        </tr>
                                     ) : (
-                                        <th>Estado</th>
+                                        <tr>
+                                            <td colSpan="2">Seleccione un pedido para ver los detalles</td>
+                                        </tr>
                                     )}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orderDetails ? (
-                                    <tr>
-                                        <td>{orderDetails.producto}</td>
-                                        <td>{orderDetails.cantidad}</td>
-                                    </tr>
-                                ) : (
-                                    <tr>
-                                        <td colSpan="2">Seleccione un pedido para ver los detalles</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                        
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            
             {showCancelModal && (
                 <div className="modal-overlay">
                     <div className="modal">
@@ -376,7 +379,7 @@ const AdminOrders = () => {
                     </div>
                 </div>
             )}
-        </div>
+            </div>
     );
 };
 

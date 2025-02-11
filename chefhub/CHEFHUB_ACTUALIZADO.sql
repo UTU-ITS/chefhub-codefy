@@ -43,7 +43,7 @@ CREATE TABLE telefono (
 -- Tabla funcionario
 CREATE TABLE funcionario (
     id_usuario INT NOT NULL,
-    ci VARCHAR(11) PRIMARY KEY,
+    ci VARCHAR(8) PRIMARY KEY,
     fecha_nacimiento DATE NOT NULL,
     direccion VARCHAR(255) NOT NULL,
     horario_entrada TIME NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE categoria_producto (
 );
 -- Tabla mesa
 CREATE TABLE mesa (
-    id_mesa INT PRIMARY KEY AUTO_INCREMENT,
+    id_mesa INT PRIMARY KEY,
     capacidad INT NOT NULL,
     baja INT DEFAULT 0 
 );
@@ -391,12 +391,12 @@ INSERT INTO categoria_producto (nombre, descripcion, id_categoria_padre, imagen)
 ('Comida Rápida', 'Comidas rápidas para llevar', NULL, '');
 
 -- Insertar datos en la tabla mesa
-INSERT INTO mesa (capacidad) VALUES
-(4),
-(2),
-(6),
-(8),
-(10);
+INSERT INTO mesa (id_mesa, capacidad) VALUES
+(1,4),
+(2,2),
+(3,6),
+(4,8),
+(5,10);
 
 
 -- TEST DE RESERVAS
