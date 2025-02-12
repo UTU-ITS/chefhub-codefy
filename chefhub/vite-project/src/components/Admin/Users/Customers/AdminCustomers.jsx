@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useToast, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton, Text } from '@chakra-ui/react';
 import { NewIcon, EditIcon, ClearIcon, EyeIcon, CloseIcon2 } from '../../../../img/HeroIcons';
 import { fetchData } from '../../apiService';
+import './AdminCustomers.css';
 
 const AdminCustomers = () => {
   const [data, setData] = useState([]);
@@ -112,20 +113,14 @@ const AdminCustomers = () => {
   };
 
   const visibleColumns = currentData.length > 0
-    ? Object.keys(currentData[0]).filter((key) => key !== 'id_cliente')
+    ? Object.keys(currentData[0]).filter((key) => key !== 'id_cliente' && key !== 'id') // Oculta las columnas de ID
     : [];
 
   return (
     <div>
       <div className="admin-format">
-        <div className="admin-title">
+        <div className="admin-title title-customers">
           <h2>CLIENTES</h2>
-        </div>
-
-        <div className="admin-options">
-          <a className="admin-btn" href="customers/addcustomer">
-            <NewIcon /> Nuevo
-          </a>
           <input
             type="text"
             placeholder="Buscar clientes..."
@@ -212,16 +207,16 @@ const AdminCustomers = () => {
 
       {/* Modal de direcciones */}
       {modalVisible && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className='modal-header'>
+        <div className="modal-overlay-address">
+          <div className="modal-content-address">
+            <div className='modal-header-address'>
               <h3>Direcciones del cliente</h3>
               <a onClick={() => setModalVisible(false)}><CloseIcon2 /></a>
             </div>
             {loadingAddress ? (
               <p>Cargando...</p>
             ) : addressData.length > 0 ? (
-              <table>
+              <table className='address-table'>
                 <thead>
                   <tr><th>Calle</th><th>N° Puerta</th><th>Apto</th><th>Referencia</th></tr>
                 </thead>

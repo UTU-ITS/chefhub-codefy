@@ -5,6 +5,7 @@
     --title-color-light: #575757;
     --navbar-color: #2c2c2c;
     --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.075);
+    --shadow-xl: 0 0 5px 0 rgba(0, 0, 0, 0.2);
     --text-size: 12px;
     --title-size: 14px;
     --title-size-lg: 16px;

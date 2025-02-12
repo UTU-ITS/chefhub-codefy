@@ -4,11 +4,11 @@ import './AdminOptions.css';
 import AdminProducts from './Products/AdminProducts';
 import AdminEmpolyees from './Users/Empolyees/AdminEmpolyees';
 import AdminCustomers from './Users/Customers/AdminCustomers';
-import AddProduct from './Products/AddProduct';
 import AdminTables from './Tables/AdminTables';
 import Dashboard from './Dashboard/Dashboard';
-import Orders from './Orders/AdminOrders';
 import AdminOrders from './Orders/AdminOrders';
+import AdminReservations from './Reservations/AdminReservations';
+import AdminReports from './Reports/AdminReports';
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -126,14 +126,13 @@ export default function Options() {
                         <Route path="dashboard" element={<Dashboard />} />
                         <Route path="personalizacion" element={<h1>Personalización del portal</h1>} />
                         <Route path="products" element={<AdminProducts />} />
-                        <Route path="products/addproduct" element={<AddProduct />} />
                         <Route path="employees" element={<AdminEmpolyees />} />
                         <Route path="customers" element={<AdminCustomers />} />
                         <Route path="preferencias" element={<h1>Preferencias</h1>} />
                         <Route path="tables" element={<AdminTables />} />
-                        <Route path="reservas" element={<h1>Reservas</h1>} />
+                        <Route path="reservations" element={<AdminReservations />} />
                         <Route path="orders" element={<AdminOrders/>} />
-                        <Route path="informes" element={<h1>Informes</h1>} />
+                        <Route path="reports" element={<AdminReports />} />
                     </Routes>
             </div>
         </div>

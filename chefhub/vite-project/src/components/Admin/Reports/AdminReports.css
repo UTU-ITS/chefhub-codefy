@@ -1,0 +1,99 @@
+/* Estilos generales */
+.custom-report {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Contenido de la tarjeta */
+  .custom-report-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* Encabezados */
+  .custom-report h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .custom-report h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  /* Contenedores de selección de columnas */
+  .columns-container {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .column-box {
+    width: 50%;
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    height: 160px;
+    overflow-y: auto;
+  }
+  
+  .column-box div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .column-box button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .column-box button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Filtro de fechas */
+  .date-filter {
+    display: flex;
+    gap: 16px;
+  }
+  
+  /* Filtrado avanzado */
+  .advanced-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .advanced-filter-row {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .advanced-filters button {
+    align-self: flex-start;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .advanced-filters button:hover {
+    background-color: #218838;
+  }
+  
