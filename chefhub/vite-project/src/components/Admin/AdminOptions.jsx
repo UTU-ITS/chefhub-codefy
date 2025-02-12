@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import {UserContext} from '../../context/user';
 import { Routes, Route, Link } from 'react-router-dom';
 import './AdminOptions.css';
 import AdminProducts from './Products/AdminProducts';
@@ -13,10 +14,11 @@ import AdminCategory from './Category/AdminCategory';
 import AdminIngredient from './Ingredient/AdminIngredient';
 import AdminPreferences from './Preferences/AdminPreferences';
 import AdminPersonalization from './Personalization/AdminsPersonalization';
+ 
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
-
+    const {user} = useContext(UserContext);
     const handleOptionClick = (option) => {
         setSelectedOption(option);
     };
@@ -37,7 +39,10 @@ export default function Options() {
                                     Panel de Información
                                 </Link>
                             </li>
+                            {user && user.data && (user.data.cargo === "Administrativo") && (
+                                <>
                             <li>
+
                                 <Link
                                     to="/admin/products"
                                     onClick={() => handleOptionClick('Productos')}
@@ -64,28 +69,13 @@ export default function Options() {
                             </li>
                             <li>
                                 <Link
-                                    to="/admin/orders"
-                                    onClick={() => handleOptionClick('Orders')}
-                                >
-                                    Pedidos
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    to="/admin/reservations"
-                                    onClick={() => handleOptionClick('reservations')}
-                                >
-                                    Reservas
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
                                     to="/admin/tables"
                                     onClick={() => handleOptionClick('Tables')}
                                 >
                                     Mesas
                                 </Link>
                             </li>
+                            
                             <li>
                                 <Link
                                     to="/admin/employees"
@@ -110,6 +100,31 @@ export default function Options() {
                                     Informes
                                 </Link>
                             </li>
+                            </>)}
+                            {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                                <>   
+                            <li>
+                                <Link
+                                    to="/admin/orders"
+                                    onClick={() => handleOptionClick('Orders')}
+                                >
+                                    Pedidos
+                                </Link>
+                            </li>
+                            </> )}  
+                            {user && user.data && ( user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                                <>  
+                            <li>
+                                <Link
+                                    to="/admin/reservations"
+                                    onClick={() => handleOptionClick('reservations')}
+                                >
+                                    Reservas
+                                </Link>
+                            </li>
+                            </> )} 
+                            {user && user.data && (user.data.cargo === "Administrativo") && (
+                                <>
                             <div className="line-separator"></div>
                             <h3 className="options-title">CONFIGURACIÓN DEL PORTAL</h3>
                             <li>
@@ -128,6 +143,7 @@ export default function Options() {
                                     Horarios
                                 </Link>
                             </li>
+                            </> )} 
                         </ul>
                     </div>
                 </div>
