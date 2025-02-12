@@ -1,4 +1,4 @@
-CREATE DATABASE chefhub_db;
+CREATE DATABASE chefhub_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE chefhub_db;
 
 -- Tabla imagen
@@ -7,7 +7,7 @@ CREATE TABLE imagen (
     tipo VARCHAR(50) NOT NULL,
     ruta VARCHAR(255) NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla usuario
 CREATE TABLE usuario (
@@ -20,7 +20,7 @@ CREATE TABLE usuario (
     fecha_creacion DATETIME NOT NULL DEFAULT NOW(),
     fecha_modif DATETIME NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla personalizacion
 CREATE TABLE personalizacion (
@@ -29,7 +29,7 @@ CREATE TABLE personalizacion (
     zona_horaria VARCHAR(50) NOT NULL,
     moneda VARCHAR(10) NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla telefono
 CREATE TABLE telefono (
@@ -38,7 +38,7 @@ CREATE TABLE telefono (
     nombre_rest VARCHAR(50) NOT NULL,
     FOREIGN KEY (nombre_rest) REFERENCES personalizacion(nombre_rest),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla funcionario
 CREATE TABLE funcionario (
@@ -53,7 +53,7 @@ CREATE TABLE funcionario (
     baja INT DEFAULT 0, 
     FOREIGN KEY (id_imagen) REFERENCES imagen(id_imagen),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
-);
+) ENGINE=InnoDB;
 
 -- Tabla cliente
 CREATE TABLE cliente (
@@ -61,7 +61,7 @@ CREATE TABLE cliente (
     id_usuario INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     baja INT DEFAULT 0 
-);
+) ENGINE=InnoDB;
 
 -- Tabla token
 CREATE TABLE token (
@@ -70,7 +70,7 @@ CREATE TABLE token (
     token VARCHAR (6) NOT NULL,
     fecha_creacion DATETIME NOT NULL DEFAULT NOW(),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla direccion
 CREATE TABLE direccion (
@@ -82,7 +82,7 @@ CREATE TABLE direccion (
     referencia VARCHAR(255),
     baja INT DEFAULT 0,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
-);
+)ENGINE=InnoDB;
 
 -- Tabla factura
 CREATE TABLE factura (
@@ -91,7 +91,7 @@ CREATE TABLE factura (
     total DECIMAL(10, 2) NOT NULL,
     estado VARCHAR(50) NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla pago
 CREATE TABLE pago (
@@ -101,7 +101,7 @@ CREATE TABLE pago (
     id_factura INT NOT NULL,
     FOREIGN KEY (id_factura) REFERENCES factura(id_factura),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla preferencia
 CREATE TABLE preferencia (
@@ -112,7 +112,7 @@ CREATE TABLE preferencia (
     id_categoria INT NOT NULL,
     CONSTRAINT chk_alimentaria_dietetica CHECK (alimentaria != dietetica),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla producto
 CREATE TABLE producto (
@@ -122,7 +122,7 @@ CREATE TABLE producto (
     descripcion TEXT,
     imagen text,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla categoria_producto
 CREATE TABLE categoria_producto (
@@ -132,13 +132,14 @@ CREATE TABLE categoria_producto (
     id_categoria_padre INT,
     imagen text,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
+
 -- Tabla mesa
 CREATE TABLE mesa (
     id_mesa INT PRIMARY KEY,
     capacidad INT NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla pedido
 CREATE TABLE pedido (
@@ -154,7 +155,8 @@ CREATE TABLE pedido (
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion),
     FOREIGN KEY (id_factura) REFERENCES factura(id_factura),
-	CONSTRAINT chk_categoria CHECK (categoria != 'Delivery' OR id_direccion IS NOT NULL));
+	CONSTRAINT chk_categoria CHECK (categoria != 'Delivery' OR id_direccion IS NOT NULL)
+    )ENGINE=InnoDB;
     
 -- Tabla dia_horario
 CREATE TABLE dia_horario (
@@ -162,7 +164,7 @@ CREATE TABLE dia_horario (
     horario_apertura TIME NOT NULL,
     horario_cierre TIME NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla excepcion_horario
 CREATE TABLE excepcion_horario (
@@ -170,7 +172,7 @@ CREATE TABLE excepcion_horario (
     horario_apertura TIME NOT NULL,
     horario_cierre TIME NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Relaciones entre tablas
 CREATE TABLE cliente_preferencia (
@@ -180,7 +182,7 @@ CREATE TABLE cliente_preferencia (
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_preferencia) REFERENCES preferencia(id_preferencia),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE cliente_mesa (
     id_cliente INT NOT NULL,
@@ -195,7 +197,7 @@ CREATE TABLE cliente_mesa (
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_mesa) REFERENCES mesa(id_mesa),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE mesa_pedido (
     id_pedido INT NOT NULL,
@@ -207,7 +209,7 @@ CREATE TABLE mesa_pedido (
     FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
     FOREIGN KEY (id_mesa) REFERENCES mesa(id_mesa),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE producto_categoria (
     id_producto INT NOT NULL,
@@ -216,7 +218,7 @@ CREATE TABLE producto_categoria (
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
     FOREIGN KEY (id_categoria) REFERENCES categoria_producto(id_categoria),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Índices recomendados
 CREATE INDEX idx_cliente ON cliente(id_cliente);
@@ -233,7 +235,7 @@ CREATE TABLE pedido_auditoria (
     estado_nuevo VARCHAR(50) NOT NULL,
     FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE factura_auditoria (
     id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
@@ -243,7 +245,7 @@ CREATE TABLE factura_auditoria (
     estado_nuevo VARCHAR(50) NOT NULL,
     FOREIGN KEY (id_factura) REFERENCES factura(id_factura),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE pago_auditoria (
     id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
@@ -253,7 +255,7 @@ CREATE TABLE pago_auditoria (
     monto_nuevo DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (id_pago) REFERENCES pago(id_pago),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE ingrediente (
     id_ingrediente INT PRIMARY KEY AUTO_INCREMENT,
@@ -261,7 +263,7 @@ CREATE TABLE ingrediente (
     precio DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE pedido_producto (
 	id_pedido_producto INT AUTO_INCREMENT,
@@ -274,7 +276,7 @@ CREATE TABLE pedido_producto (
     FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla para saber que ingredientes lleva cada producto dentro del pedido (incluyendo ingredientes base)
 CREATE TABLE pedido_ingrediente (
@@ -283,7 +285,7 @@ CREATE TABLE pedido_ingrediente (
     cantidad INT NOT NULL,
     FOREIGN KEY (id_pedido_producto) REFERENCES pedido_producto(id_pedido_producto),
     FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id_ingrediente)
-);
+)ENGINE=InnoDB;
 
 -- Tabla para asociar los ingredientes base y extra (se pueden agregar en el pedido)
 CREATE TABLE producto_ingrediente (
@@ -295,7 +297,7 @@ CREATE TABLE producto_ingrediente (
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
     FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id_ingrediente),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 
 
