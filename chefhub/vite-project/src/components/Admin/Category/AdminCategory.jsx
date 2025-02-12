@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ClearIcon, UserCheckIcon } from "../../../img/HeroIcons";
 import { fetchData } from "../apiService";
 import AddCategoryModal from "./AddCategoryModal";
+import EditCategoryModal from "./EditCategoryModal";
 
 import {
   useToast,
@@ -169,7 +170,7 @@ const AdminCategory = () => {
           <table>
             <thead>
               <tr>
-                <th>Categoría</th>
+
                 {currentData.length > 0 &&
                   Object.keys(currentData[0])
                     .filter((key) => key !== "ID")
@@ -180,7 +181,7 @@ const AdminCategory = () => {
             <tbody>
               {currentData.map((item) => (
                 <tr key={item.id_categoria}>
-                  <td>{item.nombre}</td>
+
 
                   {Object.entries(item)
                     .filter(([key]) => key !== "ID" && key !== "Nombre")
@@ -192,6 +193,7 @@ const AdminCategory = () => {
                     <button className="admin-btn" onClick={() => confirmDelete(item.id_categoria)}>
                       <ClearIcon />
                     </button>
+                    <EditCategoryModal selectedCategory={item}  onCategoryUpdated={fetchCategories} categorie={item} />
                   </td>
                 </tr>
               ))}

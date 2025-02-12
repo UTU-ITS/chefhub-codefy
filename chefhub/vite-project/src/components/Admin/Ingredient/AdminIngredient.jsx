@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ClearIcon, UserCheckIcon } from "../../../img/HeroIcons";
 import { fetchData } from "../apiService";
 import AddIngredientModal from "./AddIngredientModal";
+import EditIngredientModal from "./EditIngredientModal";
 
 import {
   useToast,
@@ -48,6 +49,11 @@ const AdminIngredient = () => {
   const handleIngredientAdded = () => {
     fetchIngredients();
   };
+
+  const handleIngredientUpdated = () => {
+    fetchIngredients();
+  };
+
 
   const handleDelete = async () => {
     if (!selectedIngredient) return;
@@ -185,6 +191,7 @@ const AdminIngredient = () => {
                     <button className="admin-btn" onClick={() => confirmDelete(item.id_ingrediente)}>
                       <ClearIcon />
                     </button>
+                    <EditIngredientModal ingrediente={item} onIngredientUpdated={handleIngredientUpdated}></EditIngredientModal>
                   </td>
                 </tr>
               ))}

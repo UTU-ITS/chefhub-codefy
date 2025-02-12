@@ -221,7 +221,60 @@ class Order {
         }
     }
         
-    
+    function GetMyOrders($id_cliente) {
+        $sql = "SELECT p.id_pedido, p.fecha_hora, p.subtotal, p.estado, 
+                       pp.id_pedido_producto, pp.cantidad, pp.importe, pp.nota, 
+                       pr.nombre AS producto_nombre, pr.precio AS producto_precio,
+                       i.nombre AS ingrediente_nombre, pi.cantidad AS ingrediente_cantidad
+                FROM pedido p
+                JOIN pedido_producto pp ON p.id_pedido = pp.id_pedido
+                JOIN producto pr ON pp.id_producto = pr.id_producto
+                LEFT JOIN pedido_ingrediente pi ON pp.id_pedido_producto = pi.id_pedido_producto
+                LEFT JOIN ingrediente i ON pi.id_ingrediente = i.id_ingrediente
+                WHERE p.id_cliente = :id_cliente AND p.baja = 0
+                ORDER BY p.fecha_hora DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id_cliente", $id_cliente);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $orders = [];
+        
+        foreach ($result as $row) {
+            $id_pedido = $row['id_pedido'];
+            if (!isset($orders[$id_pedido])) {
+                $orders[$id_pedido] = [
+                    'id_pedido' => $id_pedido,
+                    'fecha_hora' => $row['fecha_hora'],
+                    'subtotal' => $row['subtotal'],
+                    'estado' => $row['estado'],
+                    'productos' => []
+                ];
+            }
+            
+            $id_pedido_producto = $row['id_pedido_producto'];
+            if (!isset($orders[$id_pedido]['productos'][$id_pedido_producto])) {
+                $orders[$id_pedido]['productos'][$id_pedido_producto] = [
+                    'nombre' => $row['producto_nombre'],
+                    'precio' => $row['producto_precio'],
+                    'cantidad' => $row['cantidad'],
+                    'importe' => $row['importe'],
+                    'nota' => $row['nota'],
+                    'ingredientes' => []
+                ];
+            }
+            
+            if ($row['ingrediente_nombre']) {
+                $orders[$id_pedido]['productos'][$id_pedido_producto]['ingredientes'][] = [
+                    'nombre' => $row['ingrediente_nombre'],
+                    'cantidad' => $row['ingrediente_cantidad']
+                ];
+            }
+        }
+        
+        return array_values($orders);
+    }
     
 
 

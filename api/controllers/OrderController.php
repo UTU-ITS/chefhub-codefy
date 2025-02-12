@@ -42,15 +42,39 @@ class OrderController {
                 echo json_encode($result);
                 break;
                 case "POST":
-                        if ($action === 'insertorder') {
-                            $jsonPedido = file_get_contents("php://input");
-                            $result = $this->order->insertarPedido($jsonPedido);
-                        }
-                        else if ($action === 'insertorderpayment') {
-                            $result = $this->order->insertarPedido($order);
-                        }
+    if ($action === 'insertorder') {
+        $jsonPedido = file_get_contents("php://input");
+        $result = $this->order->insertarPedido($jsonPedido);
+    } 
+    else if ($action === 'insertorderpayment') {
+        $result = $this->order->insertarPedido($order);
+    } 
+    else if ($action === 'getmyorders') {
+        $data = json_decode(file_get_contents("php://input"), true);
+        
+        if (!isset($data['id_cliente'])) {
+            echo json_encode(["error" => "id_cliente no proporcionado"]);
+            exit;
+        }
 
-                    echo json_encode($result);
+        $id_cliente = $data['id_cliente'];
+        $result = $this->order->getMyOrders($id_cliente);
+
+        if ($result) {
+            echo json_encode(["success" => true, "data" => $result]);
+        } else {
+            echo json_encode(["success" => false, "error" => "No se encontraron pedidos"]);
+        }
+        exit;
+    } 
+    else {
+        echo json_encode(["error" => "Acción no reconocida"]);
+        exit;
+    }
+
+    echo json_encode($result);
+    exit;
+
                     break;
 
                 case "PUT":

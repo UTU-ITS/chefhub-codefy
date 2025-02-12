@@ -7,7 +7,7 @@ class Ingredients {
     }
 
     public function GetIngredients() {
-        $sql = "SELECT id_ingrediente, nombre FROM ingrediente
+        $sql = "SELECT id_ingrediente, nombre, precio FROM ingrediente
                 WHERE baja=FALSE";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();

@@ -96,7 +96,7 @@ const EditEmployeeModal = ({selectedEmployee, onEmployeeUpdated}) => {
 
       toast({
         title: 'Éxito',
-        description: 'Empleado agregado correctamente',
+        description: 'Empleado modificado correctamente',
         status: 'success',
         duration: 3000,
         isClosable: true
@@ -222,7 +222,7 @@ const EditEmployeeModal = ({selectedEmployee, onEmployeeUpdated}) => {
               Cancelar
             </Button>
             <Button className="custom-submit-btn" onClick={handleSubmit}>
-              Agregar
+              Guardar
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -399,6 +399,15 @@ if (isset($path[1])) {
                             $ProductController = new ProductController($conn);
                             $ProductController->handleRequest('activateproduct');
                             break;
+                        case 'getmyorders':
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('getmyorders');
+                            break;
+                            case 'getmyreservations':
+                                $ReservationController = new ReservationController($conn);
+                                $ReservationController->handleRequest('getmyreservations');
+                                break;
+                                
                             
                                  
             default:
