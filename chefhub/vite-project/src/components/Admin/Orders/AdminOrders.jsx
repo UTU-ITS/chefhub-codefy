@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { PendingOrdersIcon, TableIcon, CloseIcon, EyeIcon } from '../../../img/HeroIcons';
+import React, { useState, useEffect, useContext } from 'react';
+import { PendingOrdersIcon, TableIcon, CloseIcon, EyeIcon, UserCheckIcon} from '../../../img/HeroIcons';
+
 import { fetchData } from '../apiService';
 import './AdminOrders.css';
-
+import { UserContext } from '../../../context/user';
 const AdminOrders = () => {
+
+
+    const { user } = useContext(UserContext);
     const [data, setData] = useState([]);
     const [preparingData, setPreparingData] = useState([]);
     const [readyData, setReadyData] = useState([]);
@@ -11,31 +15,133 @@ const AdminOrders = () => {
     const [tableDetails, setTableDetails] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedOrder, setSelectedOrder] = useState(null);
-    const [showCancelModal, setShowCancelModal] = useState(false); // Controlar el modal de confirmación
-
+    const [showCancelModal, setShowCancelModal] = useState(false);
+    const [ingredients, setIngredients] = useState([]);
     
     const [currentPagePending, setCurrentPagePending] = useState(1);
     const [currentPagePreparing, setCurrentPagePreparing] = useState(1);
     const [currentPageReady, setCurrentPageReady] = useState(1);
-
     const itemsPerPage = 5;
 
+
+
+    const setOnPreparationOrder = async (id) => {
+        try {
+            const response = await fetch('http://localhost/api/updateorderstatus', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                     id_pedido: id,
+                     estado: 'En preparación',
+                     ci: user.data.ci
+                    }),
+            });
+            const result = await response.json();
+            console.log(result);
+            if (result.success) {
+                alert('Pedido en preparación');
+                fetchData('http://localhost/api/orders/pending', setData);
+                fetchData('http://localhost/api/orders/preparation', setPreparingData);
+            } else {
+                alert('Error al cambiar el estado del pedido');
+            }
+        } catch (error) {
+            console.error("Error al cambiar el estado del pedido:", error);
+            alert('Hubo un problema al cambiar el estado del pedido');
+        }
+    };
+    const setReadyOrder = async (id) => {
+        try {
+            const response = await fetch('http://localhost/api/updateorderstatus', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                     id_pedido: id,
+                     estado: 'Listo',
+                     ci: user.data.ci
+                    }),
+            });
+            const result = await response.json();
+            console.log(result);
+            if (result.success) {
+                alert('Pedido Listo');
+                
+                fetchData('http://localhost/api/orders/preparation', setPreparingData);
+                fetchData('http://localhost/api/orders/ready', setReadyData);
+            } else {
+                alert('Error al cambiar el estado del pedido');
+            }
+        } catch (error) {
+            console.error("Error al cambiar el estado del pedido:", error);
+            alert('Hubo un problema al cambiar el estado del pedido');
+        }
+    }
+
+    const setDeliveredOrder = async (id) => {
+        try {
+            const response = await fetch('http://localhost/api/updateorderstatus', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                     id_pedido: id,
+                     estado: 'Entregado',
+                     ci: user.data.ci
+                    }),
+            });
+            const result = await response.json();
+            console.log(result);
+            if (result.success) {
+                alert('Pedido Entregado');
+                
+                fetchData('http://localhost/api/orders/ready', setReadyData);
+            } else {
+                alert('Error al cambiar el estado del pedido');
+            }
+        } catch (error) {
+            console.error("Error al cambiar el estado del pedido:", error);
+            alert('Hubo un problema al cambiar el estado del pedido');
+        }
+    }
     useEffect(() => {
         fetchData('http://localhost/api/orders/pending', setData);
         fetchData('http://localhost/api/orders/preparation', setPreparingData);
         fetchData('http://localhost/api/orders/ready', setReadyData);
     }, []);
 
+    const HandleShowIngredients = async (id_pedido, id_producto,$id_pedido_producto) => {
+        try {
+            const response = await fetch(`http://localhost/api/ingredientsperproduct/${id_pedido}/${id_producto}/${$id_pedido_producto}`);
+            const data = await response.json();
+            setIngredients(data);
+        } catch (error) {
+            console.error("Error al obtener ingredientes:", error);
+            alert("Hubo un problema al obtener los ingredientes");
+        }
+    };
+    
+ 
+
+
     const handleViewDetails = async (id) => {
         try {
-            const response = await fetch(`http://localhost/api/orders/detail/${id}`);
+            const response = await fetch(`http://localhost/api/orders/detailorder/${id}`);
             const data = await response.json();
             setOrderDetails(data);
+            
+            console.log("Datos recibidos:", data); // Muestra los datos antes de actualizar el estado
+            
             setSelectedOrder(id);
         } catch (error) {
             console.error("Error al obtener detalles del pedido:", error);
         }
     };
+    
 
     const handleTableOrder = async (id) => {
         try {
@@ -147,6 +253,12 @@ const AdminOrders = () => {
                                                     <td key={idx}>{value}</td>
                                                 ))}
                                                 <td>
+                                                     <button
+                                                        className="admin-btn"
+                                                        onClick={() =>setOnPreparationOrder(item.ID)}
+                                                    >
+                                                        <UserCheckIcon />
+                                                    </button>
                                                     <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
                                                     
                                                         <CloseIcon/>
@@ -201,6 +313,12 @@ const AdminOrders = () => {
                                                     <td key={idx}>{value}</td>
                                                 ))}
                                                 <td>
+                                                <button
+                                                        className="admin-btn"
+                                                        onClick={() =>setReadyOrder(item.ID)}
+                                                    >
+                                                        <UserCheckIcon />
+                                                    </button>
                                                 <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
                                                 <CloseIcon />
                                                     </button>
@@ -254,6 +372,12 @@ const AdminOrders = () => {
                                                     <td key={idx}>{value}</td>
                                                 ))}
                                                 <td>
+                                                <button
+                                                        className="admin-btn"
+                                                        onClick={() =>setDeliveredOrder(item.ID)}
+                                                    >
+                                                        <UserCheckIcon />
+                                                    </button>
                                                 <button className="admin-btn" onClick={() => handleCancelClick(item.ID)}>
                                                 <CloseIcon />
                                                     </button>
@@ -308,64 +432,81 @@ const AdminOrders = () => {
                         </div> 
                         <div className='admin-table'>
                             <table>
-                                <thead>
-                                    <tr>
-                                        {orderDetails ? (
-                                            <>
-                                                <th>Producto</th>
-                                                <th>Cantidad</th>
-                                            </>
-                                        ) : (
-                                            <th>Estado</th>
-                                        )}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orderDetails ? (
-                                        <tr>
-                                            <td>{orderDetails.producto}</td>
-                                            <td>{orderDetails.cantidad}</td>
-                                        </tr>
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="2">Seleccione un pedido para ver los detalles</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+    <thead>
+        <tr>
+            {orderDetails ? (
+                <>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Nota</th>
+                </>
+            ) : (
+                <th>Estado</th>
+            )}
+        </tr>
+    </thead>
+    <tbody>
+        {orderDetails && orderDetails.length > 0 ? (
+            orderDetails.map((order, index) => (
+                <tr key={index}>
+                    <td>{order.producto}</td>
+                    <td>{order.cantidad}</td>
+                    <td>{order.Nota}</td>
+                    <td>
+                    <button onClick={() => { 
+    HandleShowIngredients(selectedOrder, order.id_producto ,order.id); 
+}}>
+    <EyeIcon />
+</button>
+
+                    </td>
+                </tr>
+            ))
+        ) : (
+            <tr>
+                <td colSpan="4">Seleccione un pedido para ver los detalles</td>
+            </tr>
+        )}
+    </tbody>
+</table>
+
                         </div>
                     </div>
                     <div className="orders-tables">
+                    
                         <div className="admin-subtitle">
                             <h2>INGREDIENTES</h2>
                             </div>
                         <div className='admin-table'>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        {orderDetails ? (
-                                            <>
-                                                <th>Producto</th>
-                                                <th>Cantidad</th>
-                                            </>
-                                        ) : (
-                                            <th>Estado</th>
-                                        )}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orderDetails ? (
-                                        <tr>
-                                            <td>{orderDetails.producto}</td>
-                                            <td>{orderDetails.cantidad}</td>
-                                        </tr>
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="2">Seleccione un pedido para ver los detalles</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                        <table>
+    <thead>
+        <tr>
+            {ingredients && ingredients.length > 0 ? (
+                <>
+                    <th>Ingrediente</th>
+                    <th>Cantidad</th>
+                </>
+            ) : (
+                <th>Estado</th>
+            )}
+        </tr>
+    </thead>
+    <tbody>
+        {ingredients && ingredients.length > 0 ? (
+            ingredients.map((ingredient, index) => (
+                <tr key={index}>
+                    <td>{ingredient.Ingrediente}</td>
+                    <td>{ingredient.Cantidad}</td>
+                </tr>
+            ))
+        ) : (
+            <tr>
+                <td colSpan="2">Seleccione un pedido para ver los detalles</td>
+            </tr>
+        )}
+    </tbody>
+</table>
+
                         </div>
                     </div>
                 </div>

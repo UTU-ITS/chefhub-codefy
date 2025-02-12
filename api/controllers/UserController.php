@@ -36,7 +36,11 @@ class UserController {
 
                     $result = $this->user->getAdresses($id_cliente);
                
-                } else  {
+                } else if ($action === 'getremovedemployees'){
+
+                    $result = $this->user->getRemovedEmployees();
+               
+                }else  {
 
 
                     $result = ["message" => "Acción no reconocida"];
@@ -286,25 +290,48 @@ class UserController {
                         echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
                     }
 
-                }else  if ($action === 'editemployee') {
+                }else  if ($action === 'updateemployee') {
                     $data = json_decode(file_get_contents("php://input"), true);
-
+                    var_dump($data);
                     $id_usuario = $data['id_usuario'];
                     $telefono = $data['telefono'];
                     $email = $data['email'];
                     $hora_entrada = $data['hora_entrada'];
                     $hora_salida = $data['hora_salida'];
                     $cargo = $data['cargo'];
-                    $result = $this->user->UpdateEmployee($id_funcionario, $telefono, $email, $hora_entrada, $hora_salida, $cargo);
-
+                    $direccion = $data['direccion'];
+                    $nombre = $data['nombre'];
+                    $apellido = $data['apellido'];
+                    $result = $this->user->UpdateEmployee($direccion, $hora_entrada, $hora_salida, $cargo, $id_usuario);
+                    $result1 = $this->user->UpdateEmployeeUser($nombre,$apellido,$email,$telefono, $id_usuario);
                     if ($result && $result1) {
                         echo json_encode([ "success" => true]);
                     } else {
-                        http_response_code(500);
-                        echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                        if ($result) {
+                            echo json_encode(["message" => "correcta la consulta del empelado"]);
+                        } else if ($result1) {
+                            echo json_encode(["message" => "correcta la consulta del usuario"]);
+                        }else {
+                            http_response_code(500);
+                            echo json_encode(["message" => "Error al actualizar", "data" => ["result" => $result, "result1" => $result1]]);
+                        }
                     }
 
-                }else{
+                }else  if ($action === 'activateemployee') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+
+                    $id_usuario = $data['id_usuario'];
+                  
+                    $result = $this->user->ActivateEmployee($id_usuario);
+
+                    if ($result) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar"]);
+                    }
+                    
+                }else {
                     echo json_encode(["message" => "Acción no reconocida"]);
                 }
                 break;

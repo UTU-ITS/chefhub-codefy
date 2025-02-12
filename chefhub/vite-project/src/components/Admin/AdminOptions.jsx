@@ -9,6 +9,8 @@ import Dashboard from './Dashboard/Dashboard';
 import AdminOrders from './Orders/AdminOrders';
 import AdminReservations from './Reservations/AdminReservations';
 import AdminReports from './Reports/AdminReports';
+import AdminCategory from './Category/AdminCategory';
+import AdminIngredient from './Ingredient/AdminIngredient';
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -41,6 +43,25 @@ export default function Options() {
                                     className={isSelected('Productos')}
                                 >
                                     Productos
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link
+                                    to="/admin/category"
+                                    onClick={() => handleOptionClick('Categorias')}
+                                    className={isSelected('Categorias')}
+                                >
+                                    Categorias
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    to="/admin/ingredient"
+                                    onClick={() => handleOptionClick('Ingrediente')}
+                                    className={isSelected('Ingrediente')}
+                                >
+                                    Ingrediente
                                 </Link>
                             </li>
                             <li>
@@ -133,6 +154,8 @@ export default function Options() {
                         <Route path="reservations" element={<AdminReservations />} />
                         <Route path="orders" element={<AdminOrders/>} />
                         <Route path="reports" element={<AdminReports />} />
+                        <Route path="category" element={<AdminCategory />} />
+                        <Route path="ingredient" element={<AdminIngredient />} />
                     </Routes>
             </div>
         </div>
