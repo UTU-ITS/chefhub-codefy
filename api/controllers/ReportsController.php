@@ -19,19 +19,51 @@ class ReportsController {
         $this->reports = new Reports($conn);
     }
 
-    public function handleRequest($action) {
+    public function handleRequest($action, $table = null) {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case "GET":
-                if ($action === 'columnsdb') {
-                    $result = $this->reports->getReport();
+                if ($action === 'tables') {
+                    $result = $this->reports->getTables();
+                } else if ($action === 'columns') {
+                    $tablesForJoin = $this->reports->getJoinsForTable($table);
+                    if ($tablesForJoin == "No se encontraron tablas para hacer JOIN con la tabla '$table'") {
+                        $tables[] = $table;
+                    } else {
+                        $tables = array_merge([$table], $tablesForJoin);
+                    }
+                    $columns = $this->reports->getColumns($tables);
+
+                    $result = $columns;
+                    
                 } else {
                     $result = ["message" => "Acción no reconocida" ,"success"=>true  ];
+
                 }
                 echo json_encode($result);
                 break;
             default:
+            case 'POST':
+                if ($action === 'generatereport') {
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    $table = $data['table'];
+                    $columns = $data['columns'];
+                    $conditions = $data['conditions'];
+                    $classifications = $data['classifications'];
+                    $foreignKeys = $this->reports->getForeignKeys($table);
+                    $sql = $this->reports->generateJoinQuery($table, $foreignKeys, $columns, $conditions, $classifications);
+                    $result = $this->reports->executeQuery($sql);
+                    if ($result == null) {
+                        $result = ["message" => "No se encontraron resultados", "success" => false];
+                    } else {
+                        $result = ["message" => "Reporte generado con éxito", "success" => true, "data" => $result];
+                    }
+                    echo json_encode($result);
+                } else {
+                    $result = ["message" => "Acción no reconocida" ,"success"=>true  ];
+                }
+                break;
         }
     }
 }
