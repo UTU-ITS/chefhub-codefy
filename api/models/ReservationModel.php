@@ -67,6 +67,27 @@ class Reservation {
         return $stmt->rowCount();
     }
 
+    public function getMyReservations ($id_cliente){
+        $sql = "SELECT cm.id_mesa , 
+                       cm.fecha , 
+                       cm.hora , 
+                       cm.cant_personas , 
+                       cm.nombre_reserva, 
+                       cm.tel_contacto, 
+                       cm.estado
+                FROM cliente_mesa cm
+                WHERE cm.id_cliente = :id_cliente
+                AND cm.baja = FALSE
+                ORDER BY cm.fecha DESC, cm.hora DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_cliente', $id_cliente);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
+    }
 }
 
 

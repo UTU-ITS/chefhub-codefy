@@ -52,6 +52,8 @@ function CustomerAutoManagement() {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [userData, setUserData] = useState(mockUser);
+  const [myorders, setMyOrders] = useState();
+  const [myreservations, setMyReservations] = useState();
   const [adresses, setAdresses] = useState([]);
     const [showNewAddressForm, setShowNewAddressForm] = useState(false);
     const toast = useToast();
@@ -75,7 +77,63 @@ function CustomerAutoManagement() {
       id_usuario: user?.data?.id_usuario || null
     });
 
+useEffect(() => {
+  const fetchOrders = async () => {
+    if (user?.data) {
+      try {
+        const response = await fetch("http://localhost/api/getmyorders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id_cliente:user.data.id_cliente}),
+        });
+        const result = await response.json();
+        if (result.success) {
+          setMyOrders(result.data);
+        } else {
+          console.error('Error al cargar los pedidoss:', result.error);
+          setMyOrders([]);
+        }
+      } catch (error) {
+        console.error('Error al cargar los pedidos:', error);
+        setMyOrders([]);
+      }
+    }
+  };
+  fetchOrders();
+}, [user]);
 
+
+useEffect(() => {
+  const fetchReservations = async () => {
+    if (user?.data) {
+      try {
+        const response = await fetch("http://localhost/api/getmyreservations", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id_cliente:user.data.id_cliente}),
+        });
+        const result = await response.json();
+        if (result.success) {
+          setMyReservations(result.data);
+        } else {
+          console.error('Error al cargar las reservas:', result.error);
+          setMyReservations([]);
+        }
+      } catch (error) {
+        console.error('Error al cargar las reservas:', error);
+        setMyReservations([]);
+      }
+    }
+  };
+  fetchReservations();
+}, [user]);
+  
   const loadAddresses = async () => {
     if (user?.data) {
       try {
@@ -374,38 +432,78 @@ const HandleUpdateProfile = async (e) => {
           <div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold text-purple-700 mb-4">Mis Pedidos</h2>
             <div className="overflow-x-auto">
-              <table className="min-w-full">
-                <thead className="bg-purple-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-purple-700 uppercase tracking-wider">ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-purple-700 uppercase tracking-wider">Fecha</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-purple-700 uppercase tracking-wider">Hora</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-purple-700 uppercase tracking-wider">Items</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-purple-700 uppercase tracking-wider">Total</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-purple-700 uppercase tracking-wider">Estado</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-purple-100">
-                  {mockOrders.map((order) => (
-                    <tr key={order.id}>
-                      <td className="px-6 py-4 whitespace-nowrap">{order.id}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{order.date}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{order.time}</td>
-                      <td className="px-6 py-4">{order.items}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">${order.total}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                          {order.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <table className="w-full text-white border-collapse">
+  <thead>
+    <tr className="bg-gray-800">
+      <th className="p-2 border border-gray-700">ID Pedido</th>
+      <th className="p-2 border border-gray-700">Fecha y Hora</th>
+      <th className="p-2 border border-gray-700">Subtotal</th>
+      <th className="p-2 border border-gray-700">Estado</th>
+      <th className="p-2 border border-gray-700">Productos</th>
+    </tr>
+  </thead>
+  <tbody>
+    {myorders?.map((order) => (
+      <tr key={order.id_pedido} className="bg-gray-900">
+        <td className="p-2 border border-gray-700">{order.id_pedido}</td>
+        <td className="p-2 border border-gray-700">{order.fecha_hora}</td>
+        <td className="p-2 border border-gray-700">${order.subtotal}</td>
+        <td className="p-2 border border-gray-700">{order.estado}</td>
+        <td className="p-2 border border-gray-700">
+          <ul>
+            {Object.values(order.productos).map((producto, index) => (
+              <li key={index} className="mb-2">
+                <strong>{producto.nombre}</strong> - ${producto.importe} ({producto.cantidad}x)
+                {producto.nota && <p className="text-sm italic">Nota: {producto.nota}</p>}
+                {producto.ingredientes.length > 0 && (
+                  <ul className="text-xs">
+                    {producto.ingredientes.map((ing, i) => (
+                      <li key={i} className="ml-4">• {ing.nombre} (x{ing.cantidad})</li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
             </div>
           </div>
         </div>
       </div>
+    {/* Reservations Table */}
+<div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
+  <h2 className="text-xl font-semibold text-purple-700 mb-4">Mis Reservas</h2>
+  <div className="overflow-x-auto">
+    <table className="w-full text-white border-collapse">
+      <thead>
+        <tr className="bg-gray-800">
+          <th className="p-2 border border-gray-700">ID Mesa</th>
+          <th className="p-2 border border-gray-700">Fecha y Hora</th>
+          <th className="p-2 border border-gray-700">Cantidad de Personas</th>
+          <th className="p-2 border border-gray-700">Nombre Reserva</th>
+          <th className="p-2 border border-gray-700">Tel. Contacto</th>
+          <th className="p-2 border border-gray-700">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {myreservations?.map((reservation) => (
+          <tr key={reservation.id_mesa} className="bg-gray-900">
+            <td className="p-2 border border-gray-700">{reservation.id_mesa}</td>
+            <td className="p-2 border border-gray-700">{`${reservation.fecha} ${reservation.hora}`}</td>
+            <td className="p-2 border border-gray-700">{reservation.cant_personas}</td>
+            <td className="p-2 border border-gray-700">{reservation.nombre_reserva}</td>
+            <td className="p-2 border border-gray-700">{reservation.tel_contacto}</td>
+            <td className="p-2 border border-gray-700">{reservation.estado}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
 
       {/* Edit Profile Modal */}
       {isEditingProfile && (

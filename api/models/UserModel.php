@@ -7,7 +7,7 @@ class User {
     }
 
     public function getEmpolyees() {
-        $sql = "SELECT f.id_usuario , f.ci AS 'Cedula', u.nombre AS 'Nombre', u.apellido AS 'Apellido', u.telefono AS 'Teléfono', f.direccion AS 'Dirección', f.horario_entrada AS 'Entrada', f.horario_salida AS 'Salida', f.cargo AS 'Cargo' 
+        $sql = "SELECT f.id_usuario ,u.email AS Email, f.ci AS 'Cedula', u.nombre AS 'Nombre', u.apellido AS 'Apellido', u.telefono AS 'Teléfono', f.direccion AS 'Dirección', f.horario_entrada AS 'Entrada', f.horario_salida AS 'Salida', f.cargo AS 'Cargo' 
                 FROM funcionario f
                 JOIN usuario u ON f.id_usuario = u.id_usuario
                 WHERE u.baja = false";
@@ -346,7 +346,8 @@ public function insertEmployee($usuarioData) {
     }
 }
 
-public function UpdateEmployee($direccion, $horario_entrada, $horario_salida, $cargo, $id_usuario) {
+public function UpdateEmployee( $direccion, $horario_entrada, $horario_salida, $cargo, $id_usuario) {
+
     $sql = "UPDATE funcionario SET direccion = :direccion, horario_entrada = :horario_entrada, horario_salida = :horario_salida, cargo = :cargo WHERE id_usuario = :id_usuario";
     $stmt = $this->conn->prepare($sql);
     $stmt->bindParam(':direccion', $direccion);
@@ -361,6 +362,51 @@ public function UpdateEmployee($direccion, $horario_entrada, $horario_salida, $c
         return false;
     }
 
+}
+
+public function UpdateEmployeeUser($nombre,$apellido,$email,$telefono, $id_usuario) {
+
+    $sql = "UPDATE usuario SET nombre = :nombre, apellido = :apellido, email = :email, telefono = :telefono WHERE id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':nombre', $nombre);
+    $stmt->bindParam(':apellido', $apellido);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':telefono', $telefono);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+public function getRemovedEmployees(){
+    $sql = "SELECT f.id_usuario , f.ci AS 'Cedula', u.nombre AS 'Nombre', u.apellido AS 'Apellido', u.telefono AS 'Teléfono', f.direccion AS 'Dirección', f.horario_entrada AS 'Entrada', f.horario_salida AS 'Salida', f.cargo AS 'Cargo' 
+            FROM funcionario f
+            JOIN usuario u ON f.id_usuario = u.id_usuario
+            WHERE u.baja = true AND f.baja = true";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function ActivateEmployee($id_usuario){
+
+    $sql = "UPDATE usuario SET baja = FALSE WHERE id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    $stmt->execute();
+    $sql = "UPDATE funcionario SET baja = FALSE WHERE id_usuario = :id_usuario";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_usuario', $id_usuario);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 }
