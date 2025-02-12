@@ -101,13 +101,6 @@
     }
   }
   
-  /* Estilos para mensajes */
-  p {
-    text-align: center;
-    padding: 20px;
-    color: #6c757d;
-    font-style: italic;
-  }
   
   /* Responsive */
   @media (max-width: 768px) {
