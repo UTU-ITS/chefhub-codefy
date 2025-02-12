@@ -32,8 +32,14 @@ class ProductController {
                     } else {
                         $result = $this->product->getProduct();
                     }
-                } elseif ($action === 'products') {
+                } else if ($action === 'products') {
+
                     $result = $this->product->getTableProducts();
+
+                } else if ($action === 'getremovedproducts') {
+
+                    $result = $this->product->getTableRemovedProducts();
+
                 } else {
                     $result = ["message" => "Acción no reconocida"];
                 }
@@ -94,48 +100,41 @@ class ProductController {
                     case "PUT":
                         if ($action === 'updateproduct') {
                             // Leer datos de la solicitud PUT
-                            parse_str(file_get_contents("php://input"), $_PUT);
-                            $productId = $productId ? $productId : $_PUT['product_id'];
-                            $nombre = $_PUT['nombre'];
-                            $precio = $_PUT['precio'];
-                            $descripcion = $_PUT['descripcion'];
+                            $data = json_decode(file_get_contents("php://input"), true);
+                            $productId = $data['id_producto'];
+                            $nombre = $data['nombre'];
+                            $precio = $data['precio'];
+                            $descripcion = $data['descripcion'];
                             $imagenFile = isset($_FILES['imagen']) ? $_FILES['imagen'] : null;
-                            $ingredientes = $_PUT['ingredientes'];
-                            $categorias = $_PUT['categorias'];
-                    
+                            $ingredientes = $data['ingredientes'];
+                            $categorias = $data['categorias'];
+                            // Validar que los datos esenciales estén presentes
                             if ($productId && $nombre && $precio && $descripcion) {
                                 try {
-                                    // Actualizar producto con la imagen
+                                    // Actualizar el producto
                                     $this->product->updateProduct(
                                         $productId,
                                         $nombre,
                                         $precio,
                                         $descripcion,
-                                        $imagenFile
+                                        $imagenFile,
+                                        $ingredientes,
+                                        $categorias
                                     );
-                    
-                                    // Actualizar ingredientes del producto
-                                    if ($ingredientes) {
-                                        $this->product->updateProductIngredients($productId, $ingredientes);
-                                    }
-                                    
-                                    // Actualizar categorías del producto
-                                    if ($categorias) {
-                                        $this->product->updateProductCategories($productId, $categorias);
-                                    }
-                                    
-                                    // Solo enviar mensaje de éxito si la actualización es exitosa
-                                    echo json_encode(["message" => "Producto modificado con éxito" ,"success"=>true ]);
+                        
+                                    // Respuesta exitosa
+                                    echo json_encode(["message" => "Producto modificado con éxito", "success" => true]);
                                 } catch (Exception $e) {
+                                    // Si ocurre un error en la actualización
                                     http_response_code(500);
-                                    // Asegúrate de mostrar solo el mensaje de error real
                                     echo json_encode(["message" => "Error al actualizar el producto: " . $e->getMessage()]);
                                 }
                             } else {
+                                // Si faltan datos obligatorios
                                 http_response_code(400);
                                 echo json_encode(["message" => "Datos incompletos o archivo faltante"]);
                             }
-                        } else if($action === 'deleteproduct') {    
+                        }else if($action === 'deleteproduct') {    
                             $data = json_decode(file_get_contents("php://input"), true);
                             $id_producto = $data['id_producto'];
                             $result = $this->product->DeleteProduct($id_producto);
@@ -145,7 +144,17 @@ class ProductController {
                                 http_response_code(400);
                                 echo json_encode(["message" => "Datos incompletos"]);
                             }
-                        } else  {
+                        } else if($action === 'activateproduct') {    
+                            $data = json_decode(file_get_contents("php://input"), true);
+                            $id_producto = $data['id_producto'];
+                            $result = $this->product->ActivateProduct($id_producto);
+                            if ($result) {
+                                echo json_encode(["success"=>true ]);
+                            } else {
+                                http_response_code(400);
+                                echo json_encode(["message" => "Datos incompletos"]);
+                            }
+                        }else {
                             http_response_code(400);
                             echo json_encode(["message" => "Acción no reconocida para PUT"]);
                         }

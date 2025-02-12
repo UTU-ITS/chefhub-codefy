@@ -6,7 +6,7 @@
 		private $server = 'localhost';
 		private $dbname = 'chefhub_db';
 		private $user = 'root';
-		private $pass = 'root';
+		private $pass = '';
 
 		public function connect() {
 			try {

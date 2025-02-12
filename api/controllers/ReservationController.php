@@ -29,7 +29,16 @@ class ReservationController {
                     $fecha = $data['fecha'];
                     $hora = $data['hora'];
                     $result = $this->reservation->getReservation($fecha, $hora);
-                } else {
+                } else  if ($action === 'getmyreservations') {
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    $id_cliente = $data['id_cliente'];
+                    $result = $this->reservation->getMyReservations($id_cliente);
+                    if ($result) {
+                        $result = ["success"=>true, "data" => $result];
+                    } else {
+                        $result = ["message" => "No se encontraron reservas", "success"=>false];
+                    }
+                } else{
                     $result = ["message" => "Acción no reconocida" ,"success"=>true  ];
                 }
                 echo json_encode($result);

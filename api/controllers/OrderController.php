@@ -19,7 +19,7 @@ class OrderController {
         $this->order = new Order($conn);
     }
 
-    public function handleRequest($action, $orderId = null, $id_producto = null, $order = null) {
+    public function handleRequest($action, $orderId = null, $id_producto = null, $order = null,$id_pedido_producto = null) {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
@@ -35,22 +35,46 @@ class OrderController {
                 } else if($action === 'detailorder'){
                     $result = $this->order->getDetailOrder($orderId);
                 } else if($action === 'ingredientsperproduct'){
-                    getIngredientsPerProductInOrder($orderId, $id_producto);
+                    $result = $this->order->getIngredientsPerProductInOrder($orderId, $id_producto, $id_pedido_producto);
                 } else {
                     $result = ["message" => "Acción no reconocida"];
                 }
                 echo json_encode($result);
                 break;
                 case "POST":
-                        if ($action === 'insertorder') {
-                            $jsonPedido = file_get_contents("php://input");
-                            $result = $this->order->insertarPedido($jsonPedido);
-                        }
-                        else if ($action === 'insertorderpayment') {
-                            $result = $this->order->insertarPedido($order);
-                        }
+    if ($action === 'insertorder') {
+        $jsonPedido = file_get_contents("php://input");
+        $result = $this->order->insertarPedido($jsonPedido);
+    } 
+    else if ($action === 'insertorderpayment') {
+        $result = $this->order->insertarPedido($order);
+    } 
+    else if ($action === 'getmyorders') {
+        $data = json_decode(file_get_contents("php://input"), true);
+        
+        if (!isset($data['id_cliente'])) {
+            echo json_encode(["error" => "id_cliente no proporcionado"]);
+            exit;
+        }
 
-                    echo json_encode($result);
+        $id_cliente = $data['id_cliente'];
+        $result = $this->order->getMyOrders($id_cliente);
+
+        if ($result) {
+            echo json_encode(["success" => true, "data" => $result]);
+        } else {
+            echo json_encode(["success" => false, "error" => "No se encontraron pedidos"]);
+        }
+        exit;
+    } 
+    else {
+        echo json_encode(["error" => "Acción no reconocida"]);
+        exit;
+    }
+
+    echo json_encode($result);
+    exit;
+
                     break;
 
                 case "PUT":
@@ -62,14 +86,36 @@ class OrderController {
 
                         $result = $this->order->CancelOrder($id_pedido);
                         if ($result) {
-                            $result = ["success" => true,"message" => "Pedido cancelado"];
+                            $result = ["success" => true,"message" => "Pedido cancelado"]; 
+                            echo json_encode($result);
+
                         } else {
                             $result = ["message" => "Error al cancelar pedido"];
                         }
-                    } else {
+                
+                        } else if ($action === 'updateorderstatus') {
+
+                            $data = json_decode(file_get_contents("php://input"), true);
+    
+                            $id_pedido = $data['id_pedido'];
+                            $estado = $data['estado'];      
+                            $ci = $data['ci'];                  
+
+                            $result = $this->order->setOrderStatus($id_pedido,$estado, $ci);
+                            if ($result) {
+                                $result = ["success" => true,"message" => "Pedido alterado"]; 
+                                echo json_encode($result);
+    
+                            } else {
+                                
+                                $result = ["message" => "Error al alterar pedido"];
+                            }
+                    
+                            } else {
                         $result = ["message" => "Acción no reconocida"];
                     }
-                    echo json_encode($result);
+                   
+
                     break;
 
                 

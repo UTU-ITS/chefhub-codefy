@@ -165,29 +165,32 @@ class Order {
     }
 
     public function getDetailOrder($id_pedido) {
-        $sql = "SELECT p.nombre AS producto, pp.cantidad
+        $sql = "SELECT pp.id_pedido_producto AS id, p.id_producto AS id_producto, p.nombre AS producto, pp.cantidad , pp.nota as 'Nota'
                 FROM pedido_producto pp
                 JOIN producto p ON pp.id_producto = p.id_producto
-                WHERE pp.id_pedido = :id_pedido
-                GROUP BY pp.id_producto";   
+                WHERE pp.id_pedido = :id_pedido";	 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id_pedido', $id_pedido);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function getIngredientsPerProductInOrder($id_pedido, $id_producto) {
-        $sql = "SELECT i.nombre AS 'Ingrediente', pi.cantidad AS 'Cantidad'
-                FROM pedido_ingrediente pi
-                JOIN ingrediente i ON pi.id_ingrediente = i.id_ingrediente
-                WHERE pi.id_pedido = :id_pedido
-                AND pi.id_producto = :id_producto";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id_pedido', $id_pedido);
-        $stmt->bindParam(':id_producto', $id_producto);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getIngredientsPerProductInOrder($id_pedido, $id_producto,$id_pedido_producto) {
+        $sql = "SELECT i.nombre AS 'Ingrediente', pi.cantidad AS 'Cantidad' 
+                FROM pedido_ingrediente pi
+                JOIN ingrediente i ON pi.id_ingrediente = i.id_ingrediente
+                JOIN pedido_producto pp ON pp.id_pedido_producto = pi.id_pedido_producto
+                WHERE pp.id_pedido = :id_pedido
+                AND pp.id_producto = :id_producto
+                AND pp.id_pedido_producto = :id_pedido_producto";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_pedido', $id_pedido);
+        $stmt->bindParam(':id_producto', $id_producto);
+        $stmt->bindParam(':id_pedido_producto', $id_pedido_producto);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     public function CancelOrder($id_pedido) {
         $sql = "UPDATE pedido SET estado = 'Cancelado' WHERE id_pedido = :id_pedido";
         $stmt = $this->conn->prepare($sql);
@@ -200,8 +203,78 @@ class Order {
         }
     }
 
+    public function setOrderStatus($id_pedido, $estado, $ci) {
+        $sqlsetci = "SET @usuario_ci = :ci";
+        $stmtsetci = $this->conn->prepare($sqlsetci);
+        $stmtsetci->bindParam(':ci', $ci);
+        $stmtsetci->execute();
+        $sql = " UPDATE pedido SET estado = :estado , ci = :ci WHERE id_pedido = :id_pedido";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_pedido', $id_pedido);
+        $stmt->bindParam(':estado', $estado);
+        $stmt->bindParam(':ci', $ci);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            return ['success' => 'Estado actualizado correctamente'];
+        } else {
+            return false;
+        }
+    }
         
-    
+    function GetMyOrders($id_cliente) {
+        $sql = "SELECT p.id_pedido, p.fecha_hora, p.subtotal, p.estado, 
+                       pp.id_pedido_producto, pp.cantidad, pp.importe, pp.nota, 
+                       pr.nombre AS producto_nombre, pr.precio AS producto_precio,
+                       i.nombre AS ingrediente_nombre, pi.cantidad AS ingrediente_cantidad
+                FROM pedido p
+                JOIN pedido_producto pp ON p.id_pedido = pp.id_pedido
+                JOIN producto pr ON pp.id_producto = pr.id_producto
+                LEFT JOIN pedido_ingrediente pi ON pp.id_pedido_producto = pi.id_pedido_producto
+                LEFT JOIN ingrediente i ON pi.id_ingrediente = i.id_ingrediente
+                WHERE p.id_cliente = :id_cliente AND p.baja = 0
+                ORDER BY p.fecha_hora DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id_cliente", $id_cliente);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $orders = [];
+        
+        foreach ($result as $row) {
+            $id_pedido = $row['id_pedido'];
+            if (!isset($orders[$id_pedido])) {
+                $orders[$id_pedido] = [
+                    'id_pedido' => $id_pedido,
+                    'fecha_hora' => $row['fecha_hora'],
+                    'subtotal' => $row['subtotal'],
+                    'estado' => $row['estado'],
+                    'productos' => []
+                ];
+            }
+            
+            $id_pedido_producto = $row['id_pedido_producto'];
+            if (!isset($orders[$id_pedido]['productos'][$id_pedido_producto])) {
+                $orders[$id_pedido]['productos'][$id_pedido_producto] = [
+                    'nombre' => $row['producto_nombre'],
+                    'precio' => $row['producto_precio'],
+                    'cantidad' => $row['cantidad'],
+                    'importe' => $row['importe'],
+                    'nota' => $row['nota'],
+                    'ingredientes' => []
+                ];
+            }
+            
+            if ($row['ingrediente_nombre']) {
+                $orders[$id_pedido]['productos'][$id_pedido_producto]['ingredientes'][] = [
+                    'nombre' => $row['ingrediente_nombre'],
+                    'cantidad' => $row['ingrediente_cantidad']
+                ];
+            }
+        }
+        
+        return array_values($orders);
+    }
     
 
 

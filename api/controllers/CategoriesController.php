@@ -20,23 +20,76 @@ class CategoriesController {
         $this->cat = new Categories($conn);  // Instancia del modelo Categories con la conexión proporcionada
     }
 
-    public function handleRequest($categoryId = null) {
+    public function handleRequest($action,$categoryId = null) {
         $method = $_SERVER['REQUEST_METHOD'];
     
         switch ($method) {
             case "GET":
-                if ($categoryId) {
-                    // Si hay un ID, obtener categoría por ID
-                    $result = $this->cat->getCatById($categoryId);
-                } else {
-                    // Si no hay ID, obtener todas las categorías
-                    $result = $this->cat->getCat();
+                try {
+                    if ($action == 'categories') {
+                        $result = $this->cat->getCat();
+                    } else if ($action == 'getcategorie') {
+                        $result = $this->cat->getCatById($categoryId);
+                    } else if ($action == 'getremovedcategories') {
+                        $result = $this->cat->getRemovedCat();
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(["message" => "Acción no soportada"]);
+                        return;
+                    }
+                    // Devolver el resultado como JSON
+                    echo json_encode($result);
+                } catch (Exception $e) {
+                    http_response_code(500);
+                    echo json_encode(["message" => "Error interno del servidor", "error" => $e->getMessage()]);
                 }
-    
-                // Devolver el resultado como JSON
-                echo json_encode($result);
                 break;
-    
+            case "POST":
+                if ($action == 'insertcategorie') {
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    $imagen = $data['imagen'];
+                    $nombre = $data['nombre'];
+                    $descripcion = $data['descripcion'];
+
+                    $result = $this->cat->InsertCat($nombre, $imagen, $descripcion);
+                    if ($result) {
+                        echo json_encode(["success" =>true]);
+                    } else {
+                        http_response_code(500);
+                    }
+                } else {
+                    echo json_encode(["success" =>false ,"message" => "Acción no soportada"]);
+                }
+            break;
+            case "PUT":
+                if ($action == 'activatecategorie') {
+                    
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    $id_categoria = $data['id_categoria'];
+                    $result = $this->cat->ActivateCat($id_categoria);
+                    echo json_encode(["success" =>true ,"message" => $result . " categoría restaurada"]);
+                    
+                }else if ($action == 'deletecategorie') {
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    $id_categoria = $data['id_categoria'];
+                    $result = $this->cat->DeleteCat($id_categoria);
+                    echo json_encode(["success" =>true ,"message" => $result . " categoría eliminada"]);
+
+
+                }else if ($action == 'updatecategorie') {
+
+
+                $data = json_decode(file_get_contents('php://input'), true);
+                $id_categoria = $data['id_categoria'];
+                $result = $this->cat->UpdateCat($id_categoria, $data['nombre'], $data['imagen'], $data['descripcion']);
+                echo json_encode(["success" =>true ,"message" => $result . " categoría actualizada"]);
+
+
+                }else{
+                    echo json_encode(["message" => "Acción no soportada"]);
+                }
+                break;
+
             default:
                 // Respuesta para métodos no soportados
                 echo json_encode(["message" => "Método no soportado"]);
