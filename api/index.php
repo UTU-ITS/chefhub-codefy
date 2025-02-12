@@ -95,18 +95,40 @@ if (isset($path[1])) {
             $CategoriesController = new CategoriesController($conn);
             // Obtener todas las categorías
             if (!isset($path[2])) {
-                $CategoriesController->handleRequest(); // Maneja la solicitud sin ID
+                $CategoriesController->handleRequest('categories'); // Maneja la solicitud sin ID
             } elseif (isset($path[2])) {
                 $categoryId = $path[2];
-                $CategoriesController->handleRequest($categoryId); // Maneja la solicitud con ID
+                $CategoriesController->handleRequest('categories',$categoryId); // Maneja la solicitud con ID
             } else {
                 echo json_encode(["message" => "Ruta no válida"]);
             }
             break;
+
+            case 'insertcategorie':
+                $CategoriesController = new CategoriesController($conn);
+                $CategoriesController->handleRequest('insertcategorie');
+            break;
+            case 'deletecategorie':
+                $CategoriesController = new CategoriesController($conn);
+                $CategoriesController->handleRequest('deletecategorie');
+            break;
+            case 'updatecategorie':
+                $CategoriesController = new CategoriesController($conn);
+                $CategoriesController->handleRequest('updatecategorie');
+            break;
+            case 'activatecategorie':
+                $CategoriesController = new CategoriesController($conn);
+                $CategoriesController->handleRequest('activatecategorie');
+            break;
+            case 'getremovedcategories':
+                $CategoriesController = new CategoriesController($conn);
+                $CategoriesController->handleRequest('getremovedcategories');
+                break; 
             case 'insertproduct':
                 $ProductController = new ProductController($conn);
                 $ProductController->handleRequest('insertproduct');
-                break;            
+                break; 
+                     
 
             case 'ingredients':
                 $IngredientsController = new IngredientsController($conn);
@@ -120,6 +142,29 @@ if (isset($path[1])) {
                     echo json_encode(["message" => "Ruta no válida"]);
                 }
                 break;
+            case 'deletedingredient':
+                $IngredientsController = new IngredientsController($conn);
+                $IngredientsController->handleRequest('deletedingredient');
+                break;
+
+            case 'insertingredient':
+                $IngredientsController = new IngredientsController($conn);
+                $IngredientsController->handleRequest('insertingredient');
+                break;
+            
+            case 'updateingredient':
+                $IngredientsController = new IngredientsController($conn);
+                $IngredientsController->handleRequest('updateingredient');
+                break;
+            case 'deleteingredient':
+                $IngredientsController = new IngredientsController($conn);
+                $IngredientsController->handleRequest('deleteingredient');
+                break;
+            case 'activateingredient':
+                $IngredientsController = new IngredientsController($conn);
+                $IngredientsController->handleRequest('activateingredient');
+                break;
+
             case 'empolyees':
                 $UserController = new UserController($conn);
                 $UserController->handleRequest('employees');
@@ -149,7 +194,7 @@ if (isset($path[1])) {
                     $OrderController->handleRequest('readyorders');
                 }else if ($path[2] === 'onlinequantity') {
                     $OrderController->handleRequest('onlinequantity');
-                }else if($path[2] === 'detail' && isset($path[3])){
+                }else if($path[2] === 'detailorder' && isset($path[3])){
                     $orderId = $path[3];
                     $OrderController->handleRequest('detailorder', $orderId, null);
                 } else {
@@ -274,10 +319,10 @@ if (isset($path[1])) {
                             $OrderController = new OrderController($conn);
                             $OrderController->handleRequest('cancelorder');
                         break;
-                        case 'editemployee': 
+                        case 'updateemployee': 
 
                             $UserController = new UserController($conn);
-                            $UserController->handleRequest('editemployee');
+                            $UserController->handleRequest('updateemployee');
                         break;
                         case 'addemployee': 
 
@@ -299,7 +344,7 @@ if (isset($path[1])) {
 
                         case 'updateproduct':
                             $ProductController = new ProductController($conn);
-                            $ProductController->handleRequest('updatetable');
+                            $ProductController->handleRequest('updateproduct');
                             break;  
                             
                         case 'cancelreservation':
@@ -315,15 +360,68 @@ if (isset($path[1])) {
                         case 'contactus':
                             $TokenController = new TokenController($conn);
                             $TokenController->handleRequest('contactus');
-                            break;           
+                            break;   
+
                         case 'reports':
-                            if(isset($path[2]) && $path[2] === 'columnsdb') {
+                            if(isset($path[2]) && $path[2] === 'tables') {
                                 $ReportsController = new ReportsController($conn);
                                 $ReportsController->handleRequest($path[2]);
-                            } else {
+                            } else if(isset($path[2]) && $path[2] === 'joinsfortable' && isset($path[3])) {
+                                $table = $path[3];
+                                $ReportsController = new ReportsController($conn);
+                                $ReportsController->handleRequest('joinsfortable', $table);
+                            }else if(isset($path[2]) && $path[2] === 'columns' && isset($path[3])) {
+                                $table = $path[3];
+                                $ReportsController = new ReportsController($conn);
+                                $ReportsController->handleRequest('columns', $table);
+                            
+                            }else if(isset($path[2]) && $path[2] === 'generatereport') {
+                                $ReportsController = new ReportsController($conn);
+                                $ReportsController->handleRequest('generatereport');
+
+                            }else {
                                 echo json_encode(["message" => "Ruta no válida"]);
                             }
+                        break;
+
+                        case 'updateorderstatus':
+                                                   
+                                $OrderController = new OrderController($conn);
+                                $OrderController->handleRequest('updateorderstatus');
+
+                        break;
+
+                        case 'ingredientsperproduct':
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('ingredientsperproduct', $path[2], $path[3], null, $path[4]);
                             break;
+
+                        case 'getremovedemployees':
+                            $UserController = new UserController($conn);
+                            $UserController->handleRequest('getremovedemployees');
+                          break;
+                         case 'activateemployee':
+                        $UserController = new UserController($conn);
+                        $UserController->handleRequest('activateemployee');
+                        break;
+                        case 'getremovedproducts':
+                            $ProductController = new ProductController($conn);
+                            $ProductController->handleRequest('getremovedproducts');
+                            break;                  
+                        case 'activateproduct':
+                            $ProductController = new ProductController($conn);
+                            $ProductController->handleRequest('activateproduct');
+                            break;
+                        case 'getmyorders':
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('getmyorders');
+                            break;
+                            case 'getmyreservations':
+                                $ReservationController = new ReservationController($conn);
+                                $ReservationController->handleRequest('getmyreservations');
+                                break;
+                                
+                            
                                  
             default:
        
