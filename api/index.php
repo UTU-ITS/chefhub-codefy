@@ -317,10 +317,23 @@ if (isset($path[1])) {
                             $TokenController->handleRequest('contactus');
                             break;           
                         case 'reports':
-                            if(isset($path[2]) && $path[2] === 'columnsdb') {
+                            if(isset($path[2]) && $path[2] === 'tables') {
                                 $ReportsController = new ReportsController($conn);
                                 $ReportsController->handleRequest($path[2]);
-                            } else {
+                            } else if(isset($path[2]) && $path[2] === 'joinsfortable' && isset($path[3])) {
+                                $table = $path[3];
+                                $ReportsController = new ReportsController($conn);
+                                $ReportsController->handleRequest('joinsfortable', $table);
+                            }else if(isset($path[2]) && $path[2] === 'columns' && isset($path[3])) {
+                                $table = $path[3];
+                                $ReportsController = new ReportsController($conn);
+                                $ReportsController->handleRequest('columns', $table);
+                            
+                            }else if(isset($path[2]) && $path[2] === 'generatereport') {
+                                $ReportsController = new ReportsController($conn);
+                                $ReportsController->handleRequest('generatereport');
+
+                            }else {
                                 echo json_encode(["message" => "Ruta no válida"]);
                             }
                             break;
