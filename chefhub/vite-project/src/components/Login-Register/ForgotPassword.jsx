@@ -22,6 +22,12 @@ export default function ForgotPassword() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError('');
+    
+        if (inputs.password !== inputs.password_1) {
+            setError('Las contraseñas no coinciden');
+            return;
+        }
+    
         try {
             const response = await axios.post('http://localhost/api/resetpassword', {
                 pass: inputs.password,
@@ -29,9 +35,9 @@ export default function ForgotPassword() {
             }, {
                 headers: { 'Content-Type': 'application/json' },
             });
-
+    
             if (response.data) {
-                navigate('/login');
+                navigate('/PassChange');
             }
         } catch (err) {
             console.error(err);
@@ -40,14 +46,14 @@ export default function ForgotPassword() {
 
     
     return (
-            <div className='login-div'>
-                <div className="login-div-box">
+            <div className='PassChange-div'>
+                <div className="PassChange-div-box">
                     <form onSubmit={handleSubmit}>
-                        <div className="login-span">
-                            <strong>Restablezca su contraseña</strong>
-                        </div>
-                        <div className="login-div-content">
-                            <span className="login-span">Nueva contraseña</span>
+                        <div className="PassChange-div-content">
+                            <div className="PassChange-span">
+                                <strong>Restablezca su contraseña</strong>
+                            </div>
+                            <span className="PassChange-span">Nueva contraseña</span>
                             <input
                                 name="password"
                                 type="password"
@@ -55,17 +61,15 @@ export default function ForgotPassword() {
                                 className="txt-area"
                                 onChange={handleChange}
                             />
-                            <span className="login-span">Repetir nueva contraseña</span>
+                            <span className="PassChange-span">Repetir nueva contraseña</span>
                             <input
                                 name="password_1"
-                                type="password_1"
+                                type="password"
                                 placeholder="Repita nueva contraseña"
                                 className="txt-area"
                                 onChange={handleChange}
                             />
-
-                        </div>
-                        <div className="btns-login">
+                            {error && <p className="error-message">{error}</p>}
                             <button className="btn">Cambiar Constraseña</button>
                         </div>
                     </form>
