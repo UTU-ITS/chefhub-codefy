@@ -50,11 +50,27 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     padding: 20px;
     width: 45%;
     font-weight: bold;
     min-height: 350px;
     background-color: #fff;
     box-shadow: var(--shadow);
+  }
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .product-table th, .product-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .product-table th {
+    background-color: #ab8ef4;
+    color: white;
   }

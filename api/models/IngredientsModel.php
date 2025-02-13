@@ -30,6 +30,16 @@ class Ingredients {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function GetMostUsedIngredients() {
+        $sql = "SELECT i.id_ingrediente, i.nombre, COUNT(pi.id_ingrediente) as cantidad FROM producto_ingrediente pi
+                INNER JOIN ingrediente i ON pi.id_ingrediente=i.id_ingrediente
+                GROUP BY pi.id_ingrediente
+                ORDER BY cantidad DESC
+                LIMIT 5";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);     
+    }
 
 
     public function InsertIngredient($nombre, $precio) {

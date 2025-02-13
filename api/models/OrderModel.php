@@ -16,6 +16,35 @@ class Order {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getCantOrders() {
+        $sql = "SELECT COUNT(*) AS 'Cantidad'
+                FROM pedido
+                WHERE estado = 'Entregado'
+                AND baja = FALSE";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getBestProducts() {
+        $sql = "SELECT 
+                pp.id_producto, 
+                p.nombre, 
+                SUM(pp.cantidad) AS total_vendido
+                FROM pedido_producto pp
+                JOIN producto p ON pp.id_producto = p.id_producto
+                JOIN pedido pe ON pp.id_pedido = pe.id_pedido
+                WHERE pe.baja = 0 AND pp.baja = 0
+                GROUP BY pp.id_producto, p.nombre
+                ORDER BY total_vendido DESC
+                LIMIT 5;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
+
     public function insertarPedido($jsonPedido) {
         $data = json_decode($jsonPedido, true);
     
