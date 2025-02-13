@@ -10,6 +10,7 @@ require('Controllers/ReservationController.php');
 require('Controllers/TablesController.php');
 require('Controllers/TokenController.php');
 require('Controllers/ReportsController.php');
+require('Controllers/PersonalizationController.php');
 
 require __DIR__.'\vendor\autoload.php';
 use MercadoPago\Client\Payment\PreferenceClient;
@@ -420,7 +421,14 @@ if (isset($path[1])) {
                                 $ReservationController = new ReservationController($conn);
                                 $ReservationController->handleRequest('getmyreservations');
                                 break;
-                                
+                        case 'personalization':
+                            if ($path[2] === 'color') {
+                                $PersonalizationController = new PersonalizationController($conn);
+                                $PersonalizationController->handleRequest($path[2]);
+                            }else {
+                                echo json_encode(["message" => "Ruta no válida"]);
+                            }
+                            break;
                             
                                  
             default:
