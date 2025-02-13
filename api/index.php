@@ -437,6 +437,9 @@ if (isset($path[1])) {
                             if ($path[2] === 'color') {
                                 $PersonalizationController = new PersonalizationController($conn);
                                 $PersonalizationController->handleRequest($path[2]);
+                            }else if($path[2] === 'updatecolor') {
+                                $PersonalizationController = new PersonalizationController($conn);
+                                $PersonalizationController->handleRequest('updatecolor');
                             }else {
                                 echo json_encode(["message" => "Ruta no válida"]);
                             }

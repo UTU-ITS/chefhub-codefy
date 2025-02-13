@@ -13,4 +13,11 @@ class Personalization {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function updateColor($color) {
+        $sql = "UPDATE personalizacion SET color = :color;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':color', $color);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
 }

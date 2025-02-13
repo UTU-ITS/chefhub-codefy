@@ -72,7 +72,7 @@ export default function Product({ selectedKey, searchTerm }) {
       {filteredProducts.length > 0 ? (
         filteredProducts.map((product) => (
           <Card key={product.id_producto} direction={{ base: 'column', sm: 'row' }} overflow="hidden" variant="outline" className="product-card">
-            <Image objectFit="cover" maxW={{ base: '100%', sm: '200px' }} src={product.imagen} alt={product.nombre} boxSize="200px" />
+            <Image objectFit="cover" maxW={{ base: '100%', sm: '200px' }} src={`http://localhost/api/${product.imagen}`} alt={product.nombre} boxSize="200px" />
             <Stack className="product-info">
               <CardBody className="card-body">
                 <Heading size="md">{product.nombre}</Heading>
