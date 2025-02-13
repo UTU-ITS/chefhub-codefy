@@ -59,7 +59,68 @@ export default function LoginView() {
         }
         
     };
-
+    const handleSendVerificationEmail = async () => {
+        const HandleCheckMailisRegistered = async () => {
+            try {
+                const response = await axios.post("http://localhost/api/checkemail", { email });
+                if (response.data.success) {
+                    console.log(response.data);
+                    return response.data; // Devuelvo la id si el correo está registrado
+                } else {
+                    alert(`Error: ${response.data.message}`);
+                    return null; // Si no está registrado, devuelvo null
+                }
+            } catch (error) {
+                console.error("Error al verificar el correo:", error);
+                alert("Este correo no está registrado.");
+                return null;
+            }
+        }
+    
+        if (!email) {
+            alert("Por favor, ingresa un correo electrónico.");
+            return;
+        }
+    
+        // Verificamos si el correo está registrado
+        const userId = await HandleCheckMailisRegistered();
+        if (!userId) return; 
+    
+        try {
+            const response = await axios.post("http://localhost/api/sendmail", { email });
+            if (response.data.success) {
+                setStepFG(2);
+    
+                // Aquí guardamos la id en el contexto del usuario
+                // Asegúrate de tener acceso a tu contexto y setearlo adecuadamente
+                login({ id_usuario: userId.data }); // O la forma adecuada de actualizar el contexto
+            } else {
+                alert(`Error: ${response.data.message}`);
+            }
+        } catch (error) {
+            console.error("Error al enviar el mail:", error);
+            alert("Hubo un problema al enviar el mail. Inténtalo más tarde.");
+        }
+    };
+    
+    
+    const handleVerifyCode = async () => {
+        try {
+            const response = await axios.post("http://localhost/api/checktoken", { email, tokenInput: verificationCode });
+            
+            if (response.data.success) {
+               
+                alert("Código verificado correctamente.");
+                setModalIsOpen(false);
+                navigate('/forgot-password');
+            } else {
+                alert("Código incorrecto, intenta de nuevo.");
+            }
+        } catch (error) {
+            console.error("Error al verificar código:", error);
+            alert("Hubo un problema al verificar el código.");
+        }
+    };
     return (
         <div className='login-div'>
             <div className='login-div-text'>
@@ -122,14 +183,14 @@ export default function LoginView() {
                     <div>
                         <h2>Recuperar contraseña</h2>
                         <input type="email" placeholder="Ingrese su correo" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <button>Enviar</button>
+                        <button onClick={handleSendVerificationEmail}>Enviar</button>
                     </div>
                 )}
                 {stepFG === 2 && (
                     <div>
                         <h2>Ingrese el código de verificación</h2>
                         <input type="text" placeholder="Código" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
-                        <button>Verificar</button>
+                        <button onClick={handleVerifyCode}>Verificar</button>
                     </div>
                 )}
             </Modal>

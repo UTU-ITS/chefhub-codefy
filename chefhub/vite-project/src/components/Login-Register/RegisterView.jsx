@@ -50,7 +50,17 @@ const RegisterView = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@.!-_]).{8,}$/;
+    return regex.test(password);
+  };
+  
   const handleSendVerificationEmail = async () => {
+    if (!validatePassword(formData.password)) {
+      alert("La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial (@.!-_).");
+      return;
+    }
+  
     if (!validateForm()) {
       return; // Si hay errores, detener la ejecución
     }
@@ -76,7 +86,7 @@ const RegisterView = () => {
       console.error("Error al enviar el mail:", error);
       alert("Hubo un problema al enviar el mail. Inténtalo más tarde.");
     }
-  };  
+  }; 
 
   const handleVerifyCode = async () => {
     try {

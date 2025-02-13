@@ -38,12 +38,68 @@ class TokenModel {
         
             $mail->setFrom('codefy.supp@gmail.com', 'Equipo de soporte');
             $mail->addAddress($email);
-            $mail->Subject = 'Tu código de verificación';
+            $mail->Subject = 'Chefhub 2FA - Codigo de verificacion';
             $mail->isHTML(true);
-            $mail->Body = "<p>Hola,</p>
-                           <p>Tu código de verificación es: <strong>$token</strong></p>
-                           <p>Este código expirará en 10 minutos.</p>
-                           <p>Si no has solicitado este código, ignora este mensaje.</p>";
+            $mail->Body = "<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Verificación de Código</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            color: #6a0dad;
+            margin-bottom: 20px;
+        }
+        .code {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ab8ef4;
+            background: #f3eaff;
+            padding: 10px 20px;
+            display: inline-block;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .message {
+            font-size: 16px;
+            color: #333;
+        }
+        .footer {
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>Código de Verificación</div>
+        <p class='message'>Tu código de verificación es:</p>
+        <div class='code'>$token</div>
+        <p class='message'>Si no has solicitado este código, simplemente ignora este mensaje.</p>
+        <p class='foote'>&copy; 2025 Codefy. Todos los derechos reservados.</p>
+    </div>
+</body>
+</html>
+";
         
             $mail->send();
             echo json_encode(["success"=>true, "message" => "Correo enviado exitosamente"]);
