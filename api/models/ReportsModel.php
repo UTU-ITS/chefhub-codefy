@@ -70,6 +70,7 @@ class Reports {
                 AND c.table_name IN ($placeholders)
                 AND c.column_name NOT IN ('baja')
                 AND c.column_name NOT IN ('imagen');
+                AND c.column_name NOT IN ('clave');
         ";
     
         // Preparar y ejecutar la consulta

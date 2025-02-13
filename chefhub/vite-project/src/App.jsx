@@ -18,6 +18,8 @@ import CustomerAutoManagement from './components/Admin/Users/Customers/CustomerA
 import Aftercheckout from './components/Shop/Aftercheckout';
 import AfterCheckoutInside from './components/Shop/AfterCheckoutInside';
 import AfterChekoutFail from './components/Shop/AfterCheckoutFail';
+import { useEffect, useState } from 'react';
+import './design.css';
 
 function NotFound() {
   
@@ -31,6 +33,29 @@ function NotFound() {
 }
 
 function App() {
+
+  const [color, setColor] = useState(null);
+
+  useEffect(() => {
+    const fetchColor = async () => {
+      try {
+        const response = await fetch("http://localhost/api/personalization/color"); // URL de tu API en PHP
+        const data = await response.json();
+        setColor(data.color);
+        document.documentElement.style.setProperty("--primary-color", data.color);
+      } catch (error) {
+        console.error("Error al obtener el color:", error);
+      }
+    };
+
+    fetchColor();
+  }, []); // Se ejecuta solo una vez al montar el componente
+
+  // Si el color aún no se ha cargado, podemos establecer un color predeterminado
+  if (color === null) {
+    document.documentElement.style.setProperty("--primary-color", "#ffffff"); // Blanco por defecto
+  }
+
   return (
     <ChakraProvider>
       <UserProvider>
