@@ -2,16 +2,11 @@ import React, { useState,useEffect,useContext } from 'react';
 
 import { ChakraProvider, Tabs, TabList, Tab, TabPanels, TabPanel, useToast } from '@chakra-ui/react';
 import { 
-  User, 
-  Mail, 
+  User,
   MapPin, 
   Key, 
   Edit2, 
   X,
-  Package,
-  Clock,
-  Calendar,
-  DollarSign,
   PlusCircle
 } from 'lucide-react';
 
@@ -386,167 +381,158 @@ const HandleUpdateProfile = async (e) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="profile-container">
       {/* Header */}
-      <div className="bg-purple-700 text-white py-6">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold">Mi Perfil</h1>
+      <div className="profile-header">
+        <div className="header-content">
+          <h1 className="profile-title">Mi Perfil</h1>
         </div>
       </div>
-
+  
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid gap-6 md:grid-cols-2">
+      <div className="profile-main-content">
+        <div className="main-content-wrapper">
           {/* Profile Information */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-purple-700">Información Personal</h2>
-              <button
-                onClick={() => setIsEditingProfile(true)}
-                className="text-purple-600 hover:text-purple-800"
-              >
+          <div className="profile-info">
+            <div className="profile-info-header">
+              <h2 className="profile-info-title">Información Personal</h2>
+              <button onClick={() => setIsEditingProfile(true)} className="edit-profile-btn">
                 <Edit2 size={20} />
               </button>
             </div>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <User className="text-purple-600" />
-                <span>{user.data.nombre}</span>
+            <div className="profile-details">
+              <div className="user-name">
+                <User className="user-icon" />
+                <span className="user-name-text">{user.data.nombre}</span>
+                <span className="user-last-name-text">{user.data.apellido}</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <span>{user.data.apellido}</span>
-              </div>
-              <button
-                onClick={() => setIsEditingPassword(true)}
-                className="flex items-center space-x-2 text-purple-600 hover:text-purple-800"
-              >
+              <button onClick={() => setIsEditingPassword(true)} className="change-password-btn">
                 <Key size={20} />
                 <span>Cambiar contraseña</span>
               </button>
             </div>  
           </div>
-
-          
-
+  
           {/* Orders Table */}
-          <div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold text-purple-700 mb-4">Mis Pedidos</h2>
-            <div className="overflow-x-auto">
-            <table className="w-full text-white border-collapse">
-  <thead>
-    <tr className="bg-gray-800">
-      <th className="p-2 border border-gray-700">ID Pedido</th>
-      <th className="p-2 border border-gray-700">Fecha y Hora</th>
-      <th className="p-2 border border-gray-700">Subtotal</th>
-      <th className="p-2 border border-gray-700">Estado</th>
-      <th className="p-2 border border-gray-700">Productos</th>
-    </tr>
-  </thead>
-  <tbody>
-    {myorders?.map((order) => (
-      <tr key={order.id_pedido} className="bg-gray-900">
-        <td className="p-2 border border-gray-700">{order.id_pedido}</td>
-        <td className="p-2 border border-gray-700">{order.fecha_hora}</td>
-        <td className="p-2 border border-gray-700">${order.subtotal}</td>
-        <td className="p-2 border border-gray-700">{order.estado}</td>
-        <td className="p-2 border border-gray-700">
-          <ul>
-            {Object.values(order.productos).map((producto, index) => (
-              <li key={index} className="mb-2">
-                <strong>{producto.nombre}</strong> - ${producto.importe} ({producto.cantidad}x)
-                {producto.nota && <p className="text-sm italic">Nota: {producto.nota}</p>}
-                {producto.ingredientes.length > 0 && (
-                  <ul className="text-xs">
-                    {producto.ingredientes.map((ing, i) => (
-                      <li key={i} className="ml-4">• {ing.nombre} (x{ing.cantidad})</li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+          <div className="orders-section">
+            <h2 className="orders-title">Mis Pedidos</h2>
+            <div className="orders-table-container">
+              <table className="orders-table">
+                <thead>
+                  <tr className="table-header">
+                    <th className="table-header-item">ID Pedido</th>
+                    <th className="table-header-item">Fecha y Hora</th>
+                    <th className="table-header-item">Subtotal</th>
+                    <th className="table-header-item">Estado</th>
+                    <th className="table-header-item">Productos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {myorders?.map((order) => (
+                    <tr key={order.id_pedido} className="order-row">
+                      <td className="order-id">{order.id_pedido}</td>
+                      <td className="order-date-time">{order.fecha_hora}</td>
+                      <td className="order-subtotal">${order.subtotal}</td>
+                      <td className="order-status">{order.estado}</td>
+                      <td className="order-products">
+                        <ul className="product-list">
+                          {Object.values(order.productos).map((producto, index) => (
+                            <li key={index} className="product-item">
+                              <strong className="product-name">{producto.nombre}</strong> - ${producto.importe} ({producto.cantidad}x)
+                              {producto.nota && <p className="product-note">Nota: {producto.nota}</p>}
+                              {producto.ingredientes.length > 0 && (
+                                <ul className="ingredients-list">
+                                  {producto.ingredientes.map((ing, i) => (
+                                    <li key={i} className="ingredient-item">• {ing.nombre} (x{ing.cantidad})</li>
+                                  ))}
+                                </ul>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
+  
+          {/* Reservations Table */}
+          <div className="reservations-section">
+            <h2 className="reservations-title">Mis Reservas</h2>
+            <div className="reservations-table-container">
+              <table className="reservations-table">
+                <thead>
+                  <tr className="table-header">
+                    <th className="table-header-item">ID Mesa</th>
+                    <th className="table-header-item">Fecha y Hora</th>
+                    <th className="table-header-item">Cantidad de Personas</th>
+                    <th className="table-header-item">Nombre Reserva</th>
+                    <th className="table-header-item">Tel. Contacto</th>
+                    <th className="table-header-item">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {myreservations?.map((reservation) => (
+                    <tr key={reservation.id_mesa} className="reservation-row">
+                      <td className="reservation-id">{reservation.id_mesa}</td>
+                      <td className="reservation-date-time">{`${reservation.fecha} ${reservation.hora}`}</td>
+                      <td className="reservation-persons">{reservation.cant_personas}</td>
+                      <td className="reservation-name">{reservation.nombre_reserva}</td>
+                      <td className="reservation-contact">{reservation.tel_contacto}</td>
+                      <td className="reservation-status">{reservation.estado}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+  
         </div>
       </div>
-    {/* Reservations Table */}
-<div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
-  <h2 className="text-xl font-semibold text-purple-700 mb-4">Mis Reservas</h2>
-  <div className="overflow-x-auto">
-    <table className="w-full text-white border-collapse">
-      <thead>
-        <tr className="bg-gray-800">
-          <th className="p-2 border border-gray-700">ID Mesa</th>
-          <th className="p-2 border border-gray-700">Fecha y Hora</th>
-          <th className="p-2 border border-gray-700">Cantidad de Personas</th>
-          <th className="p-2 border border-gray-700">Nombre Reserva</th>
-          <th className="p-2 border border-gray-700">Tel. Contacto</th>
-          <th className="p-2 border border-gray-700">Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        {myreservations?.map((reservation) => (
-          <tr key={reservation.id_mesa} className="bg-gray-900">
-            <td className="p-2 border border-gray-700">{reservation.id_mesa}</td>
-            <td className="p-2 border border-gray-700">{`${reservation.fecha} ${reservation.hora}`}</td>
-            <td className="p-2 border border-gray-700">{reservation.cant_personas}</td>
-            <td className="p-2 border border-gray-700">{reservation.nombre_reserva}</td>
-            <td className="p-2 border border-gray-700">{reservation.tel_contacto}</td>
-            <td className="p-2 border border-gray-700">{reservation.estado}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-      {/* Edit Profile Modal */}
+  
       {isEditingProfile && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-purple-700">Editar Perfil</h3>
-              <button onClick={() => setIsEditingProfile(false)} className="text-gray-500 hover:text-gray-700">
+        <div className="modal-overlay-profile">
+          <div className="modal-container-profile">
+            <div className="modal-header-profile">
+              <h3 className="modal-title-profile">Editar Perfil</h3>
+              <button onClick={() => setIsEditingProfile(false)} className="close-modal-btn-profile">
                 <X size={20} />
               </button>
             </div>
-            <form className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Nombre</label>
+            <form className="profile-form-profile">
+              <div className="form-row-profile">
+                <label className="form-label-profile">Nombre</label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                  className="form-input-profile"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Apellido</label>
+              <div className="form-row-profile">
+                <label className="form-label-profile">Apellido</label>
                 <input
-                  type="apellido"
+                  type="text"
                   name="apellido"
                   value={formData.apellido}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                  className="form-input-profile"
                 />
               </div>
-              <div className="flex justify-end space-x-3">
+              <div className="form-buttons-profile">
                 <button
                   type="button"
                   onClick={() => setIsEditingProfile(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                  className="cancel-btn-profile"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700"
+                  className="save-btn-profile"
                   onClick={HandleUpdateProfile}
                 >
                   Guardar
@@ -556,59 +542,58 @@ const HandleUpdateProfile = async (e) => {
           </div>
         </div>
       )}
-
-      {/* Change Password Modal */}
+  
       {isEditingPassword && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-purple-700">Cambiar Contraseña</h3>
-              <button onClick={() => setIsEditingPassword(false)} className="text-gray-500 hover:text-gray-700">
+        <div className="modal-overlay-profile-password">
+          <div className="modal-container-profile-password">
+            <div className="modal-header-profile-password">
+              <h3 className="modal-title">Cambiar Contraseña</h3>
+              <button onClick={() => setIsEditingPassword(false)} className="close-modal-btn-profile-password">
                 <X size={20} />
               </button>
             </div>
-            <form className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Contraseña Actual</label>
+            <form className="password-form-profile">
+              <div className="form-row-profile">
+                <label className="form-label-profile">Contraseña Actual</label>
                 <input
                   type="password"
                   name="currentPassword"
                   value={formData.currentPassword}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                  className="form-input-profile"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Nueva Contraseña</label>
+              <div className="form-row-profile">
+                <label className="form-label-profile">Nueva Contraseña</label>
                 <input
                   type="password"
                   name="newPassword"
                   value={formData.newPassword}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                  className="form-input-profile"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Confirmar Nueva Contraseña</label>
+              <div className="form-row-profile">
+                <label className="form-label-profile">Confirmar Nueva Contraseña</label>
                 <input
                   type="password"
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+                  className="form-input-profile"
                 />
               </div>
-              <div className="flex justify-end space-x-3">
+              <div className="form-buttons-profile">
                 <button
                   type="button"
                   onClick={() => setIsEditingPassword(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                  className="cancel-btn-profile"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700"
+                  className="save-btn-profile"
                   onClick={HandleCheckandUpdatePassword}
                 >
                   Guardar
@@ -618,104 +603,102 @@ const HandleUpdateProfile = async (e) => {
           </div>
         </div>
       )}
-
-      {/* Add Address Modal */}
-         <div className="delivery-section">
-         <div className="address-section">
-           <h2 className="section-title">Direcciones</h2>
-
-           <div className="address-options">
-             {adresses.map((address, index) => (
-               <label key={index} className="address-option">
-                 <input
-                   type="radio"
-                   name="address"
-                   value={address.id_direccion}
-                   checked={selectedAddressId === address.id_direccion}
-                   onChange={() => handleAddressChange(address.id_direccion)}
-                   className="address-radio"
-                 />
-                 <div className="address-card">
-                   <MapPin className="address-icon" />
-                   <div className="address-details">
-                     <p className="street">{address.calle} {address.n_puerta}</p>
-                     {address.apto && <p className="apartment">Apto: {address.apto}</p>} 
-                     {address.referencia && <p className="notes">{address.referencia}</p>}
-                   </div>
-
-                   <button className='cancel-btn' onClick={HandleDeleteDir}> x</button>
-                 </div>
-               </label>
-             ))}
-
-             <label className="address-option">
-               <input
-                 type="radio"
-                 name="address"
-                 value="new"
-                 checked={selectedAddressId === 'new'}
-                 onChange={() => handleAddressChange('new')}
-                 className="address-radio"
-               />
-               <div className="address-card new-address-card">
-                 <PlusCircle className="address-icon" />
-                 <span className="new-address-text">Nueva dirección</span>
-               </div>
-             </label>
-           </div>
-
-           {selectedAddressId === 'new' && (
-             <form className="new-address-form" onSubmit={handleAddAddress}>
-               <div className="form-row">
-                 <input
-                   type="text"
-                   placeholder="Calle"
-                   className="form-input"
-                   value={newAddress.calle}
-                   onChange={(e) => setNewAddress({...newAddress, calle: e.target.value})}
-                   required
-                 />
-                 <input
-                   type="text"
-                   placeholder="Número"
-                   className="form-input"
-                   value={newAddress.n_puerta}
-                   onChange={(e) => setNewAddress({...newAddress, n_puerta: e.target.value})}
-                   required
-                 />
-               </div>
-               <input
-                 type="text"
-                 placeholder="Apartamento (Opcional)"
-                 className="form-input"
-                 value={newAddress.apto}
-                 onChange={(e) => setNewAddress({...newAddress, apto: e.target.value})}
-               />
-               <textarea
-                 placeholder="Notas de entrega (ej: Puerta negra, timbre no funciona)"
-                 className="form-textarea"
-                 value={newAddress.referencia}
-                 onChange={(e) => setNewAddress({...newAddress, referencia: e.target.value})}
-               />
-               <div className="form-buttons">
-                 <button type="submit" className="save-btn">Guardar</button>
-                 <button 
-                   type="button" 
-                   className="cancel-btn"
-                   onClick={() => {
-                     setShowNewAddressForm(false);
-                     setSelectedAddressId(adresses[0]?.id_direccion || 'new');
-                   }}
-                 >
-                   Cancelar
-                 </button>
-               </div>
-             </form>
-           )}
-         </div>
-         </div>
+  
+      <div className="delivery-section">
+        <div className="address-section">
+          <h2 className="section-title">Direcciones</h2>
+  
+          <div className="address-options">
+            {adresses.map((address, index) => (
+              <label key={index} className="address-option">
+                <input
+                  type="radio"
+                  name="address"
+                  value={address.id_direccion}
+                  checked={selectedAddressId === address.id_direccion}
+                  onChange={() => handleAddressChange(address.id_direccion)}
+                  className="address-radio"
+                />
+                <div className="address-card">
+                  <div className="address-details">
+                    <p className="street">{address.calle} {address.n_puerta}</p>
+                    {address.apto && <p className="apartment">Apto: {address.apto}</p>} 
+                    {address.referencia && <p className="notes">{address.referencia}</p>}
+                  </div>
+                  <button className='cancel-btn-profile' onClick={HandleDeleteDir}> x</button>
+                </div>
+              </label>
+            ))}
+  
+            <label className="address-option">
+              <input
+                type="radio"
+                name="address"
+                value="new"
+                checked={selectedAddressId === 'new'}
+                onChange={() => handleAddressChange('new')}
+                className="address-radio"
+              />
+              <div className="address-card new-address-card">
+                <PlusCircle className="address-icon" />
+                <span className="new-address-text">Nueva dirección</span>
+              </div>
+            </label>
+          </div>
+  
+          {selectedAddressId === 'new' && (
+            <form className="new-address-form-profile" onSubmit={handleAddAddress}>
+              <div className="form-row-profile">
+                <input
+                  type="text"
+                  placeholder="Calle"
+                  className="form-input-profile"
+                  value={newAddress.calle}
+                  onChange={(e) => setNewAddress({...newAddress, calle: e.target.value})}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Número"
+                  className="form-input-profile"
+                  value={newAddress.n_puerta}
+                  onChange={(e) => setNewAddress({...newAddress, n_puerta: e.target.value})}
+                  required
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Apartamento (Opcional)"
+                className="form-input-profile"
+                value={newAddress.apto}
+                onChange={(e) => setNewAddress({...newAddress, apto: e.target.value})}
+              />
+              <textarea
+                placeholder="Notas de entrega (ej: Puerta negra, timbre no funciona)"
+                className="form-textarea-profile"
+                value={newAddress.referencia}
+                onChange={(e) => setNewAddress({...newAddress, referencia: e.target.value})}
+              />
+              <div className="form-buttons-profile">
+                <button type="submit" className="save-btn-profile">Guardar</button>
+                <button 
+                  type="button" 
+                  className="cancel-btn-profile"
+                  onClick={() => {
+                    setShowNewAddressForm(false);
+                    setSelectedAddressId(adresses[0]?.id_direccion || 'new');
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
     </div>
   );
+  
 }
 
 export default CustomerAutoManagement;
