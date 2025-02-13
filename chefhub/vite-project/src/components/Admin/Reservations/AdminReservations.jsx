@@ -31,8 +31,13 @@ const AdminReservations = () => {
 
     const handleCancelReservation = async () => {
         try {
+            console.log('Selected reservation:', selectedReservation);
             if (!selectedReservation) return;
-            
+    
+            // Convertir la fecha "DD/MM/YYYY" a "YYYY-MM-DD"
+            const [day, month, year] = selectedReservation.Fecha.split('/');
+            const formattedDate = `${year}-${month}-${day}`; // "2025-02-10"
+    
             // Lógica para cancelar la reserva
             const response = await fetch('http://localhost/api/cancelreservation', {
                 method: 'PUT',
@@ -40,11 +45,14 @@ const AdminReservations = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 
-                    id_reserva: selectedReservation.id_reserva 
+                    id_mesa: selectedReservation['Nº Mesa'],
+                    fecha: formattedDate, 
+                    hora: selectedReservation.Hora,
                 }),
             });
             
             const result = await response.json();
+            console.log('Cancel reservation result:', result);
             if (result.success) {
                 // Actualizar la lista de reservas
                 await fetchReservations();
@@ -58,6 +66,8 @@ const AdminReservations = () => {
             alert('Hubo un problema al cancelar la reserva');
         }
     };
+    
+    
 
     const clearFilters = () => {
         setFilters({
@@ -168,12 +178,7 @@ const AdminReservations = () => {
                                                 <td key={idx}>{key === 'fecha' ? formatDate(value) : value}</td>
                                             ))}
                                             <td>
-                                                <button
-                                                    className="admin-btn"
-                                                    onClick={() => alert('Mostrar detalles')}
-                                                >
-                                                    <UserCheckIcon />
-                                                </button>
+                                              
                                                 <button 
                                                     className="admin-btn" 
                                                     onClick={() => {
@@ -183,12 +188,7 @@ const AdminReservations = () => {
                                                 >
                                                     <CloseIcon />
                                                 </button>
-                                                <button
-                                                    className="admin-btn"
-                                                    onClick={() => alert('Editar reserva')}
-                                                >
-                                                    <TrashIcon />
-                                                </button>
+
                                             </td>
                                         </tr>
                                     ))

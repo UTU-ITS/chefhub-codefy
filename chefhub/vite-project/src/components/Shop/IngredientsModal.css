@@ -1,38 +1,40 @@
 @import url('../../design.css');
+
 .modal-overlay-ingredients {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro para dar enfoque al modal */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
+  z-index: 1000;
+  padding: 20px;
 }
 
-/* Estilo para el contenido del modal */
 .modal-content-ingredients {
   background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  width: 400px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 25px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   overflow-y: auto;
+  max-height: 90vh;
 }
 
-/* Estilo para la cabecera del modal */
 .modal-header-ingredients {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 
 .modal-header-ingredients h2 {
-  font-size: 20px;
+  font-size: 22px;
   color: #333;
   margin: 0;
 }
@@ -40,8 +42,8 @@
 .modal-close {
   background: none;
   border: none;
-  font-size: 24px;
-  color: #888;
+  font-size: 26px;
+  color: #666;
   cursor: pointer;
   transition: color 0.3s;
 }
@@ -50,27 +52,27 @@
   color: #000;
 }
 
-/* Estilo para el cuerpo del modal */
 .modal-body-ingredients {
-  margin-top: 10px;
-  max-height: 300px;
+  margin-top: 15px;
+  max-height: 60vh;
   overflow-y: auto;
+  padding-right: 10px;
 }
 
 .ingredients-column {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
 
 .ingredient-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .ingredient-item span {
@@ -80,11 +82,11 @@
 }
 
 .btn-ing {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--primary-color);
   border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 6px 12px;
+  border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -95,30 +97,53 @@
 }
 
 .btn-ing:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: var(--primary-color-light);
 }
 
 input[type="number"] {
-  width: 50px;
-  padding: 5px;
+  width: 60px;
+  padding: 6px;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 6px;
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .ingredient-price {
-  font-size: 14px;
+  font-size: 15px;
   color: #ff6347;
+  font-weight: bold;
 }
 
-/* Estilo para el pie de página del modal */
 .modal-footer-ingredients {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: 20px;
 }
 
+.btn-confirm-ingredients {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, border 0.3s;
+}
+
 .btn-confirm-ingredients:hover {
-  background-color: transparent;
+  background-color: var(--primary-color-light) ;
+  border: 1px solid var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .modal-content-ingredients {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .modal-header-ingredients h2 {
+    font-size: 20px;
+  }
 }

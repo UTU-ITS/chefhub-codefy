@@ -3,10 +3,30 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import './adminPreferences.css';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { fetchData, putData } from '../apiService';
 export default function AdminPreferences() {
   const [preferences, setPreferences] = useState([]);
   const [loading, setLoading] = useState(true);
+// Estado inicial como string vacío (no array)
+    const [ActualColor, setActualColor] = useState('');
+    const [NewColor, setNewColor] = useState('');
+
+    useEffect(() => {
+        // Modifica la llamada para extraer el color de la respuesta
+        fetchData(
+            'http://localhost/api/personalization/color',
+            (data) => setActualColor(data.color)  // Asegúrate de extraer data.color
+        );
+    }, []);
+
+    const handleChangeColor = () => {
+        // Modifica la llamada para enviar el nuevo color
+        putData(
+            'http://localhost/api/personalization/updatecolor',
+            { color: NewColor }  // Asegúrate de enviar el color
+        );
+        setActualColor(NewColor);
+    }
 
   // Traemos las preferencias desde la API
   useEffect(() => {
@@ -106,6 +126,31 @@ export default function AdminPreferences() {
       <button onClick={handleSavePreferences} className="save-button">
         Guardar Preferencias
       </button>
+
+      <h2 className='color-title'>Personalizar Color de Interfaz</h2>
+      <div className="admin-personalization">
+            <label>Color Actual:</label>
+            {/* Muestra el color en texto y como muestra de color */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div 
+                    style={{
+                        width: '30px',
+                        height: '30px',
+                        backgroundColor: ActualColor,
+                        border: '1px solid #ccc'
+                    }}
+                />
+            </div>
+            
+            <label>Cambiar color:</label>
+            <input 
+                type="color"
+                onChange={(e) => setNewColor(e.target.value)}
+            />
+
+            <button onClick={handleChangeColor}> Cambiar Color</button>
+        </div>
     </div>
+    
   );
 }

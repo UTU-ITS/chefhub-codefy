@@ -58,11 +58,10 @@ class ReservationController {
 
             if ($action === 'cancelreservation') {
                 $data = json_decode(file_get_contents('php://input'), true);
-                $id_usuario = $data['id_usuario'];
                 $id_mesa = $data['id_mesa'];
                 $fecha = $data['fecha'];
                 $hora = $data['hora'];
-                $result = $this->reservation->updateReservation($id_usuario, $id_mesa, $fecha, $hora);
+                $result = $this->reservation->cancelReservation($id_mesa, $fecha, $hora);
                 echo json_encode($result ? ["success"=>true  ,"message" => "Reserva cancelada"] : ["message" => "Error al cancelar la reserva"]);
 
             } else {

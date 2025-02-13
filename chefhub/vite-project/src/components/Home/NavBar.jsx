@@ -60,9 +60,9 @@ const NavBar = () => {
                 </li>
                 {isMenuOpen && (
             <>
-              <li className="nav-item">
-                <a><Cart /></a>
-              </li>
+                <li>
+                        <a href="/myprofile" onClick={() => setIsUserMenuOpen(false)}>Mi perfil</a>
+                      </li>
               {user && user.data ? (
               <li className="nav-item">
                 <a href="/login" onClick={handleLogout}>Cerrar sesión</a>
@@ -74,11 +74,22 @@ const NavBar = () => {
               )}
             </>
                 )}
+                 {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+              <li className="nav-item">
+                <a href="/admin/dashboard">
+                  <AdminIcon />
+                </a>
+              </li>
+            )}
+             <li className="nav-item">
+                <a><Cart /></a>
+              </li>
+         
               </ul>
             </div>
           </div>
           
-            {/* Menú derecho */}
+ 
           <div className="nav-menu-right">
             {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
               <li className="nav-item">
@@ -96,6 +107,7 @@ const NavBar = () => {
                   <a onClick={toggleUserMenu} className="user-icon-button">
                     <UserIcon />
                   </a>
+                  
                   {isUserMenuOpen && (
                     <ul className="user-menu">
                       <li>
