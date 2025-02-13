@@ -6,7 +6,10 @@ import { PendingOrdersIcon, ReservationsIcon, TableIcon, SalesIcon } from "../..
 const Dashboard = () => {
   const [pendingOrders, setPendingOrders] = useState(0);
   const [confirmedReservations, setConfirmedReservations] = useState(0);
-  const items = ["PEDIDOS PENDIENTES", "RESERVAS CONFIRMADAS", "MESAS OCUPADAS", "TOTAL DE VENTAS"];
+  const [cantOrders, setCantOrders] = useState(0);
+  const [bestProducts, setBestProducts] = useState([]);
+  const [usedIngredients, setUsedIngredients] = useState([]);
+  const items = ["PEDIDOS PENDIENTES", "RESERVAS CONFIRMADAS", "TOTAL DE VENTAS"];
   
   const navigate = useNavigate(); // Usar useNavigate para la navegación
 
@@ -23,9 +26,38 @@ const Dashboard = () => {
 
   const fetchConfirmedReservations = async () => {
     try {
-      const response = await fetch("http://localhost/api/cantreservation");
+      const response = await fetch("http://localhost/api/getfuturereservations");
       const data = await response.json();
-      setConfirmedReservations(data.Cantidad);
+      setConfirmedReservations(data[0].Cantidad);
+    } catch (error) {
+      console.error("Error al obtener las reservas confirmadas:", error);
+    }
+  }
+  const fetchCantOrders = async () => {
+    try {
+      const response = await fetch("http://localhost/api/getcantorders");
+      const data = await response.json();
+      setCantOrders(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error al obtener las reservas confirmadas:", error);
+    }
+  }
+  const fetchBestProducts = async () => {
+    try {
+      const response = await fetch("http://localhost/api/getbestproducts");
+      const data = await response.json();
+      setBestProducts(data);
+    } catch (error) {
+      console.error("Error al obtener las reservas confirmadas:", error);
+    }
+  }
+  const fetchMostUsedIngredients = async () => {
+    try {
+      const response = await fetch("http://localhost/api/mostusedingredients");
+      const data = await response.json();
+      setUsedIngredients(data);
+      console.log(data);
     } catch (error) {
       console.error("Error al obtener las reservas confirmadas:", error);
     }
@@ -35,6 +67,9 @@ const Dashboard = () => {
   useEffect(() => {
     fetchPendingOrders();
     fetchConfirmedReservations();
+    fetchCantOrders();
+    fetchBestProducts();
+    fetchMostUsedIngredients();
   }, []);
 
   // Función para redirigir a otra página
@@ -44,10 +79,7 @@ const Dashboard = () => {
         navigate("../orders"); // Redirige a la página de pedidos pendientes
         break;
       case "RESERVAS CONFIRMADAS":
-        navigate("../reservas"); // Redirige a la página de reservas confirmadas
-        break;
-      case "MESAS OCUPADAS":
-        navigate("../tables"); // Redirige a la página de mesas ocupadas
+        navigate("../reservations"); // Redirige a la página de reservas confirmadas
         break;
       case "TOTAL DE VENTAS":
         navigate("/ventas"); // Redirige a la página de ventas
@@ -80,15 +112,9 @@ const Dashboard = () => {
                   <ReservationsIcon />
                 </div>
               )}
-              {item === "MESAS OCUPADAS" && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-                  <span>0</span>
-                  <TableIcon />
-                </div>
-              )}
               {item === "TOTAL DE VENTAS" && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-                  <span>0</span>
+                  <span>{cantOrders.Cantidad}</span>
                   <SalesIcon />
                 </div>
               )}
@@ -98,29 +124,48 @@ const Dashboard = () => {
       </div>
 
       <div className="dashboard-middle">
-        <div className="dashboard-middle-left">
-          <h3>Productos más vendidos</h3>
-          <div className="product-list">
-            <ul>
-              <li>Producto 1</li>
-              <li>Producto 2</li>
-              <li>Producto 3</li>
-              <li>Producto 4</li>
-              <li>Producto 5</li>
-            </ul>
-          </div>
-        </div>
+      <div className="dashboard-middle-left">
+  <h3>Productos más vendidos</h3>
+  <table className="product-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Producto</th>
+        <th>Total Vendido</th>
+      </tr>
+    </thead>
+    <tbody>
+      {bestProducts.map((product, index) => (
+        <tr key={index}>
+          <td>{index + 1}</td>
+          <td>{product.nombre}</td>
+          <td>{product.total_vendido}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
         <div className="dashboard-middle-right">
-          <h3>Productos menos vendidos</h3>
-          <div className="product-list">
-            <ul>
-              <li>Producto 1</li>
-              <li>Producto 2</li>
-              <li>Producto 3</li>
-              <li>Producto 4</li>
-              <li>Producto 5</li>
-            </ul>
-          </div>
+          <h3>Ingredientes mas usados</h3>
+          <table className="product-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Ingrediente</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {usedIngredients.map((ing, index) => (
+        <tr key={index}>
+          <td>{index + 1}</td>
+          <td>{ing.nombre}</td>
+          <td>{ing.cantidad}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
         </div>
       </div>
     </div>
