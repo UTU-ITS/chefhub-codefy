@@ -12,6 +12,7 @@ import AdminReports from './Reports/AdminReports';
 import AdminCategory from './Category/AdminCategory';
 import AdminIngredient from './Ingredient/AdminIngredient';
 import AdminPreferences from './Preferences/AdminPreferences';
+import AdminPersonalization from './Personalization/AdminsPersonalization';
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -32,7 +33,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/dashboard"
                                     onClick={() => handleOptionClick('Dashboard')}
-                                    className={isSelected('Dashboard')}
                                 >
                                     Panel de Información
                                 </Link>
@@ -41,7 +41,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/products"
                                     onClick={() => handleOptionClick('Productos')}
-                                    className={isSelected('Productos')}
                                 >
                                     Productos
                                 </Link>
@@ -51,7 +50,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/category"
                                     onClick={() => handleOptionClick('Categorias')}
-                                    className={isSelected('Categorias')}
                                 >
                                     Categorias
                                 </Link>
@@ -60,7 +58,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/ingredient"
                                     onClick={() => handleOptionClick('Ingrediente')}
-                                    className={isSelected('Ingrediente')}
                                 >
                                     Ingrediente
                                 </Link>
@@ -69,7 +66,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/orders"
                                     onClick={() => handleOptionClick('Orders')}
-                                    className={isSelected('Orders')}
                                 >
                                     Pedidos
                                 </Link>
@@ -78,7 +74,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/reservations"
                                     onClick={() => handleOptionClick('reservations')}
-                                    className={isSelected('reservations')}
                                 >
                                     Reservas
                                 </Link>
@@ -87,7 +82,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/tables"
                                     onClick={() => handleOptionClick('Tables')}
-                                    className={isSelected('Tables')}
                                 >
                                     Mesas
                                 </Link>
@@ -96,7 +90,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/employees"
                                     onClick={() => handleOptionClick('Funcionarios')}
-                                    className={isSelected('Funcionarios')}
                                 >
                                     Empleados
                                 </Link>
@@ -105,7 +98,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/customers"
                                     onClick={() => handleOptionClick('Customers')}
-                                    className={isSelected('Customers')}
                                 >
                                     Clientes
                                 </Link>
@@ -114,7 +106,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/reports"
                                     onClick={() => handleOptionClick('Reports')}
-                                    className={isSelected('Reports')}
                                 >
                                     Informes
                                 </Link>
@@ -123,20 +114,18 @@ export default function Options() {
                             <h3 className="options-title">CONFIGURACIÓN DEL PORTAL</h3>
                             <li>
                                 <Link
-                                    to="/admin/personalizacion"
+                                    to="/admin/personalization"
                                     onClick={() => handleOptionClick('Personalización del portal')}
-                                    className={isSelected('Personalización del portal')}
                                 >
                                     Personalización
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    to="/admin/preferences"
-                                    onClick={() => handleOptionClick('Preferencias')}
-                                    className={isSelected('Preferencias')}
+                                    to="/admin/schedules"
+                                    onClick={() => handleOptionClick('Horarios')}
                                 >
-                                    Preferencias
+                                    Horarios
                                 </Link>
                             </li>
                         </ul>
@@ -146,18 +135,17 @@ export default function Options() {
             <div className="content">
                     <Routes>
                         <Route path="dashboard" element={<Dashboard />} />
-                        <Route path="personalizacion" element={<h1>Personalización del portal</h1>} />
+                        <Route path="personalization" element={<AdminPersonalization/>} />
                         <Route path="products" element={<AdminProducts />} />
                         <Route path="employees" element={<AdminEmpolyees />} />
                         <Route path="customers" element={<AdminCustomers />} />
-                        <Route path="preferencias" element={<h1>Preferencias</h1>} />
                         <Route path="tables" element={<AdminTables />} />
                         <Route path="reservations" element={<AdminReservations />} />
                         <Route path="orders" element={<AdminOrders/>} />
                         <Route path="reports" element={<AdminReports />} />
                         <Route path="category" element={<AdminCategory />} />
                         <Route path="ingredient" element={<AdminIngredient />} />
-                        <Route path="preferences" element={<AdminPreferences />} />
+                        <Route path="schedules" element={<AdminPreferences />} />
                     </Routes>
             </div>
         </div>

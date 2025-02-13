@@ -29,7 +29,6 @@ const EditProductModal = ({onProductUpdated, product }) => {
   const [availableCategories, setAvailableCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
 useEffect(() => {
-    console.log(product);
      const SetPreData = async () => {
          setName(product.Producto);
             setDescription(product.Descripción);
@@ -72,10 +71,14 @@ useEffect(() => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file));
+        const fileName = `${file.name.split('.')[0]}.extension`;  // Aquí renombramos el archivo, puedes reemplazar 'extension' por el tipo que prefieras.
+        setImage({
+            ...file,
+            name: fileName,  // Establecemos el nuevo nombre
+        });
+        setPreview(URL.createObjectURL(file));
     }
-  };
+};
 
   const handleSelectIngredient = (ingredient, isAvailable) => {
     if (isAvailable) {

@@ -30,11 +30,24 @@ class PersonalizationController {
                 } else {
                     $result = ["message" => "Acción no reconocida"];
                 }
-
                 echo json_encode($result);
-
                 break;
-
+            case "PUT":
+                if ($action === 'updatecolor') {
+                    $data = json_decode(file_get_contents("php://input"), true);
+                    $color = $data['color'];
+                    $result = $this->personalization->updateColor($color);
+                    if ($result) {
+                        echo json_encode(["message" => "Color actualizado"]);
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(["message" => "No se pudo actualizar el color"]);
+                    }
+                } else {
+                    http_response_code(400);
+                    echo json_encode(["message" => "Acción no reconocida para PUT"]);
+                }
+                break;
                 default:
                     echo json_encode(["message" => "Método no soportado"]);
                     break;

@@ -10,10 +10,6 @@ const NavBar = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { user, logout } = useContext(UserContext);
 
-  // Debug: Verificar cambios en el usuario
-  useEffect(() => {
-  }, [user]);
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -37,38 +33,59 @@ const NavBar = () => {
           </a>
         </div>
 
-        {/* Links principales */}
-        <div>
-          <ul className="nav-list">
-            <li className="nav-item">
-              <a href="/">Inicio</a>
-            </li>
-            <li className="nav-item">
-              <a href="/menu">Menú</a>
-            </li>
-            <li className="nav-item">
-              <a href="/reservations">Reserva tu mesa</a>
-            </li>
-            <li className="nav-item">
-              <a href="/aboutus">Sobre Nosotros</a>
-            </li>
-            <li className="nav-item">
-              <a href="/contact">Contáctanos</a>
-            </li>
-          </ul>
-        </div>
+        {/* Botón de menú hamburguesa */}
+        <button className="nav-toggle" onClick={toggleMenu}>
+          <span className="nav-toggle-icon"></span>
+          <span className="nav-toggle-icon"></span>
+          <span className="nav-toggle-icon"></span>
+        </button>
 
-        {/* Menú derecho */}
-        <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          <ul className="nav-list">
-            {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
-              <>
+          <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+            <div className="nav-menu-middle">
+              <ul className="nav-list">
                 <li className="nav-item">
-                  <a href="/admin/dashboard">
-                    <AdminIcon />
-                  </a>
+            <a href="/">Inicio</a>
                 </li>
-              </>
+                <li className="nav-item">
+            <a href="/menu">Menú</a>
+                </li>
+                <li className="nav-item">
+            <a href="/reservations">Reserva tu mesa</a>
+                </li>
+                <li className="nav-item">
+            <a href="/aboutus">Sobre Nosotros</a>
+                </li>
+                <li className="nav-item">
+            <a href="/contact">Contáctanos</a>
+                </li>
+                {isMenuOpen && (
+            <>
+              <li className="nav-item">
+                <a><Cart /></a>
+              </li>
+              {user && user.data ? (
+              <li className="nav-item">
+                <a href="/login" onClick={handleLogout}>Cerrar sesión</a>
+              </li>
+              ) : (
+              <li className="nav-item">
+                <a href="/login">Iniciar sesión</a>
+              </li>
+              )}
+            </>
+                )}
+              </ul>
+            </div>
+          </div>
+          
+            {/* Menú derecho */}
+          <div className="nav-menu-right">
+            {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+              <li className="nav-item">
+                <a href="/admin/dashboard">
+                  <AdminIcon />
+                </a>
+              </li>
             )}
             <li className="nav-item">
               <Cart />
@@ -85,9 +102,6 @@ const NavBar = () => {
                         <a href="/myprofile" onClick={() => setIsUserMenuOpen(false)}>Mi perfil</a>
                       </li>
                       <li>
-                        <a href="/myorders" onClick={() => setIsUserMenuOpen(false)}>Mis pedidos</a>
-                      </li>
-                      <li>
                         <a href="/login">
                           <button onClick={handleLogout}>Cerrar sesión</button>
                         </a>
@@ -99,8 +113,7 @@ const NavBar = () => {
                 <a href="/login"> <UserCircleIcon /></a>
               )}
             </li>
-          </ul>
-        </div>
+          </div>
       </div>
     </nav>
   );

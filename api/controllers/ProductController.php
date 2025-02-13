@@ -127,7 +127,11 @@ class ProductController {
                                 } catch (Exception $e) {
                                     // Si ocurre un error en la actualización
                                     http_response_code(500);
-                                    echo json_encode(["message" => "Error al actualizar el producto: " . $e->getMessage()]);
+                                    echo json_encode([
+                                        "message" => "Error al actualizar el producto: " . $e->getMessage(),
+                                        "code" => $e->getCode(), // Muestra el código del error
+                                        "trace" => $e->getTraceAsString() // Muestra el trace completo del error
+                                    ]);
                                 }
                             } else {
                                 // Si faltan datos obligatorios
