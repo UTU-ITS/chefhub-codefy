@@ -34,7 +34,7 @@ export default function AdminPreferences() {
   const handleSavePreferences = async () => {
     try {
       // Enviar los datos al servidor usando Axios
-      const response = await axios.put('http://localhost:80/api/updatepreferences', { preferences });
+      const response = await axios.put('http://localhost/api/updatepreferences', { preferences });
     console.log(response);
       if (response.data.success) {
         alert('Preferencias guardadas con éxito');
@@ -49,7 +49,7 @@ export default function AdminPreferences() {
 
   // Mostrar mensaje de carga
   if (loading) {
-    return <div>Cargando preferencias...</div>;
+    return <div>Cargando Horarios...</div>;
   }
 
   // Función para manejar los cambios en los inputs
@@ -61,7 +61,7 @@ export default function AdminPreferences() {
 
   return (
     <div className="admin-preferences">
-      <h2 className="text-xl font-semibold text-purple-700 mb-4">Preferencias de Horarios</h2>
+      <h2 className="text-xl font-semibold text-purple-700 mb-4">Configuracion de Horarios</h2>
       <form className="preferences-form">
         {preferences.length > 0 ? (
           preferences.map((pref, index) => (
