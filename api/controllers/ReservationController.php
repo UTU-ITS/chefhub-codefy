@@ -46,7 +46,9 @@ class ReservationController {
             case "GET":
                 if ($action === 'cantreservation') {
                     $result = $this->reservation->getCantReservation();
-                } else {
+                } else if ($action === 'getfuturereservations') {
+                    $result = $this->reservation->getFutureReservations();
+                } else{
                     $result = ["message" => "Acción no reconocida" ,"success"=>true  ];
                 }
                 echo json_encode($result);

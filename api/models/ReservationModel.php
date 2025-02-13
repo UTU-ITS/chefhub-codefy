@@ -84,10 +84,23 @@ class Reservation {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    }
+    public function getFutureReservations(){
+        $sql = "SELECT
+                       count(*) as 'Cantidad'
+                FROM cliente_mesa cm
+                WHERE cm.fecha >= CURRENT_DATE
+                AND cm.baja = FALSE
+                ORDER BY cm.fecha DESC, cm.hora DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
     }
+
+
 }
 
 

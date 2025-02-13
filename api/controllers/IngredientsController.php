@@ -33,7 +33,10 @@ class IngredientsController {
                 } else if ($action === 'deletedingredient') {
                     // Obtener todos los ingredientes eliminados para el producto con ID especificado
                     $result = $this->ing->GetDeletedIngredients();
-                } else {
+                } else if ($action === 'mostusedingredients') {
+                    // Obtener todos los ingredientes eliminados para el producto con ID especificado
+                    $result = $this->ing->GetMostUsedIngredients();
+                } else{
                     // Acción no reconocida
                     $result = ["message" => "Acción no reconocida"];
                 }

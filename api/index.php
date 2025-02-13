@@ -444,6 +444,27 @@ if (isset($path[1])) {
                                 echo json_encode(["message" => "Ruta no válida"]);
                             }
                             break;
+
+                        case 'getcantorders':
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('getcantorders');
+                            break;
+                        
+                        case 'getfuturereservations':
+                            $ReservationController = new ReservationController($conn);
+                            $ReservationController->handleRequest('getfuturereservations');
+                            break;
+                        case 'getbestproducts':
+                        
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('getbestproducts');
+                        break;
+                        case 'mostusedingredients':
+                        
+                            $IngredientsController = new IngredientsController($conn);
+                            $IngredientsController->handleRequest('mostusedingredients');
+                        break;
+
                             
                                  
             default:
