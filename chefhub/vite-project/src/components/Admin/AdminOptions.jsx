@@ -11,6 +11,7 @@ import AdminReservations from './Reservations/AdminReservations';
 import AdminReports from './Reports/AdminReports';
 import AdminCategory from './Category/AdminCategory';
 import AdminIngredient from './Ingredient/AdminIngredient';
+import AdminPreferences from './Preferences/AdminPreferences';
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
@@ -131,7 +132,7 @@ export default function Options() {
                             </li>
                             <li>
                                 <Link
-                                    to="/admin/preferencias"
+                                    to="/admin/preferences"
                                     onClick={() => handleOptionClick('Preferencias')}
                                     className={isSelected('Preferencias')}
                                 >
@@ -156,6 +157,7 @@ export default function Options() {
                         <Route path="reports" element={<AdminReports />} />
                         <Route path="category" element={<AdminCategory />} />
                         <Route path="ingredient" element={<AdminIngredient />} />
+                        <Route path="preferences" element={<AdminPreferences />} />
                     </Routes>
             </div>
         </div>

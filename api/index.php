@@ -10,6 +10,7 @@ require('Controllers/ReservationController.php');
 require('Controllers/TablesController.php');
 require('Controllers/TokenController.php');
 require('Controllers/ReportsController.php');
+require('Controllers/PreferenceController.php');
 require('Controllers/PersonalizationController.php');
 
 require __DIR__.'\vendor\autoload.php';
@@ -417,10 +418,21 @@ if (isset($path[1])) {
                             $OrderController = new OrderController($conn);
                             $OrderController->handleRequest('getmyorders');
                             break;
-                            case 'getmyreservations':
-                                $ReservationController = new ReservationController($conn);
-                                $ReservationController->handleRequest('getmyreservations');
-                                break;
+
+                        case 'getmyreservations':
+                            $ReservationController = new ReservationController($conn);
+                            $ReservationController->handleRequest('getmyreservations');
+                            break;
+
+                        case 'getpreferences':
+                            $PreferenceController = new PreferenceController($conn);
+                            $PreferenceController->handleRequest('getpreferences');
+                            break;
+                        case 'updatepreferences':
+                            $PreferenceController = new PreferenceController($conn);
+                            $PreferenceController->handleRequest('updatepreferences');
+                            break;
+  
                         case 'personalization':
                             if ($path[2] === 'color') {
                                 $PersonalizationController = new PersonalizationController($conn);
