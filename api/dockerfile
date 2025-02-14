@@ -1,0 +1,27 @@
+# Usa la imagen oficial de PHP con Apache
+FROM php:8.2-apache
+
+# Habilita extensiones necesarias
+RUN apt-get update && apt-get install -y \
+    libcurl4-openssl-dev \
+    && docker-php-ext-install pdo pdo_mysql
+
+# Configurar cacert.pem para Mercado Pago
+RUN curl -sS https://curl.se/ca/cacert.pem -o /usr/local/share/ca-certificates/cacert.pem \
+    && echo "curl.cainfo=/usr/local/share/ca-certificates/cacert.pem" >> /usr/local/etc/php/php.ini
+
+# Copia el código de la API al contenedor
+COPY . /var/www/html/
+
+# Otorga permisos correctos
+RUN chown -R www-data:www-data /var/www/html/ \
+    && chmod -R 755 /var/www/html/
+
+# Habilita mod_rewrite de Apache
+RUN a2enmod rewrite
+
+# Expone el puerto 80
+EXPOSE 80
+
+# Define el comando por defecto
+CMD ["apache2-foreground"]

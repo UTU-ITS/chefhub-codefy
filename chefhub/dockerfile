@@ -1,0 +1,30 @@
+# Usa la imagen de Node.js para compilar la app
+FROM node:18 AS build
+
+# Establece el directorio de trabajo
+WORKDIR /app
+
+# Copia los archivos necesarios
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copia el resto de los archivos
+COPY . .
+
+# Compila la aplicación con Vite
+RUN npm run
+
+# Usa Apache para servir el frontend
+FROM php:8.2-apache
+
+# Copia los archivos generados en la carpeta de Apache
+COPY --from=build /app/dist /var/www/html/
+
+# Habilita mod_rewrite de Apache
+RUN a2enmod rewrite
+
+# Expone el puerto 80
+EXPOSE 80
+
+# Define el comando por defecto
+CMD ["apache2-foreground"]

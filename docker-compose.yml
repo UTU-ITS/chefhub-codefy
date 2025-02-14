@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./api
+    container_name: chefhub_api
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./api:/var/www/html
+    environment:
+      - TZ=America/Argentina/Buenos_Aires
+
+  frontend:
+    build: ./chefhub
+    container_name: chefhub_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
