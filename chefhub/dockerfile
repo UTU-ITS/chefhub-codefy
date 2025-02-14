@@ -4,15 +4,15 @@ FROM node:18 AS build
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos necesarios
+# Copia primero los archivos package.json y package-lock.json para optimizar cache
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Copia el resto de los archivos
+# Copia todo el código fuente
 COPY . .
 
 # Compila la aplicación con Vite
-RUN npm run
+RUN npm run build
 
 # Usa Apache para servir el frontend
 FROM php:8.2-apache
