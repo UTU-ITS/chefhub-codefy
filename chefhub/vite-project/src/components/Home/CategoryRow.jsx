@@ -7,7 +7,7 @@ export default function CategoryRow() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        axios.get('http://backend/api/categories/')
+        axios.get('http://backend:80/api/categories/')
             .then((response) => {
                 if (Array.isArray(response.data)) {
                     setCategories(response.data);
