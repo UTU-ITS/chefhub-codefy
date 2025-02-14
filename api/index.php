@@ -12,8 +12,8 @@ require('controllers/TokenController.php');
 require('controllers/ReportsController.php');
 require('controllers/PreferenceController.php');
 require('controllers/PersonalizationController.php');
+require('vendor/autoload.php');
 
-require __DIR__.'\vendor\autoload.php';
 use MercadoPago\Client\Payment\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
 $access_token = "APP_USR-5865558838187477-020615-2302c3889cb69404412550090df0ce2e-2255431918";
