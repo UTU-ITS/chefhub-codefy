@@ -5,12 +5,12 @@ FROM node:18 AS build
 WORKDIR /app
 
 # Copia primero los archivos package.json y package-lock.json para optimizar cache
-COPY chefhub/vite-project/package.json chefhub/vite-project/package-lock.json ./
+COPY vite-project/package.json vite-project/package-lock.json ./
 WORKDIR /app/vite-project
 RUN npm install
 
 # Copia todo el código fuente
-COPY chefhub/vite-project/ .
+COPY vite-project/ .
 
 # Compila la aplicación con Vite
 RUN npm run build
