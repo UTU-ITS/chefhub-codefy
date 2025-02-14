@@ -5,11 +5,12 @@ FROM node:18 AS build
 WORKDIR /app
 
 # Copia primero los archivos package.json y package-lock.json para optimizar cache
-COPY package.json package-lock.json ./
+COPY chefhub/vite-project/package.json chefhub/vite-project/package-lock.json ./
+WORKDIR /app/vite-project
 RUN npm install
 
 # Copia todo el código fuente
-COPY . .
+COPY chefhub/vite-project/ .
 
 # Compila la aplicación con Vite
 RUN npm run build
@@ -18,7 +19,7 @@ RUN npm run build
 FROM php:8.2-apache
 
 # Copia los archivos generados en la carpeta de Apache
-COPY --from=build /app/dist /var/www/html/
+COPY --from=build /app/vite-project/dist /var/www/html/
 
 # Habilita mod_rewrite de Apache
 RUN a2enmod rewrite
