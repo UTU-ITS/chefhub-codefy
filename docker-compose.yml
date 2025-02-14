@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
+    build: ./api
     container_name: chefhub_api
     restart: always
     ports:
@@ -15,15 +13,10 @@ services:
       - TZ=America/Argentina/Buenos_Aires
 
   frontend:
-    build:
-      context: ./chefhub
-      dockerfile: Dockerfile
+    build: ./chefhub
     container_name: chefhub_frontend
     restart: always
     ports:
-      - "3000:3000"
+      - "3000:80"
     depends_on:
       - backend
-    volumes:
-      - ./chefhub:/app
-    working_dir: /app
