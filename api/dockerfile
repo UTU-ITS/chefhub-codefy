@@ -14,8 +14,7 @@ RUN curl -sS https://curl.se/ca/cacert.pem -o /usr/local/share/ca-certificates/c
 COPY . /var/www/html/
 
 # Otorga permisos correctos
-COPY . /tmp/app
-RUN tar cf - -C /tmp/app . | tar xf - -C /var/www/html/ && rm -rf /tmp/app
+RUN tar cf - . | (cd /var/www/html/ && tar xf -)
 
 # Habilita mod_rewrite de Apache
 RUN a2enmod rewrite
