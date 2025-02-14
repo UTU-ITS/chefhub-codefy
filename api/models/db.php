@@ -3,10 +3,10 @@
 	* Database Connection
 	*/
 	class DbConnect {
-		private $server = 'localhost';
+		private $server = '192.168.0.10:3306';
 		private $dbname = 'chefhub_db';
-		private $user = 'root';
-		private $pass = '';
+		private $user = 'codefy';
+		private $pass = 'codefyits2024';
 
 		public function connect() {
 			try {
