@@ -92,9 +92,4 @@ class Ingredients {
 
 
 }
-
-
-
-
 ?>
-
