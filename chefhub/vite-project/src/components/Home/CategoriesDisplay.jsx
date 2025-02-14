@@ -8,7 +8,7 @@ export default function Recomendacion() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://backend/api/categories/")
+    axios.get("http://192.168.0.10:8080/api/categories/")
       .then((response) => {
         if (Array.isArray(response.data)) {
           setCategories(response.data);
