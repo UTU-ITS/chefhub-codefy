@@ -11,6 +11,8 @@ services:
       - ./api:/var/www/html
     environment:
       - TZ=America/Argentina/Buenos_Aires
+    networks:
+      - chefhub_network
 
   frontend:
     build: ./chefhub
@@ -20,3 +22,9 @@ services:
       - "3000:80"
     depends_on:
       - backend
+    networks:
+      - chefhub_network
+
+networks:
+  chefhub_network:
+    driver: bridge
