@@ -118,6 +118,7 @@ const AddProductModal = ({ onProductAdded }) => {
     formData.append('precio', price);
     formData.append('descripcion', description);
     formData.append('imagen', image);
+    console.log(image);
     selectedIngredients.forEach(i => formData.append('ingredientes[]', i.id_ingrediente));
     selectedCategories.forEach(c => formData.append('categorias[]', c.id_categoria));
 

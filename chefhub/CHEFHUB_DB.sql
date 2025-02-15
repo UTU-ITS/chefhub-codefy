@@ -329,10 +329,14 @@ END $$
 
 DELIMITER ;
 
+/*DATOS DE PRUEBA*/
 
--- insertar color base
-insert into personalizacion values ('#00ff40');
--- Insertar datos en la tabla usuario
+/*Color principal*/
+
+INSERT INTO personalizacion VALUES ('#ab8ef4');
+
+/*Usuarios*/
+
 INSERT INTO usuario (email, clave, nombre, apellido, telefono) VALUES
 ('juan@example.com', 'clave123', 'Juan', 'Perez', '123456789'),
 ('maria@example.com', 'clave456', 'Maria', 'Lopez', '987654321'),
@@ -343,191 +347,101 @@ INSERT INTO usuario (email, clave, nombre, apellido, telefono) VALUES
 ('patricia@example.com', 'clave404', 'Patricia', 'Morales', '667788990'),
 ('victor@example.com', 'clave505', 'Victor', 'Sanchez', '778899112'),
 ('sofia@example.com', 'clave606', 'Sofia', 'Martinez', '334455667'),
-('pedro@example.com', 'clave707', 'Pedro', 'Perez', '445566778');
+('pedro@example.com', 'clave707', 'Pedro', 'Perez', '445566778'),
+('andres@example.com', 'clave808', 'Andres', 'Gutierrez', '556644332'),
+('laura@example.com', 'clave909', 'Laura', 'Ramirez', '667755889'),
+('fernando@example.com', 'clave1010', 'Fernando', 'Alvarez', '778866991'),
+('camila@example.com', 'clave1111', 'Camila', 'Herrera', '889977223'),
+('diego@example.com', 'clave1212', 'Diego', 'Ortega', '990088334'),
+('valentina@example.com', 'clave1313', 'Valentina', 'Rojas', '112200445'),
+('sebastian@example.com', 'clave1414', 'Sebastian', 'Jimenez', '223311556'),
+('martina@example.com', 'clave1515', 'Martina', 'Castro', '334422667'),
+('ricardo@example.com', 'clave1616', 'Ricardo', 'Vega', '445533778'),
+('elena@example.com', 'clave1717', 'Elena', 'Flores', '556644889'),
+('daniel@example.com', 'clave1818', 'Daniel', 'Silva', '667755990'),
+('natalia@example.com', 'clave1919', 'Natalia', 'Mendoza', '778866221'),
+('alejandro@example.com', 'clave2020', 'Alejandro', 'Reyes', '889977332'),
+('mariana@example.com', 'clave2121', 'Mariana', 'Paredes', '990088443'),
+('francisco@example.com', 'clave2222', 'Francisco', 'Delgado', '112233554'),
+('paula@example.com', 'clave2323', 'Paula', 'Cabrera', '223344665'),
+('gustavo@example.com', 'clave2424', 'Gustavo', 'Romero', '334455776'),
+('isabel@example.com', 'clave2525', 'Isabel', 'Peña', '445566887'),
+('jorge@example.com', 'clave2626', 'Jorge', 'Navarro', '556677998'),
+('veronica@example.com', 'clave2727', 'Veronica', 'Lara', '667788009'),
+('roberto@example.com', 'clave2828', 'Roberto', 'Fuentes', '778899110'),
+('carolina@example.com', 'clave2929', 'Carolina', 'Salazar', '889900221'),
+('hector@example.com', 'clave3030', 'Hector', 'Espinoza', '990011332'),
+('julieta@example.com', 'clave3131', 'Julieta', 'Vargas', '112244553'),
+('manuel@example.com', 'clave3232', 'Manuel', 'Cortes', '223355664'),
+('adriana@example.com', 'clave3333', 'Adriana', 'Molina', '334466775'),
+('cristian@example.com', 'clave3434', 'Cristian', 'Mejia', '445577886'),
+('daniela@example.com', 'clave3535', 'Daniela', 'Guerrero', '556688997'),
+('esteban@example.com', 'clave3636', 'Esteban', 'Castaño', '667799008'),
+('miranda@example.com', 'clave3737', 'Miranda', 'Soto', '778800119');
 
--- Insertar datos en la tabla funcionario
-INSERT INTO funcionario ( id_usuario, ci, fecha_nacimiento, direccion, horario_entrada, horario_salida, cargo) VALUES
-('6','11111111111', '1985-05-10', 'Calle 1', '08:00:00', '16:00:00', 'Chef'),
-('7','22222222222', '1990-07-15', 'Calle 2', '09:00:00', '17:00:00', 'Mesero'),
-('8','33333333333', '1987-09-25', 'Calle 3', '10:00:00', '18:00:00', 'Administrativo'),
-('9','44444444444', '1992-12-05', 'Calle 4', '11:00:00', '19:00:00', 'Chef'),
-('10','55555555555', '1980-02-20', 'Calle 5', '07:00:00', '15:00:00', 'Mesero');
+/*Funcionarios*/
+
+INSERT INTO funcionario (id_usuario, ci, fecha_nacimiento, direccion, horario_entrada, horario_salida, cargo) VALUES
+('1', '29578412', '1982-07-15', 'Av. San Martín 1800', '09:00:00', '17:00:00', 'Chef'),
+('2', '18089266', '1978-03-22', 'Calle Belgrano 250', '12:00:00', '20:00:00', 'Chef'),
+('3', '31682045', '1990-11-05', 'Av. Rivadavia 3021', '14:00:00', '22:00:00', 'Chef'),
+('4', '29842010', '1995-09-10', 'Calle Mitre 456', '10:00:00', '18:00:00', 'Mesero'),
+('5', '46517204', '1988-06-30', 'Av. Corrientes 1340', '16:00:00', '23:00:00', 'Mesero'),
+('6', '42108573', '1997-04-18', 'Calle San Juan 765', '11:00:00', '19:00:00', 'Mesero'),
+('7', '38751230', '1985-12-07', 'Av. Libertador 2200', '17:00:00', '23:00:00', 'Mesero'),
+('8', '37412658', '1993-05-25', 'Calle Mendoza 980', '10:00:00', '18:00:00', 'Mesero'),
+('9', '25984731', '1980-02-14', 'Calle Lavalle 1500', '08:30:00', '16:30:00', 'Administrativo'),
+('10', '30654287', '1984-08-09', 'Av. Pueyrredón 750', '09:00:00', '17:00:00', 'Administrativo');
+
+/*Clientes*/
 
 -- Insertar datos en la tabla cliente
 INSERT INTO cliente (id_usuario) VALUES
-(1), (2), (3), (4), (5);
+(11), (12), (13), (14), (15), (16), (17), (18), (19), (20), 
+(21), (22), (23), (24), (25), (26), (27), (28), (29);
 
--- Insertar datos en la tabla direccion
-INSERT INTO direccion (id_usuario,calle, apto, n_puerta, referencia) VALUES
-(5,'Calle A', '101', 101, 'Frente a la plaza'),
-(4,'Calle B', '222', 202, 'Al lado del supermercado'),
-(3,'Calle C', '333', 303, 'Cerca del parque'),
-(2,'Calle D', '444', 404, 'Junto a la iglesia'),
-(1,'Calle E', '555', 505, 'Frente al estadio');
-
--- Insertar datos en la tabla factura
-INSERT INTO factura (fecha_hora, total, estado) VALUES
-('2025-01-01 12:00:00', 50.00,  'Pagada'),
-('2025-01-02 14:30:00', 80.00,  'Pendiente'),
-('2025-01-03 15:00:00', 100.00,  'Pagada'),
-('2025-01-04 16:45:00', 120.00,  'Pendiente'),
-('2025-01-05 18:00:00', 60.00,  'Pagada');
-
-
--- Insertar datos en la tabla producto
-INSERT INTO producto (nombre, precio, descripcion,imagen) VALUES
-('Hamburguesa', 10.00, 'Deliciosa hamburguesa de carne','image-example.jpg'),
-('Pizza', 15.00, 'Pizza con ingredientes frescos','image-example.jpg'),
-('Ensalada', 8.00, 'Ensalada fresca con aderezo especial','image-example.jpg'),
-('Pasta', 12.00, 'Pasta al estilo italiano','image-example.jpg'),
-('Sopa', 7.00, 'Sopa casera con vegetales','image-example.jpg');
-
--- Insertar datos en la tabla categoria_producto
-INSERT INTO categoria_producto (nombre, descripcion, imagen) VALUES
-('Hamburguesas', '', 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGFtYnVyZ2VyfGVufDB8fDB8fHww'),
-('Helado', '',  'https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Pizza', '',  'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Entradas', 'Entradas y aperitivos', 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Comida Rápida', 'Comidas rápidas para llevar', 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+/*Mesas*/
 
 -- Insertar datos en la tabla mesa
 INSERT INTO mesa (id_mesa, capacidad) VALUES
-(1,4),
-(2,2),
-(3,6),
-(4,8),
-(5,10);
+(1,4), (2,4), (3,2), (4,2), (5,2), (6,6), (7,4), (8,2), (9,4), (10,6), (11,6), (12,4), (13,2), (14,4), (15,2);
 
+/*Reservas*/
 
--- TEST DE RESERVAS
 INSERT INTO cliente_mesa (id_cliente, id_mesa, fecha, hora, cant_personas, nombre_reserva, tel_contacto, estado) VALUES
-(1, 1, '2025-02-01', '10:00:00', 4, 'Carlos Pérez', 123456789, 'Reservada'),
-(1, 1, '2025-02-02', '12:00:00', 4, 'Ana Gómez', 987654321, 'Reservada'),
-(1, 1, '2025-02-05', '14:00:00', 4, 'Luis Fernández', 112233445, 'Reservada'),
-(1, 1, '2025-02-10', '16:00:00', 4, 'Marta López', 556677889, 'Reservada'),
-(1, 1, '2025-02-15', '18:00:00', 4, 'Jorge Ramírez', 223344556, 'Reservada'),
+(3, 1, '2025-02-01', '10:00:00', 4, 'Fernando', 778866991, 'Reservada'),
+(1, 5, '2025-02-02', '12:00:00', 2, 'Andres', 556644332, 'Reservada'),
+(2, 3, '2025-02-05', '14:00:00', 2, 'Luis', 112233445, 'Reservada'),
+(4, 7, '2025-02-10', '16:00:00', 4, 'Camila', 889977223, 'Reservada'),
+(5, 2, '2025-02-15', '18:00:00', 4, 'Diego', 990088334, 'Reservada'),
 
-(2, 2, '2025-02-01', '11:00:00', 2, 'Sofía Méndez', 334455667, 'Reservada'),
-(2, 2, '2025-02-02', '13:00:00', 2, 'Ricardo Díaz', 778899001, 'Reservada'),
-(2, 2, '2025-02-05', '15:00:00', 2, 'Elena Castillo', 998877665, 'Reservada'),
-(2, 2, '2025-02-10', '17:00:00', 2, 'Fernando Torres', 665544332, 'Reservada'),
-(2, 2, '2025-02-15', '19:00:00', 2, 'Patricia Ruiz', 554433221, 'Reservada'),
+(6, 4, '2025-02-01', '11:00:00', 2, 'Valentina', 112200445, 'Reservada'),
+(2, 6, '2025-02-02', '13:00:00', 6, 'Ricardo', 778899001, 'Reservada'),
+(3, 8, '2025-02-05', '15:00:00', 2, 'Elena', 998877665, 'Reservada'),
+(1, 9, '2025-02-10', '17:00:00', 4, 'Andres', 556644332, 'Reservada'),
+(7, 10, '2025-02-15', '19:00:00', 6, 'Sebastian', 223311556, 'Reservada'),
 
-(3, 3, '2025-02-01', '12:00:00', 6, 'Gabriel Herrera', 111222333, 'Reservada'),
-(3, 3, '2025-02-02', '14:00:00', 6, 'Andrea Vargas', 444555666, 'Reservada'),
-(3, 3, '2025-02-05', '16:00:00', 6, 'Pedro Navarro', 777888999, 'Reservada'),
-(3, 3, '2025-02-10', '18:00:00', 6, 'Laura Morales', 666777888, 'Reservada'),
-(3, 3, '2025-02-15', '20:00:00', 6, 'Esteban Silva', 999000111, 'Reservada'),
+(8, 11, '2025-02-01', '12:00:00', 2, 'Gabriel', 111222333, 'Reservada'),
+(9, 12, '2025-02-02', '14:00:00', 4, 'Ricardo', 445533778, 'Reservada'),
+(10, 13, '2025-02-05', '16:00:00', 6, 'Elena', 556644889, 'Reservada'),
+(11, 14, '2025-02-10', '18:00:00', 6, 'Laura', 666777888, 'Reservada'),
+(12, 15, '2025-02-15', '20:00:00', 4, 'Natalia', 778866221, 'Reservada'),
 
-(4, 4, '2025-02-01', '13:00:00', 3, 'Natalia Ortega', 123123123, 'Reservada'),
-(4, 4, '2025-02-02', '15:00:00', 3, 'Daniel Fuentes', 321321321, 'Reservada'),
-(4, 4, '2025-02-05', '17:00:00', 3, 'Silvia Rojas', 456456456, 'Reservada'),
-(4, 4, '2025-02-10', '19:00:00', 3, 'Mario Estrada', 654654654, 'Reservada'),
-(4, 4, '2025-02-15', '21:00:00', 3, 'Paula Benítez', 789789789, 'Reservada'),
+(5, 6, '2025-02-01', '13:00:00', 4, 'Diego', 990088334, 'Reservada'),
+(3, 7, '2025-02-02', '15:00:00', 4, 'Daniel', 321321321, 'Reservada'),
+(1, 8, '2025-02-05', '17:00:00', 4, 'Andres', 556644332, 'Reservada'),
+(2, 9, '2025-02-10', '19:00:00', 2, 'Mario', 654654654, 'Reservada'),
+(4, 10, '2025-02-15', '21:00:00', 4, 'Camila', 889977223, 'Reservada'),
 
-(5, 5, '2025-02-01', '14:00:00', 5, 'Oscar Medina', 987987987, 'Reservada'),
-(5, 5, '2025-02-02', '16:00:00', 5, 'Camila Reyes', 654987321, 'Reservada'),
-(5, 5, '2025-02-05', '18:00:00', 5, 'Rodrigo Alonso', 741852963, 'Reservada'),
-(5, 5, '2025-02-10', '20:00:00', 5, 'Vanessa Sánchez', 369258147, 'Reservada'),
-(5, 5, '2025-02-15', '22:00:00', 5, 'Ismael Correa', 852963741, 'Reservada');
+(6, 11, '2025-02-01', '14:00:00', 2, 'Valentina', 112200445, 'Reservada'),
+(7, 12, '2025-02-02', '16:00:00', 4, 'Sebastian', 223311556, 'Reservada'),
+(8, 13, '2025-02-05', '18:00:00', 2, 'Martina', 334422667, 'Reservada'),
+(9, 14, '2025-02-10', '20:00:00', 4, 'Ricardo', 445533778, 'Reservada'),
+(10, 15, '2025-02-15', '22:00:00', 6, 'Elena', 556644889, 'Reservada');
 
-INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura,ci) VALUES
-(50.00, 'Pendiente', 'Delivery', 1, 1, 1,'11111111'),
-(80.00, 'Pendiente', 'Mesa', 2,  2, 2,'22222222'),
-(100.00, 'Listo', 'Delivery', 3,  3, 3,'22222222'),
-(120.00, 'Pendiente', 'Mesa', 4,   4, 4,'11111111'),
-(60.00, 'En preparación', 'Delivery', 5,  5, 5,'22222222');
+/*Horarios del restaurant*/
 
-INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin )VALUES
-(2, 2, '2025-01-28', '13:00:00', '14:30:00'),
-(4, 3, '2025-01-28', '14:00:00', '15:00:00' );
-
-INSERT INTO producto_categoria (id_producto, id_categoria) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5);
-
-INSERT INTO ingrediente (nombre, precio) VALUES
-('Queso', 2.00),  
-('Tomate', 0.50),
-('Lechuga', 0.30),
-('Bacon', 3.00),
-('Salsa especial', 1.00), 
-('Pechuga de pollo', 3.50),
-('Pepperoni', 2.50), 
-('Mushrooms', 1.80), 
-('Aceitunas', 1.20),
-('Cebolla', 0.70); 
-
--- Hamburguesa
-INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
-VALUES (1, 1, 1, true),  -- Hamburguesa con queso (extra)
-       (1, 2, 2, true), -- Hamburguesa con tomate
-       (1, 3, 1, true), -- Hamburguesa con lechuga
-       (1, 4, 1, true),  -- Hamburguesa con bacon (extra)
-       (1, 5, 1, true), -- Hamburguesa con salsa especial
-       (1, 7, 1, true), -- Hamburguesa con pepperoni
-       (1, 9, 1, true),  -- Hamburguesa con aceitunas (extra)
-       (1, 10, 1, true);-- Hamburguesa con cebolla
-
--- Pizza
-INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
-VALUES (2, 1, 1, true),  -- Pizza con queso (extra)
-       (2, 2, 2, false), -- Pizza con tomate
-       (2, 3, 1, false), -- Pizza con lechuga
-       (2, 4, 1, true),  -- Pizza con bacon (extra)
-       (2, 5, 1, false), -- Pizza con salsa especial
-       (2, 7, 1, true),  -- Pizza con pepperoni (extra)
-       (2, 9, 1, false), -- Pizza con aceitunas
-       (2, 10, 1, false);-- Pizza con cebolla
-
--- Ensalada
-INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
-VALUES (3, 1, 1, false), -- Ensalada con queso
-       (3, 2, 1, false), -- Ensalada con tomate
-       (3, 3, 2, true),  -- Ensalada con lechuga (extra)
-       (3, 4, 1, false), -- Ensalada con bacon
-       (3, 5, 1, false), -- Ensalada con salsa especial
-       (3, 7, 1, false), -- Ensalada con pepperoni
-       (3, 9, 1, false), -- Ensalada con aceitunas
-       (3, 10, 1, true); -- Ensalada con cebolla (extra)
-
--- Pasta
-INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
-VALUES (4, 1, 1, false), -- Pasta con queso
-       (4, 2, 1, false), -- Pasta con tomate
-       (4, 3, 1, false), -- Pasta con lechuga
-       (4, 4, 1, false), -- Pasta con bacon
-       (4, 5, 1, true),  -- Pasta con salsa especial (extra)
-       (4, 7, 1, false), -- Pasta con pepperoni
-       (4, 9, 1, false), -- Pasta con aceitunas
-       (4, 10, 1, false);-- Pasta con cebolla
-
--- Sopa
-INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
-VALUES (5, 1, 1, false), -- Sopa con queso
-       (5, 2, 1, false), -- Sopa con tomate
-       (5, 3, 1, false), -- Sopa con lechuga
-       (5, 4, 1, false), -- Sopa con bacon
-       (5, 5, 1, false), -- Sopa con salsa especial
-       (5, 7, 1, false), -- Sopa con pepperoni
-       (5, 9, 1, true),  -- Sopa con aceitunas (extra)
-       (5, 10, 1, false);-- Sopa con cebolla
-       
--- Insertar datos en la tabla pedido
-
-INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) VALUES
-(1, 1, 1, 15.00, 'Sin salsa'),
-(1, 1, 1, 20.00, 'Con extra queso');
-
--- Insertar ingredientes para el pedido 1
-INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) VALUES
-(1, 5, 1), -- Ingrediente 5 para producto 1
-(2, 2, 2); -- Ingrediente 2 para producto 1
-
-INSERT INTO dia_horario (dia_semana, horario_apertura, horario_cierre,duracion_reserva) VALUES
+INSERT INTO dia_horario (dia_semana, horario_apertura, horario_cierre, duracion_reserva) VALUES
 ('Monday', '09:00:00', '22:00:00','3:00:00'),
 ('Tuesday', '09:00:00', '22:00:00','3:00:00'),
 ('Wednesday', '09:00:00', '22:00:00','3:00:00'),
@@ -536,76 +450,84 @@ INSERT INTO dia_horario (dia_semana, horario_apertura, horario_cierre,duracion_r
 ('Saturday', '10:00:00', '23:00:00','3:00:00'),
 ('Sunday', '10:00:00', '21:00:00','3:00:00');
 
-UPDATE `chefhub_db`.`categoria_producto` SET `baja` = '1' WHERE (`id_categoria` = '2');
-UPDATE `chefhub_db`.`categoria_producto` SET `baja` = '1' WHERE (`id_categoria` = '4');
-UPDATE `chefhub_db`.`categoria_producto` SET `baja` = '1' WHERE (`id_categoria` = '5');
-INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Empanadas', 'https://assets.elgourmet.com/wp-content/uploads/2023/03/cover_fpa6sn8vqc_empanadas.jpg');
-INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Guarniciones', 'https://okdiario.com/img/2023/04/12/el-truco-definitivo-para-que-las-patatas-fritas-te-queden-mas-crujientes.jpg');
-INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Tragos', 'https://cdn0.casamiento.com.uy/article-vendor-o/2371/original/1280/jpg/pappas-grill-tragos_16_2371_v1.jpeg');
-INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Tequeños', 'https://cuk-it.com/wp-content/uploads/2021/10/tequenios-ig01.webp');
+/*Categorias*/
 
+INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES 
+('Empanadas', 'empanadas-categoria.webp'),
+('Guarniciones', 'guarniciones-categoria.jpg'),
+('Tragos', 'tragos-categoria.jpeg'),
+('Tequeños', 'tequeños-categoria.webp'),
+('Pizzas', 'pizzas-categoria.jpg'),
+('Hamburgesas', 'hamburgesas-categoria.jpeg');
 
-UPDATE `chefhub_db`.`producto` SET `nombre` = 'Hamburguesa Simple', `imagen` = 'https://i.ytimg.com/vi/SvOx7tA_Cv8/sddefault.jpg' WHERE (`id_producto` = '1');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Doble', '10', 'https://www.sargento.com/assets/Uploads/Recipe/Image/GreatAmericanBurger__FillWzExNzAsNTgzXQ.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Bacon cheddar', '10', 'https://pastrychefonline.com/wp-content/uploads/2017/07/a-smashed-double-bacon-cheeseburger-2.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburquesa Cheddar Melt', '10', 'https://cache-mcd-middleware.mcdonaldscupones.com/media/image/product$kzXv7hw4/200/200/original?country=br');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa BBQ', '10', 'https://cache-mcd-middleware.mcdonaldscupones.com/media/image/product$kvXv7wjX/200/200/original?country=uy');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa con Champiñones y Queso', '10', 'https://ohthatsgood.com/wp-content/uploads/2013/06/Mushroom-Swiss-Burger-1200x1200-1.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa de Pollo', '10', 'https://s7d1.scene7.com/is/image/mcdonalds/DC_202104_0100_DeluxeSpicyCrispyChickenSandwich_PotatoBun_1564x1564-1:product-header-mobile?wid=1313&hei=1313&dpr=off');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Vegetariana', '10', 'https://i.blogs.es/06dd69/mcvegan/1366_2000.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Hawaiana', '10', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCgOAMasWJZbE3V9cPcd4eUcjqlIm6JS8_pw&s');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa de Pescado', '10', 'https://s7d1.scene7.com/is/image/mcdonalds/DC_202401_3933-999_DoubleFilet-O-Fish_WholeSlice_1564x1564-1:product-header-mobile?wid=1313&hei=1313&dpr=off');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('6', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('7', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('8', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('9', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('10', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('11', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('12', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('13', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('14', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('15', '1');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('16', '1');
+/*Hamburgesas*/
 
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES
+('Hamburguesa Doble', 450, 'Hamburguesa doble carne con queso, lechuga, tomate y aderezos en un pan esponjoso.', 'GreatAmericanBurger__FillWzExNzAsNTgzXQ.jpg'),
+('Hamburguesa Bacon Cheddar', 400, 'Deliciosa hamburguesa con tocino crujiente, queso cheddar derretido y cebolla caramelizada.', 'a-smashed-double-bacon-cheeseburger-2.jpg'),
+('Hamburguesa Cheddar Melt', 400, 'Hamburguesa con carne jugosa, abundante queso cheddar derretido y cebolla salteada.', 'original.png'),
+('Hamburguesa BBQ', 400, 'Clásica hamburguesa con salsa barbacoa, cebolla crispy, queso cheddar y tocino.', 'original-2.png'),
+('Hamburguesa con Champiñones y Queso', 400, 'Hamburguesa con champiñones salteados, queso suizo derretido y salsa especial.', 'Mushroom-Swiss-Burger-1200x1200-1.jpg'),
+('Hamburguesa de Pollo', 350, 'Hamburguesa de pechuga de pollo empanizada con lechuga, tomate y mayonesa.', 'Hamburguesa-de-pollo-picante.webp'),
+('Hamburguesa Vegetariana', 350, 'Hamburguesa hecha con una mezcla de vegetales, garbanzos y especias, acompañada de aderezo especial.', '1366_2000.jpeg'),
+('Hamburguesa Hawaiana', 350, 'Hamburguesa con piña a la parrilla, queso suizo y salsa teriyaki.', 'hawaiana.jpeg'),
+('Hamburguesa de Pescado', 350, 'Filete de pescado empanizado con lechuga fresca y salsa tártara en un pan suave.', 'DC_202401_3933-999_DoubleFilet-O-Fish_WholeSlice_1564x1564-1_product-header-mobile.jpeg');
 
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Carne', '10', 'Rellena de carne de res o cerdo picada o molida, generalmente con cebolla, pimientos y especias', 'https://familiakitchen.com/wp-content/uploads/2021/09/Empanadas-open-e1631296397215.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Pollo', '10', 'Contiene pollo desmenuzado con cebolla, ajo y a veces pimentón o aceitunas', 'https://alicante.com.ar/wp-content/uploads/2022/06/iStock-1437638745-Empanadas-de-pollo-scaled-1924x1924.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Jamón y Queso', '10', 'Lleva jamón y queso derretido, con una textura cremosa y un sabor suave', 'https://www.hola.com/horizon/landscape/9beabeb653ad-empanadillas-jamon-queso-t.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Queso', '10', 'Solo con queso, que puede ser mozzarella, queso crema o queso fresco, perfecta para los amantes del queso derretido.', 'https://www.chefandcook.cl/carta/queso-solo-fritas.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Espinaca y Queso', '10', 'Relleno de espinaca cocida mezclada con queso, a veces con un toque de ricotta', 'https://i0.wp.com/unacocinafeliz.com/wp-content/uploads/2022/10/DSC_0588-scaled.jpg?fit=1024%2C683&ssl=1');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Atún', '10', 'Contiene atún en conserva mezclado con cebolla, huevo y a veces aceitunas', 'https://www.cocinavital.mx/wp-content/uploads/2021/03/empanadas-de-atun.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada Caprese', '10', 'Inspirada en la ensalada caprese, con tomate, mozzarella y albahaca', 'https://amadomarketusa.com/cdn/shop/products/amadomarketubereats-36_2048x.jpg?v=1670076254');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Humita', '10', 'Lleva una mezcla de choclo (maíz) cremoso con queso y a veces un toque de ají o azúcar', 'https://media.losandes.com.ar/adjuntos/368/migration/resizer/v2/CU37R2OQZBFUDON4JT2JQASXPQ.jpg?auth=2b72c9a9654885f5002b580dcadb680a58b267b053dec6e15e2632e441b2ee40&width=600&height=432');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada Dulce', '10', 'Puede estar rellena de dulce de leche o pasta de membrillo, ideal como postre', 'https://i.pinimg.com/736x/41/d3/78/41d37854b3024e002c05800e592e76b7.jpg');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('15', '6');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('16', '6');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('17', '6');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('18', '6');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('19', '6');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('20', '6');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('21', '6');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('22', '6');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('23', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES 
+(1, 6),
+(2, 6),
+(3, 6),
+(4, 6),
+(5, 6),
+(6, 6),
+(7, 6),
+(8, 6),
+(9, 6);
 
+/*Empanadas*/
 
-UPDATE `chefhub_db`.`producto_categoria` SET `id_categoria` = '3' WHERE (`id_producto` = '2') and (`id_categoria` = '2');
-UPDATE `chefhub_db`.`producto` SET `baja` = '1' WHERE (`id_producto` = '3');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES 
+('Empanada de Carne', '70', 'Rellena de carne de res o cerdo picada o molida, generalmente con cebolla, pimientos y especias', 'Empanadas-open-e1631296397215.jpeg'), 
+('Empanada de Pollo', '70', 'Contiene pollo desmenuzado con cebolla, ajo y a veces pimentón o aceitunas', 'iStock-1437638745-Empanadas-de-pollo-scaled-1924x1924.jpeg'),
+('Empanada de Jamón y Queso', '70', 'Lleva jamón y queso derretido, con una textura cremosa y un sabor suave', '9beabeb653ad-empanadillas-jamon-queso-t.webp'),
+('Empanada de Queso', '70', 'Solo con queso, que puede ser mozzarella, queso crema o queso fresco, perfecta para los amantes del queso derretido.', 'queso-solo-fritas.jpeg'),
+('Empanada de Espinaca y Queso', '70', 'Relleno de espinaca cocida mezclada con queso, a veces con un toque de ricotta', 'DSC_0588-scaled.webp'),
+('Empanada de Atún', '70', 'Contiene atún en conserva mezclado con cebolla, huevo y a veces aceitunas', 'empanadas-de-atun.jpeg'),
+('Empanada Caprese', '70', 'Inspirada en la ensalada caprese, con tomate, mozzarella y albahaca', 'amadomarketubereats-36_2048x.webp'),
+('Empanada de Humita', '70', 'Lleva una mezcla de choclo (maíz) cremoso con queso y a veces un toque de ají o azúcar', 'CU37R2OQZBFUDON4JT2JQASXPQ.webp'),
+('Empanada Dulce', '70', 'Puede estar rellena de dulce de leche o pasta de membrillo, ideal como postre', '41d37854b3024e002c05800e592e76b7.jpeg');
 
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Margarita', 'Clásica italiana con salsa de tomate, mozzarella y hojas de albahaca fresca.', 'https://cloudfront-us-east-1.images.arcpublishing.com/elespectador/D2KL4RRCRJA7RJC5TNULFZEKR4.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Pepperoni', 'Lleva salsa de tomate, queso mozzarella y rodajas de pepperoni, que se doran y sueltan su grasa característica.', 'https://pizzeriabellaroma.es/wp-content/uploads/receta-de-pizza-de-pepperoni.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Cuatro Quesos', 'Mezcla de cuatro quesos (generalmente mozzarella, gorgonzola, parmesano y provolone) para un sabor fuerte y cremoso.', 'https://comedera.com/wp-content/uploads/sites/9/2022/04/Pizza-cuatro-quesos-shutterstock_1514858234.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Napolitana', 'Similar a la Margarita, pero con rodajas de tomate fresco y aceitunas.', 'https://osojimix.com/wp-content/uploads/2022/06/Para-la-masa-de-pizza-napolitana-8-hrs-fermentacion-Web-1.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Hawaiana', 'Contiene jamón y piña, creando una combinación de dulce y salado que genera debate.', 'https://images.mrcook.app/recipe-image/0193adc6-9a5a-774c-982b-fa934194885d');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Fugazzeta', 'Pizza argentina con una capa gruesa de queso mozzarella y mucha cebolla caramelizada.', 'https://www.cocinadelirante.com/sites/default/files/styles/gallerie/public/fugazzeta-pizza-argentina-rellena-aceituna.jpg');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza BBQ Chicken', 'Lleva pollo desmenuzado, salsa barbacoa en lugar de tomate, cebolla morada y queso.', 'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2012/2/28/1/FNM_040112-Copy-That-002_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382541346030.webp');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Vegetariana', 'Cargada con verduras como pimientos, champiñones, cebolla, tomate y aceitunas.', 'https://cdn.shopify.com/s/files/1/0191/9978/files/Pizza-Veggie-Supreme-blog.jpg?v=1652775259');
-INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Carbonara', 'Inspirada en la pasta carbonara, con salsa blanca, panceta, huevo y queso pecorino o parmesano.', 'https://www.justspices.es/media/recipe/resized/510x510/recipe/receta-pizza-carbonara.jpg');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('24', '3');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('25', '3');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('26', '3');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('27', '3');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('28', '3');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('29', '3');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('30', '3');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('31', '3');
-INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('32', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES 
+(10, 1),
+(11, 1),
+(12, 1),
+(13, 1),
+(14, 1),
+(15, 1),
+(16, 1),
+(17, 1),
+(18, 1);
+
+/*Pizzas*/
+
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES 
+('Pizza Margarita', '450', 'Clásica italiana con salsa de tomate, mozzarella y hojas de albahaca fresca.', 'D2KL4RRCRJA7RJC5TNULFZEKR4.jpg'),
+('Pizza Pepperoni', '450','Lleva salsa de tomate, queso mozzarella y rodajas de pepperoni, que se doran y sueltan su grasa característica.', 'receta-de-pizza-de-pepperoni.jpg'),
+('Pizza Cuatro Quesos', '450','Mezcla de cuatro quesos (generalmente mozzarella, gorgonzola, parmesano y provolone) para un sabor fuerte y cremoso.', 'Pizza-cuatro-quesos-shutterstock_1514858234.jpg'),
+('Pizza Napolitana', '450','Similar a la Margarita, pero con rodajas de tomate fresco y aceitunas.', 'Para-la-masa-de-pizza-napolitana-8-hrs-fermentacion-Web-1.jpg'),
+('Pizza Hawaiana', '450','Contiene jamón y piña, creando una combinación de dulce y salado que genera debate.', '0193adc6-9a5a-774c-982b-fa934194885d.jpeg'),
+('Pizza Fugazzeta', '350','Pizza argentina con una capa gruesa de queso mozzarella y mucha cebolla caramelizada.', 'fugazzeta-pizza-argentina-rellena-aceituna.jpg'),
+('Pizza BBQ Chicken', '450','Lleva pollo desmenuzado, salsa barbacoa en lugar de tomate, cebolla morada y queso.', '1382541346030.webp'),
+('Pizza Vegetariana', '350','Cargada con verduras como pimientos, champiñones, cebolla, tomate y aceitunas.', 'Pizza-Veggie-Supreme-blog.web'),
+('Pizza Carbonara', '450','Inspirada en la pasta carbonara, con salsa blanca, panceta, huevo y queso pecorino o parmesano.', 'receta-pizza-carbonara.jpg');
+
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES 
+(19, 5),
+(20, 5),
+(21, 5),
+(22, 5),
+(23, 5),
+(24, 5),
+(25, 5),
+(26, 5),
+(27, 5);

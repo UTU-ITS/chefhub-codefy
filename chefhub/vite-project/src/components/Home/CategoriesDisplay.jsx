@@ -35,7 +35,7 @@ export default function Recomendacion() {
             className="blur-container"
             onClick={() => handleCategoryClick(category)}
             style={{ 
-              backgroundImage: category.imagen ? `url("${category.imagen}")` : `url("default-image.jpg")`,
+              backgroundImage: category.imagen ? `url("http://chefhub.codefy.com:8080/${category.imagen}")` : `url("default-image.png")`,
               cursor: "pointer"
             }}
           >

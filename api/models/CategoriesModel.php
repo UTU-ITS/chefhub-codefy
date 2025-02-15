@@ -43,13 +43,24 @@ class Categories {
         }
     }
     public function InsertCat($nombre, $imagen, $descripcion) {
-        $sql = "INSERT INTO categoria_producto (nombre, imagen, descripcion) VALUES (:nombre, :imagen, :descripcion)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':nombre', $nombre);
-        $stmt->bindParam(':imagen', $imagen);
-        $stmt->bindParam(':descripcion', $descripcion);
-        $stmt->execute();
-        return $this->conn->lastInsertId();
+        try {
+            $uploadDir = 'uploads/';
+            $imagePath = $uploadDir . basename($imagen['name']);
+
+            if (!move_uploaded_file($imagen['tmp_name'], $imagePath)) {
+                throw new Exception("Error al subir la imagen.");
+            }
+
+            $sql = "INSERT INTO categoria_producto (nombre, imagen, descripcion) VALUES (:nombre, :imagen, :descripcion)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':nombre', $nombre);
+            $stmt->bindParam(':imagen', $imagePath);
+            $stmt->bindParam(':descripcion', $descripcion);
+            $stmt->execute();
+            return $this->conn->lastInsertId();
+        } catch (Exception $e) {
+            throw new Exception("Error al insertar la categoria: " . $e->getMessage());
+        }
     }
 
     public function UpdateCat($id_categoria, $nombre, $imagen, $descripcion) {

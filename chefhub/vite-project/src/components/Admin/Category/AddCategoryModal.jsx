@@ -55,7 +55,9 @@ const AddCategoryModal = ({ onCategoryAdded }) => {
     const formData = new FormData();
     formData.append('nombre', name);
     formData.append('descripcion', description);
-    formData.append('imagen', 'null');
+    formData.append('imagen', image);
+
+    console.log(image);
   
     // 🔍 Verifica el contenido de formData antes de enviarlo
     for (let [key, value] of formData.entries()) {

@@ -205,7 +205,7 @@ const AdminProducts = () => {
                   {/* Primera columna con imagen + nombre */}
                   <td style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                     <img
-                      src={`http://chefhub.codefy.com:8080/api/${item.Imagen}`}
+                      src={`http://chefhub.codefy.com:8080/${item.Imagen}`}
                       alt={`Imagen de ${item.Producto}`}
                       style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "5px" }}
                     />
@@ -286,7 +286,7 @@ const AdminProducts = () => {
                 <tr key={item.ID}>
                   <td style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                     <img
-                      src={item.Imagen}
+                      src={`http://chefhub.codefy.com:8080/${item.Imagen}`}
                       alt={`Imagen de ${item.Producto}`}
                       style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "5px" }}
                     />
