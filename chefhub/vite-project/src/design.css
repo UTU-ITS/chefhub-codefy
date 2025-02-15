@@ -1,7 +1,16 @@
 :root {
     --primary-color: #ab8ef4;
     --primary-color-light: rgba(171, 142, 244, 0.192);
+    --primary-color-light-hover: rgba(171, 142, 244, 0.4);
     --title-color-light: #575757;
     --navbar-color: #2c2c2c;
     --shadow: 0 0 10px 0 rgba(0, 0, 0, 0.075);
+    --shadow-xl: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    --text-size: 12px;
+    --title-size: 14px;
+    --title-size-lg: 16px;
+    --title-size-xl: 18px;
+    --title-size-xxl: 1.5rem;
+    --title-size-xxxl: 2rem;
+    --input-color: #e9ecef;
 }

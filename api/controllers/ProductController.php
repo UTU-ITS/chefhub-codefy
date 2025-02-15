@@ -32,8 +32,14 @@ class ProductController {
                     } else {
                         $result = $this->product->getProduct();
                     }
-                } elseif ($action === 'products') {
+                } else if ($action === 'products') {
+
                     $result = $this->product->getTableProducts();
+
+                } else if ($action === 'getremovedproducts') {
+
+                    $result = $this->product->getTableRemovedProducts();
+
                 } else {
                     $result = ["message" => "Acción no reconocida"];
                 }
@@ -74,7 +80,8 @@ class ProductController {
                                 // Solo enviar mensaje de éxito si la inserción es exitosa
                                 echo json_encode([
                                     "message" => "Producto insertado con éxito",
-                                    "product_id" => $productId
+                                    "product_id" => $productId,
+                                 "success"=>true
                                 ]);
                             } catch (Exception $e) {
                                 http_response_code(500);
@@ -89,7 +96,73 @@ class ProductController {
                         http_response_code(400);
                         echo json_encode(["message" => "Acción no reconocida para POST"]);
                     }
-                    break;                
+                    break;  
+                    case "PUT":
+                        if ($action === 'updateproduct') {
+                            // Leer datos de la solicitud PUT
+                            $data = json_decode(file_get_contents("php://input"), true);
+                            $productId = $data['id_producto'];
+                            $nombre = $data['nombre'];
+                            $precio = $data['precio'];
+                            $descripcion = $data['descripcion'];
+                            $imagenFile = isset($_FILES['imagen']) ? $_FILES['imagen'] : null;
+                            $ingredientes = $data['ingredientes'];
+                            $categorias = $data['categorias'];
+                            // Validar que los datos esenciales estén presentes
+                            if ($productId && $nombre && $precio && $descripcion) {
+                                try {
+                                    // Actualizar el producto
+                                    $this->product->updateProduct(
+                                        $productId,
+                                        $nombre,
+                                        $precio,
+                                        $descripcion,
+                                        $imagenFile,
+                                        $ingredientes,
+                                        $categorias
+                                    );
+                        
+                                    // Respuesta exitosa
+                                    echo json_encode(["message" => "Producto modificado con éxito", "success" => true]);
+                                } catch (Exception $e) {
+                                    // Si ocurre un error en la actualización
+                                    http_response_code(500);
+                                    echo json_encode([
+                                        "message" => "Error al actualizar el producto: " . $e->getMessage(),
+                                        "code" => $e->getCode(), // Muestra el código del error
+                                        "trace" => $e->getTraceAsString() // Muestra el trace completo del error
+                                    ]);
+                                }
+                            } else {
+                                // Si faltan datos obligatorios
+                                http_response_code(400);
+                                echo json_encode(["message" => "Datos incompletos o archivo faltante"]);
+                            }
+                        }else if($action === 'deleteproduct') {    
+                            $data = json_decode(file_get_contents("php://input"), true);
+                            $id_producto = $data['id_producto'];
+                            $result = $this->product->DeleteProduct($id_producto);
+                            if ($result) {
+                                echo json_encode(["message" => "Producto eliminado con éxito" ,"success"=>true ]);
+                            } else {
+                                http_response_code(400);
+                                echo json_encode(["message" => "Datos incompletos"]);
+                            }
+                        } else if($action === 'activateproduct') {    
+                            $data = json_decode(file_get_contents("php://input"), true);
+                            $id_producto = $data['id_producto'];
+                            $result = $this->product->ActivateProduct($id_producto);
+                            if ($result) {
+                                echo json_encode(["success"=>true ]);
+                            } else {
+                                http_response_code(400);
+                                echo json_encode(["message" => "Datos incompletos"]);
+                            }
+                        }else {
+                            http_response_code(400);
+                            echo json_encode(["message" => "Acción no reconocida para PUT"]);
+                        }
+                        break;              
                 
     
             default:

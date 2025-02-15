@@ -1,34 +1,22 @@
 @import '../../design.css';
 
-.borde{
-    border: 0px solid #000000;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
-}
-
-
 .recomendaciones{
     margin: 10px;
     padding-left: 5%;
     padding-right: 5%;
-    padding-top: 3%;
+    padding-top: 1%;
 
-}
-
-.recomendaciones section {
-    border-bottom: 1px solid #00000036;
-    margin-bottom: 3%;
 }
 
 .buscador{
-    padding: 100px 30px 48px 30px;
+    padding: 10px 30px 0px 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: var(--primary-color) ;
     size: 5%;
+    height: 300px;
 }
 
 .slogan{
@@ -39,10 +27,12 @@
     max-width: 1440px;
     min-width: 350px;
     color: white;
+    overflow: hidden;
+    height: 80px;
 }
 
 .buscador-barra{
-    background-color: aliceblue;
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,6 +40,8 @@
     width: 90%;
     max-width: 1440px;
     min-width: 350px;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .entrada{
@@ -64,63 +56,8 @@
     margin: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-content: space-evenly;
+;
 }
 
-.bloque{
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #00000036;
-    border-radius: 10px;
-    padding: 10px;
-    width: 13%;
-    height: 100px;
-    min-width: 100px;
-}
-
-.bloque img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.hamburguesa {
-    background-image: url('../../assets/hamburguesa.png');
-    background-size: cover;
-    background-position: center;
-    transition: filter 0.3s ease;
-}
-
-.hamburguesa:hover {
-    filter: blur(3px);
-}
-
-.pizza {
-    background-image: url('../../assets/pizza.png');
-    background-size: cover;
-    background-position: center;
-    transition: filter 0.3s ease;
-}
-
-.pizza:hover {
-    filter: blur(3px);
-}
-
-.helado {
-    background-image: url('../../assets/helado.png');
-    background-size: cover;
-    background-position: center;
-    transition: filter 0.3s ease;
-}
-
-.helado:hover {
-    filter: blur(3px);
-}
-
-.titulos{
-    justify-content: center;
-}
 

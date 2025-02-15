@@ -19,20 +19,110 @@ class OrderController {
         $this->order = new Order($conn);
     }
 
-    public function handleRequest($action) {
+    public function handleRequest($action, $orderId = null, $id_producto = null, $order = null,$id_pedido_producto = null) {
         $method = $_SERVER['REQUEST_METHOD'];
 
         switch ($method) {
             case "GET":
                 if ($action === 'onlinequantity') {
                     $result = $this->order->getCantPendingOrders();
-                } else if ($action === 'orders'){
-                    $result = $this->order->getOrders();
-                }   else {
+                } else if ($action === 'pendingorders'){
+                    $result = $this->order->getPendingOrders();
+                } else if($action === 'preparationorders'){
+                    $result = $this->order->getInPreparationOrders();
+                }else if($action === 'readyorders'){
+                    $result = $this->order->getReadyOrders();
+                } else if($action === 'detailorder'){
+                    $result = $this->order->getDetailOrder($orderId);
+                } else if($action === 'ingredientsperproduct'){
+                    $result = $this->order->getIngredientsPerProductInOrder($orderId, $id_producto, $id_pedido_producto);
+                } else if($action === 'getcantorders'){
+                    $result = $this->order->getCantOrders();
+                } elseif($action === 'getbestproducts'){
+                    $result = $this->order->getBestProducts();
+                } else{
                     $result = ["message" => "Acción no reconocida"];
                 }
                 echo json_encode($result);
                 break;
+                case "POST":
+    if ($action === 'insertorder') {
+        $jsonPedido = file_get_contents("php://input");
+        $result = $this->order->insertarPedido($jsonPedido);
+    } 
+    else if ($action === 'insertorderpayment') {
+        $result = $this->order->insertarPedido($order);
+    } 
+    else if ($action === 'getmyorders') {
+        $data = json_decode(file_get_contents("php://input"), true);
+        
+        if (!isset($data['id_cliente'])) {
+            echo json_encode(["error" => "id_cliente no proporcionado"]);
+            exit;
+        }
+
+        $id_cliente = $data['id_cliente'];
+        $result = $this->order->getMyOrders($id_cliente);
+
+        if ($result) {
+            echo json_encode(["success" => true, "data" => $result]);
+        } else {
+            echo json_encode(["success" => false, "error" => "No se encontraron pedidos"]);
+        }
+        exit;
+    } 
+    else {
+        echo json_encode(["error" => "Acción no reconocida"]);
+        exit;
+    }
+
+    echo json_encode($result);
+    exit;
+
+                    break;
+
+                case "PUT":
+                    if ($action === 'cancelorder') {
+
+                        $data = json_decode(file_get_contents("php://input"), true);
+
+                        $id_pedido = $data['id_pedido'];
+
+                        $result = $this->order->CancelOrder($id_pedido);
+                        if ($result) {
+                            $result = ["success" => true,"message" => "Pedido cancelado"]; 
+                            echo json_encode($result);
+
+                        } else {
+                            $result = ["message" => "Error al cancelar pedido"];
+                        }
+                
+                        } else if ($action === 'updateorderstatus') {
+
+                            $data = json_decode(file_get_contents("php://input"), true);
+    
+                            $id_pedido = $data['id_pedido'];
+                            $estado = $data['estado'];      
+                            $ci = $data['ci'];                  
+
+                            $result = $this->order->setOrderStatus($id_pedido,$estado, $ci);
+                            if ($result) {
+                                $result = ["success" => true,"message" => "Pedido alterado"]; 
+                                echo json_encode($result);
+    
+                            } else {
+                                
+                                $result = ["message" => "Error al alterar pedido"];
+                            }
+                    
+                            } else {
+                        $result = ["message" => "Acción no reconocida"];
+                    }
+                   
+
+                    break;
+
+                
             default:
                 echo json_encode(["message" => "Método no soportado"]);
                 break;

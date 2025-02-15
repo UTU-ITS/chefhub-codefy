@@ -12,12 +12,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   z-index: 1000;
-  box-sizing: border-box;
-  height: 50px;
+  min-height: 20px;
 }
-
 
 .nav-container {
   display: flex;
@@ -31,9 +29,18 @@
   align-items: center;
 }
 
+.nav-menu-middle {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra los elementos en el menú */
+  width: 100%;
+}
+
 .nav-menu {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .nav-list {
@@ -43,123 +50,121 @@
   padding: 0;
 }
 
+.nav-list a {
+  text-decoration: none;
+  color: #fff;
+}
+
 .nav-item {
   margin-right: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu-right {
+  display: flex;
+  align-items: center;
+  justify-self: center;
 }
 
 .nav-item:last-child {
   margin-right: 0;
 }
 
-.nav-link {
-  display: flex;
-  align-items: center;
-  font-family: Poppins, sans-serif;
-  font-weight: 400;
-  font-size: medium;
-  color: #fff;
+.user-menu-container {
+  position: relative;
+}
+
+.user-icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.user-menu {
+  position: absolute;
+  top: 150%;
+  right: 10%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1000;
+  width: 135px;
+}
+
+.user-menu li {
+  padding: 10px;
+  text-align: left;
+}
+
+.user-menu li a, .user-menu li button {
   text-decoration: none;
-  transition: all 0.1s ease-in-out;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
 }
 
-.nav-link:hover {
-  font-weight: 500;
-  border-bottom: 1px #811edb solid;
+.user-menu li a:hover, .user-menu li button:hover {
+  background-color: #f5f5f5;
 }
 
-.right:hover {
-  border-bottom: none !important;
+/* Botón de menú hamburguesa */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-.btn {
-  font-family: Poppins, sans-serif;
-  font-weight: 600;
-  padding: 0.5rem 1.5rem;
-  background-color: #811edb;
-  color: #fff;
-  border: 2px solid #fff;
-  border-radius: 25px;
-  transition-duration: 0.2s;
-  display: inline-block;
-}
-
-.btn:hover {
+.nav-toggle-icon {
+  width: 24px;
+  height: 2px;
   background-color: #fff;
-  border-color: #811edb;
-  color: #811edb;
+  margin: 5px 0;
+  display: block;
 }
 
 /* Responsividad para dispositivos móviles */
 @media (max-width: 768px) {
   .nav-menu {
-    display: none; /* Oculta el menú en dispositivos móviles */
-  }
-
-  .nav-toggle {
-    display: block; /* Muestra el botón de menú hamburguesa en dispositivos móviles */
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .nav-toggle-icon {
-    width: 24px;
-    height: 2px;
-    background-color: #fff;
-    margin: 5px 0;
-    display: block;
-  }
-
-  /* Muestra el menú al hacer clic en el botón */
-  .nav-toggle.active + .nav-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: none;
     width: 100%;
+    flex-direction: column;
     background-color: #2c2c2c;
     position: absolute;
     top: 100%;
     left: 0;
     padding: 1rem 0;
   }
-}
 
-/* Estilo para el contenedor del menú desplegable */
-.nav-item.dropdown {
-  position: relative;
-}
+  .nav-menu.active {
+    display: flex;
+  }
 
-.dropdown-menu {
-  display: none; /* Oculta el menú por defecto */
-  position: absolute;
-  top: 100%;
-  background-color: #2c2c2c;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border-radius: 5px;
-  z-index: 1000;
-  width: max-content;
-  font-size: smaller;
-}
+  .nav-toggle {
+    display: block;
+  }
 
-.dropdown-item {
-  padding: 0.5rem 1rem;
-  color: #fff;
-  text-decoration: none;
-  display: block;
-  transition: background-color 0.2s;
-}
+  .nav-item {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
 
-.dropdown-item:hover {
-  background-color: #811edb;
-}
+  .nav-list {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.nav-item.dropdown:hover .dropdown-menu {
-  display: block;
-}
-
-.dropdown-arrow {
-  font-size: 0.8em;
-  margin-left: 5px;
+  .nav-menu-right {
+    display: none; /* Oculta el icono de usuario en móvil */
+  }
 }

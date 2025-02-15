@@ -1,57 +1,120 @@
-.filters-title{
-    font-family: Poppins, sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #000000;
-}
-.menu-div{
-    display: flex;
-    flex-direction: row;
-    padding: 25px;
-    width: 100%;
-}
-.menu-title{
-    display: flex; 
-    align-items: center;  
-    justify-content: center;                
-    width: 100%;
-    height: 10%;
+@import url(../../design.css);
+
+.menu-div {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  width: 100%;
 }
 
-.catalog{
-    display: flex;                   
-    width: 90%;
+.menu-title {
+  display: flex; 
+  align-items: center;  
+  justify-content: center;
+  width: 100%;
+  height: 10%;
 }
 
-.filters{
-    display: flex;
-    flex-direction: column;
-    width: 10%;
+.filters-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-.product-div {
-    display: flex;
+.filters-tags {
+  display: flex;
+  justify-content: center;  /* Centra las etiquetas en el contenedor */
+}
+
+.search-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.search-div input {
     width: 100%;
+    border: none;
+    border-radius: 5px;
+    margin: 0;
 }
-.btn {
-    font-family: Poppins, sans-serif;
-    font-weight: 600;
-    height: 50px; 
-    width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    background-color: #811edb;
-    color: #fff;
-    border: 2px solid #fff;
-    border-color: #fff;
-    border-radius: 8px;
-    transition-duration: 0.2s;
+
+.search-div input:focus {
+    outline: none;
+}
+
+.search-div button {
+  padding: 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.barra-menu {
+    background-color: #ffffff;
+    width: 30%;
+    height: 30%;
+}
+
+.barra-menu button {
+  height: 35px;
+}
+
+@media (max-width: 768px) {
+  .menu-div {
+    padding: 2rem;
+  }
+  
+  .menu-title {
+    height: auto; /* Ajusta la altura del título */
   }
 
-  .btn:hover {
-    background-color: #fff;
-    border-color: #811edb;
-    color: #811edb;
+  .filters-div {
+    padding: 10px;
+    overflow-x: auto;
+  }
+
+  .filters-tags {
+    width: 80%;
+  }
+  
+  .filters{
+    flex-direction: row;
+  }
+
+  .product-container {
+    grid-template-columns: unset;
+    padding: 0.5rem 0.3rem;
+  }
+}
+
+@media (max-width: 1540px) {
+  .menu-div {
+    padding: 2rem;
+  }
+  
+  .menu-title {
+    height: auto; /* Ajusta la altura del título */
+  }
+
+  .filters-div {
+    padding: 10px;
+    overflow-x: auto;
+  }
+
+  .filters-tags {
+    width: 60%;
+    flex-direction: column;
+  }
+  
+  .filters{
+    flex-direction: row;
+  }
+
+  .product-container {
+    grid-template-columns: unset;
+    padding: 0.5rem 0.3rem;
+}
 }

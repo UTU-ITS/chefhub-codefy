@@ -1,25 +1,39 @@
 import React, { useState, useContext, useEffect } from 'react';
 import './NavBar.css';
-import { CartIcon, UserIcon, SearchIcon, AdminIcon, LogoutIcon } from '../../img/HeroIcons';
+import { CartIcon, UserIcon, AdminIcon, UserCircleIcon } from '../../img/HeroIcons';
 import Logo from '../../assets/logo.svg';
 import Cart from '../Shop/Cart';
 import { UserContext } from '../../context/user';
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user,logout } = useContext(UserContext);
-
-  // Debug: Verificar cambios en el usuario
-  useEffect(() => {
-    console.log("Usuario actualizado:", user);
-  }, [user]);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const { user, logout } = useContext(UserContext);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
   const handleLogout = () => {
     logout();
+    setIsUserMenuOpen(false);
+    setIsMenuOpen(false);
   };
+
+  const checkScreenSize = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
+  useEffect(() => {
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   return (
     <nav className="custom-navbar">
@@ -31,85 +45,81 @@ const NavBar = () => {
           </a>
         </div>
 
-        {/* Links principales */}
-        <div>
-          <ul className="nav-list">
-            <li className="nav-item">
-              <a className="nav-link" href="/">Inicio</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/menu">Menú</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/reservations">Reserva tu mesa</a>
-            </li>
-            {!user?.data && (
-            <li className="nav-item">
-              <a className="nav-link" href="/register">Registrarme</a>
-            </li>
-             )}
-            <li className="nav-item">
-              <a className="nav-link" href="/about">Sobre Nosotros</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/contact">Contáctanos</a>
-            </li>
-  {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
-  <>
+        {/* Botón de menú hamburguesa */}
+        <button className="nav-toggle" onClick={toggleMenu}>
+          <span className="nav-toggle-icon"></span>
+          <span className="nav-toggle-icon"></span>
+          <span className="nav-toggle-icon"></span>
+        </button>
 
-    <li className="nav-item dropdown">
-    
-      <a className="nav-link" href="/admin">
-        Administrar <span className="dropdown-arrow">▼</span>
-      </a>
-       
-      <ul className="dropdown-menu">
-      {user && user.data && user.data.cargo === "Administrativo" && (
-        <>
-        <li><a className="dropdown-item" href="/sub-opcion-1">Personalización del portal</a></li>
-        <li><a className="dropdown-item" href="/sub-opcion-2">Productos</a></li>
-        <li><a className="dropdown-item" href="/sub-opcion-3">Funcionarios</a></li>
-        <li><a className="dropdown-item" href="/sub-opcion-3">Clientes</a></li>
-        <li><a className="dropdown-item" href="/sub-opcion-3">Preferencias</a></li>
-        <li><a className="dropdown-item" href="/sub-opcion-3">Informes</a></li>
-      </>
-    )}
-        {user && user.data && (user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") &&(
-        <li><a className="dropdown-item" href="/sub-opcion-3">Reservas</a></li>
-      )}
-        {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
-        <li><a className="dropdown-item" href="/sub-opcion-3">Pedidos</a></li>
-      )}
-        
-      </ul>
-    </li>
-  </>)}
-          </ul>
-        </div>
-
-        {/* Menú derecho */}
+        {/* Menú de navegación */}
         <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          <ul className="nav-list">
-          <li className="nav-item">
-              <a className="nav-link right" href="/admin/dashboard">
-                <AdminIcon />
-              </a>
-            </li>
-            <li className="nav-item">
-              <Cart />
-            </li>
-            <li className="nav-item">
-              {user && user.data ? (
-             <button className="logout-btn" onClick={handleLogout}>
-             <LogoutIcon />
-           </button> 
-                            
-              ) : (
-                    <a className="nav-link right" href="/login"> <UserIcon /></a>   
-                     )}
-            </li>
+          <div className="nav-menu-middle">
+            <ul className="nav-list">
+              <li className="nav-item"><a href="/" onClick={() => setIsMenuOpen(false)}>Inicio</a></li>
+              <li className="nav-item"><a href="/menu" onClick={() => setIsMenuOpen(false)}>Menú</a></li>
+              <li className="nav-item"><a href="/reservations" onClick={() => setIsMenuOpen(false)}>Reserva tu mesa</a></li>
+              <li className="nav-item"><a href="/aboutus" onClick={() => setIsMenuOpen(false)}>Sobre Nosotros</a></li>
+              <li className="nav-item"><a href="/contact" onClick={() => setIsMenuOpen(false)}>Contáctanos</a></li>
 
-          </ul>
+              {user && user.data ? (
+                // En móvil se muestran "Mi perfil" y "Cerrar sesión" directamente en el menú
+                isMobile && (
+                  <>
+                    <li className="nav-item">
+                      <a href="/myprofile" onClick={() => setIsMenuOpen(false)}>Mi perfil</a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/login" onClick={handleLogout}>Cerrar sesión</a>
+                    </li>
+                  </>
+                )
+              ) : (
+                <li className="nav-item">
+                  <a href="/login" onClick={() => setIsMenuOpen(false)}>Iniciar sesión</a>
+                </li>
+              )}
+
+              {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                <li className="nav-item">
+                  <a href="/admin/dashboard" onClick={() => setIsMenuOpen(false)}>
+                    <AdminIcon />
+                  </a>
+                </li>
+              )}
+
+              <li className="nav-item">
+                <a onClick={() => setIsMenuOpen(false)}><Cart /></a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Menú de usuario para escritorio */}
+          <div className="nav-menu-right">
+            {user && user.data ? (
+              !isMobile && (
+                <div className="user-menu-container">
+                  <a onClick={toggleUserMenu} className="user-icon-button">
+                    <UserIcon />
+                  </a>
+                  {isUserMenuOpen && (
+                    <ul className="user-menu">
+                      <li>
+                        <a href="/myprofile" onClick={() => setIsUserMenuOpen(false)}>Mi perfil</a>
+                      </li>
+                      <li>
+                        <a href="/login" onClick={handleLogout}>
+                          <button>Cerrar sesión</button>
+                        </a>
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              )
+            ) : (
+              <a href="/login"> <UserCircleIcon /></a>
+            )}
+          </div>
         </div>
       </div>
     </nav>

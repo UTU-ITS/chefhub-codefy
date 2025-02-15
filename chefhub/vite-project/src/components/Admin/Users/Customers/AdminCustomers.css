@@ -1,0 +1,120 @@
+.modal-overlay-address {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .modal-content-address {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-width: 800px;
+    width: 100%;
+    max-height: 80vh;
+    overflow: auto;
+    position: relative;
+  }
+  
+  .modal-header-address {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .modal-header-address h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+  }
+  
+  .modal-header-address a {
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.2s;
+    border-radius: 50%;
+    display: flex;
+  }
+  
+  .modal-header-address a:hover {
+    background: #f5f5f5;
+    transform: rotate(90deg);
+  }
+
+  .address-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+.address-table head {
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+  }
+  
+.address-table th {
+    padding: 12px;
+    text-align: left;
+    color: #495057;
+    font-weight: 600;
+  }
+  
+.address-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e9ecef;
+    color: #6c757d;
+  }
+  
+.address-table tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+.address-table tbody tr:nth-child(even) {
+    background-color: #fcfcfc;
+  }
+
+ .title-customers {
+   display: flex;
+   justify-content: space-between;
+ }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .modal-content-address {
+      width: 90%;
+      padding: 15px;
+    }
+    
+    th, td {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+    
+    .modal-header-address h3 {
+      font-size: 1.2rem;
+    }
+  }

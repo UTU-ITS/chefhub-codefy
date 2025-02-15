@@ -1,83 +1,51 @@
-import React from 'react'
-import './Home.css'
-import { ChakraProvider } from '@chakra-ui/react';
-import { PinIcon } from '../../img/HeroIcons';
-import hamburguesa from '../../assets/hamburguesa.png';
-
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Home.css';
+import CategoriesDisplay from './CategoriesDisplay';
+import CategoryRow from './CategoryRow';
 
 export default function Home() {
-  return (
-    <ChakraProvider>
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
+  // Maneja la búsqueda
+  const handleSearch = () => {
+    if (searchTerm.trim() !== '') {
+      navigate(`/menu?search=${encodeURIComponent(searchTerm)}`);
+    }
+  };
+
+  return (
     <div className='home-div'>
       <div className="buscador">
         <p className='slogan'>Pide lo que quieras, Cuando quieras</p>
         <i className='borde buscador-barra'>
-          <PinIcon />
-          <input className='entrada' type="text" placeholder="Busca locales" />
-          <button className='btn'>Buscar</button>
+          <input 
+            className='entrada' 
+            type="text" 
+            placeholder="Busca productos..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} 
+          />
+          <button className='btn' onClick={handleSearch}>Buscar</button>
         </i>
       </div>
 
       <main className="recomendaciones">
-        <section className="section-categorias">
+        <section>
           <h1 className='titulos'>Categorias Populares</h1>
           <div className='bloques'>
-            <div className="bloque hamburguesa">
-              Hamburguesas
-            </div>
-            <div className="bloque pizza">
-            </div>
-            <div className="bloque helado">
-            </div>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
+            <CategoriesDisplay />
           </div>
         </section>
 
-        <section className="sugerencias">
-          <h1>Sugerencias</h1>
-          <div className='bloques'>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
-          </div>
-        </section>
-
-        <section className="opciones">
-          <h1>Opciones</h1>
-          <div className='bloques'>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
-            <div className="bloque">
-            </div>
-          </div>
-        </section>
+        <CategoryRow />
       </main>
 
-      <section className="registrate  borde">
+      <section className="registrate">
         <h3>Registra tu Empresa</h3>
       </section>
-      <footer className="borde">
-
-      </footer>
+      <footer className="borde"></footer>
     </div>
-
-    </ChakraProvider>
-  )
+  );
 }

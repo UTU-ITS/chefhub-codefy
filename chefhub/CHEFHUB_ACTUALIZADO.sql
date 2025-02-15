@@ -1,13 +1,8 @@
-CREATE DATABASE chefhub_db;
+CREATE DATABASE chefhub_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE chefhub_db;
 
--- Tabla imagen
-CREATE TABLE imagen (
-    id_imagen INT PRIMARY KEY AUTO_INCREMENT,
-    tipo VARCHAR(50) NOT NULL,
-    ruta VARCHAR(255) NOT NULL,
-    baja INT DEFAULT 0 
-);
+CREATE TABLE personalizacion (
+color varchar (50));
 
 -- Tabla usuario
 CREATE TABLE usuario (
@@ -20,40 +15,20 @@ CREATE TABLE usuario (
     fecha_creacion DATETIME NOT NULL DEFAULT NOW(),
     fecha_modif DATETIME NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     baja INT DEFAULT 0 
-);
-
--- Tabla personalizacion
-CREATE TABLE personalizacion (
-    nombre_rest VARCHAR(50) PRIMARY KEY,
-    direccion VARCHAR(255) NOT NULL,
-    zona_horaria VARCHAR(50) NOT NULL,
-    moneda VARCHAR(10) NOT NULL,
-    baja INT DEFAULT 0 
-);
-
--- Tabla telefono
-CREATE TABLE telefono (
-    id_telefono INT PRIMARY KEY AUTO_INCREMENT,
-    telefono VARCHAR(15) NOT NULL,
-    nombre_rest VARCHAR(50) NOT NULL,
-    FOREIGN KEY (nombre_rest) REFERENCES personalizacion(nombre_rest),
-    baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla funcionario
 CREATE TABLE funcionario (
     id_usuario INT NOT NULL,
-    ci VARCHAR(11) PRIMARY KEY,
+    ci VARCHAR(8) PRIMARY KEY,
     fecha_nacimiento DATE NOT NULL,
     direccion VARCHAR(255) NOT NULL,
     horario_entrada TIME NOT NULL,
     horario_salida TIME NOT NULL,
     cargo VARCHAR(255) NOT NULL,
-    id_imagen INT,
     baja INT DEFAULT 0, 
-    FOREIGN KEY (id_imagen) REFERENCES imagen(id_imagen),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
-);
+) ENGINE=InnoDB;
 
 -- Tabla cliente
 CREATE TABLE cliente (
@@ -61,37 +36,37 @@ CREATE TABLE cliente (
     id_usuario INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     baja INT DEFAULT 0 
-);
+) ENGINE=InnoDB;
 
 -- Tabla token
 CREATE TABLE token (
     id_token INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,
+    email varchar(50) NOT NULL,
+    token VARCHAR (6) NOT NULL,
     fecha_creacion DATETIME NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla direccion
 CREATE TABLE direccion (
+	id_usuario INT not null,
     id_direccion INT PRIMARY KEY AUTO_INCREMENT,
     calle VARCHAR(255) NOT NULL,
-    esquina VARCHAR(255) NOT NULL,
+    apto VARCHAR(20) NOT NULL,
     n_puerta INT NOT NULL,
     referencia VARCHAR(255),
-    baja INT DEFAULT 0 
-);
+    baja INT DEFAULT 0,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+)ENGINE=InnoDB;
 
 -- Tabla factura
 CREATE TABLE factura (
     id_factura INT PRIMARY KEY AUTO_INCREMENT,
-    fecha DATE NOT NULL,
-    hora TIME NOT NULL,
+    fecha_hora DATETIME DEFAULT current_timestamp NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
-    iva DECIMAL(5, 2) NOT NULL,
     estado VARCHAR(50) NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla pago
 CREATE TABLE pago (
@@ -101,18 +76,7 @@ CREATE TABLE pago (
     id_factura INT NOT NULL,
     FOREIGN KEY (id_factura) REFERENCES factura(id_factura),
     baja INT DEFAULT 0 
-);
-
--- Tabla preferencia
-CREATE TABLE preferencia (
-    id_preferencia INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(50) NOT NULL,
-    alimentaria BOOLEAN NOT NULL,
-    dietetica BOOLEAN NOT NULL,
-    id_categoria INT NOT NULL,
-    CONSTRAINT chk_alimentaria_dietetica CHECK (alimentaria != dietetica),
-    baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla producto
 CREATE TABLE producto (
@@ -120,24 +84,25 @@ CREATE TABLE producto (
     nombre VARCHAR(50) NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
     descripcion TEXT,
+    imagen text,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla categoria_producto
 CREATE TABLE categoria_producto (
     id_categoria INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
     descripcion TEXT,
-    id_categoria_padre INT,
+    imagen text,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla mesa
 CREATE TABLE mesa (
-    id_mesa INT PRIMARY KEY AUTO_INCREMENT,
+    id_mesa INT PRIMARY KEY,
     capacidad INT NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla pedido
 CREATE TABLE pedido (
@@ -146,26 +111,25 @@ CREATE TABLE pedido (
     estado VARCHAR(50) NOT NULL,
     categoria VARCHAR(50) NOT NULL,
     id_cliente INT NOT NULL,
-    fecha DATE NOT NULL,
-    hora TIME NOT NULL,
-    comentario TEXT,
-    calificacion INT CHECK (calificacion BETWEEN 1 AND 5),
     id_direccion INT NULL,
     id_factura INT NOT NULL,
+    fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    ci varchar (8),
+    baja TINYINT DEFAULT 0,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion),
     FOREIGN KEY (id_factura) REFERENCES factura(id_factura),
-    CHECK (categoria != 'Delivery' OR id_direccion IS NOT NULL),
-    baja INT DEFAULT 0 
-);
-
+	CONSTRAINT chk_categoria CHECK (categoria != 'Delivery' OR id_direccion IS NOT NULL)
+    )ENGINE=InnoDB;
+    
 -- Tabla dia_horario
 CREATE TABLE dia_horario (
     dia_semana VARCHAR(10) PRIMARY KEY,
     horario_apertura TIME NOT NULL,
     horario_cierre TIME NOT NULL,
+    duracion_reserva TIME NOT NULL,
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 -- Tabla excepcion_horario
 CREATE TABLE excepcion_horario (
@@ -173,17 +137,7 @@ CREATE TABLE excepcion_horario (
     horario_apertura TIME NOT NULL,
     horario_cierre TIME NOT NULL,
     baja INT DEFAULT 0 
-);
-
--- Relaciones entre tablas
-CREATE TABLE cliente_preferencia (
-    id_cliente INT NOT NULL,
-    id_preferencia INT NOT NULL,
-    PRIMARY KEY (id_cliente, id_preferencia),
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
-    FOREIGN KEY (id_preferencia) REFERENCES preferencia(id_preferencia),
-    baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE cliente_mesa (
     id_cliente INT NOT NULL,
@@ -198,7 +152,7 @@ CREATE TABLE cliente_mesa (
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_mesa) REFERENCES mesa(id_mesa),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE mesa_pedido (
     id_pedido INT NOT NULL,
@@ -206,28 +160,11 @@ CREATE TABLE mesa_pedido (
     fecha DATE NOT NULL,
     hora_inicio TIME NOT NULL,
     hora_fin TIME,
-    ci VARCHAR(11) NOT NULL,
     PRIMARY KEY (id_pedido, id_mesa),
     FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
     FOREIGN KEY (id_mesa) REFERENCES mesa(id_mesa),
-    FOREIGN KEY (ci) REFERENCES funcionario(ci),
     baja INT DEFAULT 0 
-);
-
-CREATE TABLE pedido_producto (
-    id_pedido INT NOT NULL,
-    id_producto INT NOT NULL,
-    cantidad INT NOT NULL,
-    importe DECIMAL(10, 2) NOT NULL,
-    nota TEXT,
-    ci VARCHAR(11) NOT NULL,
-    estado VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id_pedido, id_producto),
-    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
-    FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
-    FOREIGN KEY (ci) REFERENCES funcionario(ci),
-    baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE producto_categoria (
     id_producto INT NOT NULL,
@@ -236,23 +173,67 @@ CREATE TABLE producto_categoria (
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
     FOREIGN KEY (id_categoria) REFERENCES categoria_producto(id_categoria),
     baja INT DEFAULT 0 
-);
+)ENGINE=InnoDB;
+
+CREATE TABLE ingrediente (
+    id_ingrediente INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+    baja INT DEFAULT 0 
+)ENGINE=InnoDB;
+
+CREATE TABLE pedido_producto (
+	id_pedido_producto INT AUTO_INCREMENT,
+    id_pedido INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad INT NOT NULL,
+    importe DECIMAL(10, 2) NOT NULL,
+    nota TEXT,
+    PRIMARY KEY (id_pedido_producto),
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
+    FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+    baja INT DEFAULT 0 
+)ENGINE=InnoDB;
+
+-- Tabla para saber que ingredientes lleva cada producto dentro del pedido (incluyendo ingredientes base)
+CREATE TABLE pedido_ingrediente (
+    id_pedido_producto INT NOT NULL,
+    id_ingrediente INT NOT NULL,
+    cantidad INT NOT NULL,
+    FOREIGN KEY (id_pedido_producto) REFERENCES pedido_producto(id_pedido_producto),
+    FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id_ingrediente)
+)ENGINE=InnoDB;
+
+-- Tabla para asociar los ingredientes base y extra (se pueden agregar en el pedido)
+CREATE TABLE producto_ingrediente (
+    id_producto INT NOT NULL,
+    id_ingrediente INT NOT NULL,
+    cantidad INT NOT NULL DEFAULT 1,
+    extra BOOLEAN NOT NULL DEFAULT false,
+    PRIMARY KEY (id_producto, id_ingrediente),
+    FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+    FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id_ingrediente),
+    baja INT DEFAULT 0 
+)ENGINE=InnoDB;
 
 -- Índices recomendados
 CREATE INDEX idx_cliente ON cliente(id_cliente);
 CREATE INDEX idx_pedido ON pedido(id_pedido);
-CREATE INDEX idx_fecha_hora_pedido ON pedido(fecha, hora);
+CREATE INDEX idx_fecha_hora_pedido ON pedido(fecha_hora);
 CREATE INDEX idx_mesa ON mesa(id_mesa);
 
 -- Auditoría
+
 CREATE TABLE pedido_auditoria (
     id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
     id_pedido INT NOT NULL,
     fecha_modificacion DATETIME NOT NULL DEFAULT NOW(),
     estado_anterior VARCHAR(50) NOT NULL,
     estado_nuevo VARCHAR(50) NOT NULL,
-    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
-    baja INT DEFAULT 0 
+    ci_anterior VARCHAR(8) NULL,  -- Guarda la cédula anterior del pedido
+    ci_nuevo VARCHAR(8) NULL,     -- Guarda la cédula nueva del pedido
+    ci VARCHAR(8) NOT NULL,       -- Guarda la cédula del usuario que hizo el cambio
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido)
 );
 
 CREATE TABLE factura_auditoria (
@@ -274,37 +255,83 @@ CREATE TABLE pago_auditoria (
     FOREIGN KEY (id_pago) REFERENCES pago(id_pago),
     baja INT DEFAULT 0 
 );
-
-CREATE TABLE ingrediente (
-    id_ingrediente INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL,
-    precio DECIMAL(10, 2) NOT NULL,
-    stock INT NOT NULL,
-    extra BOOLEAN NOT NULL DEFAULT false,
-    baja INT DEFAULT 0 
+CREATE TABLE cliente_mesa_auditoria (
+    id_auditoria INT PRIMARY KEY AUTO_INCREMENT,
+    id_cliente INT NOT NULL,
+    id_mesa INT NOT NULL,
+    fecha DATE NOT NULL,
+    hora TIME NOT NULL,
+    cant_personas INT NOT NULL,
+    nombre_reserva VARCHAR(20) NOT NULL,
+    tel_contacto INT NOT NULL,
+    estado_anterior VARCHAR(20),
+    estado_nuevo VARCHAR(20),
+    accion VARCHAR(10) NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
+    fecha_modificacion DATETIME NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE producto_ingrediente (
-    id_producto INT NOT NULL,
-    id_ingrediente INT NOT NULL,
-    cantidad INT NOT NULL DEFAULT 1,
-    extra BOOLEAN NOT NULL DEFAULT false,
-    PRIMARY KEY (id_producto, id_ingrediente),
-    FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
-    FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id_ingrediente),
-    baja INT DEFAULT 0 
-);
+-- Trigers para cada una de las tablas auditorias
+DELIMITER $$
+
+CREATE TRIGGER trg_pedido_ci_auditoria
+BEFORE UPDATE ON pedido
+FOR EACH ROW
+BEGIN
+    -- Si la cédula (ci) cambió, guardar en la auditoría
+    IF OLD.ci <> NEW.ci THEN
+        INSERT INTO pedido_auditoria (id_pedido, fecha_modificacion, estado_anterior, estado_nuevo, ci_anterior, ci_nuevo, ci)
+        VALUES (OLD.id_pedido, NOW(), OLD.estado, NEW.estado, OLD.ci, NEW.ci, @usuario_ci);
+    END IF;
+END $$
+
+DELIMITER ;
 
 
 
-  -- Insertar datos en la tabla imagen
-INSERT INTO imagen (tipo, ruta) VALUES
-('Foto', 'imagen1.jpg'),
-('Foto', 'imagen2.jpg'),
-('Foto', 'imagen3.jpg'),
-('Foto', 'imagen4.jpg'),
-('Foto', 'imagen5.jpg');
+DELIMITER $$
 
+CREATE TRIGGER trg_factura_auditoria
+BEFORE UPDATE ON factura
+FOR EACH ROW
+BEGIN
+    IF OLD.estado <> NEW.estado THEN
+        INSERT INTO factura_auditoria (id_factura, estado_anterior, estado_nuevo)
+        VALUES (OLD.id_factura, OLD.estado, NEW.estado);
+    END IF;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER trg_pago_auditoria
+BEFORE UPDATE ON pago
+FOR EACH ROW
+BEGIN
+    IF OLD.monto <> NEW.monto THEN
+        INSERT INTO pago_auditoria (id_pago, monto_anterior, monto_nuevo)
+        VALUES (OLD.id_pago, OLD.monto, NEW.monto);
+    END IF;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER trg_cliente_mesa_auditoria
+AFTER INSERT ON cliente_mesa
+FOR EACH ROW
+BEGIN
+    INSERT INTO cliente_mesa_auditoria (id_cliente, id_mesa, fecha, hora, cant_personas, nombre_reserva, tel_contacto, estado_nuevo, accion)
+    VALUES (NEW.id_cliente, NEW.id_mesa, NEW.fecha, NEW.hora, NEW.cant_personas, NEW.nombre_reserva, NEW.tel_contacto, NEW.estado, 'INSERT');
+END $$
+
+DELIMITER ;
+
+
+-- insertar color base
+insert into personalizacion values ('#00ff40');
 -- Insertar datos en la tabla usuario
 INSERT INTO usuario (email, clave, nombre, apellido, telefono) VALUES
 ('juan@example.com', 'clave123', 'Juan', 'Perez', '123456789'),
@@ -318,91 +345,60 @@ INSERT INTO usuario (email, clave, nombre, apellido, telefono) VALUES
 ('sofia@example.com', 'clave606', 'Sofia', 'Martinez', '334455667'),
 ('pedro@example.com', 'clave707', 'Pedro', 'Perez', '445566778');
 
--- Insertar datos en la tabla personalizacion
-INSERT INTO personalizacion (nombre_rest, direccion, zona_horaria, moneda) VALUES
-('Restaurante A', 'Calle 123, Ciudad', 'UTC-3', 'USD'),
-('Restaurante B', 'Avenida 456, Ciudad', 'UTC-3', 'EUR'),
-('Restaurante C', 'Calle 789, Ciudad', 'UTC-3', 'USD'),
-('Restaurante D', 'Avenida 101, Ciudad', 'UTC-3', 'EUR'),
-('Restaurante E', 'Calle 202, Ciudad', 'UTC-3', 'USD');
-
--- Insertar datos en la tabla telefono
-INSERT INTO telefono (telefono, nombre_rest) VALUES
-('123456789', 'Restaurante A'),
-('987654321', 'Restaurante B'),
-('112233445', 'Restaurante C'),
-('556677889', 'Restaurante D'),
-('998877665', 'Restaurante E');
-
 -- Insertar datos en la tabla funcionario
-INSERT INTO funcionario ( id_usuario, ci, fecha_nacimiento, direccion, horario_entrada, horario_salida, cargo, id_imagen) VALUES
-('6','11111111111', '1985-05-10', 'Calle 1', '08:00:00', '16:00:00', 'Chef', 1),
-('7','22222222222', '1990-07-15', 'Calle 2', '09:00:00', '17:00:00', 'Mesero', 2),
-('8','33333333333', '1987-09-25', 'Calle 3', '10:00:00', '18:00:00', 'Administrativo', 3),
-('9','44444444444', '1992-12-05', 'Calle 4', '11:00:00', '19:00:00', 'Chef', 4),
-('10','55555555555', '1980-02-20', 'Calle 5', '07:00:00', '15:00:00', 'Mesero', 5);
+INSERT INTO funcionario ( id_usuario, ci, fecha_nacimiento, direccion, horario_entrada, horario_salida, cargo) VALUES
+('6','11111111111', '1985-05-10', 'Calle 1', '08:00:00', '16:00:00', 'Chef'),
+('7','22222222222', '1990-07-15', 'Calle 2', '09:00:00', '17:00:00', 'Mesero'),
+('8','33333333333', '1987-09-25', 'Calle 3', '10:00:00', '18:00:00', 'Administrativo'),
+('9','44444444444', '1992-12-05', 'Calle 4', '11:00:00', '19:00:00', 'Chef'),
+('10','55555555555', '1980-02-20', 'Calle 5', '07:00:00', '15:00:00', 'Mesero');
 
 -- Insertar datos en la tabla cliente
 INSERT INTO cliente (id_usuario) VALUES
 (1), (2), (3), (4), (5);
 
 -- Insertar datos en la tabla direccion
-INSERT INTO direccion (calle, esquina, n_puerta, referencia) VALUES
-('Calle A', 'Esquina 1', 101, 'Frente a la plaza'),
-('Calle B', 'Esquina 2', 202, 'Al lado del supermercado'),
-('Calle C', 'Esquina 3', 303, 'Cerca del parque'),
-('Calle D', 'Esquina 4', 404, 'Junto a la iglesia'),
-('Calle E', 'Esquina 5', 505, 'Frente al estadio');
+INSERT INTO direccion (id_usuario,calle, apto, n_puerta, referencia) VALUES
+(5,'Calle A', '101', 101, 'Frente a la plaza'),
+(4,'Calle B', '222', 202, 'Al lado del supermercado'),
+(3,'Calle C', '333', 303, 'Cerca del parque'),
+(2,'Calle D', '444', 404, 'Junto a la iglesia'),
+(1,'Calle E', '555', 505, 'Frente al estadio');
 
 -- Insertar datos en la tabla factura
-INSERT INTO factura (fecha, hora, total, iva, estado) VALUES
-('2025-01-01', '12:00:00', 50.00, 10.00, 'Pagada'),
-('2025-01-02', '14:30:00', 80.00, 16.00, 'Pendiente'),
-('2025-01-03', '15:00:00', 100.00, 20.00, 'Pagada'),
-('2025-01-04', '16:45:00', 120.00, 24.00, 'Pendiente'),
-('2025-01-05', '18:00:00', 60.00, 12.00, 'Pagada');
-
-
--- Insertar datos en la tabla preferencia (corregido para no violar el check constraint)
-INSERT INTO preferencia (nombre, alimentaria, dietetica, id_categoria) VALUES
-('Vegetariana', true, false, 1),
-('Sin gluten', true, false, 2),  -- Cambio: alimentaria true, dietetica false
-('Sin lactosa', true, false, 3),  -- Cambio: alimentaria true, dietetica false
-('Vegana', true, false, 4),
-('Carnívora', false, true, 5);
+INSERT INTO factura (fecha_hora, total, estado) VALUES
+('2025-01-01 12:00:00', 50.00,  'Pagada'),
+('2025-01-02 14:30:00', 80.00,  'Pendiente'),
+('2025-01-03 15:00:00', 100.00,  'Pagada'),
+('2025-01-04 16:45:00', 120.00,  'Pendiente'),
+('2025-01-05 18:00:00', 60.00,  'Pagada');
 
 
 -- Insertar datos en la tabla producto
-INSERT INTO producto (nombre, precio, descripcion) VALUES
-('Hamburguesa', 10.00, 'Deliciosa hamburguesa de carne'),
-('Pizza', 15.00, 'Pizza con ingredientes frescos'),
-('Ensalada', 8.00, 'Ensalada fresca con aderezo especial'),
-('Pasta', 12.00, 'Pasta al estilo italiano'),
-('Sopa', 7.00, 'Sopa casera con vegetales');
+INSERT INTO producto (nombre, precio, descripcion,imagen) VALUES
+('Hamburguesa', 10.00, 'Deliciosa hamburguesa de carne','image-example.jpg'),
+('Pizza', 15.00, 'Pizza con ingredientes frescos','image-example.jpg'),
+('Ensalada', 8.00, 'Ensalada fresca con aderezo especial','image-example.jpg'),
+('Pasta', 12.00, 'Pasta al estilo italiano','image-example.jpg'),
+('Sopa', 7.00, 'Sopa casera con vegetales','image-example.jpg');
 
 -- Insertar datos en la tabla categoria_producto
-INSERT INTO categoria_producto (nombre, descripcion, id_categoria_padre) VALUES
-('Plato Principal', 'Comidas principales', NULL),
-('Postre', 'Dulces y postres', NULL),
-('Bebidas', 'Bebidas frías y calientes', NULL),
-('Entradas', 'Entradas y aperitivos', NULL),
-('Comida Rápida', 'Comidas rápidas para llevar', NULL);
+INSERT INTO categoria_producto (nombre, descripcion, imagen) VALUES
+('Hamburguesas', '', 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGFtYnVyZ2VyfGVufDB8fDB8fHww'),
+('Helado', '',  'https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Pizza', '',  'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Entradas', 'Entradas y aperitivos', 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Comida Rápida', 'Comidas rápidas para llevar', 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
 
 -- Insertar datos en la tabla mesa
-INSERT INTO mesa (capacidad) VALUES
-(4),
-(2),
-(6),
-(8),
-(10);
+INSERT INTO mesa (id_mesa, capacidad) VALUES
+(1,4),
+(2,2),
+(3,6),
+(4,8),
+(5,10);
 
--- Insertar datos en la tabla pedido
-INSERT INTO pedido (subtotal, estado, categoria, id_cliente, fecha, hora, comentario, calificacion, id_direccion, id_factura) VALUES
-(50.00, 'Pendiente', 'Delivery', 1, '2025-01-01', '12:00:00', 'Ninguno', 5, 1, 1),
-(80.00, 'Pendiente', 'Mesa', 2, '2025-01-02', '14:30:00', 'Ninguno', 4, 2, 2),
-(100.00, 'Pagada', 'Delivery', 3, '2025-01-03', '15:00:00', 'Pedido grande', 3, 3, 3),
-(120.00, 'Pendiente', 'Mesa', 4, '2025-01-04', '16:45:00', 'Ninguno', 2, 4, 4),
-(60.00, 'Pagada', 'Delivery', 5, '2025-01-05', '18:00:00', 'Sin comentarios', 5, 5, 5);
+
 -- TEST DE RESERVAS
 INSERT INTO cliente_mesa (id_cliente, id_mesa, fecha, hora, cant_personas, nombre_reserva, tel_contacto, estado) VALUES
 (1, 1, '2025-02-01', '10:00:00', 4, 'Carlos Pérez', 123456789, 'Reservada'),
@@ -435,20 +431,16 @@ INSERT INTO cliente_mesa (id_cliente, id_mesa, fecha, hora, cant_personas, nombr
 (5, 5, '2025-02-10', '20:00:00', 5, 'Vanessa Sánchez', 369258147, 'Reservada'),
 (5, 5, '2025-02-15', '22:00:00', 5, 'Ismael Correa', 852963741, 'Reservada');
 
+INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura,ci) VALUES
+(50.00, 'Pendiente', 'Delivery', 1, 1, 1,'11111111'),
+(80.00, 'Pendiente', 'Mesa', 2,  2, 2,'22222222'),
+(100.00, 'Listo', 'Delivery', 3,  3, 3,'22222222'),
+(120.00, 'Pendiente', 'Mesa', 4,   4, 4,'11111111'),
+(60.00, 'En preparación', 'Delivery', 5,  5, 5,'22222222');
 
-INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin, ci) VALUES
-(1, 1, '2025-01-28', '12:00:00', '14:00:00', '22222222222'),
-(2, 2, '2025-01-28', '13:00:00', '14:30:00', '22222222222'),
-(3, 3, '2025-01-28', '14:00:00', '15:00:00', '22222222222'),
-(4, 4, '2025-01-28', '15:00:00', '16:00:00', '22222222222'),
-(5, 5, '2025-01-28', '16:00:00', '17:00:00', '22222222222');
-
-INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota, ci, estado) VALUES
-(1, 1, 2, 20.00, 'Sin salsa', '22222222222', 'En proceso'),
-(2, 2, 1, 15.00, 'Con extra queso', '22222222222', 'En proceso'),
-(3, 3, 3, 30.00, 'Con ensalada', '22222222222', 'En proceso'),
-(4, 4, 4, 40.00, 'Con bebida', '22222222222', 'En proceso'),
-(5, 5, 5, 50.00, 'Con postre', '22222222222', 'En proceso');
+INSERT INTO mesa_pedido (id_pedido, id_mesa, fecha, hora_inicio, hora_fin )VALUES
+(2, 2, '2025-01-28', '13:00:00', '14:30:00'),
+(4, 3, '2025-01-28', '14:00:00', '15:00:00' );
 
 INSERT INTO producto_categoria (id_producto, id_categoria) VALUES
 (1, 1),
@@ -457,28 +449,28 @@ INSERT INTO producto_categoria (id_producto, id_categoria) VALUES
 (4, 4),
 (5, 5);
 
-INSERT INTO ingrediente (nombre, precio, stock, extra) VALUES
-('Queso', 2.00, 50, true),    -- Ingrediente extra
-('Tomate', 0.50, 100, false), -- No extra
-('Lechuga', 0.30, 80, false), -- No extra
-('Bacon', 3.00, 30, true),    -- Ingrediente extra
-('Salsa especial', 1.00, 20, true), -- Ingrediente extra
-('Pechuga de pollo', 3.50, 40, true), -- Ingrediente extra
-('Pepperoni', 2.50, 60, true), -- Ingrediente extra
-('Mushrooms', 1.80, 70, true), -- Ingrediente extra
-('Aceitunas', 1.20, 90, false), -- No extra
-('Cebolla', 0.70, 100, false); -- No extra
+INSERT INTO ingrediente (nombre, precio) VALUES
+('Queso', 2.00),  
+('Tomate', 0.50),
+('Lechuga', 0.30),
+('Bacon', 3.00),
+('Salsa especial', 1.00), 
+('Pechuga de pollo', 3.50),
+('Pepperoni', 2.50), 
+('Mushrooms', 1.80), 
+('Aceitunas', 1.20),
+('Cebolla', 0.70); 
 
 -- Hamburguesa
 INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
 VALUES (1, 1, 1, true),  -- Hamburguesa con queso (extra)
-       (1, 2, 2, false), -- Hamburguesa con tomate
-       (1, 3, 1, false), -- Hamburguesa con lechuga
+       (1, 2, 2, true), -- Hamburguesa con tomate
+       (1, 3, 1, true), -- Hamburguesa con lechuga
        (1, 4, 1, true),  -- Hamburguesa con bacon (extra)
-       (1, 5, 1, false), -- Hamburguesa con salsa especial
-       (1, 7, 1, false), -- Hamburguesa con pepperoni
+       (1, 5, 1, true), -- Hamburguesa con salsa especial
+       (1, 7, 1, true), -- Hamburguesa con pepperoni
        (1, 9, 1, true),  -- Hamburguesa con aceitunas (extra)
-       (1, 10, 1, false);-- Hamburguesa con cebolla
+       (1, 10, 1, true);-- Hamburguesa con cebolla
 
 -- Pizza
 INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) 
@@ -523,9 +515,97 @@ VALUES (5, 1, 1, false), -- Sopa con queso
        (5, 7, 1, false), -- Sopa con pepperoni
        (5, 9, 1, true),  -- Sopa con aceitunas (extra)
        (5, 10, 1, false);-- Sopa con cebolla
+       
+-- Insertar datos en la tabla pedido
+
+INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) VALUES
+(1, 1, 1, 15.00, 'Sin salsa'),
+(1, 1, 1, 20.00, 'Con extra queso');
+
+-- Insertar ingredientes para el pedido 1
+INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) VALUES
+(1, 5, 1), -- Ingrediente 5 para producto 1
+(2, 2, 2); -- Ingrediente 2 para producto 1
+
+INSERT INTO dia_horario (dia_semana, horario_apertura, horario_cierre,duracion_reserva) VALUES
+('Monday', '09:00:00', '22:00:00','3:00:00'),
+('Tuesday', '09:00:00', '22:00:00','3:00:00'),
+('Wednesday', '09:00:00', '22:00:00','3:00:00'),
+('Thursday', '09:00:00', '22:00:00','3:00:00'),
+('Friday', '09:00:00', '23:00:00','3:00:00'),
+('Saturday', '10:00:00', '23:00:00','3:00:00'),
+('Sunday', '10:00:00', '21:00:00','3:00:00');
+
+UPDATE `chefhub_db`.`categoria_producto` SET `baja` = '1' WHERE (`id_categoria` = '2');
+UPDATE `chefhub_db`.`categoria_producto` SET `baja` = '1' WHERE (`id_categoria` = '4');
+UPDATE `chefhub_db`.`categoria_producto` SET `baja` = '1' WHERE (`id_categoria` = '5');
+INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Empanadas', 'https://assets.elgourmet.com/wp-content/uploads/2023/03/cover_fpa6sn8vqc_empanadas.jpg');
+INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Guarniciones', 'https://okdiario.com/img/2023/04/12/el-truco-definitivo-para-que-las-patatas-fritas-te-queden-mas-crujientes.jpg');
+INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Tragos', 'https://cdn0.casamiento.com.uy/article-vendor-o/2371/original/1280/jpg/pappas-grill-tragos_16_2371_v1.jpeg');
+INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Tequeños', 'https://cuk-it.com/wp-content/uploads/2021/10/tequenios-ig01.webp');
 
 
+UPDATE `chefhub_db`.`producto` SET `nombre` = 'Hamburguesa Simple', `imagen` = 'https://i.ytimg.com/vi/SvOx7tA_Cv8/sddefault.jpg' WHERE (`id_producto` = '1');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Doble', '10', 'https://www.sargento.com/assets/Uploads/Recipe/Image/GreatAmericanBurger__FillWzExNzAsNTgzXQ.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Bacon cheddar', '10', 'https://pastrychefonline.com/wp-content/uploads/2017/07/a-smashed-double-bacon-cheeseburger-2.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburquesa Cheddar Melt', '10', 'https://cache-mcd-middleware.mcdonaldscupones.com/media/image/product$kzXv7hw4/200/200/original?country=br');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa BBQ', '10', 'https://cache-mcd-middleware.mcdonaldscupones.com/media/image/product$kvXv7wjX/200/200/original?country=uy');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa con Champiñones y Queso', '10', 'https://ohthatsgood.com/wp-content/uploads/2013/06/Mushroom-Swiss-Burger-1200x1200-1.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa de Pollo', '10', 'https://s7d1.scene7.com/is/image/mcdonalds/DC_202104_0100_DeluxeSpicyCrispyChickenSandwich_PotatoBun_1564x1564-1:product-header-mobile?wid=1313&hei=1313&dpr=off');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Vegetariana', '10', 'https://i.blogs.es/06dd69/mcvegan/1366_2000.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Hawaiana', '10', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCgOAMasWJZbE3V9cPcd4eUcjqlIm6JS8_pw&s');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa de Pescado', '10', 'https://s7d1.scene7.com/is/image/mcdonalds/DC_202401_3933-999_DoubleFilet-O-Fish_WholeSlice_1564x1564-1:product-header-mobile?wid=1313&hei=1313&dpr=off');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('6', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('7', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('8', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('9', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('10', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('11', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('12', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('13', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('14', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('15', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('16', '1');
 
 
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Carne', '10', 'Rellena de carne de res o cerdo picada o molida, generalmente con cebolla, pimientos y especias', 'https://familiakitchen.com/wp-content/uploads/2021/09/Empanadas-open-e1631296397215.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Pollo', '10', 'Contiene pollo desmenuzado con cebolla, ajo y a veces pimentón o aceitunas', 'https://alicante.com.ar/wp-content/uploads/2022/06/iStock-1437638745-Empanadas-de-pollo-scaled-1924x1924.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Jamón y Queso', '10', 'Lleva jamón y queso derretido, con una textura cremosa y un sabor suave', 'https://www.hola.com/horizon/landscape/9beabeb653ad-empanadillas-jamon-queso-t.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Queso', '10', 'Solo con queso, que puede ser mozzarella, queso crema o queso fresco, perfecta para los amantes del queso derretido.', 'https://www.chefandcook.cl/carta/queso-solo-fritas.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Espinaca y Queso', '10', 'Relleno de espinaca cocida mezclada con queso, a veces con un toque de ricotta', 'https://i0.wp.com/unacocinafeliz.com/wp-content/uploads/2022/10/DSC_0588-scaled.jpg?fit=1024%2C683&ssl=1');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Atún', '10', 'Contiene atún en conserva mezclado con cebolla, huevo y a veces aceitunas', 'https://www.cocinavital.mx/wp-content/uploads/2021/03/empanadas-de-atun.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada Caprese', '10', 'Inspirada en la ensalada caprese, con tomate, mozzarella y albahaca', 'https://amadomarketusa.com/cdn/shop/products/amadomarketubereats-36_2048x.jpg?v=1670076254');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Humita', '10', 'Lleva una mezcla de choclo (maíz) cremoso con queso y a veces un toque de ají o azúcar', 'https://media.losandes.com.ar/adjuntos/368/migration/resizer/v2/CU37R2OQZBFUDON4JT2JQASXPQ.jpg?auth=2b72c9a9654885f5002b580dcadb680a58b267b053dec6e15e2632e441b2ee40&width=600&height=432');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada Dulce', '10', 'Puede estar rellena de dulce de leche o pasta de membrillo, ideal como postre', 'https://i.pinimg.com/736x/41/d3/78/41d37854b3024e002c05800e592e76b7.jpg');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('15', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('16', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('17', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('18', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('19', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('20', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('21', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('22', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('23', '6');
 
 
+UPDATE `chefhub_db`.`producto_categoria` SET `id_categoria` = '3' WHERE (`id_producto` = '2') and (`id_categoria` = '2');
+UPDATE `chefhub_db`.`producto` SET `baja` = '1' WHERE (`id_producto` = '3');
+
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Margarita', 'Clásica italiana con salsa de tomate, mozzarella y hojas de albahaca fresca.', 'https://cloudfront-us-east-1.images.arcpublishing.com/elespectador/D2KL4RRCRJA7RJC5TNULFZEKR4.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Pepperoni', 'Lleva salsa de tomate, queso mozzarella y rodajas de pepperoni, que se doran y sueltan su grasa característica.', 'https://pizzeriabellaroma.es/wp-content/uploads/receta-de-pizza-de-pepperoni.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Cuatro Quesos', 'Mezcla de cuatro quesos (generalmente mozzarella, gorgonzola, parmesano y provolone) para un sabor fuerte y cremoso.', 'https://comedera.com/wp-content/uploads/sites/9/2022/04/Pizza-cuatro-quesos-shutterstock_1514858234.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Napolitana', 'Similar a la Margarita, pero con rodajas de tomate fresco y aceitunas.', 'https://osojimix.com/wp-content/uploads/2022/06/Para-la-masa-de-pizza-napolitana-8-hrs-fermentacion-Web-1.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Hawaiana', 'Contiene jamón y piña, creando una combinación de dulce y salado que genera debate.', 'https://images.mrcook.app/recipe-image/0193adc6-9a5a-774c-982b-fa934194885d');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Fugazzeta', 'Pizza argentina con una capa gruesa de queso mozzarella y mucha cebolla caramelizada.', 'https://www.cocinadelirante.com/sites/default/files/styles/gallerie/public/fugazzeta-pizza-argentina-rellena-aceituna.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza BBQ Chicken', 'Lleva pollo desmenuzado, salsa barbacoa en lugar de tomate, cebolla morada y queso.', 'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2012/2/28/1/FNM_040112-Copy-That-002_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382541346030.webp');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Vegetariana', 'Cargada con verduras como pimientos, champiñones, cebolla, tomate y aceitunas.', 'https://cdn.shopify.com/s/files/1/0191/9978/files/Pizza-Veggie-Supreme-blog.jpg?v=1652775259');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Carbonara', 'Inspirada en la pasta carbonara, con salsa blanca, panceta, huevo y queso pecorino o parmesano.', 'https://www.justspices.es/media/recipe/resized/510x510/recipe/receta-pizza-carbonara.jpg');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('24', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('25', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('26', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('27', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('28', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('29', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('30', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('31', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('32', '3');

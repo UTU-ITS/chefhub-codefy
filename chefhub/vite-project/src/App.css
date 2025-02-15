@@ -4,7 +4,6 @@ body {
   background: rgb(241, 241, 241) !important;
   font-family: Poppins, sans-serif;
   font-weight: 400;
-  margin: 0;
 }
 
 .main-content {
@@ -12,6 +11,7 @@ body {
 }
 
 .btn {
+    font-size: var(--text-size);
     font-family: Poppins, sans-serif;
     font-weight: 600;
     height: 50px; 
@@ -19,20 +19,19 @@ body {
     align-items: center;
     justify-content: center;
     margin-right: 10px;
-    background-color: #ab8ef4;
+    background-color: var(--primary-color);
     color: #fff;
     border: 2px solid #fff;
-    border-color: #fff;
     border-radius: 8px;
     transition-duration: 0.2s;
-    width: auto;    
+    padding: 0 20px;
     display: inline-block; 
   }
 
 .btn:hover {
     background-color: #fff;
-    border-color: #ab8ef4;
-    color: #ab8ef4;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 .txt-area{
@@ -42,7 +41,7 @@ body {
   width: 250px;
   margin: 10px;
   border-radius: 8px;
-  border: 2px solid #ab8ef4;
+  border: 2px solid var(--primary-color);
   padding: 10px;
 }
 
@@ -53,7 +52,7 @@ body {
   width: 500px;
   margin: 10px;
   border-radius: 8px;
-  border: 2px solid #ab8ef4;
+  border: 2px solid var(--primary-color);
   padding: 10px;
 }
 
@@ -68,9 +67,19 @@ body {
 
 .admin-title {
   display: flex;
-  padding: 0 25px;
+  padding: 1rem 25px;
   color: var(--navbar-color);
-  font-size: 13px;
+  font-size: var(--title-size-lg);
+  font-weight: bold;
+  align-items: center;
+}
+
+.admin-subtitle {
+  display: flex;
+  padding: 0.5rem 25px;
+  color: var(--navbar-color);
+  font-size: var(--title-size-md);
+  font-weight: bold;
 }
 
 /*Opciones*/
@@ -97,6 +106,7 @@ body {
   font-size: 12px;
   gap: 5px;
   box-shadow: var(--shadow);
+  border: transparent;
 }
 
 .admin-btn-view {
@@ -128,42 +138,42 @@ body {
 }
 
 .admin-table th {
-  padding: 4px 7px;
-  background-color: #ffffff;
-  color: #575757;
+  padding: 0.4rem 1.5rem;
+  background-color: #f9fafb;
+  color: #979ca6;
   font-size: 14px;
   text-transform: uppercase;
-  font-weight: bold;
-  text-align: center;
+  font-weight: 300;
+  text-align:start;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .admin-table tr {
-  border-bottom: 1px solid #dddddd;
-  cursor: pointer;
+  height: auto; /* Permite que la altura se ajuste automáticamente */
+  background-color: #ffffff;
+}
+
+.admin-table tbody:has(tr:only-child) tr {
+  height: 40px; /* Altura más baja cuando hay un solo registro */
 }
 
 .admin-table td {
-  font-size: 12px;
-  text-align: center;
-  padding: 10px 7px;
-  color: #575757;
-  background-color: #f2f2f2;
-}
-
-.admin-table tr.selected {
-  background-color: #e5e5e5;
+  font-size: 14px;
+  padding: 0.4rem 1.5rem;
+  color: #7f828a;
+  min-height: 60px; /* Ajusta la altura mínima */
 }
 
 .admin-table td:last-child {
   display: flex;
-  justify-content: center;
-  gap: 5px;
 }
 
-.admin-table button {
-padding: 2px 2px;
-font-size: 8px;
-gap: 2px;
+.admin-table td:last-child button {
+  box-shadow: var(--shadow-xl);
+}
+
+.admin-table tr.selected {
+  background-color: #e5e5e5;
 }
 
 /*Navegacion en la tabla*/
@@ -180,11 +190,42 @@ gap: 2px;
 .search-bar {
   padding: 10px;
   font-size: 12px;
-  margin-left: 10px;
   border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 250px;
+  height: 2.5rem;
+}
+
+/*select*/
+select {
+  padding: 8px 12px;
+  font-size: 12px;
+  border: 2px solid #aaa;
   border-radius: 50px;
   width: 250px;
-  height: 15px;
+  height: auto;
+  min-height: 35px;
+  background-color: white;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  appearance: none; /* Oculta el diseño por defecto en algunos navegadores */
+}
+
+/* Flecha personalizada para navegadores que soportan `appearance: none;` */
+select::-ms-expand {
+  display: none;
+}
+
+/* Efecto al pasar el mouse */
+select:hover {
+  border-color: #888;
+}
+
+/* Efecto cuando se hace clic */
+select:focus {
+  border-color: #555;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /*Direcciones Clientes*/
@@ -238,11 +279,22 @@ gap: 2px;
 }
 
 .modal-content button {
-  background: #ab8ef4;
+  background: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 8px;
   padding: 10px 20px;
   cursor: pointer;
   margin-top: 20px;
+}
+
+/*Inputs*/
+input [type="text"] {
+  width: 100%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

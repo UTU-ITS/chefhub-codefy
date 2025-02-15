@@ -1,198 +1,215 @@
+@import url(../../design.css);
+
 .reservas-container {
+  background-color: #ffffff;
+  width: 80%;
+  height: auto;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.reservas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  flex-direction: column;
 }
 
-.reservas-container h1 {
-  color: #6c5ce7;
-  margin-bottom: 2rem;
+.reservas-header {
+  width: 100%;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.reservas-header h1 {
+  color: var(--navbar-color);
   text-align: center;
+  font-size: var(--title-size-xxl);
+  font-weight: 600;
+}
+
+.reservas-header svg {
+  fill: var(--primary-color);
+}
+
+.reservas-description {
+  width: 100%;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.reservas-description p {
+  text-align: center;
+  color: var(--navbar-color);
+  font-size: var(--title-size-lg);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: var(--font-family, sans-serif);
 }
 
 .reservas-content {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+  width: 100%;
 }
 
-/* Calendar customization */
-.calendar-section {
-  flex: 0 1 400px;
+.reservas-section {
+  display: flex;
+  width: 100%;
+}
+
+.reservas-section-left, .reservas-section-right {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+}
+
+.reservas-section-right {
+  justify-content: center;
+}
+
+.selected-date {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .custom-calendar {
   width: 100% !important;
-  max-width: 400px;
-  margin: 0 auto;
+  max-width: 400px; /* Máximo ancho */
+  min-width: 300px; /* Ancho mínimo */
+  margin: 0 auto; /* Centrado del calendario */
   border: none !important;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
 }
 
-.react-calendar__tile--active {
-  background: #6c5ce7 !important;
-  color: white !important;
+.react-calendar {
+  width: 100%; /* Asegura que el calendario se ajuste correctamente al contenedor */
+  margin-bottom: 1rem; /* Espacio abajo del calendario */
 }
 
-.react-calendar__tile--now {
-  background: #a29bfe !important;
+.slots-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrado del contenido */
 }
 
-/* Time slots styling */
-.time-slots-section {
-  flex: 0 1 400px;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.time-slots-section h2 {
-  color: #6c5ce7;
+.slots-title {
+  display: flex;
+  justify-content: center;
+  width: 100%;
   margin-bottom: 1rem;
 }
 
-.time-slots-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 0.5rem;
+.slots-section .selected-date {
+  margin-top: 1rem; /* Mueve la fecha hacia abajo */
 }
 
-.time-slot {
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.7rem;
+  place-items: center; /* Centra horizontal y verticalmente */
+}
+
+.card-slot {
   padding: 0.5rem;
-  border: 2px solid #6c5ce7;
-  border-radius: 4px;
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
   background: white;
-  color: #6c5ce7;
+  color: var(--primary-color);
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  font-size: var(--title-size);
 }
 
-.time-slot:hover {
-  background: #6c5ce7;
+.card-slot:hover {
+  background: var(--primary-color);
   color: white;
 }
 
-.time-slot.selected {
-  background: #6c5ce7;
+.card-slot.selected {
+  background: var(--primary-color);
   color: white;
+  transform: scale(1.05);
 }
 
-/* Tables styling */
-.tables-section {
-  flex: 0 1 400px;
-  background: white;
+.table-capacity {
+  font-weight: bold;
+}
+
+.contact-form {
+  background-color: #ffffff;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.tables-section h2 {
-  color: #6c5ce7;
-  margin-bottom: 1rem;
-}
-
-.tables-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  font-size: var(--title-size);
   gap: 1rem;
 }
 
-.table-card {
-  padding: 1rem;
-  border: 2px solid #6c5ce7;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.table-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
-}
-
-.table-card.selected {
-  background: #6c5ce7;
-  color: white;
-}
-
-.table-card h3 {
-  margin: 0;
-  margin-bottom: 0.5rem;
-}
-
-.table-card p {
-  margin: 0;
-}
-
-/* Contact form styling */
-.contact-form {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.contact-form h2 {
-  color: #6c5ce7;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.form-group {
+.contact-form .form-group {
   margin-bottom: 1rem;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #4a4a4a;
-}
-
-.form-group input {
+.contact-form input {
   width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #6c5ce7;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #5849e8;
-  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+.reservas-navigation {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  gap: 10px;
 }
 
-/* Reserve button */
 .reserve-button {
-  display: block;
-  width: 100%;
-  max-width: 300px;
-  margin: 2rem auto;
-  padding: 1rem 2rem;
-  background: #6c5ce7;
+  background: var(--primary-color);
   color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  padding: 0.8rem 1.5rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .reserve-button:hover {
-  background: #5849e8;
-  transform: translateY(-2px);
+  background: transparent;
+  color: var(--primary-color);
 }
 
-.reserve-button:disabled {
-  background: #a29bfe;
-  cursor: not-allowed;
-  transform: none;
+.react-calendar__tile--now:enabled:hover, .react-calendar__tile--now:enabled {
+  background: var(--primary-color-light) !important;
+  color: var(--primary-color);
+}
+
+.react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus {
+  background: var(--primary-color) !important;
+  color: white;
+}
+
+.react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled {
+  background: var(--primary-color) !important;
+  color: white;
 }

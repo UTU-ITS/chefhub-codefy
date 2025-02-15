@@ -1,3 +1,5 @@
+@import url('../../design.css');
+
 .cart {
     position: fixed;
     z-index: 9995;
@@ -10,7 +12,7 @@
     background-color: #f9f9f9;
     color: #333;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -20,6 +22,33 @@
 
 .cart.open {
     transform: translateX(0);
+}
+
+.login-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #811edb;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease-in;
+    z-index: 9999;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }
 
 .cart-title {
@@ -50,7 +79,6 @@
 }
 
 .cart-items {
-    padding: 10px;
     flex-grow: 1;
     overflow-y: auto;
 }
@@ -79,12 +107,14 @@
 }
 
 .cart-item-info {
-    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .cart-item-info p {
-    margin: 0;
     color: #333;
+    font-size: var(--text-size);
 }
 
 .quantity {
@@ -125,8 +155,8 @@
     color: #fff;
     border: none;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -139,7 +169,8 @@
 }
 
 .cart-total {
-    font-size: 1.2rem;
+    display: flex;
+    font-size: var(--title-size-lg);
     font-weight: bold;
     text-align: right;
     margin-top: auto;
@@ -161,69 +192,21 @@
     justify-content: space-between;
 }
 
-.btn {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-<<<<<<< HEAD
-    height: 50px; 
-    width: 150px;
+.cart-buttons .btn{
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    background-color: #811edb;
-    color: #fff;
-    border: 2px solid #fff;
-    border-color: #fff;
-    border-radius: 25px;
-    transition-duration: 0.2s;
-  }
-.btn:hover {
-    background-color: #fff;
-    border-color: #811edb;
-    color: #811edb;
 }
 
-  .btn-delete {
-    font-family: Poppins, sans-serif;
-    font-weight: 600;
-    height: 35px; 
-    width: 35px;
-=======
-    height: 45px; 
-    width: 140px;
->>>>>>> b8ad6c322ce53d6f4cd426bef88df9edaf4260e8
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #811edb;
-    color: #fff;
-    border: none;
-    border-radius: 25px;
-<<<<<<< HEAD
-    transition-duration: 0.2s;
-
-    position: absolute;
-    bottom: 10px; 
-    right: 10px;  
+.btn:disabled {
+    background-color: #ccc;  /* Color gris apagado */
+    cursor: not-allowed;      /* Cursor indicando que está deshabilitado */
+    opacity: 0.6;
+    border: none;    
 }
 
-.btn-delete:hover {
-    background-color: #fff;
-    border-color: #811edb;
-    color: #811edb;
+.btn:disabled:hover {
+    background-color: none;
+    color: #ffffff;
 }
-
-=======
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.btn:hover {
-    background-color: #660bb8;
-    color: #fff;
-}
->>>>>>> b8ad6c322ce53d6f4cd426bef88df9edaf4260e8
 
 .button-cart:hover {
     background-color: transparent;
@@ -233,86 +216,3 @@
     background-color: transparent;
     padding: 0;
 }
-<<<<<<< HEAD
-
-.quantity-button:hover {
-    background-color: #fff;
-    border-color: #811edb;
-    color: #811edb;
-}
-
-.quantity-button:active {
-    background-color: #bbb;
-}
-.cssbuttons-io {
-    position: relative;
-    font-family: Poppins, sans-serif;
-    font-weight: 500;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    border-radius: 25px;
-    cursor: pointer;
-    border: 2px solid #811edb;
-    background: linear-gradient(to right, #811edb, #871fe7);
-    color: #811edb;
-    overflow: hidden;
-    padding: 0.6em 1em;
-}
-
-.cssbuttons-io span {
-    position: relative;
-    z-index: 10;
-    transition: color 0.4s, opacity 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5em;
-}
-
-.cssbuttons-io span.fade {
-    opacity: 0;
-}
-
-.cssbuttons-io svg {
-    color: #811edb;
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-}
-
-.cssbuttons-io:hover {
-    
-    color: #ffffff;
-}
-.cssbuttons-io:hover svg {
-    
-    color: #ffffff;
-}
-
-.cssbuttons-io::before,
-.cssbuttons-io::after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-.cssbuttons-io::before {
-    content: "";
-    background: white;
-    width: 120%;
-    left: -10%;
-    transform: skew(30deg);
-    transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
-}
-
-.cssbuttons-io:hover::before {
-    transform: translate3d(100%, 0, 0);
-}
-
-.cssbuttons-io:active {
-    transform: scale(1);
-}
-=======
->>>>>>> b8ad6c322ce53d6f4cd426bef88df9edaf4260e8

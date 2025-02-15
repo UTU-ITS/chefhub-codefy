@@ -5,14 +5,18 @@ import { CloseIcon2 } from '../../img/HeroIcons';
 import Ingredients from './Ingredients';
 
 export default function CartSummary() {
-  const { cartItems, addToCart, removeFromCartByUniqueId } = useContext(CartContext);
-  const [notes, setNotes] = useState({});
+  const { cartItems, addToCart, removeFromCartByUniqueId, updateNoteInCart } = useContext(CartContext);
+  const [expandedItems, setExpandedItems] = useState({}); // Estado para manejar los productos expandidos
+
+  const toggleDetails = (uniqueId) => {
+    setExpandedItems(prevState => ({
+      ...prevState,
+      [uniqueId]: !prevState[uniqueId]
+    }));
+  };
 
   const handleNoteChange = (uniqueId, note) => {
-    setNotes(prevNotes => ({
-      ...prevNotes,
-      [uniqueId]: note
-    }));
+    updateNoteInCart(uniqueId, note);
   };
 
   const handleAddItem = (item) => {
@@ -30,24 +34,34 @@ export default function CartSummary() {
         <div className='cart-summary__items'>
           {cartItems.map((item) => (
             <div className='cart-summary__item' key={item.uniqueId}>
-              <button 
-                className="cart-summary__add-button"
-                onClick={() => handleAddItem(item)}
-              >
-                +
-              </button>
               <img className="cart-summary__img" src={item.image} alt={item.name} />
               <div className="cart-summary__item-info">
-                <h3 className='item-s-name'>{item.name}</h3>
+                <h1 className='item-s-name'>{item.name}</h1>
                 <p className='item-s-description'>{item.description}</p>
-                <Ingredients productId={item.id} uniqueId={item.uniqueId} />
-                <p className='item-s-price'>${item.price.toFixed(2)}</p>
+
+                {/* Botón para alternar detalles */}
+                <button 
+                  className="cart-summary__details-btn"
+                  onClick={() => toggleDetails(item.uniqueId)}
+                >
+                  {expandedItems[item.uniqueId] ? 'Ocultar detalles' : 'Ver detalles'}
+                </button>
+
+                
+                <div className='cart-summary__info_ingredients'>
+                {expandedItems[item.uniqueId] && (
+                  <Ingredients productId={item.id} uniqueId={item.uniqueId} />
+                )}
+
                 <textarea
                   className="cart-summary__product-note"
                   placeholder="Agregar nota (opcional)"
-                  value={notes[item.uniqueId] || ''}
+                  value={item.note || ''}
                   onChange={(e) => handleNoteChange(item.uniqueId, e.target.value)}
                 />
+                </div>
+
+                <p className='item-s-price'>${item.price.toFixed(2)}</p>
               </div>
               
               <button 

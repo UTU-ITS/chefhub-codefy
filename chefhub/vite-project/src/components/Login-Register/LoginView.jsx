@@ -2,23 +2,38 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './LoginView.css';
-import { ChakraProvider } from '@chakra-ui/react';
+import Modal from 'react-modal';
 import { UserContext } from '../../context/user';
+
+Modal.setAppElement('#root');
 
 export default function LoginView() {
     const navigate = useNavigate();
-    const { login } = useContext(UserContext); // Acceder al contexto para guardar el usuario
+    const { user, login } = useContext(UserContext);
     const [inputs, setInputs] = useState({});
-    const [error, setError] = useState(''); // Estado para manejar errores
+    const [error, setError] = useState('');
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [email, setEmail] = useState('');
+    const [verificationCode, setVerificationCode] = useState('');
+    const [stepFG, setStepFG] = useState(1);
+    const [step, setStep] = useState(1);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setInputs((values) => ({ ...values, [name]: value }));
     };
 
+    const handleContinue = () => {
+        if (inputs.email) {
+            setStep(2);
+        } else {
+            setError('Por favor, ingrese su correo electrónico.');
+        }
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setError(''); // Limpiar errores previos
+        setError('');
 
         try {
             const response = await axios.post(
@@ -28,59 +43,157 @@ export default function LoginView() {
                     password: inputs.password,
                 },
                 {
-            headers: {
-                'Content-Type': 'application/json', // Asegura que el servidor pueda interpretar JSON
-            },
-        });
-
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
             if (response.data) {
                 login(response.data);
-                console.log(response.data) // Guardar los datos del usuario en el contexto
-                navigate('/'); // Redirigir al inicio u otra ruta
+
+                navigate('/');
             }
         } catch (err) {
             console.error(err);
-            setError('Error de inicio de sesión. Verifique sus credenciales.'); // Mostrar error en caso de fallo
+            setError('Error de inicio de sesión. Verifique sus credenciales.');
+        }
+        
+    };
+    const handleSendVerificationEmail = async () => {
+        const HandleCheckMailisRegistered = async () => {
+            try {
+                const response = await axios.post("http://localhost/api/checkemail", { email });
+                if (response.data.success) {
+                    console.log(response.data);
+                    return response.data; // Devuelvo la id si el correo está registrado
+                } else {
+                    alert(`Error: ${response.data.message}`);
+                    return null; // Si no está registrado, devuelvo null
+                }
+            } catch (error) {
+                console.error("Error al verificar el correo:", error);
+                alert("Este correo no está registrado.");
+                return null;
+            }
+        }
+    
+        if (!email) {
+            alert("Por favor, ingresa un correo electrónico.");
+            return;
+        }
+    
+        // Verificamos si el correo está registrado
+        const userId = await HandleCheckMailisRegistered();
+        if (!userId) return; 
+    
+        try {
+            const response = await axios.post("http://localhost/api/sendmail", { email });
+            if (response.data.success) {
+                setStepFG(2);
+    
+                // Aquí guardamos la id en el contexto del usuario
+                // Asegúrate de tener acceso a tu contexto y setearlo adecuadamente
+                login({ id_usuario: userId.data }); // O la forma adecuada de actualizar el contexto
+            } else {
+                alert(`Error: ${response.data.message}`);
+            }
+        } catch (error) {
+            console.error("Error al enviar el mail:", error);
+            alert("Hubo un problema al enviar el mail. Inténtalo más tarde.");
         }
     };
-
+    
+    
+    const handleVerifyCode = async () => {
+        try {
+            const response = await axios.post("http://localhost/api/checktoken", { email, tokenInput: verificationCode });
+            
+            if (response.data.success) {
+               
+                alert("Código verificado correctamente.");
+                setModalIsOpen(false);
+                navigate('/forgot-password');
+            } else {
+                alert("Código incorrecto, intenta de nuevo.");
+            }
+        } catch (error) {
+            console.error("Error al verificar código:", error);
+            alert("Hubo un problema al verificar el código.");
+        }
+    };
     return (
-        <ChakraProvider>
-            <div className='login-div'>
-                <div className="login-div-box">
-                    <form onSubmit={handleSubmit}>
-                        <div className="login-span">
-                            <strong>Inicio de Sesión</strong>
-                        </div>
-                        <div className="login-div-content">
-                            <span className="login-span">Correo Electrónico</span>
-                            <input
-                                name="email"
-                                type="email"
-                                placeholder="Ingrese Correo Electrónico"
-                                className="txt-area"
-                                onChange={handleChange}
-                            />
-                            <span className="login-span">Contraseña</span>
-                            <input
-                                name="password"
-                                type="password"
-                                placeholder="Ingrese Contraseña"
-                                className="txt-area"
-                                onChange={handleChange}
-                            />
-                            {error && <div className="error-message">{error}</div>}
-                            <a className="forgot-pass" href="">¿Olvidó su contraseña?</a>
-                        </div>
-                        <div className="btns-login">
-                            <button className="btn">Iniciar Sesión</button>
-                            <a href="/register">
-                                <button type="button" className="btn">Registrarme</button>
-                            </a>
-                        </div>
-                    </form>
+        <div className='login-div'>
+            <div className='login-div-text'>
+                <h1>Ingresa tu e-mail para</h1>
+                <h1>iniciar sesión</h1>
+            </div>
+            <div className="login-div-box">
+                <div className="login-div-content">
+                    {step === 1 && (
+                        <>
+                            <div className="login-div-email">
+                                <span className="login-span">E-mail</span>
+                            </div>
+                            <div className='login-div-email'>
+                                <input
+                                    name="email"
+                                    type="email"
+                                    placeholder="Ingrese su correo"
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="login-div-email">
+                                {error && <div className="error-message">{error}</div>}
+                            </div>
+                            <div className="login-div-email div-button-register">
+                                <button type="button" className="btn" onClick={handleContinue}>Continuar</button>
+                                <a href="/register">
+                                    <button type="button" className="btn btn-register">Registrarse</button>
+                                </a>
+                            </div>
+                        </>
+                    )}
+                    {step === 2 && (
+                        <>
+                            <div className="login-div-email">
+                                <span className="login-span">Contraseña</span>
+                            </div>
+                            <div className="login-div-email">
+                                <input
+                                    name="password"
+                                    type="password"
+                                    placeholder="Ingrese su contraseña"
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="login-div-email">
+                                {error && <div className="error-message">{error}</div>}
+                            </div>
+                            <div className="login-div-email">
+                                <button className="btn" onClick={handleSubmit}>Iniciar Sesión</button>
+                                <button className='btn btn-otc' onClick={() => setModalIsOpen(true)}>¿Olvidaste tu contraseña?</button>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
-        </ChakraProvider>
+
+            <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal-content-login">
+                {stepFG === 1 && (
+                    <div>
+                        <h2>Recuperar contraseña</h2>
+                        <input type="email" placeholder="Ingrese su correo" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <button onClick={handleSendVerificationEmail}>Enviar</button>
+                    </div>
+                )}
+                {stepFG === 2 && (
+                    <div>
+                        <h2>Ingrese el código de verificación</h2>
+                        <input type="text" placeholder="Código" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
+                        <button onClick={handleVerifyCode}>Verificar</button>
+                    </div>
+                )}
+            </Modal>
+        </div>
     );
 }

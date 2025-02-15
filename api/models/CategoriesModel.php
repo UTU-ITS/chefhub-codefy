@@ -7,7 +7,15 @@ class Categories {
     }
 
     public function getCat(){
-        $sql = "SELECT id_categoria, nombre FROM categoria_producto";
+        $sql = "SELECT id_categoria, nombre, imagen FROM categoria_producto
+                WHERE baja=FALSE";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getRemovedCat(){
+        $sql = "SELECT id_categoria, nombre, imagen FROM categoria_producto
+                WHERE baja=TRUE";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,5 +42,60 @@ class Categories {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }
-     }
+    public function InsertCat($nombre, $imagen, $descripcion) {
+        $sql = "INSERT INTO categoria_producto (nombre, imagen, descripcion) VALUES (:nombre, :imagen, :descripcion)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->bindParam(':imagen', $imagen);
+        $stmt->bindParam(':descripcion', $descripcion);
+        $stmt->execute();
+        return $this->conn->lastInsertId();
+    }
+
+    public function UpdateCat($id_categoria, $nombre, $imagen, $descripcion) {
+        $sql = "UPDATE categoria_producto SET nombre=:nombre, imagen=:imagen, descripcion=:descripcion WHERE id_categoria=:id_categoria";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_categoria', $id_categoria);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->bindParam(':imagen', $imagen);
+        $stmt->bindParam(':descripcion', $descripcion);
+        $stmt->execute();
+        if ($stmt->rowCount() == 0) {
+            throw new Exception("No se encontró la categoría");
+        }else{
+            return $stmt->rowCount();
+        }
+    }
+
+    public function DeleteCat($id_categoria) {
+        $sql = "UPDATE categoria_producto SET baja=TRUE WHERE id_categoria=:id_categoria";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_categoria', $id_categoria);
+        $stmt->execute();
+        if ($stmt->rowCount() == 0) {
+            throw new Exception("No se encontró la categoría");
+        }else{
+            return $stmt->rowCount();
+        }
+    }
+
+
+    public function ActivateCat ($id_categoria) {
+        $sql = "UPDATE categoria_producto SET baja=FALSE WHERE id_categoria=:id_categoria";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id_categoria', $id_categoria);
+        $stmt->execute();
+        if ($stmt->rowCount() == 0) {
+            throw new Exception("No se encontró la categoría");
+        }else{
+            return $stmt->rowCount();
+        }
+
+    }
+
+
+
+
+
+}
 ?>

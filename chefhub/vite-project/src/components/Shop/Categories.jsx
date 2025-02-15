@@ -27,14 +27,13 @@ export default function Categories({ id = null, selectedKey, onSelectKey }) {
   }, [id]);
 
   return (
-    <span>
+    <div className='filters'>
       {categories.length > 0 ? (
         categories.map((category) => (
           <button
             key={category.id_categoria}
-
-            className={`btn-tag ${selectedKey === category.id_categoria ? 'selected' : ''}`}
-            onClick={() => onSelectKey(category.id_categoria)} 
+            className={`btn-tag ${String(selectedKey) === String(category.id_categoria) ? 'selected' : ''}`}
+            onClick={() => onSelectKey(category.id_categoria)}
           >
             {category.nombre}
           </button>
@@ -42,6 +41,6 @@ export default function Categories({ id = null, selectedKey, onSelectKey }) {
       ) : (
         <p>No hay categorías</p>
       )}
-    </span>
+    </div>
   );
 }

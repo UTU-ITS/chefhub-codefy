@@ -2,9 +2,10 @@
 
 .options-div {
     display: flex;
-    min-width: 100%;
+    width: 100%;
     background-color: #ffffff;
-    min-height: 100vh;
+    flex-direction: row;
+    min-height: 94vh;
 }
 
 .options-admin {
@@ -12,10 +13,10 @@
 }
 
 .line-separator {
-    width: 75%;
+    width: 100%;
     height: 0.1px;
     background-color: #dddddd6e;
-    margin: 10px 20px;
+    margin: 0 0 1rem 0;
 }
 
 .logo {
@@ -26,10 +27,13 @@
 }
 
 .sidebar {
-    width: 230px;
-    min-height: 100%;
+    width: 13%;
     border-right: 0.5px solid #ddd;
     padding: 10px 0;
+    top: 0;
+    left: 0;
+    background-color: #ffffff; /* Asegura que no se superpone al fondo */
+    overflow-y: auto; /* Permite desplazamiento si el contenido es grande */
 }
 
 .sidebar ul {
@@ -47,11 +51,11 @@
     padding: 15px 25px;
     text-align: start;
     gap: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .sidebar ul li a:hover {
-    background-color: rgba(171, 142, 244, 0.1); /* 50% de opacidad */
-    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
+    background-color: var(--primary-color-light); /* 50% de opacidad */
     color: var(--primary-color);
 }
 
@@ -60,9 +64,10 @@
 }
 
 .content {
+    width: 88%;
     flex-grow: 1;
-    background: #f5f5f5;
-    padding: 15px;
+    background: #f3f4f6;
+    padding: 2rem;
 }
 
 .content-text {
@@ -169,52 +174,52 @@
     gap: 20px;
 }
 
-.searchbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    max-width: 400px;
-    background-color: #ffffff;  /* Fondo claro */
-    border-radius: 30px;  /* Bordes redondeados */
-    padding: 10px 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  /* Sombra sutil para resaltar */
-    transition: all 0.3s ease;  /* Transición suave para efectos */
+/* =========================================
+   ===========  MEDIA QUERIES  ============
+   ========================================= */
+
+/* Para pantallas hasta 768px (tablets y móviles grandes) */
+@media (max-width: 768px) {
+    .options-div {
+        flex-direction: column; /* Apila sidebar y contenido */
+        min-height: auto;      /* Ajusta altura */
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .sidebar ul li a {
+        font-size: 14px;
+        justify-content: flex-start; /* Ajusta la alineación */
+    }
+
+    .content {
+        width: 100%;
+        padding: 1rem;
+    }
 }
 
-.searchbar:hover {
-    box-shadow: 0px 4px 15px var(--primary-color-light);  /* Efecto al pasar el cursor */
-    transform: scale(1.02);  /* Ligera expansión al pasar el mouse */
-}
+/* Para pantallas muy pequeñas (hasta 480px) */
+@media (max-width: 480px) {
+    .sidebar ul li a {
+        font-size: 12px;
+        padding: 10px 15px;
+    }
 
-.searchbar input {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    background-color: transparent;
-    outline: none;  /* Eliminar contorno al hacer foco */
-    color: #333;  /* Texto oscuro */
-    transition: all 0.3s ease;
-}
+    .options-title {
+        font-size: 9px;
+        padding: 0 15px;
+    }
 
-.searchbar button {
-    background-color: #007BFF;  /* Color de fondo azul */
-    border: none;
-    border-radius: 50%;  /* Botón redondo */
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+    .home-admin-options, .home-config-options {
+        margin: 20px 5px;
+        padding: 15px;
+    }
 
-.searchbar button:hover {
-    background-color: #0056b3;  /* Cambio de color al pasar el cursor */
-}
-
-.searchbar button svg {
-    fill: #fff;  /* Color blanco para el ícono */
-    width: 20px;
-    height: 20px;
+    .content {
+        padding: 1rem;
+    }
 }

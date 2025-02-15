@@ -20,7 +20,7 @@ class TablesController {
         $this->tables = new TablesModel($conn);  // Instancia del modelo Table, no el controlador
     }
 
-    public function handleRequest($action, $date = null , $time = null) {
+    public function handleRequest($action, $date = null , $time = null, $order_id = null) {
         $method = $_SERVER['REQUEST_METHOD'];
     
         switch ($method) {
@@ -40,10 +40,11 @@ class TablesController {
                     }
                 } else if ($action === 'tables'){
                     $result = $this->tables->getTables();
+                } else if ($action === 'perorder'){
+                    $result = $this->tables->getTablePerOrder($order_id);
                 } else {
                     $result = ["message" => "Acción no reconocida"];
                 }
-    
                 echo json_encode($result);
                 break;
     
@@ -79,13 +80,46 @@ class TablesController {
                     } else {
                         $result = ["message" => "Faltan valores para la reserva"];
                     } 
-                }else {
+                }else if ($action === 'inserttable') {
+                    $inputData = json_decode(file_get_contents('php://input'), true);
+                    if (isset($inputData['id_mesa']) && $inputData['capacidad']) {
+
+                        $id_mesa = $inputData['id_mesa'];
+                        $capacidad = $inputData['capacidad'];
+                        $result = $this->tables->InsertTable($id_mesa, $capacidad);
+                        if($result == 0){
+                            $result = "No se ha insertado ninguna mesa";
+                        }else {
+                            echo json_encode(["message" => "Mesa insertada con éxito" ,"success"=>true ]);
+                        }
+                    } else {
+                        $result = ["message" => "Faltan valores para la actualización"];
+                    } 
+                } else{
                     $result = ["message" => "Acción no reconocida"];
                 }
     
                 echo json_encode($result);
                 break;
-    
+
+                case "PUT":
+                    if ($action=='updatetable'){
+                    $inputData = json_decode(file_get_contents('php://input'), true);
+                    if (isset($inputData['id_mesa']) && $inputData['capacidad']) {
+                        $id_mesa = $inputData['id_mesa'];
+                        $capacidad = $inputData['capacidad'];
+                        $result = $this->tables->UpdateTable($id_mesa, $capacidad);
+                        if($result == 0){
+                            $result = "No se ha modificado ninguna mesa";
+                        }else {
+                            echo json_encode(["message" => "Mesa modificada con éxito" ,"success"=>true ]);
+                        }
+                    } else {
+                        $result = ["message" => "Faltan valores para la actualización"];
+                    }
+                    } else {
+                        $result = ["message" => "Acción no reconocida"];
+                    }
             default:
                 echo json_encode(["message" => "Método no soportado"]);
                 break;

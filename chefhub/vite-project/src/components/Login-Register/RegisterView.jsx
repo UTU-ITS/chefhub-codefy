@@ -14,8 +14,9 @@ const RegisterView = () => {
   });
 
   const [errors, setErrors] = useState({});
-  // const [isModalOpen, setIsModalOpen] = useState(false); // Comentado por ahora
-  // const [verificationCode, setVerificationCode] = useState(""); // Comentado por ahora
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [serverCode, setServerCode] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -49,8 +50,71 @@ const RegisterView = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@.!-_]).{8,}$/;
+    return regex.test(password);
+  };
+  
+  const handleSendVerificationEmail = async () => {
+    if (!validatePassword(formData.password)) {
+      alert("La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial (@.!-_).");
+      return;
+    }
+  
+    if (!validateForm()) {
+      return; // Si hay errores, detener la ejecución
+    }
+  
+    try {
+      const response = await fetch("http://localhost/api/sendmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        setServerCode(result.verificationCode); // Suponiendo que el código se envía de vuelta
+        setIsModalOpen(true);
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Error al enviar el mail:", error);
+      alert("Hubo un problema al enviar el mail. Inténtalo más tarde.");
+    }
+  }; 
+
+  const handleVerifyCode = async () => {
+    try {
+      const response = await fetch("http://localhost/api/checktoken", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email, tokenInput: verificationCode }),
+      });
+
+      const result = await response.json();
+      console.log(result);
+      if (result.success) {
+
+        alert("Código verificado correctamente.");
+        setIsModalOpen(false);
+        handleRegister();
+      } else {
+        alert("Código incorrecto, intenta de nuevo.");
+      }
+    } catch (error) {
+      console.error("Error al verificar código:", error);
+      alert("Hubo un problema al verificar el código.");
+    }
+  };
+
+  const handleRegister = async () => {
     if (validateForm()) {
       try {
         const response = await fetch("http://localhost/api/signup", {
@@ -64,162 +128,86 @@ const RegisterView = () => {
             nombre: formData.firstName,
             apellido: formData.lastName,
             telefono: formData.phone,
-            role: "cliente", // Cambia si es necesario
+            role: "cliente",
             preferences: formData.preferences,
           }),
         });
-  
+
         const result = await response.json();
-  
+
         if (response.ok) {
           alert("Usuario registrado exitosamente");
-          console.log("Respuesta del servidor:", result);
-          // Redirigir al usuario a la página de inicio de sesión
-          window.location.href = "/login"; // Ajusta la ruta según tu proyecto
+          window.location.href = "/login";
         } else {
           alert(`Error: ${result.message}`);
-          console.error("Error del servidor:", result);
         }
       } catch (error) {
-        console.error("Error al consumir la API:", error);
-        alert("Hubo un problema al registrar el usuario. Inténtalo más tarde.");
+        console.error("Error al registrar el usuario:", error);
+        alert("Hubo un problema al registrar el usuario.");
       }
     }
   };
 
   return (
     <div className="register-container">
-      <h2>Registro</h2>
-      <form onSubmit={handleSubmit} className="register-form">
-        <div className="form-row">
-          <div className="form-group">
-            <label>Nombre</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleInputChange}
-            />
-            {errors.firstName && <span className="error">{errors.firstName}</span>}
-          </div>
-          <div className="form-group">
-            <label>Apellido</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleInputChange}
-            />
-            {errors.lastName && <span className="error">{errors.lastName}</span>}
-          </div>
-          <div className="form-group">
-            <label>Teléfono</label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-            />
-            {errors.phone && <span className="error">{errors.phone}</span>}
-          </div>
+      <div className="register-content">
+        <div className="register-tittle">
+          <h1>¡Bienvenido!</h1>
+          <p>Regístrate para disfrutar
+            de todos nuestros productos.</p>
         </div>
-        <div className="form-row">
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-            {errors.email && <span className="error">{errors.email}</span>}
-          </div>
-          <div className="form-group">
-            <label>Contraseña</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
-            {errors.password && <span className="error">{errors.password}</span>}
-          </div>
-          <div className="form-group">
-            <label>Confirmar Contraseña</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
-            />
-            {errors.confirmPassword && (
-              <span className="error">{errors.confirmPassword}</span>
+              <div className="register-form">
+                  <div className="register-group">
+                    <label>Nombre</label>
+                    <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} />
+                    {errors.firstName && <span className="error">{errors.firstName}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Apellido</label>
+                    <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} />
+                    {errors.lastName && <span className="error">{errors.lastName}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Teléfono</label>
+                    <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} />
+                    {errors.phone && <span className="error">{errors.phone}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Email</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+                    {errors.email && <span className="error">{errors.email}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Contraseña</label>
+                    <input type="password" name="password" value={formData.password} onChange={handleInputChange} />
+                    {errors.password && <span className="error">{errors.password}</span>}
+                  </div>
+                  <div className="register-group">
+                    <label>Confirmar Contraseña</label>
+                    <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} />
+                    {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+                  </div>
+                  <div className="register-group">
+                    <button type="button" className="btn" onClick={handleSendVerificationEmail}>
+                    Enviar Código de Verificación
+                  </button>
+                  </div>
+                {isModalOpen && (
+              <div className="modal">
+                <div className="modal-content-register">
+                  <h3>Verificar Código</h3>
+                  <p>Ingrese el código recibido por correo electrónico:</p>
+                  <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} />
+                  <button onClick={handleVerifyCode} className="btn-submit">
+                    Verificar Código
+                  </button>
+                </div>
+              </div>
             )}
-          </div>
-        </div>
-        <div className="form-group">
-          <label>Preferencias Alimentarias</label>
-          <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                value="Sin preferencias"
-                checked={formData.preferences.includes("Sin preferencias")}
-                onChange={handleInputChange}
-              />
-              Sin preferencias
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="Vegetariano"
-                onChange={handleInputChange}
-              />
-              Vegetariano
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="Vegano"
-                onChange={handleInputChange}
-              />
-              Vegano
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="Omnívoro"
-                onChange={handleInputChange}
-              />
-              Omnívoro
-            </label>
-          </div>
-        </div>
-        <button type="submit" className="btn-submit">
-          Registrarme
-        </button>
-        
-      </form>
+              </div>
 
-      {/*modal */}
-      {/* 
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>Verificar Código</h3>
-            <p>Ingrese el código que recibió por SMS:</p>
-            <input
-              type="text"
-              value={verificationCode}
-              onChange={(e) => setVerificationCode(e.target.value)}
-            />
-            <button onClick={handleVerificationSubmit} className="btn-submit">
-              Verificar
-            </button>
+            
           </div>
-        </div>
-      )}
-      */}
     </div>
   );
 };

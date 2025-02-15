@@ -8,33 +8,32 @@ class TablesModel {
 
     public function getFreeHours($date)
     {
-        $sql = "WITH possible_times AS (
-                    SELECT '09:00' AS hora UNION
-                    SELECT '10:00' UNION
-                    SELECT '12:00' UNION
-                    SELECT '13:00' UNION
-                    SELECT '15:00' UNION
-                    SELECT '16:00' UNION
-                    SELECT '18:00' UNION
-                    SELECT '19:00' UNION
-                    SELECT '21:00' UNION
-                    SELECT '22:00'
-                ),
-                total_mesas AS (
-                    SELECT COUNT(*) AS total FROM mesa WHERE baja = 0
-                ),
-                horarios_ocupados AS (
-                    SELECT cm.hora, COUNT(DISTINCT cm.id_mesa) AS mesas_ocupadas
-                    FROM cliente_mesa cm
-                    JOIN mesa m ON cm.id_mesa = m.id_mesa
-                    WHERE cm.fecha = :date AND cm.baja = 0 AND m.baja = 0
-                    GROUP BY cm.hora
-                )
-            SELECT pt.hora
-            FROM possible_times pt
-            CROSS JOIN total_mesas tm
-            LEFT JOIN horarios_ocupados ho ON pt.hora = DATE_FORMAT(ho.hora, '%H:%i')
-            WHERE ho.mesas_ocupadas IS NULL OR ho.mesas_ocupadas < tm.total;";
+        $sql = "
+            WITH horarios_disponibles AS (
+                SELECT horario_apertura, horario_cierre, duracion_reserva
+                FROM dia_horario
+                WHERE dia_semana = CASE 
+                    WHEN DAYNAME(:date) = 'Monday' THEN 'Monday'
+                    WHEN DAYNAME(:date) = 'Tuesday' THEN 'Tuesday'
+                    WHEN DAYNAME(:date) = 'Wednesday' THEN 'Wednesday'
+                    WHEN DAYNAME(:date) = 'Thursday' THEN 'Thursday'
+                    WHEN DAYNAME(:date) = 'Friday' THEN 'Friday'
+                    WHEN DAYNAME(:date) = 'Saturday' THEN 'Saturday'
+                    WHEN DAYNAME(:date) = 'Sunday' THEN 'Sunday'
+                END
+            ),
+            posibles_horas AS (
+                SELECT 
+                    ADDTIME(hd.horario_apertura, SEC_TO_TIME(t.n * TIME_TO_SEC(hd.duracion_reserva))) AS hora
+                FROM horarios_disponibles hd
+                JOIN (
+                    SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+                    UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+                ) t
+                WHERE ADDTIME(hd.horario_apertura, SEC_TO_TIME(t.n * TIME_TO_SEC(hd.duracion_reserva))) < hd.horario_cierre
+            )
+            SELECT * FROM posibles_horas;
+        ";
         
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':date', $date, PDO::PARAM_STR);
@@ -42,6 +41,8 @@ class TablesModel {
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
     
     public function getFreeTables($date, $time)
 {
@@ -85,7 +86,7 @@ public function InsertReservations($id_mesa, $id_cliente, $fecha, $hora , $cant_
 }
 
 public function getTables() {
-    $sql = "SELECT id_mesa AS 'N° Mesa', capacidad AS 'Capacidad', estado AS 'Estado' 
+    $sql = "SELECT id_mesa AS 'N° Mesa', capacidad AS 'Capacidad'
             FROM mesa
             WHERE baja = FALSE";
     $stmt = $this->conn->prepare($sql);
@@ -93,5 +94,44 @@ public function getTables() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function getTablePerOrder($order_id) {
+    $sql = "SELECT id_mesa
+            FROM mesa_pedido
+            WHERE id_pedido = :id_pedido";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_pedido', $order_id);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+public function InsertTable($id_mesa, $capacidad)
+{
+    $sql = "INSERT INTO mesa (id_mesa, capacidad)
+     VALUES (:id_mesa, :capacidad)";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
+    $stmt->bindParam(':capacidad', $capacidad, PDO::PARAM_INT);
+    $stmt->execute();
+    if($stmt->rowCount() == 0){
+        return "No se ha modificado ninguna mesa";
+    }else {
+        return "Mesa modificada con éxito";
+    }
+    
+}
+public function UpdateTable($id_mesa, $capacidad)
+{
+    $sql = "UPDATE mesa SET capacidad = :capacidad WHERE id_mesa = :id_mesa";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
+    $stmt->bindParam(':capacidad', $capacidad, PDO::PARAM_INT);
+    $stmt->execute();
+    if($stmt->rowCount() == 0){
+        return "No se ha modificado ninguna mesa";
+    }else {
+        return "Mesa modificada con éxito";
+    }
+    
+    return $stmt->rowCount(); 
+}
 }
 ?>
