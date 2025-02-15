@@ -8,7 +8,7 @@ export default function Recomendacion() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://chefhub.codefy.com:8080/api/categories/")
+    axios.get("http://192.168.0.10:8080/api/categories/")
       .then((response) => {
         if (Array.isArray(response.data)) {
           setCategories(response.data);
@@ -35,7 +35,7 @@ export default function Recomendacion() {
             className="blur-container"
             onClick={() => handleCategoryClick(category)}
             style={{ 
-              backgroundImage: category.imagen ? `url("http://chefhub.codefy.com:8080/${category.imagen}")` : `url("default-image.png")`,
+              backgroundImage: category.imagen ? `url("http://192.168.0.10:8080/${category.imagen}")` : `url("default-image.png")`,
               cursor: "pointer"
             }}
           >

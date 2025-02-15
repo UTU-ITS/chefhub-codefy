@@ -7,7 +7,7 @@ export default function CategoryRow() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        axios.get('http://chefhub.codefy.com:8080/api/categories/')
+        axios.get('http://192.168.0.10:8080/api/categories/')
             .then((response) => {
                 if (Array.isArray(response.data)) {
                     setCategories(response.data);
