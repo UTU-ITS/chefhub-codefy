@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { ChakraProvider } from '@chakra-ui/react';
 import './App.css';
 import NavBar from './components/Home/NavBar';
