@@ -36,7 +36,11 @@ class OrderController {
                     $result = $this->order->getDetailOrder($orderId);
                 } else if($action === 'ingredientsperproduct'){
                     $result = $this->order->getIngredientsPerProductInOrder($orderId, $id_producto, $id_pedido_producto);
-                } else {
+                } else if($action === 'getcantorders'){
+                    $result = $this->order->getCantOrders();
+                } elseif($action === 'getbestproducts'){
+                    $result = $this->order->getBestProducts();
+                } else{
                     $result = ["message" => "Acción no reconocida"];
                 }
                 echo json_encode($result);

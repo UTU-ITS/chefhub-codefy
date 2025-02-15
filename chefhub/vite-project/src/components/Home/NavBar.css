@@ -17,7 +17,6 @@
   min-height: 20px;
 }
 
-
 .nav-container {
   display: flex;
   align-items: center;
@@ -30,9 +29,18 @@
   align-items: center;
 }
 
+.nav-menu-middle {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra los elementos en el menú */
+  width: 100%;
+}
+
 .nav-menu {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .nav-list {
@@ -51,6 +59,12 @@
   margin-right: 1.5rem;
   display: flex;
   align-items: center;
+}
+
+.nav-menu-right {
+  display: flex;
+  align-items: center;
+  justify-self: center;
 }
 
 .nav-item:last-child {
@@ -103,45 +117,54 @@
   background-color: #f5f5f5;
 }
 
-/* Estilo para el contenedor del menú desplegable */
-.nav-item.dropdown {
-  position: relative;
+/* Botón de menú hamburguesa */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
-.nav-item.dropdown:hover .dropdown-menu {
+
+.nav-toggle-icon {
+  width: 24px;
+  height: 2px;
+  background-color: #fff;
+  margin: 5px 0;
   display: block;
 }
 
 /* Responsividad para dispositivos móviles */
 @media (max-width: 768px) {
   .nav-menu {
-    display: none; /* Oculta el menú en dispositivos móviles */
-  }
-
-  .nav-toggle {
-    display: block; /* Muestra el botón de menú hamburguesa en dispositivos móviles */
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .nav-toggle-icon {
-    width: 24px;
-    height: 2px;
-    background-color: #fff;
-    margin: 5px 0;
-    display: block;
-  }
-
-  /* Muestra el menú al hacer clic en el botón */
-  .nav-toggle.active + .nav-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: none;
     width: 100%;
+    flex-direction: column;
     background-color: #2c2c2c;
     position: absolute;
     top: 100%;
     left: 0;
     padding: 1rem 0;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-item {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-menu-right {
+    display: none; /* Oculta el icono de usuario en móvil */
   }
 }

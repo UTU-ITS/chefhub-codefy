@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import './NavBar.css';
-import { CartIcon, UserIcon, SearchIcon, AdminIcon, LogoutIcon, UserCircleIcon } from '../../img/HeroIcons';
+import { CartIcon, UserIcon, AdminIcon, UserCircleIcon } from '../../img/HeroIcons';
 import Logo from '../../assets/logo.svg';
 import Cart from '../Shop/Cart';
 import { UserContext } from '../../context/user';
@@ -8,11 +8,8 @@ import { UserContext } from '../../context/user';
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const { user, logout } = useContext(UserContext);
-
-  // Debug: Verificar cambios en el usuario
-  useEffect(() => {
-  }, [user]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -24,8 +21,19 @@ const NavBar = () => {
 
   const handleLogout = () => {
     logout();
-    setIsUserMenuOpen(false); // Cerrar el menú después de cerrar sesión
+    setIsUserMenuOpen(false);
+    setIsMenuOpen(false);
   };
+
+  const checkScreenSize = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
+  useEffect(() => {
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   return (
     <nav className="custom-navbar">
@@ -37,44 +45,59 @@ const NavBar = () => {
           </a>
         </div>
 
-        {/* Links principales */}
-        <div>
-          <ul className="nav-list">
-            <li className="nav-item">
-              <a href="/">Inicio</a>
-            </li>
-            <li className="nav-item">
-              <a href="/menu">Menú</a>
-            </li>
-            <li className="nav-item">
-              <a href="/reservations">Reserva tu mesa</a>
-            </li>
-            <li className="nav-item">
-              <a href="/aboutus">Sobre Nosotros</a>
-            </li>
-            <li className="nav-item">
-              <a href="/contact">Contáctanos</a>
-            </li>
-          </ul>
-        </div>
+        {/* Botón de menú hamburguesa */}
+        <button className="nav-toggle" onClick={toggleMenu}>
+          <span className="nav-toggle-icon"></span>
+          <span className="nav-toggle-icon"></span>
+          <span className="nav-toggle-icon"></span>
+        </button>
 
-        {/* Menú derecho */}
+        {/* Menú de navegación */}
         <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          <ul className="nav-list">
-            {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
-              <>
+          <div className="nav-menu-middle">
+            <ul className="nav-list">
+              <li className="nav-item"><a href="/" onClick={() => setIsMenuOpen(false)}>Inicio</a></li>
+              <li className="nav-item"><a href="/menu" onClick={() => setIsMenuOpen(false)}>Menú</a></li>
+              <li className="nav-item"><a href="/reservations" onClick={() => setIsMenuOpen(false)}>Reserva tu mesa</a></li>
+              <li className="nav-item"><a href="/aboutus" onClick={() => setIsMenuOpen(false)}>Sobre Nosotros</a></li>
+              <li className="nav-item"><a href="/contact" onClick={() => setIsMenuOpen(false)}>Contáctanos</a></li>
+
+              {user && user.data ? (
+                // En móvil se muestran "Mi perfil" y "Cerrar sesión" directamente en el menú
+                isMobile && (
+                  <>
+                    <li className="nav-item">
+                      <a href="/myprofile" onClick={() => setIsMenuOpen(false)}>Mi perfil</a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/login" onClick={handleLogout}>Cerrar sesión</a>
+                    </li>
+                  </>
+                )
+              ) : (
                 <li className="nav-item">
-                  <a href="/admin/dashboard">
+                  <a href="/login" onClick={() => setIsMenuOpen(false)}>Iniciar sesión</a>
+                </li>
+              )}
+
+              {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                <li className="nav-item">
+                  <a href="/admin/dashboard" onClick={() => setIsMenuOpen(false)}>
                     <AdminIcon />
                   </a>
                 </li>
-              </>
-            )}
-            <li className="nav-item">
-              <Cart />
-            </li>
-            <li className="nav-item">
-              {user && user.data ? (
+              )}
+
+              <li className="nav-item">
+                <a onClick={() => setIsMenuOpen(false)}><Cart /></a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Menú de usuario para escritorio */}
+          <div className="nav-menu-right">
+            {user && user.data ? (
+              !isMobile && (
                 <div className="user-menu-container">
                   <a onClick={toggleUserMenu} className="user-icon-button">
                     <UserIcon />
@@ -85,21 +108,18 @@ const NavBar = () => {
                         <a href="/myprofile" onClick={() => setIsUserMenuOpen(false)}>Mi perfil</a>
                       </li>
                       <li>
-                        <a href="/myorders" onClick={() => setIsUserMenuOpen(false)}>Mis pedidos</a>
-                      </li>
-                      <li>
-                        <a href="/login">
-                          <button onClick={handleLogout}>Cerrar sesión</button>
+                        <a href="/login" onClick={handleLogout}>
+                          <button>Cerrar sesión</button>
                         </a>
                       </li>
                     </ul>
                   )}
                 </div>
-              ) : (
-                <a href="/login"> <UserCircleIcon /></a>
-              )}
-            </li>
-          </ul>
+              )
+            ) : (
+              <a href="/login"> <UserCircleIcon /></a>
+            )}
+          </div>
         </div>
       </div>
     </nav>

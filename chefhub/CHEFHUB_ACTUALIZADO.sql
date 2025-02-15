@@ -1,13 +1,8 @@
 CREATE DATABASE chefhub_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE chefhub_db;
 
--- Tabla imagen
-CREATE TABLE imagen (
-    id_imagen INT PRIMARY KEY AUTO_INCREMENT,
-    tipo VARCHAR(50) NOT NULL,
-    ruta VARCHAR(255) NOT NULL,
-    baja INT DEFAULT 0 
-)ENGINE=InnoDB;
+CREATE TABLE personalizacion (
+color varchar (50));
 
 -- Tabla usuario
 CREATE TABLE usuario (
@@ -22,15 +17,6 @@ CREATE TABLE usuario (
     baja INT DEFAULT 0 
 )ENGINE=InnoDB;
 
--- Tabla telefono
-CREATE TABLE telefono (
-    id_telefono INT PRIMARY KEY AUTO_INCREMENT,
-    telefono VARCHAR(15) NOT NULL,
-    nombre_rest VARCHAR(50) NOT NULL,
-    FOREIGN KEY (nombre_rest) REFERENCES personalizacion(nombre_rest),
-    baja INT DEFAULT 0 
-)ENGINE=InnoDB;
-
 -- Tabla funcionario
 CREATE TABLE funcionario (
     id_usuario INT NOT NULL,
@@ -40,9 +26,7 @@ CREATE TABLE funcionario (
     horario_entrada TIME NOT NULL,
     horario_salida TIME NOT NULL,
     cargo VARCHAR(255) NOT NULL,
-    id_imagen INT,
     baja INT DEFAULT 0, 
-    FOREIGN KEY (id_imagen) REFERENCES imagen(id_imagen),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 ) ENGINE=InnoDB;
 
@@ -346,16 +330,8 @@ END $$
 DELIMITER ;
 
 
-
-
-  -- Insertar datos en la tabla imagen
-INSERT INTO imagen (tipo, ruta) VALUES
-('Foto', 'imagen1.jpg'),
-('Foto', 'imagen2.jpg'),
-('Foto', 'imagen3.jpg'),
-('Foto', 'imagen4.jpg'),
-('Foto', 'imagen5.jpg');
-
+-- insertar color base
+insert into personalizacion values ('#00ff40');
 -- Insertar datos en la tabla usuario
 INSERT INTO usuario (email, clave, nombre, apellido, telefono) VALUES
 ('juan@example.com', 'clave123', 'Juan', 'Perez', '123456789'),
@@ -369,21 +345,13 @@ INSERT INTO usuario (email, clave, nombre, apellido, telefono) VALUES
 ('sofia@example.com', 'clave606', 'Sofia', 'Martinez', '334455667'),
 ('pedro@example.com', 'clave707', 'Pedro', 'Perez', '445566778');
 
--- Insertar datos en la tabla telefono
-INSERT INTO telefono (telefono, nombre_rest) VALUES
-('123456789', 'Restaurante A'),
-('987654321', 'Restaurante B'),
-('112233445', 'Restaurante C'),
-('556677889', 'Restaurante D'),
-('998877665', 'Restaurante E');
-
 -- Insertar datos en la tabla funcionario
-INSERT INTO funcionario ( id_usuario, ci, fecha_nacimiento, direccion, horario_entrada, horario_salida, cargo, id_imagen) VALUES
-('6','11111111111', '1985-05-10', 'Calle 1', '08:00:00', '16:00:00', 'Chef', 1),
-('7','22222222222', '1990-07-15', 'Calle 2', '09:00:00', '17:00:00', 'Mesero', 2),
-('8','33333333333', '1987-09-25', 'Calle 3', '10:00:00', '18:00:00', 'Administrativo', 3),
-('9','44444444444', '1992-12-05', 'Calle 4', '11:00:00', '19:00:00', 'Chef', 4),
-('10','55555555555', '1980-02-20', 'Calle 5', '07:00:00', '15:00:00', 'Mesero', 5);
+INSERT INTO funcionario ( id_usuario, ci, fecha_nacimiento, direccion, horario_entrada, horario_salida, cargo) VALUES
+('6','11111111111', '1985-05-10', 'Calle 1', '08:00:00', '16:00:00', 'Chef'),
+('7','22222222222', '1990-07-15', 'Calle 2', '09:00:00', '17:00:00', 'Mesero'),
+('8','33333333333', '1987-09-25', 'Calle 3', '10:00:00', '18:00:00', 'Administrativo'),
+('9','44444444444', '1992-12-05', 'Calle 4', '11:00:00', '19:00:00', 'Chef'),
+('10','55555555555', '1980-02-20', 'Calle 5', '07:00:00', '15:00:00', 'Mesero');
 
 -- Insertar datos en la tabla cliente
 INSERT INTO cliente (id_usuario) VALUES
@@ -419,8 +387,8 @@ INSERT INTO categoria_producto (nombre, descripcion, imagen) VALUES
 ('Hamburguesas', '', 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGFtYnVyZ2VyfGVufDB8fDB8fHww'),
 ('Helado', '',  'https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
 ('Pizza', '',  'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Entradas', 'Entradas y aperitivos', ''),
-('Comida Rápida', 'Comidas rápidas para llevar', '');
+('Entradas', 'Entradas y aperitivos', 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Comida Rápida', 'Comidas rápidas para llevar', 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
 
 -- Insertar datos en la tabla mesa
 INSERT INTO mesa (id_mesa, capacidad) VALUES
@@ -568,3 +536,76 @@ INSERT INTO dia_horario (dia_semana, horario_apertura, horario_cierre,duracion_r
 ('Saturday', '10:00:00', '23:00:00','3:00:00'),
 ('Sunday', '10:00:00', '21:00:00','3:00:00');
 
+UPDATE `chefhub_db`.`categoria_producto` SET `baja` = '1' WHERE (`id_categoria` = '2');
+UPDATE `chefhub_db`.`categoria_producto` SET `baja` = '1' WHERE (`id_categoria` = '4');
+UPDATE `chefhub_db`.`categoria_producto` SET `baja` = '1' WHERE (`id_categoria` = '5');
+INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Empanadas', 'https://assets.elgourmet.com/wp-content/uploads/2023/03/cover_fpa6sn8vqc_empanadas.jpg');
+INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Guarniciones', 'https://okdiario.com/img/2023/04/12/el-truco-definitivo-para-que-las-patatas-fritas-te-queden-mas-crujientes.jpg');
+INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Tragos', 'https://cdn0.casamiento.com.uy/article-vendor-o/2371/original/1280/jpg/pappas-grill-tragos_16_2371_v1.jpeg');
+INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES ('Tequeños', 'https://cuk-it.com/wp-content/uploads/2021/10/tequenios-ig01.webp');
+
+
+UPDATE `chefhub_db`.`producto` SET `nombre` = 'Hamburguesa Simple', `imagen` = 'https://i.ytimg.com/vi/SvOx7tA_Cv8/sddefault.jpg' WHERE (`id_producto` = '1');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Doble', '10', 'https://www.sargento.com/assets/Uploads/Recipe/Image/GreatAmericanBurger__FillWzExNzAsNTgzXQ.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Bacon cheddar', '10', 'https://pastrychefonline.com/wp-content/uploads/2017/07/a-smashed-double-bacon-cheeseburger-2.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburquesa Cheddar Melt', '10', 'https://cache-mcd-middleware.mcdonaldscupones.com/media/image/product$kzXv7hw4/200/200/original?country=br');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa BBQ', '10', 'https://cache-mcd-middleware.mcdonaldscupones.com/media/image/product$kvXv7wjX/200/200/original?country=uy');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa con Champiñones y Queso', '10', 'https://ohthatsgood.com/wp-content/uploads/2013/06/Mushroom-Swiss-Burger-1200x1200-1.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa de Pollo', '10', 'https://s7d1.scene7.com/is/image/mcdonalds/DC_202104_0100_DeluxeSpicyCrispyChickenSandwich_PotatoBun_1564x1564-1:product-header-mobile?wid=1313&hei=1313&dpr=off');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Vegetariana', '10', 'https://i.blogs.es/06dd69/mcvegan/1366_2000.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa Hawaiana', '10', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCgOAMasWJZbE3V9cPcd4eUcjqlIm6JS8_pw&s');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `imagen`) VALUES ('Hamburguesa de Pescado', '10', 'https://s7d1.scene7.com/is/image/mcdonalds/DC_202401_3933-999_DoubleFilet-O-Fish_WholeSlice_1564x1564-1:product-header-mobile?wid=1313&hei=1313&dpr=off');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('6', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('7', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('8', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('9', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('10', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('11', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('12', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('13', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('14', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('15', '1');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('16', '1');
+
+
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Carne', '10', 'Rellena de carne de res o cerdo picada o molida, generalmente con cebolla, pimientos y especias', 'https://familiakitchen.com/wp-content/uploads/2021/09/Empanadas-open-e1631296397215.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Pollo', '10', 'Contiene pollo desmenuzado con cebolla, ajo y a veces pimentón o aceitunas', 'https://alicante.com.ar/wp-content/uploads/2022/06/iStock-1437638745-Empanadas-de-pollo-scaled-1924x1924.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Jamón y Queso', '10', 'Lleva jamón y queso derretido, con una textura cremosa y un sabor suave', 'https://www.hola.com/horizon/landscape/9beabeb653ad-empanadillas-jamon-queso-t.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Queso', '10', 'Solo con queso, que puede ser mozzarella, queso crema o queso fresco, perfecta para los amantes del queso derretido.', 'https://www.chefandcook.cl/carta/queso-solo-fritas.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Espinaca y Queso', '10', 'Relleno de espinaca cocida mezclada con queso, a veces con un toque de ricotta', 'https://i0.wp.com/unacocinafeliz.com/wp-content/uploads/2022/10/DSC_0588-scaled.jpg?fit=1024%2C683&ssl=1');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Atún', '10', 'Contiene atún en conserva mezclado con cebolla, huevo y a veces aceitunas', 'https://www.cocinavital.mx/wp-content/uploads/2021/03/empanadas-de-atun.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada Caprese', '10', 'Inspirada en la ensalada caprese, con tomate, mozzarella y albahaca', 'https://amadomarketusa.com/cdn/shop/products/amadomarketubereats-36_2048x.jpg?v=1670076254');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada de Humita', '10', 'Lleva una mezcla de choclo (maíz) cremoso con queso y a veces un toque de ají o azúcar', 'https://media.losandes.com.ar/adjuntos/368/migration/resizer/v2/CU37R2OQZBFUDON4JT2JQASXPQ.jpg?auth=2b72c9a9654885f5002b580dcadb680a58b267b053dec6e15e2632e441b2ee40&width=600&height=432');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES ('Empanada Dulce', '10', 'Puede estar rellena de dulce de leche o pasta de membrillo, ideal como postre', 'https://i.pinimg.com/736x/41/d3/78/41d37854b3024e002c05800e592e76b7.jpg');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('15', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('16', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('17', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('18', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('19', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('20', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('21', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('22', '6');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('23', '6');
+
+
+UPDATE `chefhub_db`.`producto_categoria` SET `id_categoria` = '3' WHERE (`id_producto` = '2') and (`id_categoria` = '2');
+UPDATE `chefhub_db`.`producto` SET `baja` = '1' WHERE (`id_producto` = '3');
+
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Margarita', 'Clásica italiana con salsa de tomate, mozzarella y hojas de albahaca fresca.', 'https://cloudfront-us-east-1.images.arcpublishing.com/elespectador/D2KL4RRCRJA7RJC5TNULFZEKR4.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Pepperoni', 'Lleva salsa de tomate, queso mozzarella y rodajas de pepperoni, que se doran y sueltan su grasa característica.', 'https://pizzeriabellaroma.es/wp-content/uploads/receta-de-pizza-de-pepperoni.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Cuatro Quesos', 'Mezcla de cuatro quesos (generalmente mozzarella, gorgonzola, parmesano y provolone) para un sabor fuerte y cremoso.', 'https://comedera.com/wp-content/uploads/sites/9/2022/04/Pizza-cuatro-quesos-shutterstock_1514858234.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Napolitana', 'Similar a la Margarita, pero con rodajas de tomate fresco y aceitunas.', 'https://osojimix.com/wp-content/uploads/2022/06/Para-la-masa-de-pizza-napolitana-8-hrs-fermentacion-Web-1.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Hawaiana', 'Contiene jamón y piña, creando una combinación de dulce y salado que genera debate.', 'https://images.mrcook.app/recipe-image/0193adc6-9a5a-774c-982b-fa934194885d');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Fugazzeta', 'Pizza argentina con una capa gruesa de queso mozzarella y mucha cebolla caramelizada.', 'https://www.cocinadelirante.com/sites/default/files/styles/gallerie/public/fugazzeta-pizza-argentina-rellena-aceituna.jpg');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza BBQ Chicken', 'Lleva pollo desmenuzado, salsa barbacoa en lugar de tomate, cebolla morada y queso.', 'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2012/2/28/1/FNM_040112-Copy-That-002_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382541346030.webp');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Vegetariana', 'Cargada con verduras como pimientos, champiñones, cebolla, tomate y aceitunas.', 'https://cdn.shopify.com/s/files/1/0191/9978/files/Pizza-Veggie-Supreme-blog.jpg?v=1652775259');
+INSERT INTO `chefhub_db`.`producto` (`nombre`, `descripcion`, `imagen`) VALUES ('Pizza Carbonara', 'Inspirada en la pasta carbonara, con salsa blanca, panceta, huevo y queso pecorino o parmesano.', 'https://www.justspices.es/media/recipe/resized/510x510/recipe/receta-pizza-carbonara.jpg');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('24', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('25', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('26', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('27', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('28', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('29', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('30', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('31', '3');
+INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES ('32', '3');

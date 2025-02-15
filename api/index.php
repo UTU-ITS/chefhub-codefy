@@ -10,11 +10,16 @@ require('Controllers/ReservationController.php');
 require('Controllers/TablesController.php');
 require('Controllers/TokenController.php');
 require('Controllers/ReportsController.php');
+require('Controllers/PreferenceController.php');
+require('Controllers/PersonalizationController.php');
 
 require __DIR__.'\vendor\autoload.php';
 use MercadoPago\Client\Payment\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
-$access_token = "APP_USR-5865558838187477-020615-2302c3889cb69404412550090df0ce2e-2255431918";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$access_token = $_ENV['MP_ACCESS_TOKEN'];
+
 
 // Crear la conexión una vez y reutilizarla
 $db = new DbConnect();
@@ -416,11 +421,53 @@ if (isset($path[1])) {
                             $OrderController = new OrderController($conn);
                             $OrderController->handleRequest('getmyorders');
                             break;
-                            case 'getmyreservations':
-                                $ReservationController = new ReservationController($conn);
-                                $ReservationController->handleRequest('getmyreservations');
-                                break;
-                                
+
+                        case 'getmyreservations':
+                            $ReservationController = new ReservationController($conn);
+                            $ReservationController->handleRequest('getmyreservations');
+                            break;
+
+                        case 'getpreferences':
+                            $PreferenceController = new PreferenceController($conn);
+                            $PreferenceController->handleRequest('getpreferences');
+                            break;
+                        case 'updatepreferences':
+                            $PreferenceController = new PreferenceController($conn);
+                            $PreferenceController->handleRequest('updatepreferences');
+                            break;
+  
+                        case 'personalization':
+                            if ($path[2] === 'color') {
+                                $PersonalizationController = new PersonalizationController($conn);
+                                $PersonalizationController->handleRequest($path[2]);
+                            }else if($path[2] === 'updatecolor') {
+                                $PersonalizationController = new PersonalizationController($conn);
+                                $PersonalizationController->handleRequest('updatecolor');
+                            }else {
+                                echo json_encode(["message" => "Ruta no válida"]);
+                            }
+                            break;
+
+                        case 'getcantorders':
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('getcantorders');
+                            break;
+                        
+                        case 'getfuturereservations':
+                            $ReservationController = new ReservationController($conn);
+                            $ReservationController->handleRequest('getfuturereservations');
+                            break;
+                        case 'getbestproducts':
+                        
+                            $OrderController = new OrderController($conn);
+                            $OrderController->handleRequest('getbestproducts');
+                        break;
+                        case 'mostusedingredients':
+                        
+                            $IngredientsController = new IngredientsController($conn);
+                            $IngredientsController->handleRequest('mostusedingredients');
+                        break;
+
                             
                                  
             default:

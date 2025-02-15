@@ -230,6 +230,8 @@ const AdminOrders = () => {
     return (
             <div className='orders-format'>
                 <div className='left'>
+                {user && user.data && ( user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                                <> 
                     <div className="orders-tables">
                         <div className='admin-subtitle orders-title'>
                             <h2>PEDIDOS PENDIENTES</h2>
@@ -291,6 +293,10 @@ const AdminOrders = () => {
                             </div>
                         )}
                     </div>
+                    </> )} 
+                     
+                            {user && user.data && ( user.data.cargo === "Chef" || user.data.cargo === "Administrativo") && (
+                                <> 
                     <div className="orders-tables">
                         <div className='admin-subtitle'>
                             <h2>PEDIDOS EN PREPARACIÓN</h2>
@@ -350,6 +356,10 @@ const AdminOrders = () => {
                             </div>
                         )}
                     </div>
+
+                    </> )}
+                    {user && user.data && ( user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                    <>  
                     <div className="orders-tables">
                         <div className='admin-subtitle'>
                             <h2>PEDIDOS LISTOS</h2>
@@ -410,8 +420,9 @@ const AdminOrders = () => {
                             </div>
                         )}
                     </div>
+                    </> )}
                 </div>
-
+                    
                 <div className='right'>
                     <div className="orders-table details-section">
                         <div className='admin-subtitle'>

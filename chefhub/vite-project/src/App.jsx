@@ -18,6 +18,8 @@ import CustomerAutoManagement from './components/Admin/Users/Customers/CustomerA
 import Aftercheckout from './components/Shop/Aftercheckout';
 import AfterCheckoutInside from './components/Shop/AfterCheckoutInside';
 import AfterChekoutFail from './components/Shop/AfterCheckoutFail';
+import { useEffect, useState } from 'react';
+import './design.css';
 
 function NotFound() {
   
@@ -31,6 +33,38 @@ function NotFound() {
 }
 
 function App() {
+
+  const [color, setColor] = useState(null);
+
+  useEffect(() => {
+    const fetchColor = async () => {
+      try {
+        const response = await fetch("http://localhost/api/personalization/color"); // URL de tu API en PHP
+        const data = await response.json();
+        setColor(data.color);
+        function hexToRgba(hex, alpha) {
+          let r = parseInt(hex.slice(1, 3), 16);
+          let g = parseInt(hex.slice(3, 5), 16);
+          let b = parseInt(hex.slice(5, 7), 16);
+          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+      
+      document.documentElement.style.setProperty("--primary-color", data.color);
+      document.documentElement.style.setProperty("--primary-color-light", hexToRgba(data.color, 0.1)); // 50% de opacidad
+      
+      } catch (error) {
+        console.error("Error al obtener el color:", error);
+      }
+    };
+
+    fetchColor();
+  }, []); // Se ejecuta solo una vez al montar el componente
+
+  // Si el color aún no se ha cargado, podemos establecer un color predeterminado
+  if (color === null) {
+    document.documentElement.style.setProperty("--primary-color", "#ffffff"); // Blanco por defecto
+  }
+
   return (
     <ChakraProvider>
       <UserProvider>

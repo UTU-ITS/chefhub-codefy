@@ -30,15 +30,15 @@ class TablesModel {
                     SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
                     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
                 ) t
-                WHERE ADDTIME(hd.horario_apertura, SEC_TO_TIME(t.n * TIME_TO_SEC(hd.duracion_reserva))) <= hd.horario_cierre
+                WHERE ADDTIME(hd.horario_apertura, SEC_TO_TIME(t.n * TIME_TO_SEC(hd.duracion_reserva))) < hd.horario_cierre
             )
             SELECT * FROM posibles_horas;
         ";
-    
+        
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':date', $date, PDO::PARAM_STR);
         $stmt->execute();
-    
+        
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     

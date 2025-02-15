@@ -22,6 +22,7 @@ class Reservation {
                        cm.nombre_reserva AS 'A nombre de', 
                        cm.tel_contacto AS 'Teléfono', 
                        cm.id_mesa AS 'Nº Mesa', 
+                         cm.estado AS 'Estado',                       
                        DATE_FORMAT(cm.fecha, '%d/%m/%Y') AS 'Fecha', 
                        cm.hora AS 'Hora'
                 FROM cliente_mesa cm
@@ -50,17 +51,15 @@ class Reservation {
     }
         
 
-    public function cancelReservation ($id_usuario,$id_mesa, $fecha, $hora) {
+    public function cancelReservation ($id_mesa, $fecha, $hora) {
         $sql = "UPDATE cliente_mesa
                 SET estado = 'Cancelada'
                 WHERE id_cliente = :id_mesa
-                WHERE id_usuario = :id_usuario
                 AND id_mesa = :id_mesa
                 AND fecha = :fecha
                 AND hora = :hora";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id_mesa', $id_mesa);
-        $stmt->bindParam(':id_usuario', $id_usuario);
         $stmt->bindParam(':fecha', $fecha);
         $stmt->bindParam(':hora', $hora);
         $stmt->execute();
@@ -84,10 +83,23 @@ class Reservation {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    }
+    public function getFutureReservations(){
+        $sql = "SELECT
+                       count(*) as 'Cantidad'
+                FROM cliente_mesa cm
+                WHERE cm.fecha >= CURRENT_DATE
+                AND cm.baja = FALSE
+                ORDER BY cm.fecha DESC, cm.hora DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
     }
+
+
 }
 
 

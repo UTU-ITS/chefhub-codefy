@@ -39,7 +39,7 @@ export default function Cart() {
                 setShowEmplyCartMessage(false);
                 navigate('/menu');
             }, 3000);
-        } else if (user.data && ["Chef", "Mesero", "Administrativo"].includes(user.data.cargo)) {
+        } else if (user.data && ["Chef", "Administrativo"].includes(user.data.cargo)) {
             setShowRestrictedMessage(true);
             setTimeout(() => setShowRestrictedMessage(false), 3000);
         } else {

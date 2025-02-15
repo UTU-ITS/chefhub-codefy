@@ -127,6 +127,7 @@ const AddProductModal = ({ onProductAdded }) => {
         body: formData,
       });
 
+
       if (!response.ok) throw new Error('Error en la respuesta del servidor');
       
       const result = await response.json();

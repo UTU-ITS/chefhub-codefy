@@ -63,6 +63,6 @@
 }
 
 .custom-submit-btn {
-  background-color: #3182ce;
+  background-color: var(--primary-color);
   color: white;
 }

@@ -28,7 +28,7 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
-}	
+}
 
 .reservas-header h1 {
   color: var(--navbar-color);
@@ -39,17 +39,6 @@
 
 .reservas-header svg {
   fill: var(--primary-color);
-}
-
-.reservas-content {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.reservation-next-button {
-  display: flex;
-  justify-content: center;
 }
 
 .reservas-description {
@@ -70,6 +59,12 @@
   font-family: var(--font-family, sans-serif);
 }
 
+.reservas-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
 .reservas-section {
   display: flex;
   width: 100%;
@@ -87,57 +82,44 @@
   justify-content: center;
 }
 
-.reservation-summary {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 1rem;
-}
-
-.reservation-summary h2 {
-  font-size: var(--title-size-xl);
-}
-
-.reservation-summary p {
-  font-size: var(--title-size);
-}
-
 .selected-date {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary-color);
-  margin-top: 0.5rem;
-}
-
-.reservation-instructions {
+  margin-top: 1rem;
   text-align: center;
 }
 
 .custom-calendar {
   width: 100% !important;
-  max-width: 400px;
-  margin: 0 auto;
+  max-width: 400px; /* Máximo ancho */
+  min-width: 300px; /* Ancho mínimo */
+  margin: 0 auto; /* Centrado del calendario */
   border: none !important;
   border-radius: 12px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Time slots styling */
+.react-calendar {
+  width: 100%; /* Asegura que el calendario se ajuste correctamente al contenedor */
+  margin-bottom: 1rem; /* Espacio abajo del calendario */
+}
+
 .slots-section {
-  background: #f4f4f9;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrado del contenido */
 }
 
 .slots-title {
   display: flex;
   justify-content: center;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
-.slots-section h2 {
-  color: var(--primary-color);
-  margin-bottom: 1rem;
+.slots-section .selected-date {
+  margin-top: 1rem; /* Mueve la fecha hacia abajo */
 }
 
 .slots-grid {

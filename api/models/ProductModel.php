@@ -7,20 +7,27 @@ class Product {
     }
 
     public function getProduct($id = null) {
-        $sql = "SELECT * FROM producto_categoria pc INNER JOIN producto p ON pc.id_producto = p.id_producto";
+        // Comienza la consulta común con el filtro de baja = FALSE
+        $sql = "SELECT * FROM producto_categoria pc INNER JOIN producto p ON pc.id_producto = p.id_producto WHERE p.baja = FALSE";
+        
+        // Si se proporciona un id, agregamos la condición para filtrar por categoría
         if ($id !== null) {
-            $sql .= " WHERE pc.id_categoria = :id";
-            $sql .= " AND p.baja = FALSE";
+            $sql .= " AND pc.id_categoria = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id', $id);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
+            // Si no se proporciona un id, ejecutamos la consulta sin el filtro por categoría
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+        
+        // Ejecutamos la consulta
+        $stmt->execute();
+        
+        // Retornamos los resultados
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+
     
     public function getTableProducts() {
         $sql = "SELECT id_producto AS 'ID', nombre AS 'Producto', precio AS 'Precio', descripcion AS 'Descripción', imagen AS 'Imagen' 

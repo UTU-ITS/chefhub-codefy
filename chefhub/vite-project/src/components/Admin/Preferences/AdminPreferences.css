@@ -1,0 +1,138 @@
+.admin-preferences {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.preferences-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.preference-item {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.preference-item h3 {
+  margin-bottom: 10px;
+  font-size: 1.125rem;
+  color: #4a4a4a;
+}
+
+.preference-item .flex {
+  display: flex;
+  gap: 20px;
+}
+
+.preference-item .flex div {
+  flex: 1;
+}
+
+.preference-item input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.preference-item input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Estilo del botón de guardar */
+.save-button {
+  padding: 12px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.save-button:hover {
+  background-color: var(--primary-color);
+}
+
+.save-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-color);
+}
+
+/* Personalización de colores */
+.admin-personalization {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Centra los elementos horizontalmente */
+  justify-content: center; /* Centra los elementos verticalmente */
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  text-align: center;
+  background-color: var(--primary-color-light); /* Fondo oscuro acorde a tu paleta */
+  color: #000000;
+  border-radius: 8px;
+}
+
+/* Título del color de interfaz */
+.color-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Estilo de etiquetas */
+.admin-personalization label {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Estilo del input de color */
+.admin-personalization input[type="color"] {
+  width: 50px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+/* Botón de cambio de color */
+.admin-personalization button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #FFFFFF;
+  background-color: var(--primary-color-light);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.admin-personalization button:hover {
+  background-color: var(--primary-color);
+}

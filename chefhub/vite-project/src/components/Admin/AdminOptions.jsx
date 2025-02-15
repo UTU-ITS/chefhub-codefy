@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import {UserContext} from '../../context/user';
 import { Routes, Route, Link } from 'react-router-dom';
 import './AdminOptions.css';
 import AdminProducts from './Products/AdminProducts';
@@ -11,10 +12,12 @@ import AdminReservations from './Reservations/AdminReservations';
 import AdminReports from './Reports/AdminReports';
 import AdminCategory from './Category/AdminCategory';
 import AdminIngredient from './Ingredient/AdminIngredient';
+import AdminPreferences from './Preferences/AdminPreferences';
+ 
 
 export default function Options() {
     const [selectedOption, setSelectedOption] = useState('');
-
+    const {user} = useContext(UserContext);
     const handleOptionClick = (option) => {
         setSelectedOption(option);
     };
@@ -31,16 +34,17 @@ export default function Options() {
                                 <Link
                                     to="/admin/dashboard"
                                     onClick={() => handleOptionClick('Dashboard')}
-                                    className={isSelected('Dashboard')}
                                 >
                                     Panel de Información
                                 </Link>
                             </li>
+                            {user && user.data && (user.data.cargo === "Administrativo") && (
+                                <>
                             <li>
+
                                 <Link
                                     to="/admin/products"
                                     onClick={() => handleOptionClick('Productos')}
-                                    className={isSelected('Productos')}
                                 >
                                     Productos
                                 </Link>
@@ -50,7 +54,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/category"
                                     onClick={() => handleOptionClick('Categorias')}
-                                    className={isSelected('Categorias')}
                                 >
                                     Categorias
                                 </Link>
@@ -59,43 +62,23 @@ export default function Options() {
                                 <Link
                                     to="/admin/ingredient"
                                     onClick={() => handleOptionClick('Ingrediente')}
-                                    className={isSelected('Ingrediente')}
                                 >
                                     Ingrediente
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    to="/admin/orders"
-                                    onClick={() => handleOptionClick('Orders')}
-                                    className={isSelected('Orders')}
-                                >
-                                    Pedidos
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    to="/admin/reservations"
-                                    onClick={() => handleOptionClick('reservations')}
-                                    className={isSelected('reservations')}
-                                >
-                                    Reservas
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
                                     to="/admin/tables"
                                     onClick={() => handleOptionClick('Tables')}
-                                    className={isSelected('Tables')}
                                 >
                                     Mesas
                                 </Link>
                             </li>
+                            
                             <li>
                                 <Link
                                     to="/admin/employees"
                                     onClick={() => handleOptionClick('Funcionarios')}
-                                    className={isSelected('Funcionarios')}
                                 >
                                     Empleados
                                 </Link>
@@ -104,7 +87,6 @@ export default function Options() {
                                 <Link
                                     to="/admin/customers"
                                     onClick={() => handleOptionClick('Customers')}
-                                    className={isSelected('Customers')}
                                 >
                                     Clientes
                                 </Link>
@@ -113,31 +95,47 @@ export default function Options() {
                                 <Link
                                     to="/admin/reports"
                                     onClick={() => handleOptionClick('Reports')}
-                                    className={isSelected('Reports')}
                                 >
                                     Informes
                                 </Link>
                             </li>
+                            </>)}
+                            {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                                <>   
+                            <li>
+                                <Link
+                                    to="/admin/orders"
+                                    onClick={() => handleOptionClick('Orders')}
+                                >
+                                    Pedidos
+                                </Link>
+                            </li>
+                            </> )}  
+                            {user && user.data && ( user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                                <>  
+                            <li>
+                                <Link
+                                    to="/admin/reservations"
+                                    onClick={() => handleOptionClick('reservations')}
+                                >
+                                    Reservas
+                                </Link>
+                            </li>
+                            </> )} 
+                            {user && user.data && (user.data.cargo === "Administrativo") && (
+                                <>
                             <div className="line-separator"></div>
                             <h3 className="options-title">CONFIGURACIÓN DEL PORTAL</h3>
+
                             <li>
                                 <Link
-                                    to="/admin/personalizacion"
-                                    onClick={() => handleOptionClick('Personalización del portal')}
-                                    className={isSelected('Personalización del portal')}
+                                    to="/admin/schedules"
+                                    onClick={() => handleOptionClick('Horarios')}
                                 >
-                                    Personalización
+                                    Personalizacion y preferencias
                                 </Link>
                             </li>
-                            <li>
-                                <Link
-                                    to="/admin/preferencias"
-                                    onClick={() => handleOptionClick('Preferencias')}
-                                    className={isSelected('Preferencias')}
-                                >
-                                    Preferencias
-                                </Link>
-                            </li>
+                            </> )} 
                         </ul>
                     </div>
                 </div>
@@ -145,17 +143,16 @@ export default function Options() {
             <div className="content">
                     <Routes>
                         <Route path="dashboard" element={<Dashboard />} />
-                        <Route path="personalizacion" element={<h1>Personalización del portal</h1>} />
                         <Route path="products" element={<AdminProducts />} />
                         <Route path="employees" element={<AdminEmpolyees />} />
                         <Route path="customers" element={<AdminCustomers />} />
-                        <Route path="preferencias" element={<h1>Preferencias</h1>} />
                         <Route path="tables" element={<AdminTables />} />
                         <Route path="reservations" element={<AdminReservations />} />
                         <Route path="orders" element={<AdminOrders/>} />
                         <Route path="reports" element={<AdminReports />} />
                         <Route path="category" element={<AdminCategory />} />
                         <Route path="ingredient" element={<AdminIngredient />} />
+                        <Route path="schedules" element={<AdminPreferences />} />
                     </Routes>
             </div>
         </div>

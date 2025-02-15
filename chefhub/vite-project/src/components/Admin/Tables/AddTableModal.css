@@ -57,7 +57,7 @@
   }
   
   .addtable-submit-btn {
-    background-color: #3182CE;
+    background-color: var(--primary-color);
     color: white;
   }
   
