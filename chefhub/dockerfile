@@ -21,6 +21,9 @@ FROM php:8.2-apache
 # Copia los archivos generados en la carpeta de Apache
 COPY --from=build /app/vite-project/dist /var/www/html/
 
+# Copia el archivo .htaccess para manejar las rutas de React
+COPY vite-project/public/.htaccess /var/www/html/.htaccess
+
 # Habilita mod_rewrite de Apache
 RUN a2enmod rewrite
 
