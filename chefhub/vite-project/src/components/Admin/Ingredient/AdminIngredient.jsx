@@ -34,11 +34,11 @@ const AdminIngredient = () => {
   }, []);
 
   const fetchIngredients = async () => {
-    fetchData("http://chefhub.codefy.com:8080/api/ingredients", setData);
+    fetchData("http://192.168.0.10:8080/api/ingredients", setData);
   };
   
   const fetchRemovedIngredients = async () => {
-    fetchData("http://chefhub.codefy.com:8080/api/deletedingredient", setDataRemoved);
+    fetchData("http://192.168.0.10:8080/api/deletedingredient", setDataRemoved);
   };
 
   const confirmDelete = (ingredient) => {
@@ -60,7 +60,7 @@ const AdminIngredient = () => {
     console.log(selectedIngredient);
 
     try {
-      const response = await fetch("http://chefhub.codefy.com:8080/api/deleteingredient", {
+      const response = await fetch("http://192.168.0.10:8080/api/deleteingredient", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +103,7 @@ const AdminIngredient = () => {
 
   const handleActivate = async (id) => {
     try {
-      const response = await fetch("http://chefhub.codefy.com:8080/api/activateingredient", {
+      const response = await fetch("http://192.168.0.10:8080/api/activateingredient", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

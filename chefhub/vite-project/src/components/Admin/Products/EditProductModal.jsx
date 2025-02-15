@@ -41,8 +41,8 @@ useEffect(() => {
     const fetchData = async () => {
       try {
         const [ingredientsRes, categoriesRes] = await Promise.all([
-          fetch('http://chefhub.codefy.com:8080/api/ingredients/'),
-          fetch('http://chefhub.codefy.com:8080/api/categories/')
+          fetch('http://192.168.0.10:8080/api/ingredients/'),
+          fetch('http://192.168.0.10:8080/api/categories/')
         ]);
         
         if (!ingredientsRes.ok || !categoriesRes.ok) throw new Error('Error fetching data');
@@ -145,7 +145,7 @@ useEffect(() => {
                 };
 
                 // Enviar la solicitud PUT con los datos en formato JSON
-                const response = await fetch('http://chefhub.codefy.com:8080/api/updateproduct', {
+                const response = await fetch('http://192.168.0.10:8080/api/updateproduct', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',  // Asegurarnos de que el servidor entienda que es JSON
@@ -187,7 +187,7 @@ useEffect(() => {
             };
 
             // Enviar la solicitud PUT con los datos en formato JSON
-            const response = await fetch('http://chefhub.codefy.com:8080/api/updateproduct', {
+            const response = await fetch('http://192.168.0.10:8080/api/updateproduct', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',  // Asegurarnos de que el servidor entienda que es JSON

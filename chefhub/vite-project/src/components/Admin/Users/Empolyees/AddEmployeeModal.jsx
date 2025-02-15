@@ -98,7 +98,7 @@ const AddEmployeeModal = ({ onEmployeeAdded }) => {
     }
 
     try {
-      const response = await fetch('http://chefhub.codefy.com:8080/api/addemployee', {
+      const response = await fetch('http://192.168.0.10:8080/api/addemployee', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

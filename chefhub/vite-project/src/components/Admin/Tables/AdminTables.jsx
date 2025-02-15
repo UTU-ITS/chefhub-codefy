@@ -10,7 +10,7 @@ const AdminTables = () => {
   const itemsPerPage = 12;
 
   useEffect(() => {
-    fetchData('http://chefhub.codefy.com:8080/api/tables', setData);
+    fetchData('http://192.168.0.10:8080/api/tables', setData);
   }, []);
 
   const filteredData = data.filter((item) =>
@@ -47,7 +47,7 @@ const AdminTables = () => {
         </div>
 
         <div className="admin-options">
-        <AddTableModal onTableAdded={() => fetchData('http://chefhub.codefy.com:8080/api/tables', setData)} />
+        <AddTableModal onTableAdded={() => fetchData('http://192.168.0.10:8080/api/tables', setData)} />
           <input
             type="text"
             placeholder="Buscar mesas..."

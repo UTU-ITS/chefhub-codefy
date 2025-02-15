@@ -37,7 +37,7 @@ export default function LoginView() {
 
         try {
             const response = await axios.post(
-                'http://chefhub.codefy.com:8080/api/login',
+                'http://192.168.0.10:8080/api/login',
                 {
                     email: inputs.email,
                     password: inputs.password,
@@ -62,7 +62,7 @@ export default function LoginView() {
     const handleSendVerificationEmail = async () => {
         const HandleCheckMailisRegistered = async () => {
             try {
-                const response = await axios.post("http://chefhub.codefy.com:8080/api/checkemail", { email });
+                const response = await axios.post("http://192.168.0.10:8080/api/checkemail", { email });
                 if (response.data.success) {
                     console.log(response.data);
                     return response.data; // Devuelvo la id si el correo está registrado
@@ -87,7 +87,7 @@ export default function LoginView() {
         if (!userId) return; 
     
         try {
-            const response = await axios.post("http://chefhub.codefy.com:8080/api/sendmail", { email });
+            const response = await axios.post("http://192.168.0.10:8080/api/sendmail", { email });
             if (response.data.success) {
                 setStepFG(2);
     
@@ -106,7 +106,7 @@ export default function LoginView() {
     
     const handleVerifyCode = async () => {
         try {
-            const response = await axios.post("http://chefhub.codefy.com:8080/api/checktoken", { email, tokenInput: verificationCode });
+            const response = await axios.post("http://192.168.0.10:8080/api/checktoken", { email, tokenInput: verificationCode });
             
             if (response.data.success) {
                

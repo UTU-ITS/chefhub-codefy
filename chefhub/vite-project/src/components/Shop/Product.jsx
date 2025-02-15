@@ -14,8 +14,8 @@ export default function Product({ selectedKey, searchTerm }) {
 
   useEffect(() => {
     const url = selectedKey
-      ? `http://chefhub.codefy.com:8080:80/api/productbycategory/${selectedKey}`
-      : 'http://chefhub.codefy.com:8080:80/api/productbycategory';
+      ? `http://192.168.0.10:8080:80/api/productbycategory/${selectedKey}`
+      : 'http://192.168.0.10:8080:80/api/productbycategory';
 
     axios
       .get(url)
@@ -72,7 +72,7 @@ export default function Product({ selectedKey, searchTerm }) {
       {filteredProducts.length > 0 ? (
         filteredProducts.map((product) => (
           <Card key={product.id_producto} direction={{ base: 'column', sm: 'row' }} overflow="hidden" variant="outline" className="product-card">
-            <Image objectFit="cover" maxW={{ base: '100%', sm: '200px' }} src={`http://chefhub.codefy.com:8080/${product.imagen}`} alt={product.nombre} boxSize="200px" />
+            <Image objectFit="cover" maxW={{ base: '100%', sm: '200px' }} src={`http://192.168.0.10:8080/${product.imagen}`} alt={product.nombre} boxSize="200px" />
             <Stack className="product-info">
               <CardBody className="card-body">
                 <Heading size="md">{product.nombre}</Heading>

@@ -24,7 +24,7 @@ function Reservations() {
       const fetchTimeSlots = async () => {
         try {
           const formattedDate = format(date, 'yyyy-MM-dd');
-          const response = await axios.get(`http://chefhub.codefy.com:8080/api/freehours/${formattedDate}`);
+          const response = await axios.get(`http://192.168.0.10:8080/api/freehours/${formattedDate}`);
           if (Array.isArray(response.data)) {
             setTimeSlots(response.data.map(item => item.hora));
           } else {
@@ -44,7 +44,7 @@ function Reservations() {
       const fetchTables = async () => {
         try {
           const formattedDate = format(date, 'yyyy-MM-dd');
-          const response = await axios.post('http://chefhub.codefy.com:8080/api/freetables', 
+          const response = await axios.post('http://192.168.0.10:8080/api/freetables', 
             { date: formattedDate, time: selectedTime }, 
             { headers: { 'Content-Type': 'application/json' } }
           );
@@ -102,7 +102,7 @@ function Reservations() {
 
     try {
       const formattedDate = format(date, 'yyyy-MM-dd');
-      await axios.post('http://chefhub.codefy.com:8080/api/insertreservations', {
+      await axios.post('http://192.168.0.10:8080/api/insertreservations', {
         fecha: formattedDate,
         hora: selectedTime,
         id_mesa: selectedTable.id_mesa,

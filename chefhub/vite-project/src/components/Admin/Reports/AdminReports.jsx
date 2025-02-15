@@ -21,7 +21,7 @@ export default function CustomReport() {
   const [isColumnDisabled, setIsColumnDisabled] = useState(true);
 
   useEffect(() => {
-    fetchData("http://chefhub.codefy.com:8080/api/reports/tables", setAvailableTables);
+    fetchData("http://192.168.0.10:8080/api/reports/tables", setAvailableTables);
   }, []);
 
   const handleTableChange = (event) => {
@@ -30,7 +30,7 @@ export default function CustomReport() {
     setSelectedColumns([]); 
   
     if (newTable !== "") {
-      fetchData(`http://chefhub.codefy.com:8080/api/reports/columns/${newTable}`, (data) => {
+      fetchData(`http://192.168.0.10:8080/api/reports/columns/${newTable}`, (data) => {
         const uniqueColumns = [...new Map(data.map(col => [col.COLUMN_NAME, col])).values()];
         setAvailableColumns(uniqueColumns);
         setColumns(uniqueColumns);
@@ -146,7 +146,7 @@ export default function CustomReport() {
   
     console.log('Generando informe:', data);
   
-    postData("http://chefhub.codefy.com:8080/api/reports/generatereport", data, (response) => {
+    postData("http://192.168.0.10:8080/api/reports/generatereport", data, (response) => {
       console.log('Informe generado:', response);
       if (response.success) {
         setReportData(response.data);

@@ -16,7 +16,7 @@ const AfterCheckout = () => {
     hasSubmitted.current = true; 
     console.log("handleOrderSubmitToBD called");
     try {
-      const response = await fetch("http://chefhub.codefy.com:8080/api/insertorder", {
+      const response = await fetch("http://192.168.0.10:8080/api/insertorder", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

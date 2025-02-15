@@ -33,8 +33,8 @@ const AddProductModal = ({ onProductAdded }) => {
     const fetchData = async () => {
       try {
         const [ingredientsRes, categoriesRes] = await Promise.all([
-          fetch('http://chefhub.codefy.com:8080/api/ingredients/'),
-          fetch('http://chefhub.codefy.com:8080/api/categories/')
+          fetch('http://192.168.0.10:8080/api/ingredients/'),
+          fetch('http://192.168.0.10:8080/api/categories/')
         ]);
         
         if (!ingredientsRes.ok || !categoriesRes.ok) throw new Error('Error fetching data');
@@ -123,7 +123,7 @@ const AddProductModal = ({ onProductAdded }) => {
     selectedCategories.forEach(c => formData.append('categorias[]', c.id_categoria));
 
     try {
-      const response = await fetch('http://chefhub.codefy.com:8080/api/insertproduct', {
+      const response = await fetch('http://192.168.0.10:8080/api/insertproduct', {
         method: 'POST',
         body: formData,
       });

@@ -21,10 +21,10 @@ const AdminEmployees = () => {
   }, []);
 
   const fetchEmployees = async () => {
-    await fetchData('http://chefhub.codefy.com:8080/api/empolyees', setData);
+    await fetchData('http://192.168.0.10:8080/api/empolyees', setData);
   };
   const fetchRemovedEmployees = async () => {
-    await fetchData('http://chefhub.codefy.com:8080/api/getremovedemployees', setDataRemoved);
+    await fetchData('http://192.168.0.10:8080/api/getremovedemployees', setDataRemoved);
   };
 
   const handleEmployeeAdded = () => {
@@ -36,7 +36,7 @@ const AdminEmployees = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://chefhub.codefy.com:8080/api/deleteemployee`, {
+      const response = await fetch(`http://192.168.0.10:8080/api/deleteemployee`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ const AdminEmployees = () => {
 
   const handleActivate = async (id) => {
     try {
-      const response = await fetch(`http://chefhub.codefy.com:8080/api/activateemployee`, {
+      const response = await fetch(`http://192.168.0.10:8080/api/activateemployee`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

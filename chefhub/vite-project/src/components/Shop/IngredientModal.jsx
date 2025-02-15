@@ -12,7 +12,7 @@ const IngredientModal = ({ isOpen, onClose, productId, onConfirm }) => {
       if (!isOpen || !productId) return;
       
       try {
-        const response = await axios.get(`http://chefhub.codefy.com:8080/api/ingredients/perproduct/${productId}`);
+        const response = await axios.get(`http://192.168.0.10:8080/api/ingredients/perproduct/${productId}`);
         if (response.data) {
           const data = Array.isArray(response.data) ? response.data : [response.data];
           const initializedIngredients = data.map(ingredient => ({

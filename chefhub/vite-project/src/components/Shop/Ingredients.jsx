@@ -20,7 +20,7 @@ const Ingredients = ({ productId, uniqueId }) => {
       // Si no hay ingredientes en el contexto, realiza la solicitud a la API
       const fetchIngredients = async () => {
         try {
-          const response = await axios.get(`http://chefhub.codefy.com:8080/api/ingredients/perproduct/${productId}`);
+          const response = await axios.get(`http://192.168.0.10:8080/api/ingredients/perproduct/${productId}`);
           if (response.data) {
             const data = Array.isArray(response.data) ? response.data : [response.data];
             const initializedIngredients = data.map(ingredient => ({
