@@ -12,7 +12,7 @@ require('controllers/TokenController.php');
 require('controllers/ReportsController.php');
 require('controllers/PreferenceController.php');
 require('controllers/PersonalizationController.php');
-require ('vendor/autoload.php');
+require('vendor/autoload.php');
 
 use MercadoPago\Client\Payment\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
