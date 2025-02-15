@@ -1,21 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig({
   plugins: [react()],
+  base: "/", // Asegura que las rutas sean absolutas
   server: {
-    host: '0.0.0.0',  // Permite que el contenedor sea accesible desde fuera
-    port: 3000,       // Asegura que Vite escuche en el puerto correcto
-    strictPort: true,
-    watch: {
-      usePolling: true,  // Corrige problemas de hot reload en Docker
-    }
+    port: 3000, // Ajusta el puerto si es necesario
+    host: true, // Permite acceder desde la red local
   },
   build: {
-    outDir: 'dist',
+    outDir: "dist",
+    emptyOutDir: true, // Limpia la carpeta de salida antes de compilar
   },
-  preview: {
-    port: 8080,        // Puerto para servir la app en producción
-    host: '0.0.0.0',
-  }
-})
+});

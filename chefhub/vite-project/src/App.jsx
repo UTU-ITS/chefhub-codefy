@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import './App.css';
 import NavBar from './components/Home/NavBar';
@@ -69,7 +69,7 @@ function App() {
     <ChakraProvider>
       <UserProvider>
         <CartProvider>
-          <Router>
+          <BrowserRouter>
             <NavBar />
             <div className="main-content">
               <Routes>
@@ -90,7 +90,7 @@ function App() {
                 <Route path="/myprofile" element={<CustomerAutoManagement />} />
               </Routes>
             </div>
-          </Router>
+          </BrowserRouter>
         </CartProvider>
       </UserProvider>
     </ChakraProvider>
