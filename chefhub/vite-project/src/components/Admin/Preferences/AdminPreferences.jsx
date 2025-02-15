@@ -32,7 +32,7 @@ export default function AdminPreferences() {
   useEffect(() => {
     const fetchPreferences = async () => {
       try {
-        const response = await fetch('http://192.168.0.10:8080:80/api/getpreferences');
+        const response = await fetch('http://192.168.0.10:8080/api/getpreferences');
         const result = await response.json();
 
         if (result.data && result.data.length > 0) {

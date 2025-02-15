@@ -133,7 +133,7 @@ useEffect(() => {
     if (user?.data) {
       try {
         const idcliente = user.data.id_usuario;
-        const url = `http://192.168.0.10:8080:80/api/getadresses/${idcliente}`;
+        const url = `http://192.168.0.10:8080/api/getadresses/${idcliente}`;
         const response = await axios.get(url);
         if (Array.isArray(response.data)) {
           setAdresses(response.data);

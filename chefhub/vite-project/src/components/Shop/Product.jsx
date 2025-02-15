@@ -14,8 +14,8 @@ export default function Product({ selectedKey, searchTerm }) {
 
   useEffect(() => {
     const url = selectedKey
-      ? `http://192.168.0.10:8080:80/api/productbycategory/${selectedKey}`
-      : 'http://192.168.0.10:8080:80/api/productbycategory';
+      ? `http://192.168.0.10:8080/api/productbycategory/${selectedKey}`
+      : 'http://192.168.0.10:8080/api/productbycategory';
 
     axios
       .get(url)
