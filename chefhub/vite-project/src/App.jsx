@@ -69,7 +69,7 @@ function App() {
     <ChakraProvider>
       <UserProvider>
         <CartProvider>
-          <BrowserRouter>
+          <Router>
             <NavBar />
             <div className="main-content">
               <Routes>
@@ -90,7 +90,7 @@ function App() {
                 <Route path="/myprofile" element={<CustomerAutoManagement />} />
               </Routes>
             </div>
-          </BrowserRouter>
+          </Router>
         </CartProvider>
       </UserProvider>
     </ChakraProvider>
