@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import './adminPreferences.css';
+import './AdminPreferences.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchData, putData } from '../apiService';
 export default function AdminPreferences() {
