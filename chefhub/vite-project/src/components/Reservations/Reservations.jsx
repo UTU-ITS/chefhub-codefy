@@ -129,7 +129,7 @@ function Reservations() {
     <div className="reservas">
       <div className="reservas-container">
         <div className="reservas-header">
-          <h1>Realiza tu lugar ahora</h1>
+          <h1>Realiza tu reserva ahora</h1>
           <ReservationsIcon />
         </div>
       <div className="reservas-description">
@@ -151,23 +151,24 @@ function Reservations() {
                     format(date, "MMMM yyyy", { locale: es }).slice(1)
                   }
                 />
-                </div>
-              </div>
-              <div className="reservas-section-right">
+                
                 {date ? (
-                  <div className="reservation-summary">
+                    <div className="reservation-summary">
                     <div className="item-summary">
                       <h2>Fecha seleccionada</h2>
                       <p className="selected-date">{format(date, 'dd MMMM yyyy', { locale: es })}</p>
                     </div>
-                  </div>
-                ) : (
-                  <div className="reservation-instructions">
-                    <p>Por favor, selecciona una fecha para continuar.</p>
-                  </div>
-                )}
+                    </div>
+                   ) : (
+                    <div className="reservation-instructions">
+                      <p>Por favor, selecciona una fecha para continuar.</p>
+                     </div>
+          )}
+                </div>
+                </div>
               </div>
-            </div>
+              
+             
           )}
 
           {step === 2 && date && (

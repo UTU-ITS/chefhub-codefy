@@ -12,7 +12,7 @@
 .select-box-reports {
   width: 100%;
   padding: 12px;
-  border: 2px solid #007bff;
+  border: 2px solid var(--primary-color);
   border-radius: 8px;
   background: #fff;
   font-size: 16px;
@@ -21,7 +21,7 @@
 }
 
 .select-box-reports:hover {
-  border-color: #0056b3;
+  border-color: var(--primary-color);
 }
 
 .columns-container-reports {

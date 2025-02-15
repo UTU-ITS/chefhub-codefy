@@ -30,8 +30,8 @@ body {
 
 .btn:hover {
     background-color: #fff;
-    border-color: #ab8ef4;
-    color: #ab8ef4;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 .txt-area{
@@ -41,7 +41,7 @@ body {
   width: 250px;
   margin: 10px;
   border-radius: 8px;
-  border: 2px solid #ab8ef4;
+  border: 2px solid var(--primary-color);
   padding: 10px;
 }
 
@@ -52,7 +52,7 @@ body {
   width: 500px;
   margin: 10px;
   border-radius: 8px;
-  border: 2px solid #ab8ef4;
+  border: 2px solid var(--primary-color);
   padding: 10px;
 }
 
@@ -279,7 +279,7 @@ select:focus {
 }
 
 .modal-content button {
-  background: #ab8ef4;
+  background: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 8px;

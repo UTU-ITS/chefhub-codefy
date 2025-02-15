@@ -36,7 +36,6 @@
     overflow-y: auto; /* Permite desplazamiento si el contenido es grande */
 }
 
-
 .sidebar ul {
     list-style-type: none;
     padding: 0;
@@ -52,11 +51,11 @@
     padding: 15px 25px;
     text-align: start;
     gap: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .sidebar ul li a:hover {
-    background-color: rgba(171, 142, 244, 0.1); /* 50% de opacidad */
-    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
+    background-color: var(--primary-color-light); /* 50% de opacidad */
     color: var(--primary-color);
 }
 
@@ -70,7 +69,6 @@
     background: #f3f4f6;
     padding: 2rem;
 }
-
 
 .content-text {
     text-align: center;
@@ -174,4 +172,54 @@
     justify-content: start;
     align-items: center;
     gap: 20px;
+}
+
+/* =========================================
+   ===========  MEDIA QUERIES  ============
+   ========================================= */
+
+/* Para pantallas hasta 768px (tablets y móviles grandes) */
+@media (max-width: 768px) {
+    .options-div {
+        flex-direction: column; /* Apila sidebar y contenido */
+        min-height: auto;      /* Ajusta altura */
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .sidebar ul li a {
+        font-size: 14px;
+        justify-content: flex-start; /* Ajusta la alineación */
+    }
+
+    .content {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+/* Para pantallas muy pequeñas (hasta 480px) */
+@media (max-width: 480px) {
+    .sidebar ul li a {
+        font-size: 12px;
+        padding: 10px 15px;
+    }
+
+    .options-title {
+        font-size: 9px;
+        padding: 0 15px;
+    }
+
+    .home-admin-options, .home-config-options {
+        margin: 20px 5px;
+        padding: 15px;
+    }
+
+    .content {
+        padding: 1rem;
+    }
 }

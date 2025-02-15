@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
-import { PinIcon } from '../../img/HeroIcons';
 import CategoriesDisplay from './CategoriesDisplay';
 import CategoryRow from './CategoryRow';
 
@@ -21,13 +20,12 @@ export default function Home() {
       <div className="buscador">
         <p className='slogan'>Pide lo que quieras, Cuando quieras</p>
         <i className='borde buscador-barra'>
-          {/* Vincula el valor del input al estado 'searchTerm' */}
           <input 
             className='entrada' 
             type="text" 
             placeholder="Busca productos..." 
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado con el valor del input
+            onChange={(e) => setSearchTerm(e.target.value)} 
           />
           <button className='btn' onClick={handleSearch}>Buscar</button>
         </i>

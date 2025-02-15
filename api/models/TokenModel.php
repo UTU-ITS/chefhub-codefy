@@ -1,13 +1,24 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-require 'vendor/autoload.php'; 
+require __DIR__ . '/../vendor/autoload.php';
+	
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
 class TokenModel {
     private $conn;
+    private $host;
+    private $port;
+    private $user;
+    private $pass;
 
     public function __construct($db) {
         $this->conn = $db;
+        $this->host = $_ENV['SMTP_HOST'];
+			$this->port = $_ENV['SMTP_PORT'];
+			$this->user = $_ENV['SMTP_USER'];
+			$this->pass = $_ENV['SMTP_PASS'];
     }
 
     public function generarToken($length = 6) {
@@ -29,12 +40,12 @@ class TokenModel {
         try {
 
             $mail->isSMTP();
-            $mail->Host = 'pro.turbo-smtp.com';
+            $mail->Host = $this->host;
             $mail->SMTPAuth = true;
-            $mail->Username = 'codefy.supp@gmail.com';
-            $mail->Password = '0ItA6otK';
+            $mail->Username =$this->user ;
+            $mail->Password = $this->pass;
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $mail->Port = $this->port;
         
             $mail->setFrom('codefy.supp@gmail.com', 'Equipo de soporte');
             $mail->addAddress($email);

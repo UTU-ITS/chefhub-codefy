@@ -42,7 +42,16 @@ function App() {
         const response = await fetch("http://localhost/api/personalization/color"); // URL de tu API en PHP
         const data = await response.json();
         setColor(data.color);
-        document.documentElement.style.setProperty("--primary-color", data.color);
+        function hexToRgba(hex, alpha) {
+          let r = parseInt(hex.slice(1, 3), 16);
+          let g = parseInt(hex.slice(3, 5), 16);
+          let b = parseInt(hex.slice(5, 7), 16);
+          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+      
+      document.documentElement.style.setProperty("--primary-color", data.color);
+      document.documentElement.style.setProperty("--primary-color-light", hexToRgba(data.color, 0.1)); // 50% de opacidad
+      
       } catch (error) {
         console.error("Error al obtener el color:", error);
       }

@@ -229,7 +229,7 @@ useEffect(() => {
     }
   };
 
-  const HandleDeleteDir = async (e) => {
+  const HandleDeleteDir = async (e,id) => {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost/api/deleteaddress", {
@@ -237,7 +237,7 @@ useEffect(() => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id_direccion: selectedAddressId })
+        body: JSON.stringify({ id_direccion: id})
       });
       console.log(selectedAddressId);
       const result = await response.json();
@@ -625,7 +625,8 @@ const HandleUpdateProfile = async (e) => {
                     {address.apto && <p className="apartment">Apto: {address.apto}</p>} 
                     {address.referencia && <p className="notes">{address.referencia}</p>}
                   </div>
-                  <button className='cancel-btn-profile' onClick={HandleDeleteDir}> x</button>
+                  <button className='cancel-btn-profile' onClick={(e) => HandleDeleteDir(e, address.id_direccion)}> x</button>
+
                 </div>
               </label>
             ))}

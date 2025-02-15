@@ -152,9 +152,10 @@ export default function Checkout() {
           unit_price: item.price,
         })),
       });
-
+      console.log(cartItems);
       if (preferenceResponse?.data) {
         const preferenceId = preferenceResponse.data.preference_id;
+  
 
         if (preferenceId) {
           console.log('Preference ID:', preferenceId);

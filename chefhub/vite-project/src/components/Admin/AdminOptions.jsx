@@ -13,7 +13,6 @@ import AdminReports from './Reports/AdminReports';
 import AdminCategory from './Category/AdminCategory';
 import AdminIngredient from './Ingredient/AdminIngredient';
 import AdminPreferences from './Preferences/AdminPreferences';
-import AdminPersonalization from './Personalization/AdminsPersonalization';
  
 
 export default function Options() {
@@ -127,20 +126,13 @@ export default function Options() {
                                 <>
                             <div className="line-separator"></div>
                             <h3 className="options-title">CONFIGURACIÓN DEL PORTAL</h3>
-                            <li>
-                                <Link
-                                    to="/admin/personalization"
-                                    onClick={() => handleOptionClick('Personalización del portal')}
-                                >
-                                    Personalización
-                                </Link>
-                            </li>
+
                             <li>
                                 <Link
                                     to="/admin/schedules"
                                     onClick={() => handleOptionClick('Horarios')}
                                 >
-                                    Horarios
+                                    Personalizacion y preferencias
                                 </Link>
                             </li>
                             </> )} 
@@ -151,7 +143,6 @@ export default function Options() {
             <div className="content">
                     <Routes>
                         <Route path="dashboard" element={<Dashboard />} />
-                        <Route path="personalization" element={<AdminPersonalization/>} />
                         <Route path="products" element={<AdminProducts />} />
                         <Route path="employees" element={<AdminEmpolyees />} />
                         <Route path="customers" element={<AdminCustomers />} />

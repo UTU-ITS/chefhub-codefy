@@ -1,5 +1,3 @@
-/* adminPreferences.css */
-
 .admin-preferences {
   padding: 20px;
   max-width: 800px;
@@ -58,14 +56,14 @@
 }
 
 .preference-item input:focus {
-  border-color: #6c63ff;
+  border-color: var(--primary-color);
   outline: none;
 }
 
 /* Estilo del botón de guardar */
 .save-button {
   padding: 12px 20px;
-  background-color: #6c63ff;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: 4px;
@@ -79,15 +77,62 @@
 }
 
 .save-button:hover {
-  background-color: #5b54d3;
+  background-color: var(--primary-color);
 }
 
 .save-button:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.5);
+  box-shadow: 0 0 0 3px var(--primary-color);
 }
 
-/* Añadir estilos para el contenedor de los toast */
-.Toastify__toast-container {
-  z-index: 9999;
+/* Personalización de colores */
+.admin-personalization {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Centra los elementos horizontalmente */
+  justify-content: center; /* Centra los elementos verticalmente */
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  text-align: center;
+  background-color: var(--primary-color-light); /* Fondo oscuro acorde a tu paleta */
+  color: #000000;
+  border-radius: 8px;
+}
+
+/* Título del color de interfaz */
+.color-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Estilo de etiquetas */
+.admin-personalization label {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Estilo del input de color */
+.admin-personalization input[type="color"] {
+  width: 50px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+/* Botón de cambio de color */
+.admin-personalization button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #FFFFFF;
+  background-color: var(--primary-color-light);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.admin-personalization button:hover {
+  background-color: var(--primary-color);
 }

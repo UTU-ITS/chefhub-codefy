@@ -71,6 +71,6 @@
   }
   
   .product-table th {
-    background-color: #ab8ef4;
+    background-color: var(--primary-color);
     color: white;
   }

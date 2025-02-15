@@ -241,6 +241,12 @@ class UserController {
                     $data = json_decode(file_get_contents("php://input"), true);
                     $id_direccion = $data['id_direccion'];
                     $result = $this->user->DeleteAddress($id_direccion);
+                    if ($result) {
+                        echo json_encode([ "success" => true]);
+                    } else {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Error al actualizar"]);
+                    }
 
 
                 } else if ($action === 'updatepassword') {
