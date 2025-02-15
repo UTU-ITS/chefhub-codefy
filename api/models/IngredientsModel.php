@@ -89,12 +89,5 @@ class Ingredients {
         }
 
     }
-
-
 }
-
-
-
-
 ?>
-
