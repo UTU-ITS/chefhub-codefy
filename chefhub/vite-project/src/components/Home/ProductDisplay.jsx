@@ -13,7 +13,7 @@ export default function ProductDisplay({ categoryId }) {
     useEffect(() => {
         if (!categoryId) return;
 
-        const url = `http://localhost:80/api/productbycategory/${categoryId}`;
+        const url = `http://chefhub.codefy.com:8080:80/api/productbycategory/${categoryId}`;
 
         axios.get(url)
             .then((response) => {

@@ -66,7 +66,7 @@ export default function Checkout() {
     if (user?.data) {
       try {
         const idcliente = user.data.id_usuario;
-        const url = `http://localhost:80/api/getadresses/${idcliente}`;
+        const url = `http://chefhub.codefy.com:8080:80/api/getadresses/${idcliente}`;
         const response = await axios.get(url);
         if (Array.isArray(response.data)) {
           setAdresses(response.data);
@@ -145,7 +145,7 @@ export default function Checkout() {
     addOrder(Order);
 
     try {
-      const preferenceResponse = await axios.post('http://localhost/api/payment', {
+      const preferenceResponse = await axios.post('http://chefhub.codefy.com:8080/api/payment', {
         items: cartItems.map(item => ({
           title: item.name,
           quantity: 1,
@@ -209,7 +209,7 @@ export default function Checkout() {
     console.log('Objeto Order:', Order);  // Verifica el contenido de Order en la consola
 
     // Aquí enviamos el objeto Order al backend
-    const response = await fetch('http://localhost/api/insertorder', {
+    const response = await fetch('http://chefhub.codefy.com:8080/api/insertorder', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -288,7 +288,7 @@ export default function Checkout() {
     }
 
     try {
-      const response = await fetch("http://localhost/api/insertaddress", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/insertaddress", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

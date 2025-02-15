@@ -29,7 +29,7 @@ export default function ForgotPassword() {
         }
     
         try {
-            const response = await axios.post('http://localhost/api/resetpassword', {
+            const response = await axios.post('http://chefhub.codefy.com:8080/api/resetpassword', {
                 pass: inputs.password,
                 id_usuario: user.id_usuario,
             }, {

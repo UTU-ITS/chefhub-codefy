@@ -76,7 +76,7 @@ useEffect(() => {
   const fetchOrders = async () => {
     if (user?.data) {
       try {
-        const response = await fetch("http://localhost/api/getmyorders", {
+        const response = await fetch("http://chefhub.codefy.com:8080/api/getmyorders", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -105,7 +105,7 @@ useEffect(() => {
   const fetchReservations = async () => {
     if (user?.data) {
       try {
-        const response = await fetch("http://localhost/api/getmyreservations", {
+        const response = await fetch("http://chefhub.codefy.com:8080/api/getmyreservations", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -133,7 +133,7 @@ useEffect(() => {
     if (user?.data) {
       try {
         const idcliente = user.data.id_usuario;
-        const url = `http://localhost:80/api/getadresses/${idcliente}`;
+        const url = `http://chefhub.codefy.com:8080:80/api/getadresses/${idcliente}`;
         const response = await axios.get(url);
         if (Array.isArray(response.data)) {
           setAdresses(response.data);
@@ -177,7 +177,7 @@ useEffect(() => {
     }
 
     try {
-      const response = await fetch("http://localhost/api/insertaddress", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/insertaddress", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -232,7 +232,7 @@ useEffect(() => {
   const HandleDeleteDir = async (e,id) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost/api/deleteaddress", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/deleteaddress", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -278,7 +278,7 @@ useEffect(() => {
 
     try {
 
-        const responseCheck = await fetch('http://localhost/api/checkpassword', {
+        const responseCheck = await fetch('http://chefhub.codefy.com:8080/api/checkpassword', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -293,7 +293,7 @@ useEffect(() => {
             return;
         }
 
-        const responseUpdate = await fetch('http://localhost/api/updatepassword', {
+        const responseUpdate = await fetch('http://chefhub.codefy.com:8080/api/updatepassword', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -317,7 +317,7 @@ const HandleUpdateProfile = async (e) => {
     e.preventDefault();// Obtener user y login desde el contexto
 
     try {
-        const response = await fetch('http://localhost/api/updatename', {
+        const response = await fetch('http://chefhub.codefy.com:8080/api/updatename', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

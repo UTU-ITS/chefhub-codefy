@@ -16,7 +16,7 @@ const Dashboard = () => {
   // Función para obtener los datos de la API
   const fetchPendingOrders = async () => {
     try {
-      const response = await fetch("http://localhost/api/orders/onlinequantity");
+      const response = await fetch("http://chefhub.codefy.com:8080/api/orders/onlinequantity");
       const data = await response.json();
       setPendingOrders(data.Cantidad); // Actualiza el estado con la cantidad obtenida
     } catch (error) {
@@ -26,7 +26,7 @@ const Dashboard = () => {
 
   const fetchConfirmedReservations = async () => {
     try {
-      const response = await fetch("http://localhost/api/getfuturereservations");
+      const response = await fetch("http://chefhub.codefy.com:8080/api/getfuturereservations");
       const data = await response.json();
       setConfirmedReservations(data[0].Cantidad);
     } catch (error) {
@@ -35,7 +35,7 @@ const Dashboard = () => {
   }
   const fetchCantOrders = async () => {
     try {
-      const response = await fetch("http://localhost/api/getcantorders");
+      const response = await fetch("http://chefhub.codefy.com:8080/api/getcantorders");
       const data = await response.json();
       setCantOrders(data);
       console.log(data);
@@ -45,7 +45,7 @@ const Dashboard = () => {
   }
   const fetchBestProducts = async () => {
     try {
-      const response = await fetch("http://localhost/api/getbestproducts");
+      const response = await fetch("http://chefhub.codefy.com:8080/api/getbestproducts");
       const data = await response.json();
       setBestProducts(data);
     } catch (error) {
@@ -54,7 +54,7 @@ const Dashboard = () => {
   }
   const fetchMostUsedIngredients = async () => {
     try {
-      const response = await fetch("http://localhost/api/mostusedingredients");
+      const response = await fetch("http://chefhub.codefy.com:8080/api/mostusedingredients");
       const data = await response.json();
       setUsedIngredients(data);
       console.log(data);

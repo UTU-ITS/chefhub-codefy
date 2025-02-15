@@ -27,7 +27,7 @@ const AdminOrders = () => {
 
     const setOnPreparationOrder = async (id) => {
         try {
-            const response = await fetch('http://localhost/api/updateorderstatus', {
+            const response = await fetch('http://chefhub.codefy.com:8080/api/updateorderstatus', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,8 +42,8 @@ const AdminOrders = () => {
             console.log(result);
             if (result.success) {
                 alert('Pedido en preparación');
-                fetchData('http://localhost/api/orders/pending', setData);
-                fetchData('http://localhost/api/orders/preparation', setPreparingData);
+                fetchData('http://chefhub.codefy.com:8080/api/orders/pending', setData);
+                fetchData('http://chefhub.codefy.com:8080/api/orders/preparation', setPreparingData);
             } else {
                 alert('Error al cambiar el estado del pedido');
             }
@@ -54,7 +54,7 @@ const AdminOrders = () => {
     };
     const setReadyOrder = async (id) => {
         try {
-            const response = await fetch('http://localhost/api/updateorderstatus', {
+            const response = await fetch('http://chefhub.codefy.com:8080/api/updateorderstatus', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -70,8 +70,8 @@ const AdminOrders = () => {
             if (result.success) {
                 alert('Pedido Listo');
                 
-                fetchData('http://localhost/api/orders/preparation', setPreparingData);
-                fetchData('http://localhost/api/orders/ready', setReadyData);
+                fetchData('http://chefhub.codefy.com:8080/api/orders/preparation', setPreparingData);
+                fetchData('http://chefhub.codefy.com:8080/api/orders/ready', setReadyData);
             } else {
                 alert('Error al cambiar el estado del pedido');
             }
@@ -83,7 +83,7 @@ const AdminOrders = () => {
 
     const setDeliveredOrder = async (id) => {
         try {
-            const response = await fetch('http://localhost/api/updateorderstatus', {
+            const response = await fetch('http://chefhub.codefy.com:8080/api/updateorderstatus', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const AdminOrders = () => {
             if (result.success) {
                 alert('Pedido Entregado');
                 
-                fetchData('http://localhost/api/orders/ready', setReadyData);
+                fetchData('http://chefhub.codefy.com:8080/api/orders/ready', setReadyData);
             } else {
                 alert('Error al cambiar el estado del pedido');
             }
@@ -109,14 +109,14 @@ const AdminOrders = () => {
         }
     }
     useEffect(() => {
-        fetchData('http://localhost/api/orders/pending', setData);
-        fetchData('http://localhost/api/orders/preparation', setPreparingData);
-        fetchData('http://localhost/api/orders/ready', setReadyData);
+        fetchData('http://chefhub.codefy.com:8080/api/orders/pending', setData);
+        fetchData('http://chefhub.codefy.com:8080/api/orders/preparation', setPreparingData);
+        fetchData('http://chefhub.codefy.com:8080/api/orders/ready', setReadyData);
     }, []);
 
     const HandleShowIngredients = async (id_pedido, id_producto,$id_pedido_producto) => {
         try {
-            const response = await fetch(`http://localhost/api/ingredientsperproduct/${id_pedido}/${id_producto}/${$id_pedido_producto}`);
+            const response = await fetch(`http://chefhub.codefy.com:8080/api/ingredientsperproduct/${id_pedido}/${id_producto}/${$id_pedido_producto}`);
             const data = await response.json();
             setIngredients(data);
         } catch (error) {
@@ -130,7 +130,7 @@ const AdminOrders = () => {
 
     const handleViewDetails = async (id) => {
         try {
-            const response = await fetch(`http://localhost/api/orders/detailorder/${id}`);
+            const response = await fetch(`http://chefhub.codefy.com:8080/api/orders/detailorder/${id}`);
             const data = await response.json();
             setOrderDetails(data);
             
@@ -145,7 +145,7 @@ const AdminOrders = () => {
 
     const handleTableOrder = async (id) => {
         try {
-            const response = await fetch(`http://localhost/api/tables/perorder/${id}`);
+            const response = await fetch(`http://chefhub.codefy.com:8080/api/tables/perorder/${id}`);
             const data = await response.json();
             setTableDetails(data.length > 0 ? data[0] : null);
         } catch (error) {
@@ -155,7 +155,7 @@ const AdminOrders = () => {
 
     const cancelOrder = async (id) => {
         try {
-            const response = await fetch('http://localhost/api/cancelorder', {
+            const response = await fetch('http://chefhub.codefy.com:8080/api/cancelorder', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -166,9 +166,9 @@ const AdminOrders = () => {
             if (result.success) {
                 alert('Pedido cancelado con éxito');
                 // Resetear las tablas de datos después de cancelar
-                fetchData('http://localhost/api/orders/pending', setData);
-                fetchData('http://localhost/api/orders/preparation', setPreparingData);
-                fetchData('http://localhost/api/orders/ready', setReadyData);
+                fetchData('http://chefhub.codefy.com:8080/api/orders/pending', setData);
+                fetchData('http://chefhub.codefy.com:8080/api/orders/preparation', setPreparingData);
+                fetchData('http://chefhub.codefy.com:8080/api/orders/ready', setReadyData);
             } else {
                 alert('Error al cancelar el pedido');
             }

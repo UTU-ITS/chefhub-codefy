@@ -45,7 +45,7 @@ const AddTableModal = ({ onTableAdded }) => {
     }
 
     try {
-      const response = await fetch('http://localhost/api/inserttable', {
+      const response = await fetch('http://chefhub.codefy.com:8080/api/inserttable', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

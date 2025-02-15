@@ -22,13 +22,13 @@ const AdminCustomers = () => {
   }, []);
 
   const fetchCustomers = async () => {
-    fetchData('http://localhost/api/customers', setData);
+    fetchData('http://chefhub.codefy.com:8080/api/customers', setData);
   };
 
   const fetchAddress = async (id_cliente) => {
     setLoadingAddress(true);
     try {
-      const response = await fetch(`http://localhost/api/getadresses/${id_cliente}`);
+      const response = await fetch(`http://chefhub.codefy.com:8080/api/getadresses/${id_cliente}`);
       const data = await response.json();
       setAddressData(data);
     } catch (error) {
@@ -48,7 +48,7 @@ const AdminCustomers = () => {
     if (!selectedClient) return;
 
     try {
-      const response = await fetch("http://localhost/api/customers/deletecustomers", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/customers/deletecustomers", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

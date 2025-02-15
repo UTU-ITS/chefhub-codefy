@@ -7,8 +7,8 @@ export default function Categories({ id = null, selectedKey, onSelectKey }) {
 
   useEffect(() => {
     const url = id
-      ? `http://localhost:80/api/categories/${id}`
-      : 'http://localhost:80/api/categories/';
+      ? `http://chefhub.codefy.com:8080:80/api/categories/${id}`
+      : 'http://chefhub.codefy.com:8080:80/api/categories/';
 
     axios
       .get(url)

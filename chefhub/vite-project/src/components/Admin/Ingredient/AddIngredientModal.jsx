@@ -42,7 +42,7 @@ const AddIngredientModal = ({ onIngredientAdded }) => {
     }
   
     try {
-      const response = await fetch("http://localhost/api/insertingredient", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/insertingredient", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

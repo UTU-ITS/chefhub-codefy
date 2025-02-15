@@ -49,7 +49,7 @@ const EditIngredientModal = ({ingrediente, onIngredientUpdated }) => {
     }
   
     try {
-      const response = await fetch("http://localhost/api/updateingredient", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/updateingredient", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

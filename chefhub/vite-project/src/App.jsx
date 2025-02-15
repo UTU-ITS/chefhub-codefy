@@ -39,7 +39,7 @@ function App() {
   useEffect(() => {
     const fetchColor = async () => {
       try {
-        const response = await fetch("http://localhost/api/personalization/color"); // URL de tu API en PHP
+        const response = await fetch("http://chefhub.codefy.com:8080/api/personalization/color"); // URL de tu API en PHP
         const data = await response.json();
         setColor(data.color);
         function hexToRgba(hex, alpha) {

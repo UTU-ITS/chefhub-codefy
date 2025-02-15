@@ -34,11 +34,11 @@ const AdminCategory = () => {
   }, []);
 
   const fetchCategories = async () => {
-    fetchData("http://localhost/api/categories", setData);
+    fetchData("http://chefhub.codefy.com:8080/api/categories", setData);
   };
   
   const fetchRemovedCategories = async () => {
-    fetchData("http://localhost/api/getremovedcategories", setDataRemoved);
+    fetchData("http://chefhub.codefy.com:8080/api/getremovedcategories", setDataRemoved);
   };
 
   const confirmDelete = (categorie) => {
@@ -54,7 +54,7 @@ const AdminCategory = () => {
     if (!selectedCategorie) return;
 
     try {
-      const response = await fetch("http://localhost/api/deletecategorie", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/deletecategorie", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const AdminCategory = () => {
 
   const handleActivate = async (id) => {
     try {
-      const response = await fetch("http://localhost/api/activatecategorie", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/activatecategorie", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

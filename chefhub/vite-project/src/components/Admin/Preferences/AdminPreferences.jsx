@@ -14,7 +14,7 @@ export default function AdminPreferences() {
     useEffect(() => {
         // Modifica la llamada para extraer el color de la respuesta
         fetchData(
-            'http://localhost/api/personalization/color',
+            'http://chefhub.codefy.com:8080/api/personalization/color',
             (data) => setActualColor(data.color)  // Asegúrate de extraer data.color
         );
     }, []);
@@ -22,7 +22,7 @@ export default function AdminPreferences() {
     const handleChangeColor = () => {
         // Modifica la llamada para enviar el nuevo color
         putData(
-            'http://localhost/api/personalization/updatecolor',
+            'http://chefhub.codefy.com:8080/api/personalization/updatecolor',
             { color: NewColor }  // Asegúrate de enviar el color
         );
         setActualColor(NewColor);
@@ -32,7 +32,7 @@ export default function AdminPreferences() {
   useEffect(() => {
     const fetchPreferences = async () => {
       try {
-        const response = await fetch('http://localhost:80/api/getpreferences');
+        const response = await fetch('http://chefhub.codefy.com:8080:80/api/getpreferences');
         const result = await response.json();
 
         if (result.data && result.data.length > 0) {
@@ -54,7 +54,7 @@ export default function AdminPreferences() {
   const handleSavePreferences = async () => {
     try {
       // Enviar los datos al servidor usando Axios
-      const response = await axios.put('http://localhost/api/updatepreferences', { preferences });
+      const response = await axios.put('http://chefhub.codefy.com:8080/api/updatepreferences', { preferences });
     console.log(response);
       if (response.data.success) {
         alert('Preferencias guardadas con éxito');

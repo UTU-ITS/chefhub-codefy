@@ -14,8 +14,8 @@ export default function Product({ selectedKey, searchTerm }) {
 
   useEffect(() => {
     const url = selectedKey
-      ? `http://localhost:80/api/productbycategory/${selectedKey}`
-      : 'http://localhost:80/api/productbycategory';
+      ? `http://chefhub.codefy.com:8080:80/api/productbycategory/${selectedKey}`
+      : 'http://chefhub.codefy.com:8080:80/api/productbycategory';
 
     axios
       .get(url)

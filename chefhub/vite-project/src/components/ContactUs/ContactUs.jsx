@@ -55,7 +55,7 @@ const Contactanos = () => {
     }
 
     try {
-      const response = await fetch("http://localhost/api/contactus", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/contactus", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

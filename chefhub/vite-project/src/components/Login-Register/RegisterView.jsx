@@ -66,7 +66,7 @@ const RegisterView = () => {
     }
   
     try {
-      const response = await fetch("http://localhost/api/sendmail", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/sendmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const RegisterView = () => {
 
   const handleVerifyCode = async () => {
     try {
-      const response = await fetch("http://localhost/api/checktoken", {
+      const response = await fetch("http://chefhub.codefy.com:8080/api/checktoken", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +117,7 @@ const RegisterView = () => {
   const handleRegister = async () => {
     if (validateForm()) {
       try {
-        const response = await fetch("http://localhost/api/signup", {
+        const response = await fetch("http://chefhub.codefy.com:8080/api/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

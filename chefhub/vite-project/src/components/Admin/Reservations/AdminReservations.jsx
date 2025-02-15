@@ -23,7 +23,7 @@ const AdminReservations = () => {
 
     const fetchReservations = async () => {
         try {
-            postData('http://localhost/api/getreservation', filters, setReservations);
+            postData('http://chefhub.codefy.com:8080/api/getreservation', filters, setReservations);
         } catch (error) {
             console.error('Error fetching reservations:', error);
         }
@@ -39,7 +39,7 @@ const AdminReservations = () => {
             const formattedDate = `${year}-${month}-${day}`; // "2025-02-10"
     
             // Lógica para cancelar la reserva
-            const response = await fetch('http://localhost/api/cancelreservation', {
+            const response = await fetch('http://chefhub.codefy.com:8080/api/cancelreservation', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

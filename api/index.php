@@ -1,19 +1,19 @@
 <?php
 // Incluir la conexión a la base de datos y los controladores
 require('models/db.php');
-require('Controllers/CategoriesController.php');
-require('Controllers/ProductController.php');
-require('Controllers/IngredientsController.php');
-require('Controllers/UserController.php');
-require('Controllers/OrderController.php');
-require('Controllers/ReservationController.php');
-require('Controllers/TablesController.php');
-require('Controllers/TokenController.php');
-require('Controllers/ReportsController.php');
-require('Controllers/PreferenceController.php');
-require('Controllers/PersonalizationController.php');
+require('controllers/CategoriesController.php');
+require('controllers/ProductController.php');
+require('controllers/IngredientsController.php');
+require('controllers/UserController.php');
+require('controllers/OrderController.php');
+require('controllers/ReservationController.php');
+require('controllers/TablesController.php');
+require('controllers/TokenController.php');
+require('controllers/ReportsController.php');
+require('controllers/PreferenceController.php');
+require('controllers/PersonalizationController.php');
+require ('vendor/autoload.php');
 
-require __DIR__.'\vendor\autoload.php';
 use MercadoPago\Client\Payment\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -45,9 +45,9 @@ if (isset($path[1])) {
                 $preference = new MercadoPago\Preference();
                 
                 $preference->back_urls = array(
-                    "success" => "http://localhost:5173/success",
-                    "failure" => "http://localhost:5173/fail",
-                    "pending" => "https://localhost/mercadopago/fail.php",
+                    "success" => "http://chefhub.codefy.com:8080:5173/success",
+                    "failure" => "http://chefhub.codefy.com:8080:5173/fail",
+                    "pending" => "https://chefhub.codefy.com:8080/mercadopago/fail.php",
                 );
 
                 $preference->auto_return = "approved";
