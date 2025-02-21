@@ -95,7 +95,6 @@
 .custom-calendar {
   width: 100% !important;
   max-width: 400px; /* Máximo ancho */
-  min-width: 300px; /* Ancho mínimo */
   margin: 0 auto; /* Centrado del calendario */
   border: none !important;
   border-radius: 12px;
@@ -222,4 +221,40 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 1115px) {
+  .reservas-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .reservas-section{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .reservation-instructions {
+    margin-top: 1rem;
+  }
+
+  .login-prompt {
+    text-align: center;
+  }
+
+  .reservas-section-left, .reservas-section-right {
+    width: 100%;
+  }
+}
+
+@media (max-width: 515px) {
+  .reservas {
+    width: 100%;
+    padding: 2rem 0;
+  }
+
+  .reservas-container {
+    width: 90%;
+  }
 }

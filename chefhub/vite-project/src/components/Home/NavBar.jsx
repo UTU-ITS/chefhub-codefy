@@ -54,52 +54,68 @@ const NavBar = () => {
 
         {/* Menú de navegación */}
         <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          <div className="nav-menu-middle">
-            <ul className="nav-list">
-              <li className="nav-item"><a href="/" onClick={() => setIsMenuOpen(false)}>Inicio</a></li>
-              <li className="nav-item"><a href="/menu" onClick={() => setIsMenuOpen(false)}>Menú</a></li>
-              <li className="nav-item"><a href="/reservations" onClick={() => setIsMenuOpen(false)}>Reserva tu mesa</a></li>
-              <li className="nav-item"><a href="/aboutus" onClick={() => setIsMenuOpen(false)}>Sobre Nosotros</a></li>
-              <li className="nav-item"><a href="/contact" onClick={() => setIsMenuOpen(false)}>Contáctanos</a></li>
+        <div className="nav-menu-middle">
+          <ul className="nav-list">
+            <li className="nav-item"><a href="/" onClick={() => setIsMenuOpen(false)}>Inicio</a></li>
+            <li className="nav-item"><a href="/menu" onClick={() => setIsMenuOpen(false)}>Menú</a></li>
+            <li className="nav-item"><a href="/reservations" onClick={() => setIsMenuOpen(false)}>Reserva tu mesa</a></li>
+            <li className="nav-item"><a href="/aboutus" onClick={() => setIsMenuOpen(false)}>Sobre Nosotros</a></li>
+            <li className="nav-item"><a href="/contact" onClick={() => setIsMenuOpen(false)}>Contáctanos</a></li>
 
-              {user && user.data ? (
-            // En móvil se muestran "Mi perfil" y "Cerrar sesión" directamente en el menú
-            isMobile && (
+            {user && user.data ? (
               <>
-                <li className="nav-item">
-                  <a href="/myprofile" onClick={() => setIsMenuOpen(false)}>Mi perfil</a>
-                </li>
-                <li className="nav-item">
-                  <a href="/login" onClick={handleLogout}>Cerrar sesión</a>
-                </li>
-              </>
-            )
-                ) : (
-            isMobile && (
-              <li className="nav-item">
-                <a href="/login" onClick={() => setIsMenuOpen(false)}>Iniciar sesión</a>
-              </li>
-            )
+                {/* Botón Admin en MÓVIL si el usuario tiene el cargo correcto */}
+                {isMobile && (["Chef", "Mesero", "Administrativo"].includes(user.data.cargo)) && (
+                  <li className="nav-item">
+                    <a href="/admin/dashboard" onClick={() => setIsMenuOpen(false)}>
+                      <AdminIcon />
+                    </a>
+                  </li>
                 )}
 
-              {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                {/* En móvil se muestran "Mi perfil" y "Cerrar sesión" */}
+                {isMobile && (
+                  <>
+                    <li className="nav-item">
+                      <a href="/myprofile" onClick={() => setIsMenuOpen(false)}>Mi perfil</a>
+                    </li>
+                    <li className="nav-item">
+                      <a href="/login" onClick={handleLogout}>Cerrar sesión</a>
+                    </li>
+                  </>
+                )}
+              </>
+            ) : (
+              /* En móvil se muestra "Iniciar sesión" si no está autenticado */
+              isMobile && (
                 <li className="nav-item">
-                  <a href="/admin/dashboard" onClick={() => setIsMenuOpen(false)}>
-                    <AdminIcon />
-                  </a>
+                  <a href="/login" onClick={() => setIsMenuOpen(false)}>Iniciar sesión</a>
                 </li>
-              )}
-            </ul>
-          </div>
+              )
+            )}
+          </ul>
+        </div>
+
 
           {/* Menú de usuario para escritorio */}
           <div className="nav-menu-right">
             {user && user.data ? (
-              !isMobile && (
+              <>
+                {/* Botón de Admin solo si el usuario es Chef, Mesero o Administrativo, y no es un móvil */}
+                {!isMobile && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
+                  <li className="nav-item">
+                    <a href="/admin/dashboard" onClick={() => setIsMenuOpen(false)}>
+                      <AdminIcon />
+                    </a>
+                  </li>
+                )}
+
+                {/* Menú de usuario */}
                 <div className="user-menu-container">
                   <a onClick={toggleUserMenu} className="user-icon-button">
                     <UserIcon />
                   </a>
+
                   {isUserMenuOpen && (
                     <ul className="user-menu">
                       <li>
@@ -113,7 +129,7 @@ const NavBar = () => {
                     </ul>
                   )}
                 </div>
-              )
+              </>
             ) : (
               <div className="guest-menu-navbar">
                 <a href="/login"><UserCircleIcon /></a>
