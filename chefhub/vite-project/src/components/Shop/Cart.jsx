@@ -70,7 +70,7 @@ export default function Cart() {
                     <div className='cart-items'>
                         {cartItems.map((item, index) => (
                             <div className='cart-item' key={index}>
-                                <img className="cart-img" src={item.image} alt={item.name} />
+                                <img className="cart-img" src={`http://192.168.0.10:8080/${item.image}`} alt={item.name} />
                                 <div className='cart-item-info'>
                                     <div className="cart-item-info-top">
                                         <p>{item.name}</p>
