@@ -80,6 +80,8 @@
 
 .reservas-section-right {
   justify-content: center;
+    display: flex;
+    align-items: center;
 }
 
 .selected-date {
@@ -212,4 +214,12 @@
 .react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled {
   background: var(--primary-color) !important;
   color: white;
+}
+
+.login-prompt {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -151,7 +151,9 @@ function Reservations() {
                     format(date, "MMMM yyyy", { locale: es }).slice(1)
                   }
                 />
-                
+                </div>
+              </div>
+              <div className="reservas-section-right">
                 {date ? (
                     <div className="reservation-summary">
                     <div className="item-summary">
@@ -159,13 +161,14 @@ function Reservations() {
                       <p className="selected-date">{format(date, 'dd MMMM yyyy', { locale: es })}</p>
                     </div>
                     </div>
+
                    ) : (
                     <div className="reservation-instructions">
                       <p>Por favor, selecciona una fecha para continuar.</p>
                      </div>
-          )}
-                </div>
-                </div>
+                )}
+              </div>
+
               </div>
               
              
@@ -349,7 +352,6 @@ function Reservations() {
                   <a href="/login">
                     <button className="login-button">
                       <UserIcon />
-                      Iniciar Sesión
                     </button>
                   </a>
                 </div>

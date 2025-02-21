@@ -164,14 +164,6 @@ export default function Checkout() {
           throw new Error("No se recibió un preferenceId válido.");
         }
 
-        toast({
-          title: "Pedido realizado",
-          description: "Su pedido ha sido procesado con éxito",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-
       } else {
         throw new Error("Error en la respuesta de la API.");
       }

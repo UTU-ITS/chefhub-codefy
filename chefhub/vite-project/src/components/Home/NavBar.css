@@ -133,8 +133,14 @@
   display: block;
 }
 
+.guest-menu-navbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 /* Responsividad para dispositivos móviles */
-@media (max-width: 768px) {
+@media (max-width: 1035px) {
   .nav-menu {
     display: none;
     width: 100%;

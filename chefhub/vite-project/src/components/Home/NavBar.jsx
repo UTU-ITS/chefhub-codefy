@@ -26,7 +26,7 @@ const NavBar = () => {
   };
 
   const checkScreenSize = () => {
-    setIsMobile(window.innerWidth <= 768);
+    setIsMobile(window.innerWidth <= 1035);
   };
 
   useEffect(() => {
@@ -63,22 +63,24 @@ const NavBar = () => {
               <li className="nav-item"><a href="/contact" onClick={() => setIsMenuOpen(false)}>Contáctanos</a></li>
 
               {user && user.data ? (
-                // En móvil se muestran "Mi perfil" y "Cerrar sesión" directamente en el menú
-                isMobile && (
-                  <>
-                    <li className="nav-item">
-                      <a href="/myprofile" onClick={() => setIsMenuOpen(false)}>Mi perfil</a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="/login" onClick={handleLogout}>Cerrar sesión</a>
-                    </li>
-                  </>
-                )
-              ) : (
+            // En móvil se muestran "Mi perfil" y "Cerrar sesión" directamente en el menú
+            isMobile && (
+              <>
                 <li className="nav-item">
-                  <a href="/login" onClick={() => setIsMenuOpen(false)}>Iniciar sesión</a>
+                  <a href="/myprofile" onClick={() => setIsMenuOpen(false)}>Mi perfil</a>
                 </li>
-              )}
+                <li className="nav-item">
+                  <a href="/login" onClick={handleLogout}>Cerrar sesión</a>
+                </li>
+              </>
+            )
+                ) : (
+            isMobile && (
+              <li className="nav-item">
+                <a href="/login" onClick={() => setIsMenuOpen(false)}>Iniciar sesión</a>
+              </li>
+            )
+                )}
 
               {user && user.data && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
                 <li className="nav-item">
@@ -87,10 +89,6 @@ const NavBar = () => {
                   </a>
                 </li>
               )}
-
-              <li className="nav-item">
-                <a onClick={() => setIsMenuOpen(false)}><Cart /></a>
-              </li>
             </ul>
           </div>
 
@@ -117,7 +115,10 @@ const NavBar = () => {
                 </div>
               )
             ) : (
-              <a href="/login"> <UserCircleIcon /></a>
+              <div className="guest-menu-navbar">
+                <a href="/login"><UserCircleIcon /></a>
+                <a onClick={() => setIsMenuOpen(false)}><Cart /></a>
+              </div>
             )}
           </div>
         </div>

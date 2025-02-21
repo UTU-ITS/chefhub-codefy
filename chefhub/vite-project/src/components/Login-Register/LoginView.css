@@ -26,6 +26,7 @@
     width: 100%;
     height: auto;
     padding: 2rem;
+    margin: 1rem;
 }
 
 .login-form{
@@ -176,4 +177,29 @@
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+@media (max-width: 1035px) {
+    .login-div {
+        flex-direction: column;
+    }
+
+    .login-div-text {
+        margin-right: 0;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .login-div-box {
+        width: 70%;
+    }
+}
+
+@media (max-width: 550px) {
+    .login-div-box {
+        width: 80%;
+    }
 }

@@ -100,44 +100,42 @@ const Contactanos = () => {
   };
 
   return (
-
-    <div className="contact-container">
-      <h2>Contáctanos</h2>
-      <form className="contact-form" onSubmit={SendContactUs}>
-        <input
-          type="text"
-          name="nombre"
-          placeholder="Nombre"
-          value={formData.nombre}
-          onChange={handleChange}
-          required
-          className="input-field"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Correo electrónico"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          className="input-field"
-        />
-        <textarea
-          name="mensaje"
-          placeholder="Tu mensaje"
-          value={formData.mensaje}
-          onChange={handleChange}
-          required
-          className="textarea-field"
-        />
-        <button type="submit" className="submit-button">
-          Enviar
-        </button>
-      </form>
-
-   
+    <div className="contact">
+      <div className="contact-container">
+        <h2>Contáctanos</h2>
+        <form className="contact-form" onSubmit={SendContactUs}>
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre"
+            value={formData.nombre}
+            onChange={handleChange}
+            required
+            className="input-field"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Correo electrónico"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="input-field"
+          />
+          <textarea
+            name="mensaje"
+            placeholder="Tu mensaje"
+            value={formData.mensaje}
+            onChange={handleChange}
+            required
+            className="textarea-field"
+          />
+          <button type="submit" className="submit-button">
+            Enviar
+          </button>
+        </form>
+      </div>
     </div>
-    
   );
 };
 

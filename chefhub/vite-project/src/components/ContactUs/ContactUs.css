@@ -95,3 +95,49 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 768px) {
+  .contact-container {
+    width: 95%;
+    padding: 20px;
+    margin: 1.2rem;
+  }
+
+  .contact-title {
+    font-size: 1.5rem;
+  }
+
+  .input-field,
+  .textarea-field {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .submit-button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-container {
+    width: 100%;
+    padding: 2rem;
+    border-radius: 10px;
+  }
+
+  .contact-title {
+    font-size: 1.3rem;
+  }
+
+  .input-field,
+  .textarea-field {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .submit-button {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+}
