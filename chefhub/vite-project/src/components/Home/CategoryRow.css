@@ -54,3 +54,14 @@
     color: rgb(0, 0, 0);
 
 }
+
+.sideScroll h2{
+    font-size: 1.2em;
+    font-weight: 400;
+    margin: 10px;
+    width: 90%;
+    max-width: 1440px;
+    min-width: 350px;
+    color: rgb(0, 0, 0);
+
+}

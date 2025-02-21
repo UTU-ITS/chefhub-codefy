@@ -41,11 +41,6 @@ export default function Home() {
 
         <CategoryRow />
       </main>
-
-      <section className="registrate">
-        <h3>Registra tu Empresa</h3>
-      </section>
-      <footer className="borde"></footer>
     </div>
   );
 }
