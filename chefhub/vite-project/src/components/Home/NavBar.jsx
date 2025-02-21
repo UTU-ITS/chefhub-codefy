@@ -68,7 +68,7 @@ const NavBar = () => {
                 {isMobile && (["Chef", "Mesero", "Administrativo"].includes(user.data.cargo)) && (
                   <li className="nav-item">
                     <a href="/admin/dashboard" onClick={() => setIsMenuOpen(false)}>
-                      <AdminIcon />
+                      Administrar
                     </a>
                   </li>
                 )}
@@ -115,6 +115,8 @@ const NavBar = () => {
                   <a onClick={toggleUserMenu} className="user-icon-button">
                     <UserIcon />
                   </a>
+
+                  <a onClick={() => setIsMenuOpen(false)}><Cart /></a>
 
                   {isUserMenuOpen && (
                     <ul className="user-menu">
