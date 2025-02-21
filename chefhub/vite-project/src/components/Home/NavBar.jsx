@@ -79,6 +79,9 @@ const NavBar = () => {
                     <li className="nav-item">
                       <a href="/myprofile" onClick={() => setIsMenuOpen(false)}>Mi perfil</a>
                     </li>
+                    <li>
+                      <a onClick={() => setIsMenuOpen(false)}><Cart />Carrito</a>
+                    </li>
                     <li className="nav-item">
                       <a href="/login" onClick={handleLogout}>Cerrar sesión</a>
                     </li>
@@ -112,11 +115,11 @@ const NavBar = () => {
 
                 {/* Menú de usuario */}
                 <div className="user-menu-container">
+                  <a onClick={() => setIsMenuOpen(false)}><Cart /></a>
+
                   <a onClick={toggleUserMenu} className="user-icon-button">
                     <UserIcon />
                   </a>
-
-                  <a onClick={() => setIsMenuOpen(false)}><Cart /></a>
 
                   {isUserMenuOpen && (
                     <ul className="user-menu">
