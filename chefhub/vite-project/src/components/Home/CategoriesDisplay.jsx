@@ -35,7 +35,7 @@ export default function Recomendacion() {
             className="blur-container"
             onClick={() => handleCategoryClick(category)}
             style={{ 
-              backgroundImage: category.imagen ? `url("http://192.168.0.10:8080/uploads/${category.imagen}")` : `url("default-image.png")`,
+              backgroundImage: category.imagen ? `url("http://192.168.0.10:8080/${category.imagen}")` : `url("default-image.png")`,
               cursor: "pointer"
             }}
           >

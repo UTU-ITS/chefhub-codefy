@@ -63,7 +63,7 @@ export default function ProductDisplay({ categoryId }) {
                 products.map((product) => (
                     <div key={product.id_producto} className="productDisplay">
                         <div className="productImage">
-                            <img src={product.imagen} alt="Product" />
+                            <img src={`http://192.168.0.10:8080/${product.imagen}`} alt="Product" />
                         </div>
                         <div className="productInfo">
                             <h3 className="productName">{product.nombre}</h3>
