@@ -1,5 +1,5 @@
 
-.bloques{
+.bloques {
     margin: 10px;
     display: flex;
     flex-direction: row;
@@ -10,6 +10,28 @@
     flex-direction: row;
     overflow-x: auto;
     overflow-y: hidden;
+    scrollbar-width: thin; /* Para Firefox */
+    scrollbar-color: #888 #f1f1f1; /* Color del thumb y fondo */
+    
+}
+
+/* Estilos para Chrome, Edge y Safari */
+.bloques::-webkit-scrollbar {
+    height: 8px; /* Tamaño del scrollbar */
+}
+
+.bloques::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color de fondo */
+    border-radius: 10px;
+}
+
+.bloques::-webkit-scrollbar-thumb {
+    background: #888; /* Color de la barra */
+    border-radius: 10px;
+}
+
+.bloques::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Cambio de color al pasar el mouse */
 }
 
 .sideScroll h1{
@@ -20,7 +42,6 @@
     max-width: 1440px;
     min-width: 350px;
     color: rgb(0, 0, 0);
-
 }
 
 .sideScroll h2{
