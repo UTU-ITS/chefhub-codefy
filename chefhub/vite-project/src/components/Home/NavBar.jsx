@@ -79,8 +79,8 @@ const NavBar = () => {
                     <li className="nav-item">
                       <a href="/myprofile" onClick={() => setIsMenuOpen(false)}>Mi perfil</a>
                     </li>
-                    <li>
-                      <a onClick={() => setIsMenuOpen(false)}><Cart />Carrito</a>
+                    <li className='nav-item'>
+                      <a onClick={() => setIsMenuOpen(false)} className='nav-item-cart'><Cart />Carrito</a>
                     </li>
                     <li className="nav-item">
                       <a href="/login" onClick={handleLogout}>Cerrar sesión</a>

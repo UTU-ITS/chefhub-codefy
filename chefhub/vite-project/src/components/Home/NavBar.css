@@ -68,6 +68,11 @@
   gap: 1rem;
 }
 
+.nav-item-cart {
+  display: flex;
+  gap: 0.3rem;
+}
+
 .nav-item:last-child {
   margin-right: 0;
 }
