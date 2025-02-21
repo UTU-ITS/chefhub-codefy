@@ -103,7 +103,7 @@ const NavBar = () => {
               <>
                 {/* Botón de Admin solo si el usuario es Chef, Mesero o Administrativo, y no es un móvil */}
                 {!isMobile && (user.data.cargo === "Chef" || user.data.cargo === "Mesero" || user.data.cargo === "Administrativo") && (
-                  <li className="nav-item">
+                  <li className="nav-item no-margin">
                     <a href="/admin/dashboard" onClick={() => setIsMenuOpen(false)}>
                       <AdminIcon />
                     </a>
@@ -134,8 +134,8 @@ const NavBar = () => {
               </>
             ) : (
               <div className="guest-menu-navbar">
+                 <a onClick={() => setIsMenuOpen(false)}><Cart /></a>
                 <a href="/login"><UserCircleIcon /></a>
-                <a onClick={() => setIsMenuOpen(false)}><Cart /></a>
               </div>
             )}
           </div>
