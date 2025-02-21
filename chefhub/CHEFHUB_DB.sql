@@ -453,49 +453,46 @@ INSERT INTO dia_horario (dia_semana, horario_apertura, horario_cierre, duracion_
 /*Categorias*/
 
 INSERT INTO `chefhub_db`.`categoria_producto` (`nombre`, `imagen`) VALUES 
-('Empanadas', 'empanadas-categoria.webp'),
-('Guarniciones', 'guarniciones-categoria.jpg'),
-('Tragos', 'tragos-categoria.jpeg'),
-('Tequeños', 'tequeños-categoria.webp'),
-('Pizzas', 'pizzas-categoria.jpg'),
-('Hamburgesas', 'hamburgesas-categoria.jpeg');
+('Empanadas', 'uploads/empanadas-categoria.webp'),
+('Pizzas', 'uploads/pizzas-categoria.jpg'),
+('Hamburgesas', 'uploads/hamburgesas-categoria.jpeg');
 
 /*Hamburgesas*/
 
 INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES
-('Hamburguesa Doble', 450, 'Hamburguesa doble carne con queso, lechuga, tomate y aderezos en un pan esponjoso.', 'GreatAmericanBurger__FillWzExNzAsNTgzXQ.jpg'),
-('Hamburguesa Bacon Cheddar', 400, 'Deliciosa hamburguesa con tocino crujiente, queso cheddar derretido y cebolla caramelizada.', 'a-smashed-double-bacon-cheeseburger-2.jpg'),
-('Hamburguesa Cheddar Melt', 400, 'Hamburguesa con carne jugosa, abundante queso cheddar derretido y cebolla salteada.', 'original.png'),
-('Hamburguesa BBQ', 400, 'Clásica hamburguesa con salsa barbacoa, cebolla crispy, queso cheddar y tocino.', 'original-2.png'),
-('Hamburguesa con Champiñones y Queso', 400, 'Hamburguesa con champiñones salteados, queso suizo derretido y salsa especial.', 'Mushroom-Swiss-Burger-1200x1200-1.jpg'),
-('Hamburguesa de Pollo', 350, 'Hamburguesa de pechuga de pollo empanizada con lechuga, tomate y mayonesa.', 'Hamburguesa-de-pollo-picante.webp'),
-('Hamburguesa Vegetariana', 350, 'Hamburguesa hecha con una mezcla de vegetales, garbanzos y especias, acompañada de aderezo especial.', '1366_2000.jpeg'),
-('Hamburguesa Hawaiana', 350, 'Hamburguesa con piña a la parrilla, queso suizo y salsa teriyaki.', 'hawaiana.jpeg'),
-('Hamburguesa de Pescado', 350, 'Filete de pescado empanizado con lechuga fresca y salsa tártara en un pan suave.', 'DC_202401_3933-999_DoubleFilet-O-Fish_WholeSlice_1564x1564-1_product-header-mobile.jpeg');
+('Hamburguesa Doble', 450, 'Hamburguesa doble carne con queso, lechuga, tomate y aderezos en un pan esponjoso.', 'uploads/GreatAmericanBurger__FillWzExNzAsNTgzXQ.jpg'),
+('Hamburguesa Bacon Cheddar', 400, 'Deliciosa hamburguesa con tocino crujiente, queso cheddar derretido y cebolla caramelizada.', 'uploads/a-smashed-double-bacon-cheeseburger-2.jpg'),
+('Hamburguesa Cheddar Melt', 400, 'Hamburguesa con carne jugosa, abundante queso cheddar derretido y cebolla salteada.', 'uploads/original.png'),
+('Hamburguesa BBQ', 400, 'Clásica hamburguesa con salsa barbacoa, cebolla crispy, queso cheddar y tocino.', 'uploads/original-2.png'),
+('Hamburguesa con Champiñones y Queso', 400, 'Hamburguesa con champiñones salteados, queso suizo derretido y salsa especial.', 'uploads/Mushroom-Swiss-Burger-1200x1200-1.jpg'),
+('Hamburguesa de Pollo', 350, 'Hamburguesa de pechuga de pollo empanizada con lechuga, tomate y mayonesa.', 'uploads/Hamburguesa-de-pollo-picante.webp'),
+('Hamburguesa Vegetariana', 350, 'Hamburguesa hecha con una mezcla de vegetales, garbanzos y especias, acompañada de aderezo especial.', 'uploads/1366_2000.jpeg'),
+('Hamburguesa Hawaiana', 350, 'Hamburguesa con piña a la parrilla, queso suizo y salsa teriyaki.', 'uploads/hawaiana.jpeg'),
+('Hamburguesa de Pescado', 350, 'Filete de pescado empanizado con lechuga fresca y salsa tártara en un pan suave.', 'uploads/DC_202401_3933-999_DoubleFilet-O-Fish_WholeSlice_1564x1564-1_product-header-mobile.jpeg');
 
 INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES 
-(1, 6),
-(2, 6),
-(3, 6),
-(4, 6),
-(5, 6),
-(6, 6),
-(7, 6),
-(8, 6),
-(9, 6);
+(1, 3),
+(2, 3),
+(3, 3),
+(4, 3),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(9, 3);
 
 /*Empanadas*/
 
 INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES 
-('Empanada de Carne', '70', 'Rellena de carne de res o cerdo picada o molida, generalmente con cebolla, pimientos y especias', 'Empanadas-open-e1631296397215.jpeg'), 
-('Empanada de Pollo', '70', 'Contiene pollo desmenuzado con cebolla, ajo y a veces pimentón o aceitunas', 'iStock-1437638745-Empanadas-de-pollo-scaled-1924x1924.jpeg'),
-('Empanada de Jamón y Queso', '70', 'Lleva jamón y queso derretido, con una textura cremosa y un sabor suave', '9beabeb653ad-empanadillas-jamon-queso-t.webp'),
-('Empanada de Queso', '70', 'Solo con queso, que puede ser mozzarella, queso crema o queso fresco, perfecta para los amantes del queso derretido.', 'queso-solo-fritas.jpeg'),
-('Empanada de Espinaca y Queso', '70', 'Relleno de espinaca cocida mezclada con queso, a veces con un toque de ricotta', 'DSC_0588-scaled.webp'),
-('Empanada de Atún', '70', 'Contiene atún en conserva mezclado con cebolla, huevo y a veces aceitunas', 'empanadas-de-atun.jpeg'),
-('Empanada Caprese', '70', 'Inspirada en la ensalada caprese, con tomate, mozzarella y albahaca', 'amadomarketubereats-36_2048x.webp'),
-('Empanada de Humita', '70', 'Lleva una mezcla de choclo (maíz) cremoso con queso y a veces un toque de ají o azúcar', 'CU37R2OQZBFUDON4JT2JQASXPQ.webp'),
-('Empanada Dulce', '70', 'Puede estar rellena de dulce de leche o pasta de membrillo, ideal como postre', '41d37854b3024e002c05800e592e76b7.jpeg');
+('Empanada de Carne', '70', 'Rellena de carne de res o cerdo picada o molida, generalmente con cebolla, pimientos y especias', 'uploads/Empanadas-open-e1631296397215.jpeg'), 
+('Empanada de Pollo', '70', 'Contiene pollo desmenuzado con cebolla, ajo y a veces pimentón o aceitunas', 'uploads/iStock-1437638745-Empanadas-de-pollo-scaled-1924x1924.jpeg'),
+('Empanada de Jamón y Queso', '70', 'Lleva jamón y queso derretido, con una textura cremosa y un sabor suave', 'uploads/9beabeb653ad-empanadillas-jamon-queso-t.webp'),
+('Empanada de Queso', '70', 'Solo con queso, que puede ser mozzarella, queso crema o queso fresco, perfecta para los amantes del queso derretido.', 'uploads/queso-solo-fritas.jpeg'),
+('Empanada de Espinaca y Queso', '70', 'Relleno de espinaca cocida mezclada con queso, a veces con un toque de ricotta', 'uploads/DSC_0588-scaled.webp'),
+('Empanada de Atún', '70', 'Contiene atún en conserva mezclado con cebolla, huevo y a veces aceitunas', 'uploads/empanadas-de-atun.jpeg'),
+('Empanada Caprese', '70', 'Inspirada en la ensalada caprese, con tomate, mozzarella y albahaca', 'uploads/amadomarketubereats-36_2048x.webp'),
+('Empanada de Humita', '70', 'Lleva una mezcla de choclo (maíz) cremoso con queso y a veces un toque de ají o azúcar', 'uploads/CU37R2OQZBFUDON4JT2JQASXPQ.webp'),
+('Empanada Dulce', '70', 'Puede estar rellena de dulce de leche o pasta de membrillo, ideal como postre', 'uploads/41d37854b3024e002c05800e592e76b7.jpeg');
 
 INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES 
 (10, 1),
@@ -511,23 +508,170 @@ INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VA
 /*Pizzas*/
 
 INSERT INTO `chefhub_db`.`producto` (`nombre`, `precio`, `descripcion`, `imagen`) VALUES 
-('Pizza Margarita', '450', 'Clásica italiana con salsa de tomate, mozzarella y hojas de albahaca fresca.', 'D2KL4RRCRJA7RJC5TNULFZEKR4.jpg'),
-('Pizza Pepperoni', '450','Lleva salsa de tomate, queso mozzarella y rodajas de pepperoni, que se doran y sueltan su grasa característica.', 'receta-de-pizza-de-pepperoni.jpg'),
-('Pizza Cuatro Quesos', '450','Mezcla de cuatro quesos (generalmente mozzarella, gorgonzola, parmesano y provolone) para un sabor fuerte y cremoso.', 'Pizza-cuatro-quesos-shutterstock_1514858234.jpg'),
-('Pizza Napolitana', '450','Similar a la Margarita, pero con rodajas de tomate fresco y aceitunas.', 'Para-la-masa-de-pizza-napolitana-8-hrs-fermentacion-Web-1.jpg'),
-('Pizza Hawaiana', '450','Contiene jamón y piña, creando una combinación de dulce y salado que genera debate.', '0193adc6-9a5a-774c-982b-fa934194885d.jpeg'),
-('Pizza Fugazzeta', '350','Pizza argentina con una capa gruesa de queso mozzarella y mucha cebolla caramelizada.', 'fugazzeta-pizza-argentina-rellena-aceituna.jpg'),
-('Pizza BBQ Chicken', '450','Lleva pollo desmenuzado, salsa barbacoa en lugar de tomate, cebolla morada y queso.', '1382541346030.webp'),
-('Pizza Vegetariana', '350','Cargada con verduras como pimientos, champiñones, cebolla, tomate y aceitunas.', 'Pizza-Veggie-Supreme-blog.web'),
-('Pizza Carbonara', '450','Inspirada en la pasta carbonara, con salsa blanca, panceta, huevo y queso pecorino o parmesano.', 'receta-pizza-carbonara.jpg');
+('Pizza Margarita', '450', 'Clásica italiana con salsa de tomate, mozzarella y hojas de albahaca fresca.', 'uploads/D2KL4RRCRJA7RJC5TNULFZEKR4.jpg'),
+('Pizza Pepperoni', '450','Lleva salsa de tomate, queso mozzarella y rodajas de pepperoni, que se doran y sueltan su grasa característica.', 'uploads/receta-de-pizza-de-pepperoni.jpg'),
+('Pizza Cuatro Quesos', '450','Mezcla de cuatro quesos (generalmente mozzarella, gorgonzola, parmesano y provolone) para un sabor fuerte y cremoso.', 'uploads/Pizza-cuatro-quesos-shutterstock_1514858234.jpg'),
+('Pizza Napolitana', '450','Similar a la Margarita, pero con rodajas de tomate fresco y aceitunas.', 'uploads/Para-la-masa-de-pizza-napolitana-8-hrs-fermentacion-Web-1.jpg'),
+('Pizza Hawaiana', '450','Contiene jamón y piña, creando una combinación de dulce y salado que genera debate.', 'uploads/0193adc6-9a5a-774c-982b-fa934194885d.jpeg'),
+('Pizza Fugazzeta', '350','Pizza argentina con una capa gruesa de queso mozzarella y mucha cebolla caramelizada.', 'uploads/fugazzeta-pizza-argentina-rellena-aceituna.jpg'),
+('Pizza BBQ Chicken', '450','Lleva pollo desmenuzado, salsa barbacoa en lugar de tomate, cebolla morada y queso.', 'uploads/1382541346030.webp'),
+('Pizza Vegetariana', '350','Cargada con verduras como pimientos, champiñones, cebolla, tomate y aceitunas.', 'uploads/Pizza-Veggie-Supreme-blog.web'),
+('Pizza Carbonara', '450','Inspirada en la pasta carbonara, con salsa blanca, panceta, huevo y queso pecorino o parmesano.', 'uploads/receta-pizza-carbonara.jpg');
 
 INSERT INTO `chefhub_db`.`producto_categoria` (`id_producto`, `id_categoria`) VALUES 
-(19, 5),
-(20, 5),
-(21, 5),
-(22, 5),
-(23, 5),
-(24, 5),
-(25, 5),
-(26, 5),
-(27, 5);
+(19, 2),
+(20, 2),
+(21, 2),
+(22, 2),
+(23, 2),
+(24, 2),
+(25, 2),
+(26, 2),
+(27, 2);
+
+INSERT INTO direccion (id_usuario, calle, apto, n_puerta, referencia) VALUES
+(1, 'Av. Libertador', 'Apto 101', 123, 'Frente al parque central'),
+(2, 'Calle Principal', 'Apto 202', 456, 'Cerca del supermercado'),
+(3, 'Av. Siempre Viva', 'Apto 303', 789, 'Al lado de la escuela'),
+(4, 'Calle Falsa', 'Apto 404', 321, 'Esquina con la farmacia'),
+(5, 'Av. Revolución', 'Apto 505', 654, 'Frente al centro comercial'),
+(6, 'Calle Nueva', 'Apto 606', 987, 'Cerca del estadio'),
+(7, 'Av. Independencia', 'Apto 707', 111, 'Frente a la plaza'),
+(8, 'Calle Vieja', 'Apto 808', 222, 'Al lado del banco'),
+(9, 'Av. Libertad', 'Apto 909', 333, 'Cerca del hospital');
+
+INSERT INTO factura (fecha_hora, total, estado) VALUES
+('2023-10-01 12:00:00', 50.00, 'Pagado'),
+('2023-10-02 13:30:00', 75.00, 'Pagado'),
+('2023-10-03 14:45:00', 100.00, 'Pendiente'),
+('2023-10-04 15:00:00', 30.00, 'Pagado'),
+('2023-10-05 16:30:00', 45.00, 'Pagado'),
+('2023-10-06 17:45:00', 60.00, 'Pendiente'),
+('2023-10-07 18:00:00', 80.00, 'Pagado'),
+('2023-10-08 19:30:00', 120.00, 'Pagado'),
+('2023-10-09 20:45:00', 150.00, 'Pendiente');
+
+
+INSERT INTO pago (monto, metodo_pago, id_factura) VALUES
+(50.00, 'Tarjeta', 1),
+(75.00, 'Efectivo', 2),
+(100.00, 'Tarjeta', 3),
+(30.00, 'Efectivo', 4),
+(45.00, 'Tarjeta', 5),
+(60.00, 'Tarjeta', 6),
+(80.00, 'Tarjeta', 7),
+(120.00, 'Efectivo', 8),
+(150.00, 'Tarjeta', 9);
+
+
+INSERT INTO pedido (subtotal, estado, categoria, id_cliente, id_direccion, id_factura, ci) VALUES
+(50.00, 'Entregado', 'Delivery', 1, 1, 1, '12345678'),
+(75.00, 'En preparación', 'Mesa', 2, NULL, 2, '87654321'),
+(100.00, 'Pendiente', 'Delivery', 3, 2, 3, '11223344'),
+(30.00, 'Entregado', 'Delivery', 4, 3, 4, '44332211'),
+(45.00, 'En preparación', 'Mesa', 5, NULL, 5, '55667788'),
+(60.00, 'Pendiente', 'Delivery', 6, 4, 6, '99887766'),
+(80.00, 'Entregado', 'Delivery', 7, 5, 7, '33445566'),
+(120.00, 'En preparación', 'Mesa', 8, NULL, 8, '77889900'),
+(150.00, 'Pendiente', 'Delivery', 9, 6, 9, '11223399');
+
+INSERT INTO pedido_producto (id_pedido, id_producto, cantidad, importe, nota) VALUES
+(1, 1, 2, 20.00, 'Sin cebolla'),
+(1, 2, 1, 15.00, 'Extra queso'),
+(2, 3, 3, 45.00, 'Bien cocido'),
+(2, 4, 1, 10.00, 'Sin picante'),
+(3, 5, 2, 30.00, 'Para llevar'),
+(3, 6, 1, 25.00, 'Sin mostaza'),
+(4, 10, 3, 15.00, ''),
+(4, 11, 2, 10.00, ''),
+(5, 12, 4, 20.00, ''),
+(5, 13, 1, 5.00, ''),
+(6, 14, 5, 25.00, ''),
+(6, 15, 3, 15.00, ''),
+(7, 19, 1, 40.00, ''),
+(7, 20, 1, 40.00, ''),
+(8, 21, 2, 60.00, ''),
+(8, 22, 1, 60.00, ''),
+(9, 23, 3, 90.00, ''),
+(9, 24, 2, 60.00, '');
+
+-- Insertar datos en la tabla ingrediente
+INSERT INTO ingrediente (nombre, precio) VALUES
+-- Ingredientes base para hamburguesas
+('Pan de hamburguesa', 2.00),
+('Carne de res', 5.00),
+('Lechuga', 1.00),
+('Tomate', 1.50),
+('Queso cheddar', 3.00),
+-- Ingredientes base para empanadas
+('Masa de empanada', 2.00),
+('Carne molida', 4.00),
+('Pollo desmenuzado', 4.00),
+('Jamón', 3.00),
+('Queso mozzarella', 3.00),
+-- Ingredientes base para pizzas
+('Masa de pizza', 5.00),
+('Salsa de tomate', 2.00),
+('Queso mozzarella', 4.00),
+('Pepperoni', 3.00),
+('Champiñones', 2.50),
+-- Ingredientes extra
+('Bacon', 2.50),
+('Cebolla caramelizada', 2.00),
+('Aceitunas', 1.50),
+('Pimiento', 1.50),
+('Piña', 2.00);
+
+
+INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) VALUES
+-- Hamburguesa básica (id_producto = 1)
+(1, 1, 1, false), -- Pan de hamburguesa
+(1, 2, 1, false), -- Carne de res
+(1, 3, 1, false), -- Lechuga
+(1, 4, 1, false), -- Tomate
+(1, 5, 1, false), -- Queso cheddar
+(2, 1, 1, false), -- Pan de hamburguesa
+(2, 2, 1, false), -- Carne de res
+(2, 3, 1, false), -- Lechuga
+(2, 4, 1, false), -- Tomate
+(2, 5, 1, false), -- Queso cheddar
+(2, 16, 1, true); -- Bacon (extra)
+
+-- Empanadas (id_producto 10-18)
+INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) VALUES
+(10, 6, 1, false), -- Masa de empanada
+(10, 7, 1, false), -- Carne molida
+(11, 6, 1, false), -- Masa de empanada
+(11, 8, 1, false), -- Pollo desmenuzado
+(12, 6, 1, false), -- Masa de empanada
+(12, 9, 1, false), -- Jamón
+(12, 10, 1, false); -- Queso mozzarella
+
+INSERT INTO producto_ingrediente (id_producto, id_ingrediente, cantidad, extra) VALUES
+-- Pizza Margarita (id_producto = 19)
+(19, 11, 1, false), -- Masa de pizza
+(19, 12, 1, false), -- Salsa de tomate
+(19, 13, 1, false), -- Queso mozzarella
+(20, 11, 1, false), -- Masa de pizza
+(20, 12, 1, false), -- Salsa de tomate
+(20, 13, 1, false), -- Queso mozzarella
+(20, 14, 1, false); -- Pepperoni
+
+
+INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) VALUES
+(1, 1, 1), -- Pan de hamburguesa
+(1, 2, 1), -- Carne de res
+(1, 3, 1), -- Lechuga
+(1, 4, 1), -- Tomate
+(1, 5, 1), -- Queso cheddar
+(1, 16, 1); -- Bacon (extra)
+
+INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) VALUES
+(4, 6, 1), -- Masa de empanada
+(4, 7, 1); -- Carne molida
+
+INSERT INTO pedido_ingrediente (id_pedido_producto, id_ingrediente, cantidad) VALUES
+(7, 11, 1), -- Masa de pizza
+(7, 12, 1), -- Salsa de tomate
+(7, 13, 1), -- Queso mozzarella
+(7, 14, 1); -- Pepperoni
