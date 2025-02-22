@@ -9,7 +9,6 @@ import CartSummary from './CartSummary';
 import axios from 'axios';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import {Link, useNavigate} from 'react-router-dom';
-import mpImage from '../../img/mp.jpeg';
 
 initMercadoPago('APP_USR-c4ae400c-ca0c-4d11-bf66-634b6910a8aa');
 
@@ -143,6 +142,8 @@ export default function Checkout() {
       id_mesa: TableNumber,
     };
     addOrder(Order);
+
+    if (preferenceId) return; // Evita llamadas duplicadas
 
     try {
       const preferenceResponse = await axios.post('http://192.168.0.10:8080/api/payment', {
@@ -521,9 +522,7 @@ export default function Checkout() {
                       {selectedPayment === 'tarjeta' && !cartInteracted && (
                         <div className="card-payment-details">
                           <div id="wallet_container">
-                            <img src={mpImage} alt="Imagen de pago" />
                             <button onClick={handleOrderSubmit}>
-                              Pagar con Wallet
                               <Wallet 
                                 initialization={{ preferenceId }} 
                                 customization={{ texts:{ valueProp: 'smart_option'}}}

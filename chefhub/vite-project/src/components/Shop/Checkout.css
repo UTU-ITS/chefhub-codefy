@@ -304,6 +304,12 @@
   margin: 1.5rem 0;
 }
 
+#wallet-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
 @media (max-width: 768px) {
   .checkout-container {
     padding: 1rem;
