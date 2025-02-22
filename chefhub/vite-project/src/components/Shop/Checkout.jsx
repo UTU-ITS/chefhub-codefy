@@ -521,7 +521,9 @@ export default function Checkout() {
                         <div className="card-payment-details">
                           <div id="wallet_container" className='wallet-container'>
                             <button onClick={handleOrderSubmit}>
-                              <Wallet />
+                              <Wallet 
+                                initialization={{ preferenceId }}
+                              />
                             </button>
                           </div>
                         </div>
