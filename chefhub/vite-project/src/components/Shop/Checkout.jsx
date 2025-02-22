@@ -522,7 +522,8 @@ export default function Checkout() {
                           <div id="wallet_container" className='wallet-container'>
                             <button onClick={handleOrderSubmit}>
                               <Wallet 
-                                initialization={{ preferenceId }}
+                                initialization={{ preferenceId }} 
+                                customization={{ texts:{ valueProp: 'smart_option'}}}
                               />
                             </button>
                           </div>
