@@ -304,10 +304,10 @@
   margin: 1.5rem 0;
 }
 
-#wallet-container {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
+.wallet-container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
 }
 
 @media (max-width: 768px) {

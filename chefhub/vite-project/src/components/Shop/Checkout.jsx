@@ -143,8 +143,6 @@ export default function Checkout() {
     };
     addOrder(Order);
 
-    if (preferenceId) return; // Evita llamadas duplicadas
-
     try {
       const preferenceResponse = await axios.post('http://192.168.0.10:8080/api/payment', {
         items: cartItems.map(item => ({
@@ -521,12 +519,9 @@ export default function Checkout() {
 
                       {selectedPayment === 'tarjeta' && !cartInteracted && (
                         <div className="card-payment-details">
-                          <div id="wallet_container">
+                          <div id="wallet_container" className='wallet-container'>
                             <button onClick={handleOrderSubmit}>
-                              <Wallet 
-                                initialization={{ preferenceId }} 
-                                customization={{ texts:{ valueProp: 'smart_option'}}}
-                              />
+                              <Wallet />
                             </button>
                           </div>
                         </div>
