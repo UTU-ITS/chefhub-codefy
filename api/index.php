@@ -45,9 +45,9 @@ if (isset($path[1])) {
                 $preference = new MercadoPago\Preference();
                 
                 $preference->back_urls = array(
-                    "success" => "http://chefhub.codefy.com:8080:5173/success",
-                    "failure" => "http://chefhub.codefy.com:8080:5173/fail",
-                    "pending" => "https://chefhub.codefy.com:8080/mercadopago/fail.php",
+                    "success" => "http://192.168.0.10:3000/success",
+                    "failure" => "http://192.168.0.10:3000/fail",
+                    "pending" => "https://192.168.0.10:3000/mercadopago/fail.php",
                 );
 
                 $preference->auto_return = "approved";
