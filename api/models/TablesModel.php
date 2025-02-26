@@ -70,7 +70,7 @@ class TablesModel {
 public function InsertReservations($id_mesa, $id_cliente, $fecha, $hora , $cant_personas, $nombre_reserva, $tel_contacto)
 {
     $sql = "INSERT INTO cliente_mesa (id_mesa, id_cliente, fecha, hora, cant_personas , nombre_reserva, tel_contacto, estado)
-     VALUES (:id_mesa, :id_cliente, :fecha, :hora,:cant_personas , :nombre_reserva  ,:tel_contacto, 'RESERVADO')";
+     VALUES (:id_mesa, :id_cliente, :fecha, :hora,:cant_personas , :nombre_reserva  ,:tel_contacto, 'Reservada')";
     $stmt = $this->conn->prepare($sql);
     $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
     $stmt->bindParam(':id_cliente', $id_cliente, PDO::PARAM_INT);
